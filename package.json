@@ -1,0 +1,17 @@
+{
+  "name": "evt_nobles_quest",
+  "version": "1.0.0",
+  "description": "Transformice Event Noble's Quest",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build/build.js"
+  },
+  "author": "Seniru",
+  "license": "MIT",
+  "dependencies": {
+    "luamin": "^1.0.4",
+    "node-fetch": "^2.6.1",
+    "vkbeautify": "^0.99.3"
+  }
+}
