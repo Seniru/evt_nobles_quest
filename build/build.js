@@ -13,6 +13,8 @@ combine({
       		"libs/timers4tfm.lua",
       		"libs/DataHandler.lua",
       		"libs/xmllib.lua",
+			"src/Area.lua",
+			"src/Player.lua",
     	],
   	},
   	init: { files: ["src/init.lua"] },
@@ -27,7 +29,10 @@ combine({
   	events: {
     	files: [
       		"src/events/eventLoop.lua",
+			"src/events/eventNewPlayer.lua",
+			"src/events/eventNewGame.lua",
       		"src/events/eventPlayerDataLoaded.lua",
+			"src/events/eventKeyboard.lua"
     	],
   	},
   	main: {

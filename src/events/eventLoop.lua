@@ -1,3 +1,3 @@
-local eventLoop = function(tc, tr)
+eventLoop = function(tc, tr)
 	Timer.process()
 end

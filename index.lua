@@ -46,6 +46,10 @@ table.find = function(tbl, val)
 	end
 end
 
+math.pythag = function(x1, y1, x2, y2)
+	return ((x1 - x2) ^ 2 + (y1 - y2) ^ 2) ^ (1/2)
+end
+
 local prettyify
 
 do
@@ -484,9 +488,132 @@ local a={}a.VERSION='1.5'a.__index=a;function a.new(b,c,d)local self=setmetatabl
 --[[ Makinit's XML library ]]--
 local a="Makinit's XML library"local b="[%a_:][%w%.%-_:]*"function parseXml(c,d)if not d then c=string.gsub(c,"<!%[CDATA%[(.-)%]%]>",xmlEscape)c=string.gsub(c,"<%?.-%?>","")c=string.gsub(c,"<!%-%-.-%-%->","")c=string.gsub(c,"<!.->","")end;local e={}local f={}local g=e;for h,i,j,k,l in string.gmatch(c,"<(/?)("..b..")(.-)(/?)>%s*([^<]*)%s*")do if h=="/"then local m=f[g]if m and i==g.name then g=m end else local n={name=i,attribute={}}table.insert(g,n)f[n]=g;if k~="/"then g=n end;for i,o in string.gmatch(j,"("..b..")%s*=%s*\"(.-)\"")do n.attribute[i]=d and o or xmlUnescape(o)end end;if l~=""then local n={text=d and l or xmlUnescape(l)}table.insert(g,n)f[n]=g end end;return e[1]end;function generateXml(g,d)if g.name then local c="<"..g.name;for i,o in pairs(g.attribute)do c=c.." "..i.."=\""..(d and tostring(o)or xmlEscape(tostring(o))).."\""end;if#g==0 then c=c.." />"else c=c..">"for p,n in ipairs(g)do c=c..generateXml(n,d)end;c=c.."</"..g.name..">"end;return c elseif g.text then return d and tostring(g.text)or xmlEscape(tostring(g.text))end end;function path(q,...)q={q}for p,i in ipairs(arg)do local r={}for p,s in ipairs(q)do for p,n in ipairs(s)do if n.name==i then table.insert(r,n)end end end;q=r end;return q end;local t={}function xmlEscape(u)local v=t[u]if not v then local w=string.gsub;v=w(u,"&","&amp;")v=w(v,"\"","&quot;")v=w(v,"'","&apos;")v=w(v,"<","&lt;")v=w(v,">","&gt;")t[u]=v end;return v end;local x={}function xmlUnescape(u)local v=x[u]if not v then local w=string.gsub;v=w(u,"&quot;","\"")v=w(v,"&apos;","'")v=w(v,"&lt;","<")v=w(v,"&gt;",">")v=w(v,"&#(%d%d?%d?%d?);",dec2char)v=w(v,"&#x(%x%x?%x?%x?);",hex2char)v=w(v,"&amp;","&")x[u]=v end;return v end;function dec2char(y)y=tonumber(y)return string.char(y>255 and 0 or y)end;function hex2char(y)y=tonumber(y,16)return string.char(y>255 and 0 or y)end
 
+local Area = {}
+Area.areas = {}
+
+Area.__index = Area
+Area.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Area, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function Area.new(x, y, w, h)
+	local self = setmetatable({}, Area)
+
+	self.id = #Area.areas + 1
+	self.x = tonumber(x)
+	self.y = tonumber(y)
+	self.w = tonumber(w)
+	self.h = tonumber(h)
+
+	self.x = self.x - self.w / 2
+	self.y = self.y - self.h / 2
+
+	self.players = {}
+	self.triggers = {}
+	self.objects = {}
+
+	Area.areas[#Area.areas + 1] = self
+	return self
+end
+
+function Area.getAreaByCoords(x, y)
+	for id, area in next, Area.areas do
+		if x >= area.x and x <= area.x + area.w and y >= area.y and y <= area.y + area.h then
+			return area
+		end
+	end
+end
+
+function Area:getClosestObjTo(x, y)
+	local min, closest = 1/0, nil
+	for id, obj in next, self.objects do
+		local dist = math.pythag(x, y, obj.attribute.X, obj.attribute.Y)
+		if dist <= 30 and dist < min then
+			min = dist
+			closest = obj
+		end
+	end
+	return closest
+end
+
+local Player = {}
+
+Player.players = {}
+Player.alive = {}
+Player.playerCount = 0
+Player.aliveCount = 0
+
+Player.__index = Player
+Player.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Player, {
+	__call = function (cls, name)
+		return cls.new(name)
+	end,
+})
+
+function Player.new(name)
+	local self = setmetatable({}, Player)
+
+	self.name = name
+	self.area = nil
+
+	Player.players[name] = self
+	Player.playerCount = Player.playerCount + 1
+
+	return self
+end
+
+function Player:setArea(x, y)
+	local area = Area.getAreaByCoords(x, y)
+	if area then
+		if not self.area then
+			self.area = area.id
+		else
+			Area.areas[self.area].players[self.name] = nil
+			Area.areas[area.id].players[self.name] = true
+			self.area = area.id
+		end
+	end
+end
+
+
+function Player:savePlayerData()
+	-- if tfm.get.room.uniquePlayers < MIN_PLAYERS then return end
+	local name = self.name
+	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
+end
 
 --==[[ init ]]==--
 
+local IS_TEST = true
+
+-- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
+local eventLoaded = false 
+
+local maps = {
+	mine = [[<C><P L="1600" H="800" MEDATA=";;0,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="146" Y="599" L="291" H="192" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="431" Y="544" L="283" H="261" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="664" Y="562" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="862" Y="627" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="1007" Y="677" L="74" H="33" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="146" Y="639"/></D><O><O X="638" Y="654" C="22" nosync="" P="0" type="tree"/></O><L/></Z></C>]]
+}
+
+local keys = {
+	SPACE = 32
+}
+
+local dHandler = DataHandler.new("evt_nq", {
+	--[[version = {
+		index = 8,
+		type = "string",
+		default = "v0.0.0.0"
+	}]]
+})
 
 
 --==[[ translations ]]==--
@@ -512,11 +639,52 @@ end
 
 --==[[ events ]]==--
 
-local eventLoop = function(tc, tr)
+eventLoop = function(tc, tr)
 	Timer.process()
 end
 
-local eventPlayerDataLoaded = function(name, data)
+eventNewPlayer = function(name)
+	Player.new(name)
+	system.loadPlayerData(name)
+	for key, code in next, keys do system.bindKeyboard(name, code, true, true) end
+end
+
+eventNewGame = function()
+
+	-- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
+	if eventLoaded then
+        return system.exit()
+    end
+	-- NOTE: The event runs in rooms with 1 mouse, should be 4 or 5.
+	if not IS_TEST and tfm.get.room.uniquePlayers < 4 then
+		return system.exit()
+	end
+
+	for name, player in next, tfm.get.room.playerList do
+		eventNewPlayer(name)
+	end
+
+	-- parsing information from xml
+	local xml = tfm.get.room.xmlMapInfo.xml
+	local dom = parseXml(xml)
+
+	for z, ground in ipairs(path(dom, "Z", "S", "S")) do
+		local areaId = tonumber(ground.attribute.lua)
+		if areaId then
+			Area.new(ground.attribute.X, ground.attribute.Y, ground.attribute.L, ground.attribute.H)
+		end
+	end
+
+	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
+		if obj.attribute.type then
+			table.insert(Area.getAreaByCoords(tonumber(obj.attribute.X), tonumber(obj.attribute.Y)).objects, obj)
+		end
+	end
+
+	eventLoaded = true
+end
+
+eventPlayerDataLoaded = function(name, data)
 	-- reset player data if they are stored according to the old version
 	if data:find("^v2") then
 		dHandler:newPlayer(name, data:sub(3))
@@ -524,11 +692,20 @@ local eventPlayerDataLoaded = function(name, data)
 		system.savePlayerData(name, "")
 		dHandler:newPlayer(name, "")
 	end
+end
+
+eventKeyboard = function(name, key, down, x, y)
+	local player = Player.players[name]
+	player:setArea(x, y)
+	if key == keys.SPACE then
+		local obj = Area.areas[player.area]:getClosestObjTo(x, y)
+		p(obj)
+	end
 
 end
 
-
 --==[[ main ]]==--
 
+tfm.exec.newGame(maps["mine"])
 
 
