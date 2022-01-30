@@ -776,6 +776,13 @@ local keys = {
 	SPACE = 32
 }
 
+local assets = {
+	ui = {
+		reply = "171d2f983ba.png",
+		btnNext = "17eaa38a3f8.png"
+	}
+}
+
 local dHandler = DataHandler.new("evt_nq", {
 	--[[version = {
 		index = 8,
@@ -869,8 +876,22 @@ eventPlayerDataLoaded = function(name, data)
 	player:displayInventory()
 
 	if not player.questProgress.wc.completed then
-		tfm.exec.chatMessage("Hey new guy")
-		player:updateQuestProgress("wc", 1)
+		--[[addDialogueBox(1, "Welcome to the town loser", name, "Announcer", "17088637078.png", function(id, name, event)
+			addDialogueBox(2, "There's nothign to look at here lmao, just get it over", name, "Announcer", "17088637078.png", function()
+				player:updateQuestProgress("wc", 1)
+				dialoguePanel:hide(name)
+				player:displayInventory(name)
+			end)
+		end)]]
+		addDialogueSeries(name, 1, {
+			{ text = "Welcome to the town loser", icon = "17088637078.png" },
+			{ text = "yes that works", icon = assets.ui.btnNext },
+			{ text = "yes yes now close this", icon = "17088637078.png" },
+		}, "Announcer", function(id, name, event)
+			player:updateQuestProgress("wc", 1)
+			dialoguePanel:hide(name)
+			player:displayInventory(name)
+		end)
 	end
 
 end
@@ -886,10 +907,19 @@ eventKeyboard = function(name, key, down, x, y)
 	end
 
 end
+eventTextAreaCallback = function(id, name, event)
+	p({id, name, event})
+	Panel.handleActions(id, name, event)
+end
 
 --==[[ main ]]==--
 
+tfm.exec.newGame(maps["mine"])
+mapPlaying = "mine"
+
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
+dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
+	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
 
 do
 	for i = 0, 9 do
@@ -897,6 +927,45 @@ do
 	end
 end
 
-tfm.exec.newGame(maps["mine"])
-mapPlaying = "mine"
+addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
+	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50
+	-- to erase stuff that has been displayed previously, if this dialoguebox was a part of a conversation
+	dialoguePanel:hide(name)
+	inventoryPanel:hide(name)
+	dialoguePanel:show(name)
+
+	dialoguePanel:addPanelTemp(Panel(id * 1000, text, x, y, w, h, 0x472315, 0xd1b130, 1, true), name)
+	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, speakerName or "???", x + w - 150, y, 0, 0, nil, nil, 1, true), name)
+	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
+	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 80, y - 20), name)
+	dialoguePanel:update(text, name)
+	if type(replies) == "table" then
+		for i, reply in next, replies do
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply.text, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
+			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w, y - 10 + 20 * (i - 1)), name)
+		end
+	else
+		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "&1", x + w - 20, y + h - 20), name)
+		dialoguePanel:addPanelTemp(
+			Panel(id * 1000 + 10, ("<a href='event:%d'>\n\n\n</a>"):format(id + 1), x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
+				:setActionListener(replies)
+		, name)
+	end
+end
+
+addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
+	local x, y, w, h = 30, 350, 740, 50
+	addDialogueBox(id, dialogues[1].text, name, speakerName, dialogues[1].icon, function(id2, name, event)
+		local page = tonumber(event)
+		p(page)
+		if not page or page < 0 then return end -- events from arbitary packets
+		if page > #dialogues then return conclude(id2, name, event) end
+		Panel.panels[id * 1000]:update(dialogues[page].text, name)
+		Panel.panels[201]:hide(name)
+		Panel.panels[201]:show(name)
+		Panel.panels[201]:addImageTemp(Image(dialogues[page].icon, "&1", x + w - 80, y - 20), name)
+		Panel.panels[id * 1000 + 10]:update(("<a href='event:%d'>\n\n\n</a>"):format(page + 1), name)
+	end)
+end
+
 

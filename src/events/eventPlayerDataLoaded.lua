@@ -13,8 +13,22 @@ eventPlayerDataLoaded = function(name, data)
 	player:displayInventory()
 
 	if not player.questProgress.wc.completed then
-		tfm.exec.chatMessage("Hey new guy")
-		player:updateQuestProgress("wc", 1)
+		--[[addDialogueBox(1, "Welcome to the town loser", name, "Announcer", "17088637078.png", function(id, name, event)
+			addDialogueBox(2, "There's nothign to look at here lmao, just get it over", name, "Announcer", "17088637078.png", function()
+				player:updateQuestProgress("wc", 1)
+				dialoguePanel:hide(name)
+				player:displayInventory(name)
+			end)
+		end)]]
+		addDialogueSeries(name, 1, {
+			{ text = "Welcome to the town loser", icon = "17088637078.png" },
+			{ text = "yes that works", icon = assets.ui.btnNext },
+			{ text = "yes yes now close this", icon = "17088637078.png" },
+		}, "Announcer", function(id, name, event)
+			player:updateQuestProgress("wc", 1)
+			dialoguePanel:hide(name)
+			player:displayInventory(name)
+		end)
 	end
 
 end

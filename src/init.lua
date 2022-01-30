@@ -12,6 +12,13 @@ local keys = {
 	SPACE = 32
 }
 
+local assets = {
+	ui = {
+		reply = "171d2f983ba.png",
+		btnNext = "17eaa38a3f8.png"
+	}
+}
+
 local dHandler = DataHandler.new("evt_nq", {
 	--[[version = {
 		index = 8,
