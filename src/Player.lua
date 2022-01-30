@@ -21,6 +21,13 @@ function Player.new(name)
 
 	self.name = name
 	self.area = nil
+	self.equipped = nil
+	self.inventorySelection = 1
+	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	self.questProgress = {
+		-- quest: stage, stageProgress, completed?
+		wc = { stage = 1, stageProgress = 0, completed = false }
+	}
 
 	Player.players[name] = self
 	Player.playerCount = Player.playerCount + 1
@@ -41,6 +48,52 @@ function Player:setArea(x, y)
 	end
 end
 
+function Player:getInventoryItem(item)
+	for i, it in next, self.inventory do
+		if it[1] == item then
+			return i, it[2]
+		end
+	end
+end
+
+function Player:addInventoryItem(newItem, quantity)
+	if newItem.stackable then
+		print("Stackable")
+		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
+		if invPos then
+			p("Item is already in inventory")
+			self.inventory[invPos][2] = itemQuantity + quantity
+			return self:displayInventory()
+		end
+	end
+	print("Not stackable or item is not in inventory already")
+	for i, item in next, self.inventory do
+		if #item == 0 then
+			print("Found free space")
+			self.inventory[i] = { newItem.id, quantity }
+			return self:displayInventory()
+		end
+	end
+end
+
+function Player:displayInventory()
+	p(self.inventory)
+	inventoryPanel:show(self.name)
+	for i, item in next, self.inventory do
+		Panel.panels[100 + i]:update(prettify(item, 1, {}).res, self.name)
+	end
+end
+
+function Player:updateQuestProgress(quest, newProgress)
+	local pProgress = self.questProgress[quest]
+	local progress = pProgress.stageProgress + newProgress
+	self.questProgress[quest].stageProgress = progress
+	if progress >= quests[quest][pProgress.stage].tasks then
+		tfm.exec.chatMessage("Quest completed")
+		self.questProgress[quest].completed = true
+	end
+	p(self.questProgress)
+end
 
 function Player:savePlayerData()
 	local name = self.name

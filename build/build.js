@@ -13,8 +13,11 @@ combine({
       		"libs/timers4tfm.lua",
       		"libs/DataHandler.lua",
       		"libs/xmllib.lua",
+			"src/quests.lua",
 			"src/Area.lua",
 			"src/Player.lua",
+			"src/Item.lua",
+			"src/Entity.lua"
     	],
   	},
   	init: { files: ["src/init.lua"] },

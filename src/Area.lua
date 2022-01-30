@@ -14,20 +14,16 @@ setmetatable(Area, {
 
 function Area.new(x, y, w, h)
 	local self = setmetatable({}, Area)
-
 	self.id = #Area.areas + 1
 	self.x = tonumber(x)
 	self.y = tonumber(y)
 	self.w = tonumber(w)
 	self.h = tonumber(h)
-
 	self.x = self.x - self.w / 2
 	self.y = self.y - self.h / 2
-
 	self.players = {}
 	self.triggers = {}
-	self.objects = {}
-
+	self.entities = {}
 	Area.areas[#Area.areas + 1] = self
 	return self
 end
@@ -40,10 +36,10 @@ function Area.getAreaByCoords(x, y)
 	end
 end
 
-function Area:getClosestObjTo(x, y)
+function Area:getClosestEntityTo(x, y)
 	local min, closest = 1/0, nil
-	for id, obj in next, self.objects do
-		local dist = math.pythag(x, y, obj.attribute.X, obj.attribute.Y)
+	for id, obj in next, self.entities do
+		local dist = math.pythag(x, y, obj.x, obj.y)
 		if dist <= 30 and dist < min then
 			min = dist
 			closest = obj

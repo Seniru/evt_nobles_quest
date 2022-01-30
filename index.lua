@@ -488,6 +488,24 @@ local a={}a.VERSION='1.5'a.__index=a;function a.new(b,c,d)local self=setmetatabl
 --[[ Makinit's XML library ]]--
 local a="Makinit's XML library"local b="[%a_:][%w%.%-_:]*"function parseXml(c,d)if not d then c=string.gsub(c,"<!%[CDATA%[(.-)%]%]>",xmlEscape)c=string.gsub(c,"<%?.-%?>","")c=string.gsub(c,"<!%-%-.-%-%->","")c=string.gsub(c,"<!.->","")end;local e={}local f={}local g=e;for h,i,j,k,l in string.gmatch(c,"<(/?)("..b..")(.-)(/?)>%s*([^<]*)%s*")do if h=="/"then local m=f[g]if m and i==g.name then g=m end else local n={name=i,attribute={}}table.insert(g,n)f[n]=g;if k~="/"then g=n end;for i,o in string.gmatch(j,"("..b..")%s*=%s*\"(.-)\"")do n.attribute[i]=d and o or xmlUnescape(o)end end;if l~=""then local n={text=d and l or xmlUnescape(l)}table.insert(g,n)f[n]=g end end;return e[1]end;function generateXml(g,d)if g.name then local c="<"..g.name;for i,o in pairs(g.attribute)do c=c.." "..i.."=\""..(d and tostring(o)or xmlEscape(tostring(o))).."\""end;if#g==0 then c=c.." />"else c=c..">"for p,n in ipairs(g)do c=c..generateXml(n,d)end;c=c.."</"..g.name..">"end;return c elseif g.text then return d and tostring(g.text)or xmlEscape(tostring(g.text))end end;function path(q,...)q={q}for p,i in ipairs(arg)do local r={}for p,s in ipairs(q)do for p,n in ipairs(s)do if n.name==i then table.insert(r,n)end end end;q=r end;return q end;local t={}function xmlEscape(u)local v=t[u]if not v then local w=string.gsub;v=w(u,"&","&amp;")v=w(v,"\"","&quot;")v=w(v,"'","&apos;")v=w(v,"<","&lt;")v=w(v,">","&gt;")t[u]=v end;return v end;local x={}function xmlUnescape(u)local v=x[u]if not v then local w=string.gsub;v=w(u,"&quot;","\"")v=w(v,"&apos;","'")v=w(v,"&lt;","<")v=w(v,"&gt;",">")v=w(v,"&#(%d%d?%d?%d?);",dec2char)v=w(v,"&#x(%x%x?%x?%x?);",hex2char)v=w(v,"&amp;","&")x[u]=v end;return v end;function dec2char(y)y=tonumber(y)return string.char(y>255 and 0 or y)end;function hex2char(y)y=tonumber(y,16)return string.char(y>255 and 0 or y)end
 
+local quests = {
+	--[[
+		struture:
+
+		name:
+			stage: tasksAmount
+		..
+	]]
+	wc = {
+		{
+			name = "greeting",
+			title_locales = { en = "New person in the town" },
+			description_locales = { en = "Start your journey in this town and please edit this ugly desc later" },
+			tasks = 1
+		}
+	}
+
+}
 local Area = {}
 Area.areas = {}
 
@@ -504,20 +522,16 @@ setmetatable(Area, {
 
 function Area.new(x, y, w, h)
 	local self = setmetatable({}, Area)
-
 	self.id = #Area.areas + 1
 	self.x = tonumber(x)
 	self.y = tonumber(y)
 	self.w = tonumber(w)
 	self.h = tonumber(h)
-
 	self.x = self.x - self.w / 2
 	self.y = self.y - self.h / 2
-
 	self.players = {}
 	self.triggers = {}
-	self.objects = {}
-
+	self.entities = {}
 	Area.areas[#Area.areas + 1] = self
 	return self
 end
@@ -530,10 +544,10 @@ function Area.getAreaByCoords(x, y)
 	end
 end
 
-function Area:getClosestObjTo(x, y)
+function Area:getClosestEntityTo(x, y)
 	local min, closest = 1/0, nil
-	for id, obj in next, self.objects do
-		local dist = math.pythag(x, y, obj.attribute.X, obj.attribute.Y)
+	for id, obj in next, self.entities do
+		local dist = math.pythag(x, y, obj.x, obj.y)
 		if dist <= 30 and dist < min then
 			min = dist
 			closest = obj
@@ -565,6 +579,13 @@ function Player.new(name)
 
 	self.name = name
 	self.area = nil
+	self.equipped = nil
+	self.inventorySelection = 1
+	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	self.questProgress = {
+		-- quest: stage, stageProgress, completed?
+		wc = { stage = 1, stageProgress = 0, completed = false }
+	}
 
 	Player.players[name] = self
 	Player.playerCount = Player.playerCount + 1
@@ -585,19 +606,167 @@ function Player:setArea(x, y)
 	end
 end
 
+function Player:getInventoryItem(item)
+	for i, it in next, self.inventory do
+		if it[1] == item then
+			return i, it[2]
+		end
+	end
+end
+
+function Player:addInventoryItem(newItem, quantity)
+	if newItem.stackable then
+		print("Stackable")
+		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
+		if invPos then
+			p("Item is already in inventory")
+			self.inventory[invPos][2] = itemQuantity + quantity
+			return self:displayInventory()
+		end
+	end
+	print("Not stackable or item is not in inventory already")
+	for i, item in next, self.inventory do
+		if #item == 0 then
+			print("Found free space")
+			self.inventory[i] = { newItem.id, quantity }
+			return self:displayInventory()
+		end
+	end
+end
+
+function Player:displayInventory()
+	p(self.inventory)
+	inventoryPanel:show(self.name)
+	for i, item in next, self.inventory do
+		Panel.panels[100 + i]:update(prettify(item, 1, {}).res, self.name)
+	end
+end
+
+function Player:updateQuestProgress(quest, newProgress)
+	local pProgress = self.questProgress[quest]
+	local progress = pProgress.stageProgress + newProgress
+	self.questProgress[quest].stageProgress = progress
+	if progress >= quests[quest][pProgress.stage].tasks then
+		tfm.exec.chatMessage("Quest completed")
+		self.questProgress[quest].completed = true
+	end
+	p(self.questProgress)
+end
 
 function Player:savePlayerData()
-	-- if tfm.get.room.uniquePlayers < MIN_PLAYERS then return end
 	local name = self.name
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
 end
+
+local Item = {}
+Item.items = {}
+
+Item.__index = Item
+Item.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Item, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+Item.types = {
+	RESOURCE = 1,
+	SPECIAL = 100
+}
+
+
+function Item.new(id, type, stackable, locales, description_locales, attrs)
+	local self = setmetatable({}, Item)
+	self.id = id
+	self.type = type
+	self.stackable = stackable
+	self.locales = locales
+	self.description_locales = description_locales or {}
+
+	attrs = attrs or {}
+	for k, v in next, attrs do
+		self[k] = v
+	end
+
+	Item.items[id] = self
+	return self
+end
+
+-- Setting up the items
+Item("stick", Item.types.RESOURCE, true,
+	{ en = "Stick" }
+)
+local Entity = {}
+
+Entity.__index = Entity
+Entity.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Entity, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+Entity.entities = {
+
+	tree = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		},
+		onAction = function(self, player)
+			if player.equipped == nil then
+				player:addInventoryItem(Item.items.stick, 2)
+			end
+		end
+	},
+
+	rock = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		}
+	},
+
+	iron_ore = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		}
+	},
+
+}
+
+function Entity.new(x, y, type, area)
+	local self = setmetatable({}, Entity)
+	self.x = x
+	self.y = y
+	self.type = type
+	self.area = area
+	area.entities[#area.entities + 1] = self
+	return self
+end
+
+function Entity:receiveAction(player)
+	Entity.entities[self.type].onAction(self, player)
+end
+
 
 --==[[ init ]]==--
 
 local IS_TEST = true
 
 -- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
-local eventLoaded = false 
+local eventLoaded = false
+local mapPlaying = ""
 
 local maps = {
 	mine = [[<C><P L="1600" H="800" MEDATA=";;0,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="146" Y="599" L="291" H="192" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="431" Y="544" L="283" H="261" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="664" Y="562" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="862" Y="627" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="1007" Y="677" L="74" H="33" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="146" Y="639"/></D><O><O X="638" Y="654" C="22" nosync="" P="0" type="tree"/></O><L/></Z></C>]]
@@ -677,7 +846,8 @@ eventNewGame = function()
 
 	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
 		if obj.attribute.type then
-			table.insert(Area.getAreaByCoords(tonumber(obj.attribute.X), tonumber(obj.attribute.Y)).objects, obj)
+			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
+			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y))
 		end
 	end
 
@@ -692,20 +862,41 @@ eventPlayerDataLoaded = function(name, data)
 		system.savePlayerData(name, "")
 		dHandler:newPlayer(name, "")
 	end
+
+	local player = Player.players[name]
+	-- stuff
+
+	player:displayInventory()
+
+	if not player.questProgress.wc.completed then
+		tfm.exec.chatMessage("Hey new guy")
+		player:updateQuestProgress("wc", 1)
+	end
+
 end
 
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
 	player:setArea(x, y)
 	if key == keys.SPACE then
-		local obj = Area.areas[player.area]:getClosestObjTo(x, y)
-		p(obj)
+		local entity = Area.areas[player.area]:getClosestEntityTo(x, y)
+		if entity then
+			entity:receiveAction(player)
+		end
 	end
 
 end
 
 --==[[ main ]]==--
 
-tfm.exec.newGame(maps["mine"])
+inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
 
+do
+	for i = 0, 9 do
+		inventoryPanel:addPanel(Panel(101 + i, "", 30 + 74 * i, 350, 50, 50, nil, nil, 1, true))
+	end
+end
+
+tfm.exec.newGame(maps["mine"])
+mapPlaying = "mine"
 

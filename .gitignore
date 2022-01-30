@@ -1,7 +1,3 @@
 node_modules/
-test.lua
-funcorp.lua
-lua-5*
-luarocks-*
-cmake-*
 package-lock.json
+settings.json
