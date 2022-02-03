@@ -58,18 +58,14 @@ end
 
 function Player:addInventoryItem(newItem, quantity)
 	if newItem.stackable then
-		print("Stackable")
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
-			p("Item is already in inventory")
 			self.inventory[invPos][2] = itemQuantity + quantity
 			return self:displayInventory()
 		end
 	end
-	print("Not stackable or item is not in inventory already")
 	for i, item in next, self.inventory do
 		if #item == 0 then
-			print("Found free space")
 			self.inventory[i] = { newItem.id, quantity }
 			return self:displayInventory()
 		end
@@ -84,15 +80,26 @@ function Player:displayInventory()
 	end
 end
 
+function Player:addNewQuest(quest)
+	self.questProgress[quest] = { stage = 1, stageProgress = 0, completed = false }
+	tfm.exec.chatMessage("New quest")
+end
+
 function Player:updateQuestProgress(quest, newProgress)
 	local pProgress = self.questProgress[quest]
 	local progress = pProgress.stageProgress + newProgress
+	local q = quests[quest]
 	self.questProgress[quest].stageProgress = progress
 	if progress >= quests[quest][pProgress.stage].tasks then
-		tfm.exec.chatMessage("Quest completed")
-		self.questProgress[quest].completed = true
+		if pProgress.stage >= #q then
+			tfm.exec.chatMessage("Quest completed")
+			self.questProgress[quest].completed = true
+		else
+			tfm.exec.chatMessage("New stage")
+			self.questProgress[quest].stage = self.questProgress[quest].stage + 1
+			self.questProgress[quest].stageProgress = 0
+		end
 	end
-	p(self.questProgress)
 end
 
 function Player:savePlayerData()

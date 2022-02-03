@@ -497,10 +497,25 @@ local quests = {
 		..
 	]]
 	wc = {
+		title_locales = {
+			en = "New person in the town"
+		},
 		{
-			name = "greeting",
-			title_locales = { en = "New person in the town" },
-			description_locales = { en = "Start your journey in this town and please edit this ugly desc later" },
+			description_locales = {
+				en = "Start your journey in this town and please edit this ugly desc later"
+			},
+			tasks = 1
+		}
+	},
+
+	giveWood = {
+		title_locales = {
+			en = "Some nice title"
+		},
+		{
+			description_locales = {
+				en = "Meet Nosferatu at the mine"
+			},
 			tasks = 1
 		}
 	}
@@ -616,18 +631,14 @@ end
 
 function Player:addInventoryItem(newItem, quantity)
 	if newItem.stackable then
-		print("Stackable")
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
-			p("Item is already in inventory")
 			self.inventory[invPos][2] = itemQuantity + quantity
 			return self:displayInventory()
 		end
 	end
-	print("Not stackable or item is not in inventory already")
 	for i, item in next, self.inventory do
 		if #item == 0 then
-			print("Found free space")
 			self.inventory[i] = { newItem.id, quantity }
 			return self:displayInventory()
 		end
@@ -642,15 +653,26 @@ function Player:displayInventory()
 	end
 end
 
+function Player:addNewQuest(quest)
+	self.questProgress[quest] = { stage = 1, stageProgress = 0, completed = false }
+	tfm.exec.chatMessage("New quest")
+end
+
 function Player:updateQuestProgress(quest, newProgress)
 	local pProgress = self.questProgress[quest]
 	local progress = pProgress.stageProgress + newProgress
+	local q = quests[quest]
 	self.questProgress[quest].stageProgress = progress
 	if progress >= quests[quest][pProgress.stage].tasks then
-		tfm.exec.chatMessage("Quest completed")
-		self.questProgress[quest].completed = true
+		if pProgress.stage >= #q then
+			tfm.exec.chatMessage("Quest completed")
+			self.questProgress[quest].completed = true
+		else
+			tfm.exec.chatMessage("New stage")
+			self.questProgress[quest].stage = self.questProgress[quest].stage + 1
+			self.questProgress[quest].stageProgress = 0
+		end
 	end
-	p(self.questProgress)
 end
 
 function Player:savePlayerData()
@@ -706,6 +728,7 @@ Entity.__tostring = function(self)
 	return table.tostring(self)
 end
 
+
 setmetatable(Entity, {
 	__call = function (cls, ...)
 		return cls.new(...)
@@ -713,6 +736,8 @@ setmetatable(Entity, {
 })
 
 Entity.entities = {
+
+	-- resources
 
 	tree = {
 		image = {
@@ -743,20 +768,62 @@ Entity.entities = {
 		}
 	},
 
+	-- npcs
+
+	nosferatu = {
+		displayName = "Nosferatu",
+		image = {
+			id = "17ebeab46db.png",
+			xAdj = 0,
+			yAdj = -35
+		},
+		onAction = function(self, player)
+			local name = player.name
+			local qProgress = player.questProgress["giveWood"]
+			if not qProgress then return end
+			if qProgress.stage == 1 and qProgress.stageProgress == 0 then
+				addDialogueSeries(name, 2, {
+					{ text = "Ahh you look quite new?", icon = "17ebeab46db.png" },
+					{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
+					{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
+				}, "Nosferatu", function(id, _name, event)
+					player:updateQuestProgress("giveWood", 1)
+					dialoguePanel:hide(name)
+					player:displayInventory(name)
+				end)
+			else
+				addDialogueBox(3, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
+			end
+		end
+	}
+
 }
 
-function Entity.new(x, y, type, area)
+function Entity.new(x, y, type, area, name)
 	local self = setmetatable({}, Entity)
 	self.x = x
 	self.y = y
 	self.type = type
 	self.area = area
+	self.name = name
 	area.entities[#area.entities + 1] = self
+	if not (type == "npc") then
+		local entity = Entity.entities[type]
+		tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
+	else
+		local npc = Entity.entities[name]
+		local xAdj, yAdj = x + (npc.image.xAdj or 0), y + (npc.image.yAdj or 0)
+		local id = tfm.exec.addImage(npc.image.id, "?999", xAdj, yAdj)
+		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
+	end
 	return self
 end
 
 function Entity:receiveAction(player)
-	Entity.entities[self.type].onAction(self, player)
+	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
+	if onAction then
+		onAction(self, player)
+	end
 end
 
 
@@ -769,7 +836,7 @@ local eventLoaded = false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="1600" H="800" MEDATA=";;0,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="146" Y="599" L="291" H="192" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="431" Y="544" L="283" H="261" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="664" Y="562" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="862" Y="627" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="1007" Y="677" L="74" H="33" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="146" Y="639"/></D><O><O X="638" Y="654" C="22" nosync="" P="0" type="tree"/></O><L/></Z></C>]]
+	mine = [[<C><P L="1600" H="800" MEDATA=";;1,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="146" Y="599" L="291" H="192" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="431" Y="544" L="283" H="261" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="664" Y="562" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="862" Y="627" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="1007" Y="677" L="74" H="33" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="146" Y="639"/></D><O><O X="638" Y="654" C="22" nosync="" P="0" type="tree"/><O X="323" Y="659" C="22" nosync="" P="0" type="npc" name="nosferatu"/></O><L/></Z></C>]]
 }
 
 local keys = {
@@ -854,7 +921,7 @@ eventNewGame = function()
 	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
 		if obj.attribute.type then
 			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
-			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y))
+			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y), obj.attribute.name)
 		end
 	end
 
@@ -887,10 +954,11 @@ eventPlayerDataLoaded = function(name, data)
 			{ text = "Welcome to the town loser", icon = "17088637078.png" },
 			{ text = "yes that works", icon = assets.ui.btnNext },
 			{ text = "yes yes now close this", icon = "17088637078.png" },
-		}, "Announcer", function(id, name, event)
+		}, "Announcer", function(id, _name, event)
 			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
 			player:displayInventory(name)
+			player:addNewQuest("giveWood")
 		end)
 	end
 
@@ -908,7 +976,6 @@ eventKeyboard = function(name, key, down, x, y)
 
 end
 eventTextAreaCallback = function(id, name, event)
-	p({id, name, event})
 	Panel.handleActions(id, name, event)
 end
 
@@ -941,7 +1008,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:update(text, name)
 	if type(replies) == "table" then
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply.text, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
 			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w, y - 10 + 20 * (i - 1)), name)
 		end
 	else
@@ -957,7 +1024,6 @@ addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
 	local x, y, w, h = 30, 350, 740, 50
 	addDialogueBox(id, dialogues[1].text, name, speakerName, dialogues[1].icon, function(id2, name, event)
 		local page = tonumber(event)
-		p(page)
 		if not page or page < 0 then return end -- events from arbitary packets
 		if page > #dialogues then return conclude(id2, name, event) end
 		Panel.panels[id * 1000]:update(dialogues[page].text, name)

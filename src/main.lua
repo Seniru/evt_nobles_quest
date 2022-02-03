@@ -25,7 +25,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:update(text, name)
 	if type(replies) == "table" then
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply.text, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
 			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w, y - 10 + 20 * (i - 1)), name)
 		end
 	else
@@ -41,7 +41,6 @@ addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
 	local x, y, w, h = 30, 350, 740, 50
 	addDialogueBox(id, dialogues[1].text, name, speakerName, dialogues[1].icon, function(id2, name, event)
 		local page = tonumber(event)
-		p(page)
 		if not page or page < 0 then return end -- events from arbitary packets
 		if page > #dialogues then return conclude(id2, name, event) end
 		Panel.panels[id * 1000]:update(dialogues[page].text, name)

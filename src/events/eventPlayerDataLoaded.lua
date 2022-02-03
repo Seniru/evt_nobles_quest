@@ -24,10 +24,11 @@ eventPlayerDataLoaded = function(name, data)
 			{ text = "Welcome to the town loser", icon = "17088637078.png" },
 			{ text = "yes that works", icon = assets.ui.btnNext },
 			{ text = "yes yes now close this", icon = "17088637078.png" },
-		}, "Announcer", function(id, name, event)
+		}, "Announcer", function(id, _name, event)
 			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
 			player:displayInventory(name)
+			player:addNewQuest("giveWood")
 		end)
 	end
 

@@ -27,7 +27,7 @@ eventNewGame = function()
 	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
 		if obj.attribute.type then
 			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
-			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y))
+			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y), obj.attribute.name)
 		end
 	end
 
