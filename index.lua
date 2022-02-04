@@ -517,6 +517,12 @@ local quests = {
 				en = "Meet Nosferatu at the mine"
 			},
 			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Gather wood"
+			},
+			tasks = 30
 		}
 	}
 
@@ -571,6 +577,57 @@ function Area:getClosestEntityTo(x, y)
 	return closest
 end
 
+local Item = {}
+Item.items = {}
+
+Item.__index = Item
+Item.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Item, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+Item.types = {
+	RESOURCE = 1,
+	SPECIAL = 100
+}
+
+
+function Item.new(id, type, stackable, locales, description_locales, attrs)
+	local self = setmetatable({}, Item)
+	self.id = id
+	self.type = type
+	self.stackable = stackable
+	self.locales = locales
+	self.description_locales = description_locales or {}
+
+	attrs = attrs or {}
+	for k, v in next, attrs do
+		self[k] = v
+	end
+
+	Item.items[id] = self
+	return self
+end
+
+-- Setting up the items
+Item("stick", Item.types.RESOURCE, true, {
+	en = "Stick"
+})
+
+Item("stone", Item.types.RESOURCE, true, {
+	en = "Stone"
+})
+
+
+-- Special items
+Item("basic_axe", Item.types.SPECIAL, false, {
+	en = "Basic axe"
+})
 local Player = {}
 
 Player.players = {}
@@ -597,6 +654,7 @@ function Player.new(name)
 	self.equipped = nil
 	self.inventorySelection = 1
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
 		wc = { stage = 1, stageProgress = 0, completed = false }
@@ -619,6 +677,7 @@ function Player:setArea(x, y)
 			self.area = area.id
 		end
 	end
+	return area
 end
 
 function Player:getInventoryItem(item)
@@ -675,52 +734,53 @@ function Player:updateQuestProgress(quest, newProgress)
 	end
 end
 
+function Player:learnRecipe(recipe)
+	if self.learnedRecipes[recipe] then return end
+	self.learnedRecipes[recipe] = true
+	tfm.exec.chatMessage("Learned a new recipe")
+end
+
+function Player:canCraft(recipe)
+	if not self.learnedRecipes[recipe] then return false end
+	for _, neededItem in next, recipes[recipe] do
+		local idx, amount = self:getInventoryItem(neededItem[1].id)
+		p({neededItem[1], idx, amount})
+		if (not idx) or (neededItem[2] > amount) then return false end
+	end
+	return true
+end
+
+function Player:craftItem(recipe)
+	if not self:canCraft(recipe) then return p("cant craft") end
+	for _, neededItem in next, recipes[recipe] do
+		local idx, amount = self:getInventoryItem(neededItem[1].id)
+		self.inventory[idx][2] = amount - neededItem[2]
+	end
+	self:addInventoryItem(Item.items[recipe], 1)
+end
+
 function Player:savePlayerData()
 	local name = self.name
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
 end
 
-local Item = {}
-Item.items = {}
-
-Item.__index = Item
-Item.__tostring = function(self)
-	return table.tostring(self)
-end
-
-setmetatable(Item, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-Item.types = {
-	RESOURCE = 1,
-	SPECIAL = 100
+recipes = {
+	basic_axe = {
+		{ Item.items.stick, 5 },
+		{ Item.items.stone, 3 }
+	}
 }
 
-
-function Item.new(id, type, stackable, locales, description_locales, attrs)
-	local self = setmetatable({}, Item)
-	self.id = id
-	self.type = type
-	self.stackable = stackable
-	self.locales = locales
-	self.description_locales = description_locales or {}
-
-	attrs = attrs or {}
-	for k, v in next, attrs do
-		self[k] = v
+openCraftingTable = function(player)
+	local name = player.name
+	--craftingPanel:show(name)
+	--craftingPanel:update(prettify(player.learnedRecipes, 1, {}).res, player)
+	-- craft all the craftable recipes for now
+	for recipeName in next, player.learnedRecipes do
+		player:craftItem(recipeName)
 	end
-
-	Item.items[id] = self
-	return self
 end
 
--- Setting up the items
-Item("stick", Item.types.RESOURCE, true,
-	{ en = "Stick" }
-)
 local Entity = {}
 
 Entity.__index = Entity
@@ -768,6 +828,26 @@ Entity.entities = {
 		}
 	},
 
+	-- triggers
+
+	craft_table = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player)
+			openCraftingTable(player)
+		end
+	},
+
+	recipe = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player)
+			player:learnRecipe(self.name)
+		end
+	},
+
 	-- npcs
 
 	nosferatu = {
@@ -787,9 +867,10 @@ Entity.entities = {
 					{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
 					{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
 				}, "Nosferatu", function(id, _name, event)
+					if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
 					player:updateQuestProgress("giveWood", 1)
 					dialoguePanel:hide(name)
-					player:displayInventory(name)
+					player:addInventoryItem(Item.items.stone, 10)
 				end)
 			else
 				addDialogueBox(3, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
@@ -807,14 +888,14 @@ function Entity.new(x, y, type, area, name)
 	self.area = area
 	self.name = name
 	area.entities[#area.entities + 1] = self
-	if not (type == "npc") then
-		local entity = Entity.entities[type]
-		tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
-	else
+	if type == "npc" then
 		local npc = Entity.entities[name]
 		local xAdj, yAdj = x + (npc.image.xAdj or 0), y + (npc.image.yAdj or 0)
 		local id = tfm.exec.addImage(npc.image.id, "?999", xAdj, yAdj)
 		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
+	else
+		local entity = Entity.entities[type]
+		tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
 	end
 	return self
 end
@@ -836,11 +917,15 @@ local eventLoaded = false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="1600" H="800" MEDATA=";;1,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="146" Y="599" L="291" H="192" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="431" Y="544" L="283" H="261" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="664" Y="562" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="862" Y="627" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="1007" Y="677" L="74" H="33" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="146" Y="639"/></D><O><O X="638" Y="654" C="22" nosync="" P="0" type="tree"/><O X="323" Y="659" C="22" nosync="" P="0" type="npc" name="nosferatu"/></O><L/></Z></C>]]
+	mine = [[<C><P L="1600" H="800" MEDATA=";;3,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="346" Y="643" L="113" H="64" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="523" Y="570" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="142" Y="626" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="835" Y="607" L="96" H="130" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="275" Y="661"/></D><O><O X="462" Y="649" C="22" nosync="" P="0" type="tree"/><O X="326" Y="655" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="187" Y="654" C="22" nosync="" P="0" type="craft_table"/><O X="807" Y="652" C="22" nosync="" P="0" type="recipe" name="basic_axe"/></O><L/></Z></C>]]
 }
 
 local keys = {
-	SPACE = 32
+	LEFT 	= 0,
+	JUMP 	= 1,
+	RIGHT 	= 2,
+	DUCK 	= 3,
+	SPACE 	= 32
 }
 
 local assets = {
@@ -966,8 +1051,8 @@ end
 
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
-	player:setArea(x, y)
-	if key == keys.SPACE then
+	if not player:setArea(x, y) then return end
+	if key == keys.DUCK then
 		local entity = Area.areas[player.area]:getClosestEntityTo(x, y)
 		if entity then
 			entity:receiveAction(player)
@@ -985,14 +1070,16 @@ tfm.exec.newGame(maps["mine"])
 mapPlaying = "mine"
 
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
-dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
-	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
-
 do
 	for i = 0, 9 do
 		inventoryPanel:addPanel(Panel(101 + i, "", 30 + 74 * i, 350, 50, 50, nil, nil, 1, true))
 	end
 end
+
+dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
+	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
+
+craftingPanel = Panel(300, "", 20, 30, 760, 300, nil, nil, 1, true)
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50

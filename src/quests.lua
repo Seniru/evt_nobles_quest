@@ -27,6 +27,12 @@ local quests = {
 				en = "Meet Nosferatu at the mine"
 			},
 			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Gather wood"
+			},
+			tasks = 30
 		}
 	}
 

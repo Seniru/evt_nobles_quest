@@ -15,9 +15,10 @@ combine({
       		"libs/xmllib.lua",
 			"src/quests.lua",
 			"src/Area.lua",
-			"src/Player.lua",
 			"src/Item.lua",
-			"src/Entity.lua"
+			"src/Player.lua",
+			"src/crafting.lua",
+			"src/Entity.lua",
     	],
   	},
   	init: { files: ["src/init.lua"] },

@@ -36,6 +36,16 @@ function Item.new(id, type, stackable, locales, description_locales, attrs)
 end
 
 -- Setting up the items
-Item("stick", Item.types.RESOURCE, true,
-	{ en = "Stick" }
-)
+Item("stick", Item.types.RESOURCE, true, {
+	en = "Stick"
+})
+
+Item("stone", Item.types.RESOURCE, true, {
+	en = "Stone"
+})
+
+
+-- Special items
+Item("basic_axe", Item.types.SPECIAL, false, {
+	en = "Basic axe"
+})

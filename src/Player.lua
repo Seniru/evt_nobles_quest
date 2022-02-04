@@ -24,6 +24,7 @@ function Player.new(name)
 	self.equipped = nil
 	self.inventorySelection = 1
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
 		wc = { stage = 1, stageProgress = 0, completed = false }
@@ -46,6 +47,7 @@ function Player:setArea(x, y)
 			self.area = area.id
 		end
 	end
+	return area
 end
 
 function Player:getInventoryItem(item)
@@ -100,6 +102,31 @@ function Player:updateQuestProgress(quest, newProgress)
 			self.questProgress[quest].stageProgress = 0
 		end
 	end
+end
+
+function Player:learnRecipe(recipe)
+	if self.learnedRecipes[recipe] then return end
+	self.learnedRecipes[recipe] = true
+	tfm.exec.chatMessage("Learned a new recipe")
+end
+
+function Player:canCraft(recipe)
+	if not self.learnedRecipes[recipe] then return false end
+	for _, neededItem in next, recipes[recipe] do
+		local idx, amount = self:getInventoryItem(neededItem[1].id)
+		p({neededItem[1], idx, amount})
+		if (not idx) or (neededItem[2] > amount) then return false end
+	end
+	return true
+end
+
+function Player:craftItem(recipe)
+	if not self:canCraft(recipe) then return p("cant craft") end
+	for _, neededItem in next, recipes[recipe] do
+		local idx, amount = self:getInventoryItem(neededItem[1].id)
+		self.inventory[idx][2] = amount - neededItem[2]
+	end
+	self:addInventoryItem(Item.items[recipe], 1)
 end
 
 function Player:savePlayerData()

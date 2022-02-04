@@ -2,14 +2,16 @@ tfm.exec.newGame(maps["mine"])
 mapPlaying = "mine"
 
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
-dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
-	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
-
 do
 	for i = 0, 9 do
 		inventoryPanel:addPanel(Panel(101 + i, "", 30 + 74 * i, 350, 50, 50, nil, nil, 1, true))
 	end
 end
+
+dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
+	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
+
+craftingPanel = Panel(300, "", 20, 30, 760, 300, nil, nil, 1, true)
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50
