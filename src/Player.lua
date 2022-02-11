@@ -52,7 +52,7 @@ end
 
 function Player:getInventoryItem(item)
 	for i, it in next, self.inventory do
-		if it[1] == item then
+		if it[1] and it[1].id == item then
 			return i, it[2]
 		end
 	end
@@ -68,18 +68,52 @@ function Player:addInventoryItem(newItem, quantity)
 	end
 	for i, item in next, self.inventory do
 		if #item == 0 then
-			self.inventory[i] = { newItem.id, quantity }
+			self.inventory[i] = { newItem:getItem(), quantity }
 			return self:displayInventory()
 		end
 	end
 end
 
+-- use some kind of class based thing to add items
+
+function Player:changeInventorySlot(idx)
+	if idx < 0 or idx > 10 then return end
+	self.inventorySelection = idx
+	local item = self.inventory[idx][1]
+	if item and item.type ~= Item.types.RESOURCE then
+		print("item is special")
+		self.equipped = self.inventory[idx][1]
+	else
+		p({"item is not epsicla", item})
+		self.equipped = nil
+	end
+	self:displayInventory()
+end
+
 function Player:displayInventory()
-	p(self.inventory)
+	local invSelection = self.inventorySelection
 	inventoryPanel:show(self.name)
 	for i, item in next, self.inventory do
-		Panel.panels[100 + i]:update(prettify(item, 1, {}).res, self.name)
+		if i == invSelection then
+			Panel.panels[100 + i]:update("<b>" .. prettify({item[1] and item[1].id, item[2]}, 1, {}).res .. "</b>", self.name)
+		else
+			Panel.panels[100 + i]:update(prettify({item[1] and item[1].id, item[2]}, 1, {}).res, self.name)
+		end
 	end
+end
+
+function Player:useSelectedItem(isCorrectItem)
+	local item = self.equipped
+	local itemDamage = isCorrectItem and 1 or math.max(1, 4 - item.tier)
+	local originalDurability = item.durability
+	originalDurability = originalDurability - itemDamage
+	item.durability = originalDurability
+	if item.durability <= 0 then
+		self.inventory[self.inventorySelection] = {}
+	end
+	p(self.inventory)
+	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
+	return isCorrectItem and item.tier or 1
 end
 
 function Player:addNewQuest(quest)

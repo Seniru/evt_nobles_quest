@@ -25,6 +25,12 @@ Entity.entities = {
 		onAction = function(self, player)
 			if player.equipped == nil then
 				player:addInventoryItem(Item.items.stick, 2)
+			elseif player.equipped.type ~= Item.types.SPECIAL then
+				player:addInventoryItem(Item.items.wood,
+					player:useSelectedItem(player.equipped.type == Item.types.AXE)
+				)
+			else
+				p(player.equipped)
 			end
 		end
 	},
