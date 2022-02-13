@@ -27,7 +27,12 @@ eventNewGame = function()
 	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
 		if obj.attribute.type then
 			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
-			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y), obj.attribute.name)
+			local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
+			if attrC == "22" then	-- entities
+				Entity.new(x, y, attrType, area, obj.attribute.name)
+			elseif attrC == "14" then
+				Trigger.new(x, y, attrType, area)
+			end
 		end
 	end
 

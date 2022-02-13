@@ -21,6 +21,8 @@ function Area.new(x, y, w, h)
 	self.h = tonumber(h)
 	self.x = self.x - self.w / 2
 	self.y = self.y - self.h / 2
+	self.isTriggered = false
+	self.playerCount = 0
 	self.players = {}
 	self.triggers = {}
 	self.entities = {}
@@ -46,4 +48,27 @@ function Area:getClosestEntityTo(x, y)
 		end
 	end
 	return closest
+end
+
+function Area:onNewPlayer(player)
+	self.players[player.name] = true
+	self.playerCount = self.playerCount + 1
+	if not self.isTriggered then
+		self.isTriggered = true
+		for _, trigger in next, self.triggers do
+			trigger:activate()
+		end
+	end
+
+end
+
+function Area:onPlayerLeft(player)
+	self.players[player.name] = nil
+	self.playerCount = self.playerCount - 1
+	if self.playerCount == 0 then
+		for _, trigger in next, self.triggers do
+			trigger:deactivate()
+		end
+		self.isTriggered = false
+	end
 end

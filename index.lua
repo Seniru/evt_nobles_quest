@@ -532,7 +532,7 @@ local quests = {
 			description_locales = {
 				en = "Gather wood"
 			},
-			tasks = 30
+			tasks = 1
 		}
 	}
 
@@ -560,6 +560,8 @@ function Area.new(x, y, w, h)
 	self.h = tonumber(h)
 	self.x = self.x - self.w / 2
 	self.y = self.y - self.h / 2
+	self.isTriggered = false
+	self.playerCount = 0
 	self.players = {}
 	self.triggers = {}
 	self.entities = {}
@@ -585,6 +587,82 @@ function Area:getClosestEntityTo(x, y)
 		end
 	end
 	return closest
+end
+
+function Area:onNewPlayer(player)
+	self.players[player.name] = true
+	self.playerCount = self.playerCount + 1
+	if not self.isTriggered then
+		self.isTriggered = true
+		for _, trigger in next, self.triggers do
+			trigger:activate()
+		end
+	end
+
+end
+
+function Area:onPlayerLeft(player)
+	self.players[player.name] = nil
+	self.playerCount = self.playerCount - 1
+	if self.playerCount == 0 then
+		for _, trigger in next, self.triggers do
+			trigger:deactivate()
+		end
+		self.isTriggered = false
+	end
+end
+
+local Trigger = {}
+
+Trigger.__index = Trigger
+Trigger.__tostring = function(self)
+	return table.tostring(self)
+end
+
+
+setmetatable(Trigger, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+Trigger.triggers = {
+
+	monster_spawn = {
+		onactivate = function(self)
+			print("Monster spawn triggered")
+		end,
+		ontick = function(self)
+			print("Monster spawn trigger")
+		end,
+		ondeactivate = function(self)
+			print("MOnster spawn deactivagted")
+		end
+	}
+
+}
+
+function Trigger.new(x, y, type, area, name)
+	local self = setmetatable({}, Trigger)
+	self.x = x
+	self.y = y
+	self.type = type
+	self.area = area
+	self.name = name
+	self.id = #area.triggers + 1
+	area.triggers[self.id] = self
+	return self
+end
+
+function Trigger:activate()
+	Trigger.triggers[self.type].onactivate(self)
+	local ontick = Trigger.triggers[self.type].ontick
+	Timer("trigger_" .. self.id, ontick, 500, true, self)
+end
+
+function Trigger:deactivate()
+	Trigger.triggers[self.type]:ondeactivate(self)
+	Timer._timers["trigger_" .. self.id]:kill()
 end
 
 local Item = {}
@@ -700,17 +778,14 @@ function Player.new(name)
 end
 
 function Player:setArea(x, y)
-	local area = Area.getAreaByCoords(x, y)
-	if area then
-		if not self.area then
-			self.area = area.id
-		else
-			Area.areas[self.area].players[self.name] = nil
-			Area.areas[area.id].players[self.name] = true
-			self.area = area.id
-		end
+	local originalArea = Area.areas[self.area]
+	local newArea = Area.getAreaByCoords(x, y)
+	self.area = newArea and newArea.id or nil
+	if originalArea ~= newArea then
+		if originalArea then originalArea:onPlayerLeft(self) end
+		if newArea then newArea:onNewPlayer(self) end
 	end
-	return area
+	return newArea
 end
 
 function Player:getInventoryItem(item)
@@ -726,12 +801,14 @@ function Player:addInventoryItem(newItem, quantity)
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
 			self.inventory[invPos][2] = itemQuantity + quantity
+			if invPos == self.inventorySelection then self:changeInventorySlot(invPos) end
 			return self:displayInventory()
 		end
 	end
 	for i, item in next, self.inventory do
 		if #item == 0 then
 			self.inventory[i] = { newItem:getItem(), quantity }
+			if i == self.inventorySelection then self:changeInventorySlot(i) end
 			return self:displayInventory()
 		end
 	end
@@ -773,6 +850,9 @@ function Player:useSelectedItem(isCorrectItem)
 	item.durability = originalDurability
 	if item.durability <= 0 then
 		self.inventory[self.inventorySelection] = {}
+		item = nil
+		self:changeInventorySlot(self.inventorySelection)
+		return 0
 	end
 	p(self.inventory)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
@@ -934,19 +1014,32 @@ Entity.entities = {
 			local name = player.name
 			local qProgress = player.questProgress["giveWood"]
 			if not qProgress then return end
-			if qProgress.stage == 1 and qProgress.stageProgress == 0 then
-				addDialogueSeries(name, 2, {
-					{ text = "Ahh you look quite new?", icon = "17ebeab46db.png" },
-					{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
-					{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
-				}, "Nosferatu", function(id, _name, event)
-					if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
-					player:updateQuestProgress("giveWood", 1)
-					dialoguePanel:hide(name)
-					player:addInventoryItem(Item.items.stone, 10)
-				end)
+			local idx, amount = player:getInventoryItem("wood")
+			print({"wood", amount})
+			if not qProgress.completed then
+				if qProgress.stage == 1 and qProgress.stageProgress == 0 then
+					addDialogueSeries(name, 2, {
+						{ text = "Ahh you look quite new?", icon = "17ebeab46db.png" },
+						{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
+						{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
+					}, "Nosferatu", function(id, _name, event)
+						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("giveWood", 1)
+						dialoguePanel:hide(name)
+						player:addInventoryItem(Item.items.stone, 10)
+					end)
+				elseif qProgress.stage == 2 and amount and amount >= 10 then
+					addDialogueSeries(name, 3, {
+						{ text = "ok u suck", icon = "17ebeab46db.png" },
+					}, "Nosferatu", function(id, _name, event)
+						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("giveWood", 1)
+						dialoguePanel:hide(name)
+						player:displayInventory()
+					end)
+				end
 			else
-				addDialogueBox(3, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
+				addDialogueBox(10, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
 			end
 		end
 	}
@@ -990,7 +1083,7 @@ local eventLoaded = false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="1600" H="800" MEDATA=";;3,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="346" Y="643" L="113" H="64" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="523" Y="570" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="142" Y="626" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="835" Y="607" L="96" H="130" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/></S><D><DS X="275" Y="661"/></D><O><O X="462" Y="649" C="22" nosync="" P="0" type="tree"/><O X="326" Y="655" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="187" Y="654" C="22" nosync="" P="0" type="craft_table"/><O X="807" Y="652" C="22" nosync="" P="0" type="recipe" name="basic_axe"/></O><L/></Z></C>]]
+	mine = [[<C><P L="1600" H="800" MEDATA=";;4,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="346" Y="643" L="113" H="64" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="515" Y="566" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="142" Y="626" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="681" Y="603" L="96" H="130" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/><S T="8" X="1108" Y="552" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="6"/></S><D><DS X="275" Y="661"/></D><O><O X="462" Y="649" C="22" nosync="" P="0" type="tree"/><O X="326" Y="655" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="187" Y="654" C="22" nosync="" P="0" type="craft_table"/><O X="649" Y="650" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="1275" Y="634" C="14" nosync="" P="0" type="monster_spawn"/></O><L/></Z></C>]]
 }
 
 local keys = {
@@ -1089,7 +1182,12 @@ eventNewGame = function()
 	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
 		if obj.attribute.type then
 			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
-			Entity.new(x, y, obj.attribute.type, Area.getAreaByCoords(x, y), obj.attribute.name)
+			local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
+			if attrC == "22" then	-- entities
+				Entity.new(x, y, attrType, area, obj.attribute.name)
+			elseif attrC == "14" then
+				Trigger.new(x, y, attrType, area)
+			end
 		end
 	end
 

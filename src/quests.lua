@@ -32,7 +32,7 @@ local quests = {
 			description_locales = {
 				en = "Gather wood"
 			},
-			tasks = 30
+			tasks = 1
 		}
 	}
 

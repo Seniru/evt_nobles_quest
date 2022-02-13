@@ -37,17 +37,14 @@ function Player.new(name)
 end
 
 function Player:setArea(x, y)
-	local area = Area.getAreaByCoords(x, y)
-	if area then
-		if not self.area then
-			self.area = area.id
-		else
-			Area.areas[self.area].players[self.name] = nil
-			Area.areas[area.id].players[self.name] = true
-			self.area = area.id
-		end
+	local originalArea = Area.areas[self.area]
+	local newArea = Area.getAreaByCoords(x, y)
+	self.area = newArea and newArea.id or nil
+	if originalArea ~= newArea then
+		if originalArea then originalArea:onPlayerLeft(self) end
+		if newArea then newArea:onNewPlayer(self) end
 	end
-	return area
+	return newArea
 end
 
 function Player:getInventoryItem(item)
@@ -63,12 +60,14 @@ function Player:addInventoryItem(newItem, quantity)
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
 			self.inventory[invPos][2] = itemQuantity + quantity
+			if invPos == self.inventorySelection then self:changeInventorySlot(invPos) end
 			return self:displayInventory()
 		end
 	end
 	for i, item in next, self.inventory do
 		if #item == 0 then
 			self.inventory[i] = { newItem:getItem(), quantity }
+			if i == self.inventorySelection then self:changeInventorySlot(i) end
 			return self:displayInventory()
 		end
 	end
@@ -110,6 +109,9 @@ function Player:useSelectedItem(isCorrectItem)
 	item.durability = originalDurability
 	if item.durability <= 0 then
 		self.inventory[self.inventorySelection] = {}
+		item = nil
+		self:changeInventorySlot(self.inventorySelection)
+		return 0
 	end
 	p(self.inventory)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job

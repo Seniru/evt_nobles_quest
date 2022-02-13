@@ -84,19 +84,32 @@ Entity.entities = {
 			local name = player.name
 			local qProgress = player.questProgress["giveWood"]
 			if not qProgress then return end
-			if qProgress.stage == 1 and qProgress.stageProgress == 0 then
-				addDialogueSeries(name, 2, {
-					{ text = "Ahh you look quite new?", icon = "17ebeab46db.png" },
-					{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
-					{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
-				}, "Nosferatu", function(id, _name, event)
-					if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
-					player:updateQuestProgress("giveWood", 1)
-					dialoguePanel:hide(name)
-					player:addInventoryItem(Item.items.stone, 10)
-				end)
+			local idx, amount = player:getInventoryItem("wood")
+			print({"wood", amount})
+			if not qProgress.completed then
+				if qProgress.stage == 1 and qProgress.stageProgress == 0 then
+					addDialogueSeries(name, 2, {
+						{ text = "Ahh you look quite new?", icon = "17ebeab46db.png" },
+						{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
+						{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
+					}, "Nosferatu", function(id, _name, event)
+						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("giveWood", 1)
+						dialoguePanel:hide(name)
+						player:addInventoryItem(Item.items.stone, 10)
+					end)
+				elseif qProgress.stage == 2 and amount and amount >= 10 then
+					addDialogueSeries(name, 3, {
+						{ text = "ok u suck", icon = "17ebeab46db.png" },
+					}, "Nosferatu", function(id, _name, event)
+						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("giveWood", 1)
+						dialoguePanel:hide(name)
+						player:displayInventory()
+					end)
+				end
 			else
-				addDialogueBox(3, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
+				addDialogueBox(10, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
 			end
 		end
 	}
