@@ -35,7 +35,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "&1", x + w - 20, y + h - 20), name)
 		dialoguePanel:addPanelTemp(
-			Panel(id * 1000 + 10, ("<a href='event:%d'>\n\n\n</a>"):format(id + 1), x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
+			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
 				:setActionListener(replies)
 		, name)
 	end

@@ -1174,11 +1174,26 @@ Entity.entities = {
 		onAction = function(self, player)
 			player:learnRecipe(self.name)
 		end
-	},
+	}
+}
 
-	-- npcs
+-- npcs
 
-	nosferatu = {
+do
+
+	-- npc icons
+	local nosferatu = {
+		normal = "17f171134b8.png",
+		shocked = "17f17003375.png",
+		thinking = "17f170dc941.png",
+		happy = "17f170fda30.png",
+		question = "17f17132155.png"
+
+	}
+
+	-- npc metadata
+
+	Entity.entities.nosferatu = {
 		displayName = "Nosferatu",
 		image = {
 			id = "17ebeab46db.png",
@@ -1194,10 +1209,10 @@ Entity.entities = {
 			if not qProgress.completed then
 				if qProgress.stage == 1 and qProgress.stageProgress == 0 then
 					addDialogueSeries(name, 2, {
-						{ text = translate("NOSFERATU_DIALOGUES", player.language, 1), icon = "17ebeab46db.png" },
-						{ text = translate("NOSFERATU_DIALOGUES", player.language, 2), icon = "17ebeab46db.png" },
-						{ text = translate("NOSFERATU_DIALOGUES", player.language, 3), icon = "17ebeab46db.png" },
-						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 1), icon = nosferatu.shocked },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 2), icon = nosferatu.thinking },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 3), icon = nosferatu.happy },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
 						player:updateQuestProgress("giveWood", 1)
@@ -1217,12 +1232,12 @@ Entity.entities = {
 					end)
 				end
 			else
-				addDialogueBox(10, "Do you need anything?", name, "Nosferatu", "17ebeab46db.png", { "How do I get wood?", "Axe?" })
+				addDialogueBox(10, "Do you need anything?", name, "Nosferatu", nosferatu.question, { "How do I get wood?", "Axe?" })
 			end
 		end
 	}
 
-}
+end
 
 function Entity.new(x, y, type, area, name)
 	local self = setmetatable({}, Entity)
@@ -1475,7 +1490,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "&1", x + w - 20, y + h - 20), name)
 		dialoguePanel:addPanelTemp(
-			Panel(id * 1000 + 10, ("<a href='event:%d'>\n\n\n</a>"):format(id + 1), x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
+			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
 				:setActionListener(replies)
 		, name)
 	end
