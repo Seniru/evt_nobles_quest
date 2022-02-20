@@ -15,6 +15,7 @@ combine({
       		"libs/xmllib.lua",
 			"src/quests.lua",
 			"src/Area.lua",
+			"src/Monster.lua",
 			"src/Trigger.lua",
 			"src/Item.lua",
 			"src/Player.lua",

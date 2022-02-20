@@ -565,6 +565,7 @@ function Area.new(x, y, w, h)
 	self.players = {}
 	self.triggers = {}
 	self.entities = {}
+	self.monsters = {}
 	Area.areas[#Area.areas + 1] = self
 	return self
 end
@@ -612,6 +613,136 @@ function Area:onPlayerLeft(player)
 	end
 end
 
+local Monster = {}
+Monster.monsters = {}
+
+Monster.__index = Monster
+Monster.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Monster, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function Monster.new(metadata, spawnPoint)
+	local self = setmetatable({}, Monster)
+	local id = #Monster.monsters + 1
+	self.id = id
+	self.spawnPoint = spawnPoint
+	self.x = spawnPoint.x
+	self.y = spawnPoint.y
+	p({self.x, self.y})
+	self.area = spawnPoint.area
+	self.health = metadata.health
+	self.metadata = metadata
+	self.stance = -1 -- right
+	self.decisionMakeCooldown = os.time()
+	self.lastAction = "move"
+	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	Monster.monsters[id] = self
+	self.area.monsters[id] = self
+	return self
+end
+
+function Monster:action()
+	local obj = tfm.get.room.objectList[self.objId]
+	self.x, self.y = obj.x, obj.y
+	-- monsters are not fast enough to calculate new actions, in other words dumb
+	-- if somebody couldn't get past these monsters, I call them noob
+	if self.decisionMakeCooldown > os.time() then
+		if self.lastAction == "move" then
+			-- keep moving to the same direction till the monster realized he did a bad move
+			tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+
+		end
+	else
+		-- calculate the best move
+		local lDists, lPlayers, lScore, rDists, rPlayers, rScore = {}, {}, 0, {}, {}, 0
+		for name in next, self.area.players do
+			local player = tfm.get.room.playerList[name]
+			local dist = math.pythag(self.x, self.y, player.x, player.y)
+			if dist <= 300 then
+				if player.x < self.x  then -- player is to left
+					lDists[#lDists + 1] = dist
+					lPlayers[dist] = name
+					lScore = lScore + 300 - dist
+				else
+					rDists[#rDists + 1] = dist
+					rDists[dist] = name
+					rScore = rScore + 300 - dist
+				end
+			end
+		end
+		table.sort(lDists)
+		table.sort(rDists)
+
+		if self.stance == -1 then
+			local normalScore = lScore / math.max(#lDists, 1)
+			p({"normal score", normalScore})
+			if lDists[1] and lDists[1] < 30 then
+				self:attack(lPlayers[lDists[1]], "slash")
+			elseif rDists[1] and rDists[1] < 30 then
+				self:changeStance(1)
+				self:attack(rPlayers[rDists[1]], "slash")
+			elseif normalScore > 100 then
+				self:move()
+			elseif normalScore > 10 then
+				self:attack(lPlayers[lDists[math.random(#lDists)]], "bullet")
+			elseif lScore > rScore then
+				self:move()
+			else
+				self:changeStance(1)
+				self:move()
+			end
+		else
+			local normalScore = rScore / math.max(#rDists, 1)
+			p({"normal score", normalScore})
+			if rDists[1] and rDists[1] < 30 then
+				self:attack(rPlayers[rDists[1]], "slash")
+			elseif lDists[1] and lDists[1] < 30 then
+				self:changeStance(1)
+				self:attack(lPlayers[lDists[1]], "slash")
+			elseif normalScore > 100 then
+				self:move()
+			elseif normalScore > 10 then
+				self:attack(rPlayers[rDists[math.random(#rDists)]], "bullet")
+			elseif lScore < rScore then
+				self:move()
+			else
+				self:changeStance(-1)
+				self:move()
+			end
+		end
+		
+	end
+end
+
+function Monster:changeStance(stance)
+	self.stance = stance
+end
+
+function Monster:attack(player, attackType)
+	p({player, attackType})
+	self.lastAction = "attack"
+end
+
+function Monster:move()
+	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+	self.lastAction = "move"
+end
+
+function Monster:destroy()
+	tfm.exec.removeObject(self.objId)
+	Monster.monsters[self.id] = nil
+	self.area.monsters[self.id] = nil
+	self = nil
+end
+
+
 local Trigger = {}
 
 Trigger.__index = Trigger
@@ -630,13 +761,21 @@ Trigger.triggers = {
 
 	monster_spawn = {
 		onactivate = function(self)
-			print("Monster spawn triggered")
+			Monster.new({}, self)
 		end,
 		ontick = function(self)
-			print("Monster spawn trigger")
+			for _, monster in next, self.area.monsters do
+				monster:action()
+			end
 		end,
 		ondeactivate = function(self)
-			print("MOnster spawn deactivagted")
+			-- to prevent invalid keys to "next"
+			local previousMonster
+			for i, monster in next, self.area.monsters do
+				if previousMonster then previousMonster:destroy() end
+				previousMonster = monster
+			end
+			if previousMonster then previousMonster:destroy() end
 		end
 	}
 
@@ -661,7 +800,7 @@ function Trigger:activate()
 end
 
 function Trigger:deactivate()
-	Trigger.triggers[self.type]:ondeactivate(self)
+	Trigger.triggers[self.type].ondeactivate(self)
 	Timer._timers["trigger_" .. self.id]:kill()
 end
 
@@ -682,6 +821,7 @@ setmetatable(Item, {
 Item.types = {
 	RESOURCE	= 1,
 	AXE			= 2,
+	SHOVEL		= 3,
 	SPECIAL 	= 100
 }
 
@@ -739,6 +879,15 @@ Item("basic_axe", Item.types.AXE, false, {
 	durability = 10,
 	chopping = 1
 })
+
+Item("basic_shovel", Item.types.SHOVEL, false, {
+	en = "Basic shovel"
+}, {
+	en = "Evolution started here"
+}, {
+	durability = 10,
+	mining = 3
+})
 local Player = {}
 
 Player.players = {}
@@ -761,9 +910,11 @@ function Player.new(name)
 	local self = setmetatable({}, Player)
 
 	self.name = name
+	self.language = tfm.get.room.playerList[name].language
 	self.area = nil
 	self.equipped = nil
 	self.inventorySelection = 1
+	self.health = 100
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.learnedRecipes = {}
 	self.questProgress = {
@@ -797,6 +948,7 @@ function Player:getInventoryItem(item)
 end
 
 function Player:addInventoryItem(newItem, quantity)
+	if quantity <= 0 then return end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
@@ -842,8 +994,14 @@ function Player:displayInventory()
 	end
 end
 
-function Player:useSelectedItem(isCorrectItem)
+function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	local item = self.equipped
+	p(targetEntity.resourcesLeft)
+	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
+		tfm.exec.chatMessage("cant use")
+		return 0
+	end
+	local isCorrectItem = item.type == requiredType
 	local itemDamage = isCorrectItem and 1 or math.max(1, 4 - item.tier)
 	local originalDurability = item.durability
 	originalDurability = originalDurability - itemDamage
@@ -856,7 +1014,9 @@ function Player:useSelectedItem(isCorrectItem)
 	end
 	p(self.inventory)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
-	return isCorrectItem and item.tier or 1
+	local returnAmount = isCorrectItem and (item.tier + item[requiredProperty] - 1) or 1
+	targetEntity.resourcesLeft = math.max(targetEntity.resourcesLeft - returnAmount, 0)
+	return returnAmount
 end
 
 function Player:addNewQuest(quest)
@@ -915,6 +1075,9 @@ recipes = {
 	basic_axe = {
 		{ Item.items.stick, 5 },
 		{ Item.items.stone, 3 }
+	},
+	basic_shovel = {
+		{ Item.items.wood, 5 },
 	}
 }
 
@@ -952,12 +1115,17 @@ Entity.entities = {
 			xAdj = 0,
 			yAdj = 0
 		},
+		resourceCap = 100,
 		onAction = function(self, player)
 			if player.equipped == nil then
+				if self.resourcesLeft <= 0 then
+					return tfm.exec.chatMessage("cant use")
+				end
 				player:addInventoryItem(Item.items.stick, 2)
+				self.resourcesLeft = self.resourcesLeft - 2
 			elseif player.equipped.type ~= Item.types.SPECIAL then
 				player:addInventoryItem(Item.items.wood,
-					player:useSelectedItem(player.equipped.type == Item.types.AXE)
+					player:useSelectedItem(Item.types.AXE, "chopping", self)
 				)
 			else
 				p(player.equipped)
@@ -970,7 +1138,14 @@ Entity.entities = {
 			id = "no.png",
 			xAdj = 0,
 			yAdj = 0
-		}
+		},
+		resourceCap = 100,
+		onAction = function(self, player)
+			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
+			player:addInventoryItem(Item.items.stone,
+				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
+			)
+		end
 	},
 
 	iron_ore = {
@@ -1019,14 +1194,17 @@ Entity.entities = {
 			if not qProgress.completed then
 				if qProgress.stage == 1 and qProgress.stageProgress == 0 then
 					addDialogueSeries(name, 2, {
-						{ text = "Ahh you look quite new?", icon = "17ebeab46db.png" },
-						{ text = "well anyways some more bs", icon = "17ebeab46db.png" },
-						{ text = "Translate this and find me some wood.", icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 1), icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 2), icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 3), icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = "17ebeab46db.png" },
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
 						player:updateQuestProgress("giveWood", 1)
 						dialoguePanel:hide(name)
 						player:addInventoryItem(Item.items.stone, 10)
+						player:displayInventory()
+
 					end)
 				elseif qProgress.stage == 2 and amount and amount >= 10 then
 					addDialogueSeries(name, 3, {
@@ -1061,7 +1239,9 @@ function Entity.new(x, y, type, area, name)
 		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
 	else
 		local entity = Entity.entities[type]
-		tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
+		self.resourcesLeft = entity.resourceCap
+		local id = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
+		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 1, false)
 	end
 	return self
 end
@@ -1083,7 +1263,7 @@ local eventLoaded = false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="1600" H="800" MEDATA=";;4,1;;-0;0:::1-"/><Z><S><S T="5" X="966" Y="694" L="1690" H="44" P="0,0,0.3,0.2,0,0,0,0"/><S T="8" X="346" Y="643" L="113" H="64" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="515" Y="566" L="176" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="142" Y="626" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="681" Y="603" L="96" H="130" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="5"/><S T="8" X="1108" Y="552" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="6"/></S><D><DS X="275" Y="661"/></D><O><O X="462" Y="649" C="22" nosync="" P="0" type="tree"/><O X="326" Y="655" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="187" Y="654" C="22" nosync="" P="0" type="craft_table"/><O X="649" Y="650" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="1275" Y="634" C="14" nosync="" P="0" type="monster_spawn"/></O><L/></Z></C>]]
+	mine = [[<C><P L="4800" H="800" defilante="0,0,0,1" MEDATA=";;11,1;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3575" Y="624" L="1066" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" route="mine" id="2"/></O><L/></Z></C>]]
 }
 
 local keys = {
@@ -1125,10 +1305,19 @@ local dHandler = DataHandler.new("evt_nq", {
 local translations = {}
 
 translations["en"] = {
-
+	ANNOUNCER_DIALOGUES = {
+		"Princess die yes yes"
+	},
+	NOSFERATU_DIALOGUES = {
+		"Ahh you look quite new here... anyways you look like useful",
+		"So you are telling, you came to here from another dimension, and have no idea where you are or what to do at all\n<i>*Hmmm maybe he is actually useful for me</i>",
+		"Well young fella, I guess you need a job to live. Don't worry about that, I'll give you a job yes yes.",
+		"But... before that, we need to check if you are in a good physical state.\nGather <VP>10 wood</VP> for me from the woods.\nHave these <VP>10 stone</VP> as an advance. Good luck!",
+		"Do you need anything?"
+	}
 }
 
-local translate = function(term, lang, page, kwargs)
+translate = function(term, lang, page, kwargs)
 	local translation
 	if translations[lang] then
 		translation = translations[lang][term] or translations.en[term]
@@ -1231,7 +1420,6 @@ eventPlayerDataLoaded = function(name, data)
 end
 
 eventKeyboard = function(name, key, down, x, y)
-	print(key)
 	local player = Player.players[name]
 	if not player:setArea(x, y) then return end
 	if key == keys.DUCK then
@@ -1252,6 +1440,8 @@ end
 
 tfm.exec.newGame(maps["mine"])
 mapPlaying = "mine"
+
+tfm.exec.setGameTime(150)
 
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
 do

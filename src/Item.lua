@@ -15,6 +15,7 @@ setmetatable(Item, {
 Item.types = {
 	RESOURCE	= 1,
 	AXE			= 2,
+	SHOVEL		= 3,
 	SPECIAL 	= 100
 }
 
@@ -71,4 +72,13 @@ Item("basic_axe", Item.types.AXE, false, {
 }, {
 	durability = 10,
 	chopping = 1
+})
+
+Item("basic_shovel", Item.types.SHOVEL, false, {
+	en = "Basic shovel"
+}, {
+	en = "Evolution started here"
+}, {
+	durability = 10,
+	mining = 3
 })

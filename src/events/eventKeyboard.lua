@@ -1,5 +1,4 @@
 eventKeyboard = function(name, key, down, x, y)
-	print(key)
 	local player = Player.players[name]
 	if not player:setArea(x, y) then return end
 	if key == keys.DUCK then

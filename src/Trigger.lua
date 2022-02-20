@@ -16,13 +16,21 @@ Trigger.triggers = {
 
 	monster_spawn = {
 		onactivate = function(self)
-			print("Monster spawn triggered")
+			Monster.new({}, self)
 		end,
 		ontick = function(self)
-			print("Monster spawn trigger")
+			for _, monster in next, self.area.monsters do
+				monster:action()
+			end
 		end,
 		ondeactivate = function(self)
-			print("MOnster spawn deactivagted")
+			-- to prevent invalid keys to "next"
+			local previousMonster
+			for i, monster in next, self.area.monsters do
+				if previousMonster then previousMonster:destroy() end
+				previousMonster = monster
+			end
+			if previousMonster then previousMonster:destroy() end
 		end
 	}
 
@@ -47,6 +55,6 @@ function Trigger:activate()
 end
 
 function Trigger:deactivate()
-	Trigger.triggers[self.type]:ondeactivate(self)
+	Trigger.triggers[self.type].ondeactivate(self)
 	Timer._timers["trigger_" .. self.id]:kill()
 end

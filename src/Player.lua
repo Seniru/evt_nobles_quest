@@ -20,9 +20,11 @@ function Player.new(name)
 	local self = setmetatable({}, Player)
 
 	self.name = name
+	self.language = tfm.get.room.playerList[name].language
 	self.area = nil
 	self.equipped = nil
 	self.inventorySelection = 1
+	self.health = 100
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.learnedRecipes = {}
 	self.questProgress = {
@@ -56,6 +58,7 @@ function Player:getInventoryItem(item)
 end
 
 function Player:addInventoryItem(newItem, quantity)
+	if quantity <= 0 then return end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
@@ -101,8 +104,14 @@ function Player:displayInventory()
 	end
 end
 
-function Player:useSelectedItem(isCorrectItem)
+function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	local item = self.equipped
+	p(targetEntity.resourcesLeft)
+	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
+		tfm.exec.chatMessage("cant use")
+		return 0
+	end
+	local isCorrectItem = item.type == requiredType
 	local itemDamage = isCorrectItem and 1 or math.max(1, 4 - item.tier)
 	local originalDurability = item.durability
 	originalDurability = originalDurability - itemDamage
@@ -115,7 +124,9 @@ function Player:useSelectedItem(isCorrectItem)
 	end
 	p(self.inventory)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
-	return isCorrectItem and item.tier or 1
+	local returnAmount = isCorrectItem and (item.tier + item[requiredProperty] - 1) or 1
+	targetEntity.resourcesLeft = math.max(targetEntity.resourcesLeft - returnAmount, 0)
+	return returnAmount
 end
 
 function Player:addNewQuest(quest)

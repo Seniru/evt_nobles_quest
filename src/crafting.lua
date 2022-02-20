@@ -2,6 +2,9 @@ recipes = {
 	basic_axe = {
 		{ Item.items.stick, 5 },
 		{ Item.items.stone, 3 }
+	},
+	basic_shovel = {
+		{ Item.items.wood, 5 },
 	}
 }
 

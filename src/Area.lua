@@ -26,6 +26,7 @@ function Area.new(x, y, w, h)
 	self.players = {}
 	self.triggers = {}
 	self.entities = {}
+	self.monsters = {}
 	Area.areas[#Area.areas + 1] = self
 	return self
 end

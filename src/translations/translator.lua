@@ -1,4 +1,4 @@
-local translate = function(term, lang, page, kwargs)
+translate = function(term, lang, page, kwargs)
 	local translation
 	if translations[lang] then
 		translation = translations[lang][term] or translations.en[term]
