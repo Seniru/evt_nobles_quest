@@ -16,11 +16,11 @@ Trigger.triggers = {
 
 	monster_spawn = {
 		onactivate = function(self)
-			Monster.new({}, self)
+			Monster.new({ health = 20 }, self)
 		end,
 		ontick = function(self)
 			for _, monster in next, self.area.monsters do
-				monster:action()
+				if monster then monster:action() end
 			end
 		end,
 		ondeactivate = function(self)

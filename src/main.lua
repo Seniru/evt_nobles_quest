@@ -54,3 +54,21 @@ addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
 		Panel.panels[id * 1000 + 10]:update(("<a href='event:%d'>\n\n\n</a>"):format(page + 1), name)
 	end)
 end
+
+
+displayDamage = function(target)
+	local bg, fg
+	if target.__type == "entity" then
+		bg = tfm.exec.addImage(assets.damageBg, "?999", target.x, target.y)
+		fg = tfm.exec.addImage(assets.damageFg, "?999", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
+	elseif target.__type == "monster" then
+		local obj = tfm.get.room.objectList[target.objId]
+		bg = tfm.exec.addImage(assets.damageBg, "?999", obj.x, obj.y - 30)
+		fg = tfm.exec.addImage(assets.damageFg, "?999" .. target.objId, obj.x + 1, obj.y + 1 - 30, nil, target.health / target.metadata.health)
+	elseif target.__type == "player" then
+		bg = tfm.exec.addImage(assets.damageBg, "$" .. target.name, 0, -30)
+		fg = tfm.exec.addImage(assets.damageFg, "$" .. target.name, 1, -30 + 1, nil, target.health / 50)
+	end
+	Timer.new("damage" .. bg, tfm.exec.removeImage, 1500, false, bg)
+	Timer.new("damage" .. fg, tfm.exec.removeImage, 1500, false, fg)
+end

@@ -4,6 +4,7 @@ Entity.__index = Entity
 Entity.__tostring = function(self)
 	return table.tostring(self)
 end
+Entity.__type = "entity"
 
 
 setmetatable(Entity, {
@@ -25,11 +26,14 @@ Entity.entities = {
 		resourceCap = 100,
 		onAction = function(self, player)
 			if player.equipped == nil then
+				self:regen()
 				if self.resourcesLeft <= 0 then
 					return tfm.exec.chatMessage("cant use")
 				end
 				player:addInventoryItem(Item.items.stick, 2)
 				self.resourcesLeft = self.resourcesLeft - 2
+				self.latestActionTimestamp = os.time()
+				displayDamage(self)
 			elseif player.equipped.type ~= Item.types.SPECIAL then
 				player:addInventoryItem(Item.items.wood,
 					player:useSelectedItem(Item.types.AXE, "chopping", self)
@@ -161,9 +165,11 @@ function Entity.new(x, y, type, area, name)
 		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
 	else
 		local entity = Entity.entities[type]
+		self.resourceCap = entity.resourceCap
 		self.resourcesLeft = entity.resourceCap
+		self.latestActionTimestamp = -1/0
 		local id = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
-		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 1, false)
+		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 0, false)
 	end
 	return self
 end
@@ -172,5 +178,12 @@ function Entity:receiveAction(player)
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
 		onAction(self, player)
+	end
+end
+
+function Entity:regen()
+	if self.resourcesLeft < self.resourceCap then
+		local regenAmount = math.floor(os.time() - self.latestActionTimestamp) / 2000
+		self.resourcesLeft = math.min(self.resourceCap, self.resourcesLeft + regenAmount)
 	end
 end

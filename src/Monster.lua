@@ -5,6 +5,7 @@ Monster.__index = Monster
 Monster.__tostring = function(self)
 	return table.tostring(self)
 end
+Monster.__type = "monster"
 
 setmetatable(Monster, {
 	__call = function (cls, ...)
@@ -19,12 +20,13 @@ function Monster.new(metadata, spawnPoint)
 	self.spawnPoint = spawnPoint
 	self.x = spawnPoint.x
 	self.y = spawnPoint.y
-	p({self.x, self.y})
 	self.area = spawnPoint.area
 	self.health = metadata.health
 	self.metadata = metadata
 	self.stance = -1 -- right
 	self.decisionMakeCooldown = os.time()
+	self.latestActionCooldown = os.time()
+	self.latestActionReceived = os.time()
 	self.lastAction = "move"
 	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
 	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
@@ -34,6 +36,7 @@ function Monster.new(metadata, spawnPoint)
 end
 
 function Monster:action()
+	if self.latestActionCooldown > os.time() then return end
 	local obj = tfm.get.room.objectList[self.objId]
 	self.x, self.y = obj.x, obj.y
 	-- monsters are not fast enough to calculate new actions, in other words dumb
@@ -54,11 +57,11 @@ function Monster:action()
 				if player.x < self.x  then -- player is to left
 					lDists[#lDists + 1] = dist
 					lPlayers[dist] = name
-					lScore = lScore + 300 - dist
+					lScore = lScore + 310 - dist
 				else
 					rDists[#rDists + 1] = dist
-					rDists[dist] = name
-					rScore = rScore + 300 - dist
+					rPlayers[dist] = name
+					rScore = rScore + 310 - dist
 				end
 			end
 		end
@@ -67,10 +70,9 @@ function Monster:action()
 
 		if self.stance == -1 then
 			local normalScore = lScore / math.max(#lDists, 1)
-			p({"normal score", normalScore})
-			if lDists[1] and lDists[1] < 30 then
+			if lDists[1] and lDists[1] < 60 then
 				self:attack(lPlayers[lDists[1]], "slash")
-			elseif rDists[1] and rDists[1] < 30 then
+			elseif rDists[1] and rDists[1] < 60 then
 				self:changeStance(1)
 				self:attack(rPlayers[rDists[1]], "slash")
 			elseif normalScore > 100 then
@@ -85,10 +87,9 @@ function Monster:action()
 			end
 		else
 			local normalScore = rScore / math.max(#rDists, 1)
-			p({"normal score", normalScore})
-			if rDists[1] and rDists[1] < 30 then
+			if rDists[1] and rDists[1] < 60 then
 				self:attack(rPlayers[rDists[1]], "slash")
-			elseif lDists[1] and lDists[1] < 30 then
+			elseif lDists[1] and lDists[1] < 60 then
 				self:changeStance(1)
 				self:attack(lPlayers[lDists[1]], "slash")
 			elseif normalScore > 100 then
@@ -102,8 +103,9 @@ function Monster:action()
 				self:move()
 			end
 		end
-		
+		self.decisionMakeCooldown = os.time() + 1500
 	end
+	self.latestActionCooldown = os.time() + 1000
 end
 
 function Monster:changeStance(stance)
@@ -112,12 +114,28 @@ end
 
 function Monster:attack(player, attackType)
 	p({player, attackType})
+	local playerObj = Player.players[player]
 	self.lastAction = "attack"
+	if attackType == "slash" then
+		playerObj.health = playerObj.health - 2.5
+	end
+	if playerObj.health < 0 then
+		playerObj:destroy()
+	end
+	displayDamage(playerObj)
 end
 
 function Monster:move()
 	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
 	self.lastAction = "move"
+end
+
+function Monster:regen()
+	local healthCurr, healthOriginal = self.health, self.metadata.health
+	if healthCurr < healthOriginal then
+		local regenAmount = math.floor(os.time() - self.latestActionReceived) / 6000
+		self.health = math.min(healthOriginal, healthCurr + regenAmount)
+	end
 end
 
 function Monster:destroy()

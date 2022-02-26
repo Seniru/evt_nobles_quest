@@ -30,7 +30,9 @@ local assets = {
 	ui = {
 		reply = "171d2f983ba.png",
 		btnNext = "17eaa38a3f8.png"
-	}
+	},
+	damageFg = "17f2a88995c.png",
+	damageBg = "17f2a890350.png"
 }
 
 local dHandler = DataHandler.new("evt_nq", {

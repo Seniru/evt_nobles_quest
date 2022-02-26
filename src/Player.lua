@@ -1,4 +1,4 @@
-local Player = {}
+Player = {}
 
 Player.players = {}
 Player.alive = {}
@@ -9,6 +9,7 @@ Player.__index = Player
 Player.__tostring = function(self)
 	return table.tostring(self)
 end
+Player.__type = "player"
 
 setmetatable(Player, {
 	__call = function (cls, name)
@@ -24,7 +25,8 @@ function Player.new(name)
 	self.area = nil
 	self.equipped = nil
 	self.inventorySelection = 1
-	self.health = 100
+	self.health = 50
+	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.learnedRecipes = {}
 	self.questProgress = {
@@ -105,8 +107,7 @@ function Player:displayInventory()
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
-	local item = self.equipped
-	p(targetEntity.resourcesLeft)
+	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
 		tfm.exec.chatMessage("cant use")
 		return 0
@@ -126,6 +127,8 @@ function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
 	local returnAmount = isCorrectItem and (item.tier + item[requiredProperty] - 1) or 1
 	targetEntity.resourcesLeft = math.max(targetEntity.resourcesLeft - returnAmount, 0)
+	displayDamage(targetEntity)
+	targetEntity.latestActionTimestamp = os.time()
 	return returnAmount
 end
 
@@ -174,6 +177,28 @@ function Player:craftItem(recipe)
 		self.inventory[idx][2] = amount - neededItem[2]
 	end
 	self:addInventoryItem(Item.items[recipe], 1)
+end
+
+function Player:attack(monster)
+	if self.equipped == nil then
+		monster:regen()
+		monster.health = monster.health - 2
+		displayDamage(monster)
+	elseif player.equipped.type ~= Item.types.SPECIAL then
+
+	end
+	monster.latestActionReceived = os.time()
+	if monster.health <= 0 then
+		monster:destroy()
+	end
+end
+
+function Player:destroy()
+	local name = self.name
+	tfm.exec.killPlayer(name)
+	for key, code in next, keys do system.bindKeyboard(name, code, true, false) end
+	self.alive = false
+	self:setArea(-1, -1) -- area is heaven :)
 end
 
 function Player:savePlayerData()

@@ -13,14 +13,7 @@ combine({
       		"libs/timers4tfm.lua",
       		"libs/DataHandler.lua",
       		"libs/xmllib.lua",
-			"src/quests.lua",
-			"src/Area.lua",
-			"src/Monster.lua",
-			"src/Trigger.lua",
-			"src/Item.lua",
-			"src/Player.lua",
-			"src/crafting.lua",
-			"src/Entity.lua",
+			"src/quests.lua"
     	],
   	},
   	init: { files: ["src/init.lua"] },
@@ -31,7 +24,16 @@ combine({
       		"src/translations/translator.lua",
     	],
   	},
-  	//classes: { files: ["libs/Player.lua"] },
+	  
+  	classes: { files: [			
+		"src/Area.lua",
+	  	"src/Monster.lua",
+	  	"src/Trigger.lua",
+	  	"src/Item.lua",
+	  	"src/Player.lua",
+	  	"src/crafting.lua",
+	  	"src/Entity.lua",
+	] },
   	events: {
     	files: [
       		"src/events/eventLoop.lua",

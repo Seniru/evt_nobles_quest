@@ -51,6 +51,21 @@ function Area:getClosestEntityTo(x, y)
 	return closest
 end
 
+function Area:getClosestMonsterTo(x, y)
+	local min, closest = 1/0, nil
+	local objList = tfm.get.room.objectList
+	for id, monster in next, self.monsters do
+		local obj = objList[monster.objId]
+		local dist = math.pythag(x, y, obj.x, obj.y)
+		if dist <= 60 and dist < min then
+			min = dist
+			closest = monster
+		end
+	end
+	return closest
+end
+
+
 function Area:onNewPlayer(player)
 	self.players[player.name] = true
 	self.playerCount = self.playerCount + 1

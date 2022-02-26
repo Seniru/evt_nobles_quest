@@ -537,6 +537,87 @@ local quests = {
 	}
 
 }
+
+--==[[ init ]]==--
+
+local IS_TEST = true
+
+-- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
+local eventLoaded = false
+local mapPlaying = ""
+
+local maps = {
+	mine = [[<C><P L="4800" H="800" defilante="0,0,0,1" MEDATA=";;11,1;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3575" Y="624" L="1066" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" route="mine" id="2"/></O><L/></Z></C>]]
+}
+
+local keys = {
+	LEFT 	= 0,
+	JUMP 	= 1,
+	RIGHT 	= 2,
+	DUCK 	= 3,
+	SPACE 	= 32,
+	KEY_0 	= 48,
+	KEY_1	= 49,
+	KEY_2	= 50,
+	KEY_3	= 51,
+	KEY_4	= 52,
+	KEY_5	= 53,
+	KEY_6	= 54,
+	KEY_7	= 55,
+	KEY_8	= 56,
+	KEY_9	= 57,
+}
+
+local assets = {
+	ui = {
+		reply = "171d2f983ba.png",
+		btnNext = "17eaa38a3f8.png"
+	},
+	damageFg = "17f2a88995c.png",
+	damageBg = "17f2a890350.png"
+}
+
+local dHandler = DataHandler.new("evt_nq", {
+	--[[version = {
+		index = 8,
+		type = "string",
+		default = "v0.0.0.0"
+	}]]
+})
+
+
+--==[[ translations ]]==--
+
+local translations = {}
+
+translations["en"] = {
+	ANNOUNCER_DIALOGUES = {
+		"Princess die yes yes"
+	},
+	NOSFERATU_DIALOGUES = {
+		"Ahh you look quite new here... anyways you look like useful",
+		"So you are telling, you came to here from another dimension, and have no idea where you are or what to do at all\n<i>*Hmmm maybe he is actually useful for me</i>",
+		"Well young fella, I guess you need a job to live. Don't worry about that, I'll give you a job yes yes.",
+		"But... before that, we need to check if you are in a good physical state.\nGather <VP>10 wood</VP> for me from the woods.\nHave these <VP>10 stone</VP> as an advance. Good luck!",
+		"Do you need anything?"
+	}
+}
+
+translate = function(term, lang, page, kwargs)
+	local translation
+	if translations[lang] then
+		translation = translations[lang][term] or translations.en[term]
+	else
+		translation = translations.en[term]
+	end
+	translation = page and translation[page] or translation
+	if not translation then return end
+	return stringutils.format(translation, kwargs)
+end
+
+
+--==[[ classes ]]==--
+
 local Area = {}
 Area.areas = {}
 
@@ -590,6 +671,21 @@ function Area:getClosestEntityTo(x, y)
 	return closest
 end
 
+function Area:getClosestMonsterTo(x, y)
+	local min, closest = 1/0, nil
+	local objList = tfm.get.room.objectList
+	for id, monster in next, self.monsters do
+		local obj = objList[monster.objId]
+		local dist = math.pythag(x, y, obj.x, obj.y)
+		if dist <= 60 and dist < min then
+			min = dist
+			closest = monster
+		end
+	end
+	return closest
+end
+
+
 function Area:onNewPlayer(player)
 	self.players[player.name] = true
 	self.playerCount = self.playerCount + 1
@@ -620,6 +716,7 @@ Monster.__index = Monster
 Monster.__tostring = function(self)
 	return table.tostring(self)
 end
+Monster.__type = "monster"
 
 setmetatable(Monster, {
 	__call = function (cls, ...)
@@ -634,12 +731,13 @@ function Monster.new(metadata, spawnPoint)
 	self.spawnPoint = spawnPoint
 	self.x = spawnPoint.x
 	self.y = spawnPoint.y
-	p({self.x, self.y})
 	self.area = spawnPoint.area
 	self.health = metadata.health
 	self.metadata = metadata
 	self.stance = -1 -- right
 	self.decisionMakeCooldown = os.time()
+	self.latestActionCooldown = os.time()
+	self.latestActionReceived = os.time()
 	self.lastAction = "move"
 	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
 	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
@@ -649,6 +747,7 @@ function Monster.new(metadata, spawnPoint)
 end
 
 function Monster:action()
+	if self.latestActionCooldown > os.time() then return end
 	local obj = tfm.get.room.objectList[self.objId]
 	self.x, self.y = obj.x, obj.y
 	-- monsters are not fast enough to calculate new actions, in other words dumb
@@ -669,11 +768,11 @@ function Monster:action()
 				if player.x < self.x  then -- player is to left
 					lDists[#lDists + 1] = dist
 					lPlayers[dist] = name
-					lScore = lScore + 300 - dist
+					lScore = lScore + 310 - dist
 				else
 					rDists[#rDists + 1] = dist
-					rDists[dist] = name
-					rScore = rScore + 300 - dist
+					rPlayers[dist] = name
+					rScore = rScore + 310 - dist
 				end
 			end
 		end
@@ -682,10 +781,9 @@ function Monster:action()
 
 		if self.stance == -1 then
 			local normalScore = lScore / math.max(#lDists, 1)
-			p({"normal score", normalScore})
-			if lDists[1] and lDists[1] < 30 then
+			if lDists[1] and lDists[1] < 60 then
 				self:attack(lPlayers[lDists[1]], "slash")
-			elseif rDists[1] and rDists[1] < 30 then
+			elseif rDists[1] and rDists[1] < 60 then
 				self:changeStance(1)
 				self:attack(rPlayers[rDists[1]], "slash")
 			elseif normalScore > 100 then
@@ -700,10 +798,9 @@ function Monster:action()
 			end
 		else
 			local normalScore = rScore / math.max(#rDists, 1)
-			p({"normal score", normalScore})
-			if rDists[1] and rDists[1] < 30 then
+			if rDists[1] and rDists[1] < 60 then
 				self:attack(rPlayers[rDists[1]], "slash")
-			elseif lDists[1] and lDists[1] < 30 then
+			elseif lDists[1] and lDists[1] < 60 then
 				self:changeStance(1)
 				self:attack(lPlayers[lDists[1]], "slash")
 			elseif normalScore > 100 then
@@ -717,8 +814,9 @@ function Monster:action()
 				self:move()
 			end
 		end
-		
+		self.decisionMakeCooldown = os.time() + 1500
 	end
+	self.latestActionCooldown = os.time() + 1000
 end
 
 function Monster:changeStance(stance)
@@ -727,12 +825,28 @@ end
 
 function Monster:attack(player, attackType)
 	p({player, attackType})
+	local playerObj = Player.players[player]
 	self.lastAction = "attack"
+	if attackType == "slash" then
+		playerObj.health = playerObj.health - 2.5
+	end
+	if playerObj.health < 0 then
+		playerObj:destroy()
+	end
+	displayDamage(playerObj)
 end
 
 function Monster:move()
 	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
 	self.lastAction = "move"
+end
+
+function Monster:regen()
+	local healthCurr, healthOriginal = self.health, self.metadata.health
+	if healthCurr < healthOriginal then
+		local regenAmount = math.floor(os.time() - self.latestActionReceived) / 6000
+		self.health = math.min(healthOriginal, healthCurr + regenAmount)
+	end
 end
 
 function Monster:destroy()
@@ -761,11 +875,11 @@ Trigger.triggers = {
 
 	monster_spawn = {
 		onactivate = function(self)
-			Monster.new({}, self)
+			Monster.new({ health = 20 }, self)
 		end,
 		ontick = function(self)
 			for _, monster in next, self.area.monsters do
-				monster:action()
+				if monster then monster:action() end
 			end
 		end,
 		ondeactivate = function(self)
@@ -888,7 +1002,7 @@ Item("basic_shovel", Item.types.SHOVEL, false, {
 	durability = 10,
 	mining = 3
 })
-local Player = {}
+Player = {}
 
 Player.players = {}
 Player.alive = {}
@@ -899,6 +1013,7 @@ Player.__index = Player
 Player.__tostring = function(self)
 	return table.tostring(self)
 end
+Player.__type = "player"
 
 setmetatable(Player, {
 	__call = function (cls, name)
@@ -914,7 +1029,8 @@ function Player.new(name)
 	self.area = nil
 	self.equipped = nil
 	self.inventorySelection = 1
-	self.health = 100
+	self.health = 50
+	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.learnedRecipes = {}
 	self.questProgress = {
@@ -995,8 +1111,7 @@ function Player:displayInventory()
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
-	local item = self.equipped
-	p(targetEntity.resourcesLeft)
+	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
 		tfm.exec.chatMessage("cant use")
 		return 0
@@ -1016,6 +1131,8 @@ function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
 	local returnAmount = isCorrectItem and (item.tier + item[requiredProperty] - 1) or 1
 	targetEntity.resourcesLeft = math.max(targetEntity.resourcesLeft - returnAmount, 0)
+	displayDamage(targetEntity)
+	targetEntity.latestActionTimestamp = os.time()
 	return returnAmount
 end
 
@@ -1066,6 +1183,28 @@ function Player:craftItem(recipe)
 	self:addInventoryItem(Item.items[recipe], 1)
 end
 
+function Player:attack(monster)
+	if self.equipped == nil then
+		monster:regen()
+		monster.health = monster.health - 2
+		displayDamage(monster)
+	elseif player.equipped.type ~= Item.types.SPECIAL then
+
+	end
+	monster.latestActionReceived = os.time()
+	if monster.health <= 0 then
+		monster:destroy()
+	end
+end
+
+function Player:destroy()
+	local name = name
+	tfm.exec.killPlayer(name)
+	for key, code in next, keys do system.bindKeyboard(self.name, code, true, false) end
+	self.alive = false
+	self:setArea(-1, -1) -- area is heaven :)
+end
+
 function Player:savePlayerData()
 	local name = self.name
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
@@ -1097,6 +1236,7 @@ Entity.__index = Entity
 Entity.__tostring = function(self)
 	return table.tostring(self)
 end
+Entity.__type = "entity"
 
 
 setmetatable(Entity, {
@@ -1118,11 +1258,14 @@ Entity.entities = {
 		resourceCap = 100,
 		onAction = function(self, player)
 			if player.equipped == nil then
+				self:regen()
 				if self.resourcesLeft <= 0 then
 					return tfm.exec.chatMessage("cant use")
 				end
 				player:addInventoryItem(Item.items.stick, 2)
 				self.resourcesLeft = self.resourcesLeft - 2
+				self.latestActionTimestamp = os.time()
+				displayDamage(self)
 			elseif player.equipped.type ~= Item.types.SPECIAL then
 				player:addInventoryItem(Item.items.wood,
 					player:useSelectedItem(Item.types.AXE, "chopping", self)
@@ -1254,9 +1397,11 @@ function Entity.new(x, y, type, area, name)
 		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
 	else
 		local entity = Entity.entities[type]
+		self.resourceCap = entity.resourceCap
 		self.resourcesLeft = entity.resourceCap
+		self.latestActionTimestamp = -1/0
 		local id = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
-		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 1, false)
+		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 0, false)
 	end
 	return self
 end
@@ -1268,80 +1413,11 @@ function Entity:receiveAction(player)
 	end
 end
 
-
---==[[ init ]]==--
-
-local IS_TEST = true
-
--- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
-local eventLoaded = false
-local mapPlaying = ""
-
-local maps = {
-	mine = [[<C><P L="4800" H="800" defilante="0,0,0,1" MEDATA=";;11,1;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3575" Y="624" L="1066" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" route="mine" id="2"/></O><L/></Z></C>]]
-}
-
-local keys = {
-	LEFT 	= 0,
-	JUMP 	= 1,
-	RIGHT 	= 2,
-	DUCK 	= 3,
-	SPACE 	= 32,
-	KEY_0 	= 48,
-	KEY_1	= 49,
-	KEY_2	= 50,
-	KEY_3	= 51,
-	KEY_4	= 52,
-	KEY_5	= 53,
-	KEY_6	= 54,
-	KEY_7	= 55,
-	KEY_8	= 56,
-	KEY_9	= 57,
-}
-
-local assets = {
-	ui = {
-		reply = "171d2f983ba.png",
-		btnNext = "17eaa38a3f8.png"
-	}
-}
-
-local dHandler = DataHandler.new("evt_nq", {
-	--[[version = {
-		index = 8,
-		type = "string",
-		default = "v0.0.0.0"
-	}]]
-})
-
-
---==[[ translations ]]==--
-
-local translations = {}
-
-translations["en"] = {
-	ANNOUNCER_DIALOGUES = {
-		"Princess die yes yes"
-	},
-	NOSFERATU_DIALOGUES = {
-		"Ahh you look quite new here... anyways you look like useful",
-		"So you are telling, you came to here from another dimension, and have no idea where you are or what to do at all\n<i>*Hmmm maybe he is actually useful for me</i>",
-		"Well young fella, I guess you need a job to live. Don't worry about that, I'll give you a job yes yes.",
-		"But... before that, we need to check if you are in a good physical state.\nGather <VP>10 wood</VP> for me from the woods.\nHave these <VP>10 stone</VP> as an advance. Good luck!",
-		"Do you need anything?"
-	}
-}
-
-translate = function(term, lang, page, kwargs)
-	local translation
-	if translations[lang] then
-		translation = translations[lang][term] or translations.en[term]
-	else
-		translation = translations.en[term]
+function Entity:regen()
+	if self.resourcesLeft < self.resourceCap then
+		local regenAmount = math.floor(os.time() - self.latestActionTimestamp) / 2000
+		self.resourcesLeft = math.min(self.resourceCap, self.resourcesLeft + regenAmount)
 	end
-	translation = page and translation[page] or translation
-	if not translation then return end
-	return stringutils.format(translation, kwargs)
 end
 
 
@@ -1436,11 +1512,17 @@ end
 
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
-	if not player:setArea(x, y) then return end
+	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then
-		local entity = Area.areas[player.area]:getClosestEntityTo(x, y)
-		if entity then
-			entity:receiveAction(player)
+		local area = Area.areas[player.area]
+		local monster = area:getClosestMonsterTo(x, y)
+		if monster then
+			player:attack(monster)
+		else
+			local entity = area:getClosestEntityTo(x, y)
+			if entity then
+				entity:receiveAction(player)
+			end
 		end
 	elseif key >= keys.KEY_0 and keys.KEY_9 >= key then
 		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
@@ -1508,6 +1590,24 @@ addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
 		Panel.panels[201]:addImageTemp(Image(dialogues[page].icon, "&1", x + w - 80, y - 20), name)
 		Panel.panels[id * 1000 + 10]:update(("<a href='event:%d'>\n\n\n</a>"):format(page + 1), name)
 	end)
+end
+
+
+displayDamage = function(target)
+	local bg, fg
+	if target.__type == "entity" then
+		bg = tfm.exec.addImage(assets.damageBg, "?999", target.x, target.y)
+		fg = tfm.exec.addImage(assets.damageFg, "?999", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
+	elseif target.__type == "monster" then
+		local obj = tfm.get.room.objectList[target.objId]
+		bg = tfm.exec.addImage(assets.damageBg, "?999", obj.x, obj.y - 30)
+		fg = tfm.exec.addImage(assets.damageFg, "?999" .. target.objId, obj.x + 1, obj.y + 1 - 30, nil, target.health / target.metadata.health)
+	elseif target.__type == "player" then
+		bg = tfm.exec.addImage(assets.damageBg, "$" .. target.name, 0, -30)
+		fg = tfm.exec.addImage(assets.damageFg, "$" .. target.name, 1, -30 + 1, nil, target.health / 50)
+	end
+	Timer.new("damage" .. bg, tfm.exec.removeImage, 1500, false, bg)
+	Timer.new("damage" .. fg, tfm.exec.removeImage, 1500, false, fg)
 end
 
 
