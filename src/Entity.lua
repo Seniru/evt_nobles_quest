@@ -141,9 +141,14 @@ do
 						dialoguePanel:hide(name)
 						player:displayInventory()
 					end)
+				else
+					addDialogueBox(3, "Do you need anything?", name, "Nosferatu", nosferatu.question, { 
+						{ "How do I get wood?", addDialogueBox, { 4, "Chop with axe", name, "Nosferatu", nosferatu.question } },
+						{ "Axe?", addDialogueBox, { 5, "Find recipe", name, "Nosferatu", nosferatu.question }}
+					})
 				end
 			else
-				addDialogueBox(10, "Do you need anything?", name, "Nosferatu", nosferatu.question, { "How do I get wood?", "Axe?" })
+				addDialogueBox(10, "I sell yes", name, "Nosferatu", nosferatu.question)
 			end
 		end
 	}

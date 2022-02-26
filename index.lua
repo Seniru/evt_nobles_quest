@@ -1111,6 +1111,7 @@ function Player:displayInventory()
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
+	local item = self.equipped
 	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
 		tfm.exec.chatMessage("cant use")
@@ -1198,9 +1199,9 @@ function Player:attack(monster)
 end
 
 function Player:destroy()
-	local name = name
+	local name = self.name
 	tfm.exec.killPlayer(name)
-	for key, code in next, keys do system.bindKeyboard(self.name, code, true, false) end
+	for key, code in next, keys do system.bindKeyboard(name, code, true, false) end
 	self.alive = false
 	self:setArea(-1, -1) -- area is heaven :)
 end
@@ -1373,9 +1374,14 @@ do
 						dialoguePanel:hide(name)
 						player:displayInventory()
 					end)
+				else
+					addDialogueBox(3, "Do you need anything?", name, "Nosferatu", nosferatu.question, { 
+						{ "How do I get wood?", addDialogueBox, { 4, "Chop with axe", name, "Nosferatu", nosferatu.question } },
+						{ "Axe?", addDialogueBox, { 5, "Find recipe", name, "Nosferatu", nosferatu.question }}
+					})
 				end
 			else
-				addDialogueBox(10, "Do you need anything?", name, "Nosferatu", nosferatu.question, { "How do I get wood?", "Axe?" })
+				addDialogueBox(10, "I sell yes", name, "Nosferatu", nosferatu.question)
 			end
 		end
 	}
@@ -1485,7 +1491,7 @@ eventPlayerDataLoaded = function(name, data)
 
 	local player = Player.players[name]
 	-- stuff
-
+	player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
 
 	if not player.questProgress.wc.completed then
@@ -1566,14 +1572,21 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:update(text, name)
 	if type(replies) == "table" then
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true)
+				:setActionListener(function(id, name, event)
+					reply[2](table.unpack(reply[3]))
+				end),
+			name)
 			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w, y - 10 + 20 * (i - 1)), name)
 		end
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "&1", x + w - 20, y + h - 20), name)
 		dialoguePanel:addPanelTemp(
 			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
-				:setActionListener(replies)
+				:setActionListener(replies or function(id, name, event)
+					dialoguePanel:hide(name)
+					Player.players[name]:displayInventory()
+				end)
 		, name)
 	end
 end

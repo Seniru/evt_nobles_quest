@@ -29,14 +29,21 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:update(text, name)
 	if type(replies) == "table" then
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, reply, x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true), name)
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true)
+				:setActionListener(function(id, name, event)
+					reply[2](table.unpack(reply[3]))
+				end),
+			name)
 			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w, y - 10 + 20 * (i - 1)), name)
 		end
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "&1", x + w - 20, y + h - 20), name)
 		dialoguePanel:addPanelTemp(
 			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
-				:setActionListener(replies)
+				:setActionListener(replies or function(id, name, event)
+					dialoguePanel:hide(name)
+					Player.players[name]:displayInventory()
+				end)
 		, name)
 	end
 end

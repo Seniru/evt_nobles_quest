@@ -9,7 +9,7 @@ eventPlayerDataLoaded = function(name, data)
 
 	local player = Player.players[name]
 	-- stuff
-
+	player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
 
 	if not player.questProgress.wc.completed then

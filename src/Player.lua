@@ -107,6 +107,7 @@ function Player:displayInventory()
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
+	local item = self.equipped
 	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
 		tfm.exec.chatMessage("cant use")
