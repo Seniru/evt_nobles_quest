@@ -36,9 +36,19 @@ local assets = {
 }
 
 local dHandler = DataHandler.new("evt_nq", {
-	--[[version = {
-		index = 8,
+	recipes = {
+		index = 1,
+		type = "number",
+		default = 0
+	},
+	questProgress = {
+		index = 2,
 		type = "string",
-		default = "v0.0.0.0"
-	}]]
+		default = ""
+	},
+	inventory = {
+		index = 3,
+		type = "string",
+		default = ""
+	}
 })

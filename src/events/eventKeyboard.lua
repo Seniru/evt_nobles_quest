@@ -1,5 +1,8 @@
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
+	if player.alive and key >= keys.KEY_0 and keys.KEY_9 >= key then
+		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
+	end
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
@@ -12,8 +15,6 @@ eventKeyboard = function(name, key, down, x, y)
 				entity:receiveAction(player)
 			end
 		end
-	elseif key >= keys.KEY_0 and keys.KEY_9 >= key then
-		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
 	end
 
 end

@@ -138,6 +138,38 @@ end
 local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}).res) end
 local p = prettyprint
 
+local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+-- encoding
+local base64Encode = function(data)
+    return ((data:gsub('.', function(x) 
+        local r,b='',x:byte()
+        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+        if (#x < 6) then return '' end
+        local c=0
+        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+        return b:sub(c+1,c+1)
+    end)..({ '', '==', '=' })[#data%3+1])
+end
+
+-- decoding
+local base64Decode = function(data)
+    data = string.gsub(data, '[^'..b..'=]', '')
+    return (data:gsub('.', function(x)
+        if (x == '=') then return '' end
+        local r,f='',(b:find(x)-1)
+        for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
+        if (#x ~= 8) then return '' end
+        local c=0
+        for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+        return string.char(c)
+    end))
+end
+
 -- Thanks to Turkitutu
 -- https://pastebin.com/raw/Nw3y1A42
 
@@ -507,6 +539,7 @@ local quests = {
 		..
 	]]
 	wc = {
+		id = 1,
 		title_locales = {
 			en = "New person in the town"
 		},
@@ -519,6 +552,7 @@ local quests = {
 	},
 
 	giveWood = {
+		id = 2,
 		title_locales = {
 			en = "Some nice title"
 		},
@@ -534,7 +568,9 @@ local quests = {
 			},
 			tasks = 1
 		}
-	}
+	},
+
+	_all = { "wc", "giveWood" }
 
 }
 
@@ -578,11 +614,21 @@ local assets = {
 }
 
 local dHandler = DataHandler.new("evt_nq", {
-	--[[version = {
-		index = 8,
+	recipes = {
+		index = 1,
+		type = "number",
+		default = 0
+	},
+	questProgress = {
+		index = 2,
 		type = "string",
-		default = "v0.0.0.0"
-	}]]
+		default = ""
+	},
+	inventory = {
+		index = 3,
+		type = "string",
+		default = ""
+	}
 })
 
 
@@ -919,7 +965,7 @@ function Trigger:deactivate()
 end
 
 local Item = {}
-Item.items = {}
+Item.items = { _all = {} }
 
 Item.__index = Item
 Item.__tostring = function(self)
@@ -943,6 +989,7 @@ Item.types = {
 function Item.new(id, type, stackable, locales, description_locales, attrs)
 	local self = setmetatable({}, Item)
 	self.id = id
+	self.nid = #Item.items._all + 1
 	self.type = type
 	self.stackable = stackable
 	self.locales = locales
@@ -963,6 +1010,7 @@ function Item.new(id, type, stackable, locales, description_locales, attrs)
 	end
 
 	Item.items[id] = self
+	Item.items._all[self.nid] = id
 	return self
 end
 
@@ -1035,7 +1083,6 @@ function Player.new(name)
 	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
-		wc = { stage = 1, stageProgress = 0, completed = false }
 	}
 
 	Player.players[name] = self
@@ -1157,12 +1204,17 @@ function Player:updateQuestProgress(quest, newProgress)
 			self.questProgress[quest].stageProgress = 0
 		end
 	end
+	dHandler:set(self.name, "questProgress", encodeQuestProgress(self.questProgress))
+	self:savePlayerData()
+	p(encodeQuestProgress(self.questProgress))
 end
 
 function Player:learnRecipe(recipe)
 	if self.learnedRecipes[recipe] then return end
 	self.learnedRecipes[recipe] = true
 	tfm.exec.chatMessage("Learned a new recipe")
+	dHandler:set(self.name, "recipes", recipesBitList:encode(self.learnedRecipes))
+	self:savePlayerData()
 end
 
 function Player:canCraft(recipe)
@@ -1208,6 +1260,16 @@ end
 
 function Player:savePlayerData()
 	local name = self.name
+	local inventory = {}
+	local typeSpecial, typeResource = Item.types.SPECIAL, Item.types.RESOURCE
+	for i, itemData in next, self.inventory do
+		if #itemData > 0 then
+			local item, etc = itemData[1], itemData[2]
+			inventory[i] = { item.nid, item.type == Item.types.SPECIAL, item.isResource == Item.types.RESOURCE, item.durability or etc }
+		end
+	end
+	p(inventory)
+	dHandler:set(name, "inventory", encodeInventory(inventory))
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
 end
 
@@ -1221,11 +1283,16 @@ recipes = {
 	}
 }
 
+recipesBitList = BitList {
+	"basic_axe", "basic_shovel"
+}
+
 openCraftingTable = function(player)
 	local name = player.name
 	--craftingPanel:show(name)
 	--craftingPanel:update(prettify(player.learnedRecipes, 1, {}).res, player)
 	-- craft all the craftable recipes for now
+	p(player.learnedRecipes)
 	for recipeName in next, player.learnedRecipes do
 		player:craftItem(recipeName)
 	end
@@ -1490,18 +1557,44 @@ eventPlayerDataLoaded = function(name, data)
 	end
 
 	local player = Player.players[name]
+	player.learnedRecipes = recipesBitList:decode(dHandler:get(name, "recipes"))
+
+	local questProgress = dHandler:get(name, "questProgress")
+	if questProgress == "" then
+		player.questProgress =  { wc = { stage = 1, stageProgress = 0, completed = false } }
+	else
+		player.questProgress = decodeQuestProgress(dHandler:get(name, "questProgress"))
+	end
+
+	local inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	local items = Item.items
+	local itemNIds = items._all
+	p({dHandler:get(name, "inventory"), decodeInventory(dHandler:get(name, "inventory"))})
+	for i, itemData in next, decodeInventory(dHandler:get(name, "inventory")) do
+		local item = items[itemNIds[itemData[1]]]:getItem()
+		local isSpecialItem = itemData[2]
+		local isResource = itemData[3]
+		if isSpecialItem then
+			inventory[i] = { item, 1 }
+		elseif isResource then
+			inventory[i] = { item, itemData[4] }
+		else -- is a tool
+			item.durability = itemData[4]
+			inventory[i] = { item, 1 }
+		end
+	end
+	p(inventory)
+	player.inventory = inventory
+
 	-- stuff
 	player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
 
+	p(player.learnedRecipes)
+	p(player.inventory)
+	p(player.questProgress)
+
 	if not player.questProgress.wc.completed then
-		--[[addDialogueBox(1, "Welcome to the town loser", name, "Announcer", "17088637078.png", function(id, name, event)
-			addDialogueBox(2, "There's nothign to look at here lmao, just get it over", name, "Announcer", "17088637078.png", function()
-				player:updateQuestProgress("wc", 1)
-				dialoguePanel:hide(name)
-				player:displayInventory(name)
-			end)
-		end)]]
 		addDialogueSeries(name, 1, {
 			{ text = "Welcome to the town loser", icon = "17088637078.png" },
 			{ text = "yes that works", icon = assets.ui.btnNext },
@@ -1518,6 +1611,9 @@ end
 
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
+	if player.alive and key >= keys.KEY_0 and keys.KEY_9 >= key then
+		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
+	end
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
@@ -1530,8 +1626,6 @@ eventKeyboard = function(name, key, down, x, y)
 				entity:receiveAction(player)
 			end
 		end
-	elseif key >= keys.KEY_0 and keys.KEY_9 >= key then
-		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
 	end
 
 end
@@ -1621,6 +1715,85 @@ displayDamage = function(target)
 	end
 	Timer.new("damage" .. bg, tfm.exec.removeImage, 1500, false, bg)
 	Timer.new("damage" .. fg, tfm.exec.removeImage, 1500, false, fg)
+end
+
+encodeInventory = function(inventory)
+	local res = ""
+	for i, data in next, inventory do
+		if #data == 0 then
+			res = res .. string.char(0)
+		else
+			local c = bit.lshift(data[1], 2)
+			c = bit.bor(c, data[2] and 2 or 0)
+			c = bit.bor(c, data[3] and 1 or 0)
+			res = res .. string.char(c)
+			if not data[2] then
+				res = res .. string.char(data[4])
+			end
+		end
+	end
+	return base64Encode(res)
+end
+
+decodeInventory = function(data)
+	data = base64Decode(data)
+	local res = {}
+	local i = 1
+	while i <= #data do
+		local c = string.byte(data, i)
+		if c == 0 then
+			res[#res + 1] = {}
+			i = i + 1
+		else
+			local id = bit.rshift(bit.band(c, 252), 2)
+			local isSpecialItem = bit.band(c, 2) > 0
+			local isResource = bit.band(c, 1) == 1
+			if isSpecialItem then
+				res[#res + 1] = { id, isSpecialItem, isResource }
+				i = i + 1
+			else
+				res[#res + 1] = { id, isSpecialItem, isResource, string.byte(data, i + 1) }
+				i = i + 2
+			end
+		end
+	end
+	return res
+end
+
+encodeQuestProgress = function(pQuests)
+	local res = ""
+	local questIds = quests._all
+	for quest, progress in next, pQuests do
+		local c = bit.lshift(quests[quest].id, 1)
+		c = bit.bor(c, progress.completed and 1 or 0)
+		res = res .. string.char(c)
+		if not progress.completed then
+			res = res .. string.char(progress.stage, progress.stageProgress)
+		end
+	end
+	return base64Encode(res)
+end
+
+decodeQuestProgress = function(data)
+	data = base64Decode(data)
+	local res = {}
+	local questIds = quests._all
+	local i = 1
+	while i <= #data do
+		local c = string.byte(data, i)
+		local questId = questIds[bit.rshift(c, 1)]
+		local completed = bit.band(c, 1) == 1
+		i = i + 1
+		local stage, stageProgress
+		if not completed then
+			stage = string.byte(data, i)
+			i = i + 1
+			stageProgress = string.byte(data, i)
+			i = i + 1
+		end
+		res[questId] = { stage = stage, stageProgress = stageProgress, completed = completed }
+	end
+	return res
 end
 
 

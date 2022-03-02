@@ -1,5 +1,5 @@
 local Item = {}
-Item.items = {}
+Item.items = { _all = {} }
 
 Item.__index = Item
 Item.__tostring = function(self)
@@ -23,6 +23,7 @@ Item.types = {
 function Item.new(id, type, stackable, locales, description_locales, attrs)
 	local self = setmetatable({}, Item)
 	self.id = id
+	self.nid = #Item.items._all + 1
 	self.type = type
 	self.stackable = stackable
 	self.locales = locales
@@ -43,6 +44,7 @@ function Item.new(id, type, stackable, locales, description_locales, attrs)
 	end
 
 	Item.items[id] = self
+	Item.items._all[self.nid] = id
 	return self
 end
 

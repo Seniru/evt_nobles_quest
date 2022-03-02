@@ -7,6 +7,7 @@ local quests = {
 		..
 	]]
 	wc = {
+		id = 1,
 		title_locales = {
 			en = "New person in the town"
 		},
@@ -19,6 +20,7 @@ local quests = {
 	},
 
 	giveWood = {
+		id = 2,
 		title_locales = {
 			en = "Some nice title"
 		},
@@ -34,6 +36,8 @@ local quests = {
 			},
 			tasks = 1
 		}
-	}
+	},
+
+	_all = { "wc", "giveWood" }
 
 }

@@ -79,3 +79,82 @@ displayDamage = function(target)
 	Timer.new("damage" .. bg, tfm.exec.removeImage, 1500, false, bg)
 	Timer.new("damage" .. fg, tfm.exec.removeImage, 1500, false, fg)
 end
+
+encodeInventory = function(inventory)
+	local res = ""
+	for i, data in next, inventory do
+		if #data == 0 then
+			res = res .. string.char(0)
+		else
+			local c = bit.lshift(data[1], 2)
+			c = bit.bor(c, data[2] and 2 or 0)
+			c = bit.bor(c, data[3] and 1 or 0)
+			res = res .. string.char(c)
+			if not data[2] then
+				res = res .. string.char(data[4])
+			end
+		end
+	end
+	return base64Encode(res)
+end
+
+decodeInventory = function(data)
+	data = base64Decode(data)
+	local res = {}
+	local i = 1
+	while i <= #data do
+		local c = string.byte(data, i)
+		if c == 0 then
+			res[#res + 1] = {}
+			i = i + 1
+		else
+			local id = bit.rshift(bit.band(c, 252), 2)
+			local isSpecialItem = bit.band(c, 2) > 0
+			local isResource = bit.band(c, 1) == 1
+			if isSpecialItem then
+				res[#res + 1] = { id, isSpecialItem, isResource }
+				i = i + 1
+			else
+				res[#res + 1] = { id, isSpecialItem, isResource, string.byte(data, i + 1) }
+				i = i + 2
+			end
+		end
+	end
+	return res
+end
+
+encodeQuestProgress = function(pQuests)
+	local res = ""
+	local questIds = quests._all
+	for quest, progress in next, pQuests do
+		local c = bit.lshift(quests[quest].id, 1)
+		c = bit.bor(c, progress.completed and 1 or 0)
+		res = res .. string.char(c)
+		if not progress.completed then
+			res = res .. string.char(progress.stage, progress.stageProgress)
+		end
+	end
+	return base64Encode(res)
+end
+
+decodeQuestProgress = function(data)
+	data = base64Decode(data)
+	local res = {}
+	local questIds = quests._all
+	local i = 1
+	while i <= #data do
+		local c = string.byte(data, i)
+		local questId = questIds[bit.rshift(c, 1)]
+		local completed = bit.band(c, 1) == 1
+		i = i + 1
+		local stage, stageProgress
+		if not completed then
+			stage = string.byte(data, i)
+			i = i + 1
+			stageProgress = string.byte(data, i)
+			i = i + 1
+		end
+		res[questId] = { stage = stage, stageProgress = stageProgress, completed = completed }
+	end
+	return res
+end

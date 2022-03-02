@@ -31,7 +31,6 @@ function Player.new(name)
 	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
-		wc = { stage = 1, stageProgress = 0, completed = false }
 	}
 
 	Player.players[name] = self
@@ -153,12 +152,17 @@ function Player:updateQuestProgress(quest, newProgress)
 			self.questProgress[quest].stageProgress = 0
 		end
 	end
+	dHandler:set(self.name, "questProgress", encodeQuestProgress(self.questProgress))
+	self:savePlayerData()
+	p(encodeQuestProgress(self.questProgress))
 end
 
 function Player:learnRecipe(recipe)
 	if self.learnedRecipes[recipe] then return end
 	self.learnedRecipes[recipe] = true
 	tfm.exec.chatMessage("Learned a new recipe")
+	dHandler:set(self.name, "recipes", recipesBitList:encode(self.learnedRecipes))
+	self:savePlayerData()
 end
 
 function Player:canCraft(recipe)
@@ -204,5 +208,15 @@ end
 
 function Player:savePlayerData()
 	local name = self.name
+	local inventory = {}
+	local typeSpecial, typeResource = Item.types.SPECIAL, Item.types.RESOURCE
+	for i, itemData in next, self.inventory do
+		if #itemData > 0 then
+			local item, etc = itemData[1], itemData[2]
+			inventory[i] = { item.nid, item.type == Item.types.SPECIAL, item.isResource == Item.types.RESOURCE, item.durability or etc }
+		end
+	end
+	p(inventory)
+	dHandler:set(name, "inventory", encodeInventory(inventory))
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
 end
