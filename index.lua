@@ -583,7 +583,7 @@ local eventLoaded = false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="4800" H="800" defilante="0,0,0,1" MEDATA=";;11,1;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3575" Y="624" L="1066" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" route="mine" id="2"/></O><L/></Z></C>]]
+	mine = [[<C><P L="4800" H="800" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3575" Y="624" L="1066" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/></O><L/></Z></C>]]
 }
 
 local keys = {
@@ -630,6 +630,8 @@ local dHandler = DataHandler.new("evt_nq", {
 		default = ""
 	}
 })
+
+local teleports = {}
 
 
 --==[[ translations ]]==--
@@ -1385,6 +1387,21 @@ Entity.entities = {
 		onAction = function(self, player)
 			player:learnRecipe(self.name)
 		end
+	},
+
+	teleport = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player)
+			local tpInfo = teleports[self.name]
+			local tp1, tp2 = tpInfo[1], tpInfo[2]
+			if tp1 == self then
+				tfm.exec.movePlayer(player.name, tp2.x, tp2.y )
+			else
+				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
+			end
+		end
 	}
 }
 
@@ -1455,13 +1472,14 @@ do
 
 end
 
-function Entity.new(x, y, type, area, name)
+function Entity.new(x, y, type, area, name, id)
 	local self = setmetatable({}, Entity)
 	self.x = x
 	self.y = y
 	self.type = type
 	self.area = area
 	self.name = name
+	self.id = id
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
@@ -1538,8 +1556,13 @@ eventNewGame = function()
 			local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
 			if attrC == "22" then	-- entities
 				Entity.new(x, y, attrType, area, obj.attribute.name)
-			elseif attrC == "14" then
+			elseif attrC == "14" then -- triggers
 				Trigger.new(x, y, attrType, area)
+			elseif attrC == "11" then
+				local route = obj.attribute.route
+				local id = Entity.new(x, y, "teleport", area, route, obj.attribute.id)
+				if not teleports[route] then teleports[route] = {} end
+				table.insert(teleports[route], id)
 			end
 		end
 	end
@@ -1569,7 +1592,6 @@ eventPlayerDataLoaded = function(name, data)
 	local inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	local items = Item.items
 	local itemNIds = items._all
-	p({dHandler:get(name, "inventory"), decodeInventory(dHandler:get(name, "inventory"))})
 	for i, itemData in next, decodeInventory(dHandler:get(name, "inventory")) do
 		local item = items[itemNIds[itemData[1]]]:getItem()
 		local isSpecialItem = itemData[2]
@@ -1583,12 +1605,12 @@ eventPlayerDataLoaded = function(name, data)
 			inventory[i] = { item, 1 }
 		end
 	end
-	p(inventory)
 	player.inventory = inventory
 
 	-- stuff
 	player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
+	player:changeInventorySlot(1)
 
 	p(player.learnedRecipes)
 	p(player.inventory)

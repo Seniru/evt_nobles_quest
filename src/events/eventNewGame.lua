@@ -30,8 +30,13 @@ eventNewGame = function()
 			local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
 			if attrC == "22" then	-- entities
 				Entity.new(x, y, attrType, area, obj.attribute.name)
-			elseif attrC == "14" then
+			elseif attrC == "14" then -- triggers
 				Trigger.new(x, y, attrType, area)
+			elseif attrC == "11" then
+				local route = obj.attribute.route
+				local id = Entity.new(x, y, "teleport", area, route, obj.attribute.id)
+				if not teleports[route] then teleports[route] = {} end
+				table.insert(teleports[route], id)
 			end
 		end
 	end

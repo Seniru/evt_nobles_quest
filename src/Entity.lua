@@ -85,6 +85,21 @@ Entity.entities = {
 		onAction = function(self, player)
 			player:learnRecipe(self.name)
 		end
+	},
+
+	teleport = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player)
+			local tpInfo = teleports[self.name]
+			local tp1, tp2 = tpInfo[1], tpInfo[2]
+			if tp1 == self then
+				tfm.exec.movePlayer(player.name, tp2.x, tp2.y )
+			else
+				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
+			end
+		end
 	}
 }
 
@@ -155,13 +170,14 @@ do
 
 end
 
-function Entity.new(x, y, type, area, name)
+function Entity.new(x, y, type, area, name, id)
 	local self = setmetatable({}, Entity)
 	self.x = x
 	self.y = y
 	self.type = type
 	self.area = area
 	self.name = name
+	self.id = id
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
