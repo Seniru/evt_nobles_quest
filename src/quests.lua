@@ -35,6 +35,12 @@ local quests = {
 				en = "Gather wood"
 			},
 			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Gather iron ore"
+			},
+			tasks = 1
 		}
 	},
 

@@ -62,6 +62,10 @@ Item("stone", Item.types.RESOURCE, true, {
 	en = "Stone"
 })
 
+Item("iron_ore", Item.types.RESOURCE, true, {
+	en = "Iron ore"
+})
+
 Item("wood", Item.types.RESOURCE, true, {
 	en = "Wood"
 })

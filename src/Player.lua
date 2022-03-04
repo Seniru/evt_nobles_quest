@@ -59,15 +59,21 @@ function Player:getInventoryItem(item)
 end
 
 function Player:addInventoryItem(newItem, quantity)
-	if quantity <= 0 then return end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
-			self.inventory[invPos][2] = itemQuantity + quantity
+			local newQuantity = itemQuantity + quantity
+			if newQuantity < 0 then return end
+			if newQuantity == 0 then
+				self.inventory[invPos] = {}
+			else
+				self.inventory[invPos][2] = newQuantity
+			end
 			if invPos == self.inventorySelection then self:changeInventorySlot(invPos) end
 			return self:displayInventory()
 		end
 	end
+	if quantity <= 0 then return end
 	for i, item in next, self.inventory do
 		if #item == 0 then
 			self.inventory[i] = { newItem:getItem(), quantity }
@@ -213,7 +219,7 @@ function Player:savePlayerData()
 	for i, itemData in next, self.inventory do
 		if #itemData > 0 then
 			local item, etc = itemData[1], itemData[2]
-			inventory[i] = { item.nid, item.type == Item.types.SPECIAL, item.isResource == Item.types.RESOURCE, item.durability or etc }
+			inventory[i] = { item.nid, item.type == typeSpecial, item.type == typeResource, item.durability or etc }
 		end
 	end
 	p(inventory)

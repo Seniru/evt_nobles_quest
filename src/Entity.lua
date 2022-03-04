@@ -64,7 +64,14 @@ Entity.entities = {
 			id = "no.png",
 			xAdj = 0,
 			yAdj = 0
-		}
+		},
+		resourceCap = 60,
+		onAction = function(self, player)
+			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
+			player:addInventoryItem(Item.items.iron_ore,
+				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
+			)
+		end
 	},
 
 	-- triggers
@@ -130,8 +137,9 @@ do
 			local name = player.name
 			local qProgress = player.questProgress["giveWood"]
 			if not qProgress then return end
-			local idx, amount = player:getInventoryItem("wood")
-			print({"wood", amount})
+			local idx, woodAmount = player:getInventoryItem("wood")
+			local idx, oreAmount = player:getInventoryItem("iron_ore")
+			print({"wood", woodAmount})
 			if not qProgress.completed then
 				if qProgress.stage == 1 and qProgress.stageProgress == 0 then
 					addDialogueSeries(name, 2, {
@@ -147,17 +155,31 @@ do
 						player:displayInventory()
 
 					end)
-				elseif qProgress.stage == 2 and amount and amount >= 10 then
-					addDialogueSeries(name, 3, {
+				-- change wood amount later
+				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 10 then
+					addDialogueSeries(name, 2, {
 						{ text = "ok u suck", icon = "17ebeab46db.png" },
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
 						player:updateQuestProgress("giveWood", 1)
+						player:addInventoryItem(Item.items.wood, -10)
+						player:addInventoryItem(Item.items.stone, 10)
+						dialoguePanel:hide(name)
+						player:displayInventory()
+					end)
+				elseif qProgress.stage == 3 and oreAmount and oreAmount >= 15 then
+					addDialogueSeries(name, 2, {
+						{ text = "good good", icon = nosferatu.happy }
+					}, "Nosferatu", function(id, _name, event)
+						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("giveWood", 1)
+						player:addInventoryItem(Item.items.iron_ore, -15)
+						player:addInventoryItem(Item.items.stone, 30)
 						dialoguePanel:hide(name)
 						player:displayInventory()
 					end)
 				else
-					addDialogueBox(3, "Do you need anything?", name, "Nosferatu", nosferatu.question, { 
+					addDialogueBox(2, "Do you need anything?", name, "Nosferatu", nosferatu.question, { 
 						{ "How do I get wood?", addDialogueBox, { 4, "Chop with axe", name, "Nosferatu", nosferatu.question } },
 						{ "Axe?", addDialogueBox, { 5, "Find recipe", name, "Nosferatu", nosferatu.question }}
 					})
