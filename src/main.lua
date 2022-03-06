@@ -1,8 +1,3 @@
-tfm.exec.newGame(maps["mine"])
-mapPlaying = "mine"
-
-tfm.exec.setGameTime(150)
-
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
 do
 	for i = 0, 9 do
@@ -158,3 +153,10 @@ decodeQuestProgress = function(data)
 	end
 	return res
 end
+
+do
+	eventNewGame()
+	for name, player in next, tfm.get.room.playerList do
+		eventNewPlayer(name)
+	end
+end	

@@ -90,10 +90,8 @@ function Player:changeInventorySlot(idx)
 	self.inventorySelection = idx
 	local item = self.inventory[idx][1]
 	if item and item.type ~= Item.types.RESOURCE then
-		print("item is special")
 		self.equipped = self.inventory[idx][1]
 	else
-		p({"item is not epsicla", item})
 		self.equipped = nil
 	end
 	self:displayInventory()
@@ -129,7 +127,6 @@ function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 		self:changeInventorySlot(self.inventorySelection)
 		return 0
 	end
-	p(self.inventory)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
 	local returnAmount = isCorrectItem and (item.tier + item[requiredProperty] - 1) or 1
 	targetEntity.resourcesLeft = math.max(targetEntity.resourcesLeft - returnAmount, 0)
@@ -160,7 +157,6 @@ function Player:updateQuestProgress(quest, newProgress)
 	end
 	dHandler:set(self.name, "questProgress", encodeQuestProgress(self.questProgress))
 	self:savePlayerData()
-	p(encodeQuestProgress(self.questProgress))
 end
 
 function Player:learnRecipe(recipe)
@@ -175,14 +171,13 @@ function Player:canCraft(recipe)
 	if not self.learnedRecipes[recipe] then return false end
 	for _, neededItem in next, recipes[recipe] do
 		local idx, amount = self:getInventoryItem(neededItem[1].id)
-		p({neededItem[1], idx, amount})
 		if (not idx) or (neededItem[2] > amount) then return false end
 	end
 	return true
 end
 
 function Player:craftItem(recipe)
-	if not self:canCraft(recipe) then return p("cant craft") end
+	if not self:canCraft(recipe) then return end
 	for _, neededItem in next, recipes[recipe] do
 		local idx, amount = self:getInventoryItem(neededItem[1].id)
 		self.inventory[idx][2] = amount - neededItem[2]

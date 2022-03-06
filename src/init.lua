@@ -1,7 +1,7 @@
 local IS_TEST = true
 
 -- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
-local eventLoaded, eventEnding = false, false
+local eventLoaded, mapLoaded, eventEnding = false, false, false
 local mapPlaying = ""
 
 local maps = {
@@ -53,4 +53,14 @@ local dHandler = DataHandler.new("evt_nq", {
 	}
 })
 
-local teleports = {}
+local teleports = {
+	mine = {
+		canEnter = function(player, terminalId)
+			return player.questProgress.nosferatu and player.questProgress.nosferatu.stage >= 3
+		end
+	}
+}
+
+local mineQuestCompletedPlayers, mineQuestIncompletedPlayers, totalPlayers, totalProcessedPlayers = 0, 0, 0, 0
+
+

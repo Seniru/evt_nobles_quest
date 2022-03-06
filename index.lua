@@ -138,36 +138,38 @@ end
 local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}).res) end
 local p = prettyprint
 
-local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-
--- encoding
-local base64Encode = function(data)
-    return ((data:gsub('.', function(x) 
-        local r,b='',x:byte()
-        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
-        if (#x < 6) then return '' end
-        local c=0
-        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
-        return b:sub(c+1,c+1)
-    end)..({ '', '==', '=' })[#data%3+1])
-end
-
--- decoding
-local base64Decode = function(data)
-    data = string.gsub(data, '[^'..b..'=]', '')
-    return (data:gsub('.', function(x)
-        if (x == '=') then return '' end
-        local r,f='',(b:find(x)-1)
-        for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
-        if (#x ~= 8) then return '' end
-        local c=0
-        for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
-        return string.char(c)
-    end))
+-- Credits: lua users wiki
+local base64Encode, base64Decode
+do
+	local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+	-- encoding
+	base64Encode = function(data)
+		return ((data:gsub('.', function(x) 
+			local r,b='',x:byte()
+			for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+			return r;
+		end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+			if (#x < 6) then return '' end
+			local c=0
+			for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+			return b:sub(c+1,c+1)
+		end)..({ '', '==', '=' })[#data%3+1])
+	end
+	-- decoding
+	base64Decode = function(data)
+		data = string.gsub(data, '[^'..b..'=]', '')
+		return (data:gsub('.', function(x)
+			if (x == '=') then return '' end
+			local r,f='',(b:find(x)-1)
+			for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+			return r;
+		end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
+			if (#x ~= 8) then return '' end
+			local c=0
+			for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+			return string.char(c)
+		end))
+	end
 end
 
 -- Thanks to Turkitutu
@@ -551,7 +553,7 @@ local quests = {
 		}
 	},
 
-	giveWood = {
+	nosferatu = {
 		id = 2,
 		title_locales = {
 			en = "Some nice title"
@@ -576,7 +578,7 @@ local quests = {
 		}
 	},
 
-	_all = { "wc", "giveWood" }
+	_all = { "wc", "nosferatu" }
 
 }
 
@@ -585,7 +587,7 @@ local quests = {
 local IS_TEST = true
 
 -- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
-local eventLoaded, eventEnding = false, false
+local eventLoaded, mapLoaded, eventEnding = false, false, false
 local mapPlaying = ""
 
 local maps = {
@@ -637,7 +639,17 @@ local dHandler = DataHandler.new("evt_nq", {
 	}
 })
 
-local teleports = {}
+local teleports = {
+	mine = {
+		canEnter = function(player, terminalId)
+			return player.questProgress.nosferatu and player.questProgress.nosferatu.stage >= 3
+		end
+	}
+}
+
+local mineQuestCompletedPlayers, mineQuestIncompletedPlayers, totalPlayers, totalProcessedPlayers = 0, 0, 0, 0
+
+
 
 
 --==[[ translations ]]==--
@@ -652,8 +664,26 @@ translations["en"] = {
 		"Ahh you look quite new here... anyways you look like useful",
 		"So you are telling, you came to here from another dimension, and have no idea where you are or what to do at all\n<i>*Hmmm maybe he is actually useful for me</i>",
 		"Well young fella, I guess you need a job to live. Don't worry about that, I'll give you a job yes yes.",
-		"But... before that, we need to check if you are in a good physical state.\nGather <VP>10 wood</VP> for me from the woods.\nHave these <VP>10 stone</VP> as an advance. Good luck!",
-		"Do you need anything?"
+		"But... before that, we need to check if you are in a good physical state.\nGather <VP><b>10 wood</b></VP> for me from the woods.\nHave these <VP><b>10 stone</b></VP> as an advance. Good luck!",
+		"Quite impressive indeed. But <i>back in our days</i> we did it much faster...\nNot like it matters now. As I promised <VP><b>job</b></VP> is yours.",
+		"That said, you now have access to the <b><VP>mine</VP></b>\nHead to the <b><VP>door</VP></b> to the leftside from here and <b><VP>↓</VP></b> to access it!",
+		"As your first job, I need you to gather<b><VP>15 iron ore</VP></b>. Good luck again!",
+		"Woah! Looks like I underestimated you, such an impressive job!",
+		"I heard the <b><VP>castle</VP></b> needs some young fellas like you to save it's treasury and the princess from the bad guys...",
+		"You could be a good fit for that!",
+		"I'll give you <b><VP>Nosferatu's recommendation letter</VP></b>, present this to <b><VP>Lieutenant</VP></b> and hopefully he'll recruit you into the army.\n<i>aaand that's some good money too</i>",
+		"Oh and don't forget your reward of <b><VP>30 stone</VP></b> for all the hard work!",
+		"Do you need anything?",
+		"That's quite general knowledge... You need to <b><VP>chop a tree with a Pickaxe</VP></b>",
+		"So you need a <b><VP>pickaxe</VP></b>? There should be one lying around in <b><VP>woods</VP></b>. <b><VP>↓</VP></b> to study it and craft the studied recipe in a <b><VP>crafting station</VP></b>.\nA station is located right above this mine.",
+		"I sell <b><VP>10 stone</VP></b> for <b><VP>35 sticks</VP></b>",
+		"Ah ok farewell then"
+	},
+	NOSFERATU_QUESTIONS = {
+		"How do I get wood?",
+		"Pickaxe?",
+		"Exchange",
+		"Nevermind."
 	}
 }
 
@@ -878,7 +908,6 @@ function Monster:changeStance(stance)
 end
 
 function Monster:attack(player, attackType)
-	p({player, attackType})
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
 	if attackType == "slash" then
@@ -1154,10 +1183,8 @@ function Player:changeInventorySlot(idx)
 	self.inventorySelection = idx
 	local item = self.inventory[idx][1]
 	if item and item.type ~= Item.types.RESOURCE then
-		print("item is special")
 		self.equipped = self.inventory[idx][1]
 	else
-		p({"item is not epsicla", item})
 		self.equipped = nil
 	end
 	self:displayInventory()
@@ -1193,7 +1220,6 @@ function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 		self:changeInventorySlot(self.inventorySelection)
 		return 0
 	end
-	p(self.inventory)
 	-- give resources equivelant to the tier level of the item if they are using the correct item for the job
 	local returnAmount = isCorrectItem and (item.tier + item[requiredProperty] - 1) or 1
 	targetEntity.resourcesLeft = math.max(targetEntity.resourcesLeft - returnAmount, 0)
@@ -1224,7 +1250,6 @@ function Player:updateQuestProgress(quest, newProgress)
 	end
 	dHandler:set(self.name, "questProgress", encodeQuestProgress(self.questProgress))
 	self:savePlayerData()
-	p(encodeQuestProgress(self.questProgress))
 end
 
 function Player:learnRecipe(recipe)
@@ -1239,14 +1264,13 @@ function Player:canCraft(recipe)
 	if not self.learnedRecipes[recipe] then return false end
 	for _, neededItem in next, recipes[recipe] do
 		local idx, amount = self:getInventoryItem(neededItem[1].id)
-		p({neededItem[1], idx, amount})
 		if (not idx) or (neededItem[2] > amount) then return false end
 	end
 	return true
 end
 
 function Player:craftItem(recipe)
-	if not self:canCraft(recipe) then return p("cant craft") end
+	if not self:canCraft(recipe) then return end
 	for _, neededItem in next, recipes[recipe] do
 		local idx, amount = self:getInventoryItem(neededItem[1].id)
 		self.inventory[idx][2] = amount - neededItem[2]
@@ -1283,7 +1307,7 @@ function Player:savePlayerData()
 	for i, itemData in next, self.inventory do
 		if #itemData > 0 then
 			local item, etc = itemData[1], itemData[2]
-			inventory[i] = { item.nid, item.type == Item.types.SPECIAL, item.type == Item.types.RESOURCE, item.durability or etc }
+			inventory[i] = { item.nid, item.type == typeSpecial, item.type == typeResource, item.durability or etc }
 		end
 	end
 	p(inventory)
@@ -1356,8 +1380,6 @@ Entity.entities = {
 				player:addInventoryItem(Item.items.wood,
 					player:useSelectedItem(Item.types.AXE, "chopping", self)
 				)
-			else
-				p(player.equipped)
 			end
 		end
 	},
@@ -1419,6 +1441,7 @@ Entity.entities = {
 		onAction = function(self, player)
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
+			if not tpInfo.canEnter(player, tp2) then return end
 			if tp1 == self then
 				tfm.exec.movePlayer(player.name, tp2.x, tp2.y )
 			else
@@ -1453,7 +1476,7 @@ do
 		},
 		onAction = function(self, player)
 			local name = player.name
-			local qProgress = player.questProgress["giveWood"]
+			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
 			local idx, woodAmount = player:getInventoryItem("wood")
 			local idx, oreAmount = player:getInventoryItem("iron_ore")
@@ -1466,8 +1489,8 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 3), icon = nosferatu.happy },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("giveWood", 1)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("nosferatu", 1)
 						dialoguePanel:hide(name)
 						player:addInventoryItem(Item.items.stone, 10)
 						player:displayInventory()
@@ -1476,10 +1499,12 @@ do
 				-- change wood amount later
 				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 10 then
 					addDialogueSeries(name, 2, {
-						{ text = "ok u suck", icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 5), icon = nosferatu.normal },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 6), icon = nosferatu.happy },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 7), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("giveWood", 1)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("nosferatu", 1)
 						player:addInventoryItem(Item.items.wood, -10)
 						player:addInventoryItem(Item.items.stone, 10)
 						dialoguePanel:hide(name)
@@ -1487,23 +1512,31 @@ do
 					end)
 				elseif qProgress.stage == 3 and oreAmount and oreAmount >= 15 then
 					addDialogueSeries(name, 2, {
-						{ text = "good good", icon = nosferatu.happy }
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 8), icon = nosferatu.shocked },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 9), icon = nosferatu.thinking },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 10), icon = nosferatu.shocked },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 11), icon = nosferatu.normal },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 10), icon = nosferatu.happy },
+
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("giveWood", 1)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("nosferatu", 1)
 						player:addInventoryItem(Item.items.iron_ore, -15)
 						player:addInventoryItem(Item.items.stone, 30)
 						dialoguePanel:hide(name)
 						player:displayInventory()
 					end)
 				else
-					addDialogueBox(2, "Do you need anything?", name, "Nosferatu", nosferatu.question, { 
-						{ "How do I get wood?", addDialogueBox, { 4, "Chop with axe", name, "Nosferatu", nosferatu.question } },
-						{ "Axe?", addDialogueBox, { 5, "Find recipe", name, "Nosferatu", nosferatu.question }}
+					addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 11), name, "Nosferatu", nosferatu.question, {
+						{ translate("NOSFERATU_QUESTIONS", player.language, 1), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 11), name, "Nosferatu", nosferatu.normal } },
+						{ translate("NOSFERATU_QUESTIONS", player.language, 2), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 12), name, "Nosferatu", nosferatu.normal }}
 					})
 				end
 			else
-				addDialogueBox(10, "I sell yes", name, "Nosferatu", nosferatu.question)
+				addDialogueBox(10, translate("NOSFERATU_DIALOGUES", player.language, 12), name, "Nosferatu", nosferatu.normal, {
+					{ translate("NOSFERATU_QUESTIONS", player.language, 3), print, {} },
+					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 13), name, "Nosferatu", nosferatu.normal }}
+				})
 			end
 		end
 	}
@@ -1569,6 +1602,7 @@ eventNewPlayer = function(name)
 	Player.new(name)
 	system.loadPlayerData(name)
 	for key, code in next, keys do system.bindKeyboard(name, code, true, true) end
+	totalPlayers = totalPlayers + 1
 end
 
 eventNewGame = function()
@@ -1582,39 +1616,36 @@ eventNewGame = function()
 		return system.exit()
 	end
 
-	for name, player in next, tfm.get.room.playerList do
-		eventNewPlayer(name)
-	end
+	if mapLoaded then
+		-- parsing information from xml
+		local xml = tfm.get.room.xmlMapInfo.xml
+		local dom = parseXml(xml)
 
-	-- parsing information from xml
-	local xml = tfm.get.room.xmlMapInfo.xml
-	local dom = parseXml(xml)
-
-	for z, ground in ipairs(path(dom, "Z", "S", "S")) do
-		local areaId = tonumber(ground.attribute.lua)
-		if areaId then
-			Area.new(ground.attribute.X, ground.attribute.Y, ground.attribute.L, ground.attribute.H)
-		end
-	end
-
-	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
-		if obj.attribute.type then
-			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
-			local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
-			if attrC == "22" then	-- entities
-				Entity.new(x, y, attrType, area, obj.attribute.name)
-			elseif attrC == "14" then -- triggers
-				Trigger.new(x, y, attrType, area)
-			elseif attrC == "11" then
-				local route = obj.attribute.route
-				local id = Entity.new(x, y, "teleport", area, route, obj.attribute.id)
-				if not teleports[route] then teleports[route] = {} end
-				table.insert(teleports[route], id)
+		for z, ground in ipairs(path(dom, "Z", "S", "S")) do
+			local areaId = tonumber(ground.attribute.lua)
+			if areaId then
+				Area.new(ground.attribute.X, ground.attribute.Y, ground.attribute.L, ground.attribute.H)
 			end
 		end
-	end
 
-	eventLoaded = true
+		for z, obj in ipairs(path(dom, "Z", "O", "O")) do
+			if obj.attribute.type then
+				local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
+				local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
+				if attrC == "22" then	-- entities
+					Entity.new(x, y, attrType, area, obj.attribute.name)
+				elseif attrC == "14" then -- triggers
+					Trigger.new(x, y, attrType, area)
+				elseif attrC == "11" then
+					local route = obj.attribute.route
+					local id = Entity.new(x, y, "teleport", area, route, obj.attribute.id)
+					if not teleports[route] then teleports[route] = {} end
+					table.insert(teleports[route], id)
+				end
+			end
+		end
+		eventLoaded = true
+	end
 end
 
 eventPlayerDataLoaded = function(name, data)
@@ -1671,9 +1702,31 @@ eventPlayerDataLoaded = function(name, data)
 		}, "Announcer", function(id, _name, event)
 			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
-			player:displayInventory(name)
-			player:addNewQuest("giveWood")
+			player:displayInventory()
+			player:addNewQuest("nosferatu")
 		end)
+	end
+
+	if player.questProgress.nosferatu.completed then
+		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
+	else
+		mineQuestIncompletedPlayers = mineQuestIncompletedPlayers + 1
+	end
+
+	totalProcessedPlayers =  totalProcessedPlayers + 1
+
+	if totalProcessedPlayers == totalPlayers then
+		if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.6 then
+			mapPlaying = "mine"
+		elseif math.random(1, 10) <= 4 then
+			mapPlaying = "mine"
+		else
+			mapPlaying = "castle"
+		end
+		tfm.exec.newGame(maps[mapPlaying])
+		tfm.exec.setGameTime(150)
+		mapLoaded = true
+
 	end
 
 end
@@ -1681,7 +1734,9 @@ end
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
 	if player.alive and key >= keys.KEY_0 and keys.KEY_9 >= key then
-		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
+		local n = tonumber(table.find(keys, key):sub(-1))
+		n = n == 0 and 10 or n
+		player:changeInventorySlot(n)
 	end
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then
@@ -1703,11 +1758,6 @@ eventTextAreaCallback = function(id, name, event)
 end
 
 --==[[ main ]]==--
-
-tfm.exec.newGame(maps["mine"])
-mapPlaying = "mine"
-
-tfm.exec.setGameTime(150)
 
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
 do
@@ -1865,4 +1915,10 @@ decodeQuestProgress = function(data)
 	return res
 end
 
+do
+	eventNewGame()
+	for name, player in next, tfm.get.room.playerList do
+		eventNewPlayer(name)
+	end
+end	
 

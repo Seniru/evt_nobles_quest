@@ -19,7 +19,7 @@ local quests = {
 		}
 	},
 
-	giveWood = {
+	nosferatu = {
 		id = 2,
 		title_locales = {
 			en = "Some nice title"
@@ -44,6 +44,6 @@ local quests = {
 		}
 	},
 
-	_all = { "wc", "giveWood" }
+	_all = { "wc", "nosferatu" }
 
 }

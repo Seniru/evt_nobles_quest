@@ -113,7 +113,6 @@ function Monster:changeStance(stance)
 end
 
 function Monster:attack(player, attackType)
-	p({player, attackType})
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
 	if attackType == "slash" then

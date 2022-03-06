@@ -9,37 +9,34 @@ eventNewGame = function()
 		return system.exit()
 	end
 
-	for name, player in next, tfm.get.room.playerList do
-		eventNewPlayer(name)
-	end
+	if mapLoaded then
+		-- parsing information from xml
+		local xml = tfm.get.room.xmlMapInfo.xml
+		local dom = parseXml(xml)
 
-	-- parsing information from xml
-	local xml = tfm.get.room.xmlMapInfo.xml
-	local dom = parseXml(xml)
-
-	for z, ground in ipairs(path(dom, "Z", "S", "S")) do
-		local areaId = tonumber(ground.attribute.lua)
-		if areaId then
-			Area.new(ground.attribute.X, ground.attribute.Y, ground.attribute.L, ground.attribute.H)
-		end
-	end
-
-	for z, obj in ipairs(path(dom, "Z", "O", "O")) do
-		if obj.attribute.type then
-			local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
-			local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
-			if attrC == "22" then	-- entities
-				Entity.new(x, y, attrType, area, obj.attribute.name)
-			elseif attrC == "14" then -- triggers
-				Trigger.new(x, y, attrType, area)
-			elseif attrC == "11" then
-				local route = obj.attribute.route
-				local id = Entity.new(x, y, "teleport", area, route, obj.attribute.id)
-				if not teleports[route] then teleports[route] = {} end
-				table.insert(teleports[route], id)
+		for z, ground in ipairs(path(dom, "Z", "S", "S")) do
+			local areaId = tonumber(ground.attribute.lua)
+			if areaId then
+				Area.new(ground.attribute.X, ground.attribute.Y, ground.attribute.L, ground.attribute.H)
 			end
 		end
-	end
 
-	eventLoaded = true
+		for z, obj in ipairs(path(dom, "Z", "O", "O")) do
+			if obj.attribute.type then
+				local x, y = tonumber(obj.attribute.X), tonumber(obj.attribute.Y)
+				local area, attrC, attrType = Area.getAreaByCoords(x, y), obj.attribute.C, obj.attribute.type
+				if attrC == "22" then	-- entities
+					Entity.new(x, y, attrType, area, obj.attribute.name)
+				elseif attrC == "14" then -- triggers
+					Trigger.new(x, y, attrType, area)
+				elseif attrC == "11" then
+					local route = obj.attribute.route
+					local id = Entity.new(x, y, "teleport", area, route, obj.attribute.id)
+					if not teleports[route] then teleports[route] = {} end
+					table.insert(teleports[route], id)
+				end
+			end
+		end
+		eventLoaded = true
+	end
 end

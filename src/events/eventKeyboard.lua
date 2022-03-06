@@ -1,7 +1,9 @@
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
 	if player.alive and key >= keys.KEY_0 and keys.KEY_9 >= key then
-		player:changeInventorySlot(tonumber(table.find(keys, key):sub(-1)))
+		local n = tonumber(table.find(keys, key):sub(-1))
+		n = n == 0 and 10 or n
+		player:changeInventorySlot(n)
 	end
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then

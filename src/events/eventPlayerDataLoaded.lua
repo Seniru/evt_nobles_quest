@@ -52,9 +52,31 @@ eventPlayerDataLoaded = function(name, data)
 		}, "Announcer", function(id, _name, event)
 			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
-			player:displayInventory(name)
-			player:addNewQuest("giveWood")
+			player:displayInventory()
+			player:addNewQuest("nosferatu")
 		end)
+	end
+
+	if player.questProgress.nosferatu.completed then
+		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
+	else
+		mineQuestIncompletedPlayers = mineQuestIncompletedPlayers + 1
+	end
+
+	totalProcessedPlayers =  totalProcessedPlayers + 1
+
+	if totalProcessedPlayers == totalPlayers then
+		if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.6 then
+			mapPlaying = "mine"
+		elseif math.random(1, 10) <= 4 then
+			mapPlaying = "mine"
+		else
+			mapPlaying = "castle"
+		end
+		tfm.exec.newGame(maps[mapPlaying])
+		tfm.exec.setGameTime(150)
+		mapLoaded = true
+
 	end
 
 end

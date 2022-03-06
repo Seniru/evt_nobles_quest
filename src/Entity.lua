@@ -38,8 +38,6 @@ Entity.entities = {
 				player:addInventoryItem(Item.items.wood,
 					player:useSelectedItem(Item.types.AXE, "chopping", self)
 				)
-			else
-				p(player.equipped)
 			end
 		end
 	},
@@ -101,6 +99,7 @@ Entity.entities = {
 		onAction = function(self, player)
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
+			if not tpInfo.canEnter(player, tp2) then return end
 			if tp1 == self then
 				tfm.exec.movePlayer(player.name, tp2.x, tp2.y )
 			else
@@ -135,7 +134,7 @@ do
 		},
 		onAction = function(self, player)
 			local name = player.name
-			local qProgress = player.questProgress["giveWood"]
+			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
 			local idx, woodAmount = player:getInventoryItem("wood")
 			local idx, oreAmount = player:getInventoryItem("iron_ore")
@@ -148,8 +147,8 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 3), icon = nosferatu.happy },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("giveWood", 1)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("nosferatu", 1)
 						dialoguePanel:hide(name)
 						player:addInventoryItem(Item.items.stone, 10)
 						player:displayInventory()
@@ -158,10 +157,12 @@ do
 				-- change wood amount later
 				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 10 then
 					addDialogueSeries(name, 2, {
-						{ text = "ok u suck", icon = "17ebeab46db.png" },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 5), icon = nosferatu.normal },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 6), icon = nosferatu.happy },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 7), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("giveWood", 1)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("nosferatu", 1)
 						player:addInventoryItem(Item.items.wood, -10)
 						player:addInventoryItem(Item.items.stone, 10)
 						dialoguePanel:hide(name)
@@ -169,23 +170,31 @@ do
 					end)
 				elseif qProgress.stage == 3 and oreAmount and oreAmount >= 15 then
 					addDialogueSeries(name, 2, {
-						{ text = "good good", icon = nosferatu.happy }
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 8), icon = nosferatu.shocked },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 9), icon = nosferatu.thinking },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 10), icon = nosferatu.shocked },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 11), icon = nosferatu.normal },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 10), icon = nosferatu.happy },
+
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.giveWood and player.questProgress.giveWood.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("giveWood", 1)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
+						player:updateQuestProgress("nosferatu", 1)
 						player:addInventoryItem(Item.items.iron_ore, -15)
 						player:addInventoryItem(Item.items.stone, 30)
 						dialoguePanel:hide(name)
 						player:displayInventory()
 					end)
 				else
-					addDialogueBox(2, "Do you need anything?", name, "Nosferatu", nosferatu.question, { 
-						{ "How do I get wood?", addDialogueBox, { 4, "Chop with axe", name, "Nosferatu", nosferatu.question } },
-						{ "Axe?", addDialogueBox, { 5, "Find recipe", name, "Nosferatu", nosferatu.question }}
+					addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 11), name, "Nosferatu", nosferatu.question, {
+						{ translate("NOSFERATU_QUESTIONS", player.language, 1), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 11), name, "Nosferatu", nosferatu.normal } },
+						{ translate("NOSFERATU_QUESTIONS", player.language, 2), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 12), name, "Nosferatu", nosferatu.normal }}
 					})
 				end
 			else
-				addDialogueBox(10, "I sell yes", name, "Nosferatu", nosferatu.question)
+				addDialogueBox(10, translate("NOSFERATU_DIALOGUES", player.language, 12), name, "Nosferatu", nosferatu.normal, {
+					{ translate("NOSFERATU_QUESTIONS", player.language, 3), print, {} },
+					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 13), name, "Nosferatu", nosferatu.normal }}
+				})
 			end
 		end
 	}
