@@ -56,7 +56,8 @@ local dHandler = DataHandler.new("evt_nq", {
 local teleports = {
 	mine = {
 		canEnter = function(player, terminalId)
-			return player.questProgress.nosferatu and player.questProgress.nosferatu.stage >= 3
+			local quest = player.questProgress.nosferatu
+			return quest and (quest.completed or quest.stage >= 3)
 		end
 	}
 }

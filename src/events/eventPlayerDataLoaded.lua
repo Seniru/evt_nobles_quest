@@ -36,7 +36,7 @@ eventPlayerDataLoaded = function(name, data)
 	player.inventory = inventory
 
 	-- stuff
-	player:addInventoryItem(Item.items.basic_axe, 1)
+	--player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
 	player:changeInventorySlot(1)
 
