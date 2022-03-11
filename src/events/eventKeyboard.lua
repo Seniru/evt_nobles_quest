@@ -4,6 +4,8 @@ eventKeyboard = function(name, key, down, x, y)
 		local n = tonumber(table.find(keys, key):sub(-1))
 		n = n == 0 and 10 or n
 		player:changeInventorySlot(n)
+	elseif key == keys.KEY_R then
+		openCraftingTable(player)
 	end
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then
