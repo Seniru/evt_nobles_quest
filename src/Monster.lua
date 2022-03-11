@@ -137,7 +137,12 @@ function Monster:regen()
 	end
 end
 
-function Monster:destroy()
+function Monster:destroy(destroyedBy)
+	local qProgress = destroyedBy.questProgress
+	if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
+		print("hmmm")
+		destroyedBy:updateQuestProgress("strength_test", 1)
+	end
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil

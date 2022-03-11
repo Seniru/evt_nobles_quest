@@ -195,7 +195,7 @@ function Player:attack(monster)
 	end
 	monster.latestActionReceived = os.time()
 	if monster.health <= 0 then
-		monster:destroy()
+		monster:destroy(self)
 	end
 end
 

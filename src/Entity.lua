@@ -127,11 +127,12 @@ do
 
 	Entity.entities.nosferatu = {
 		displayName = "Nosferatu",
-		image = {
-			id = "17ebeab46db.png",
-			xAdj = 0,
-			yAdj = -35
-		},
+		look = "22;0,4_201412,0,1_301C18,39_FFB753,87_201412+201412+201412+301C18+41201A+201412,36_301C18+301C18+201412+201412+201412+FFBB27+FFECA5+41201A+FFB753,21_41201A,0",
+		title = 0,
+		female = false,
+		lookLeft = true,
+		lookAtPlayer = false,
+		interactive = true,
 		onAction = function(self, player)
 			local name = player.name
 			local qProgress = player.questProgress.nosferatu
@@ -191,13 +192,65 @@ do
 					})
 				end
 			else
-				addDialogueBox(10, translate("NOSFERATU_DIALOGUES", player.language, 12), name, "Nosferatu", nosferatu.normal, {
+				addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 16), name, "Nosferatu", nosferatu.normal, {
 					{ translate("NOSFERATU_QUESTIONS", player.language, 3), print, {} },
-					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 13), name, "Nosferatu", nosferatu.normal }}
+					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 17), name, "Nosferatu", nosferatu.normal }}
 				})
 			end
 		end
 	}
+
+	Entity.entities.edric = {
+		displayName = "Lieutenant Edric",
+		look = "120;135_49382E+A27D35+49382E+53191E,9_53191E,0,0,19_DCA22E+53191E,53_CBBEB1+53191E,0,25,16_231810+A27D35+8D1C23+49382E",
+		title = 0,
+		female = false,
+		lookLeft = true,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			local name = player.name
+			local qProgress = player.questProgress
+			if qProgress.strength_test then
+				if qProgress.strength_test.completed then
+
+				else
+					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 6), name, "Lieutenant Edric", nosferatu.normal, {
+						{ translate("EDRIC_QUESTIONS", player.language, 1), addDialogueBox, { 3, translate("EDRIC_DIALOGUES", player.language, 5), name, "Lieutenant Edric", nosferatu.normal} },
+						{ translate("EDRIC_QUESTIONS", player.language, 2), addDialogueSeries,
+							{ name, 3, {
+								{ text = translate("EDRIC_DIALOGUES", player.language, 7), icon = nosferatu.normal },
+								{ text = translate("EDRIC_DIALOGUES", player.language, 8), icon = nosferatu.normal }
+							}, "Lieutenant Edric", function(id, name, event)
+								dialoguePanel:hide(name)
+								player:displayInventory()
+								if player.questProgress.strength_test and player.questProgress.strength_test.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+								player:updateQuestProgress("strength_test", 1)
+							end }
+						}
+					})
+				end
+			elseif qProgress.nosferatu and qProgress.nosferatu.completed then
+				addDialogueSeries(name, 3, {
+					{ text = translate("EDRIC_DIALOGUES", player.language, 1), icon = nosferatu.shocked },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 2), icon = nosferatu.thinking },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 3), icon = nosferatu.happy },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 4), icon = nosferatu.normal },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 5), icon = nosferatu.normal },
+				}, "Lieutenant Edric", function(id, _name, event)
+					--if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+					--player:updateQuestProgress("nosferatu", 1)
+					player:addNewQuest("strength_test")
+					dialoguePanel:hide(name)
+					player:displayInventory()
+
+				end)
+			else
+				addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 1), name, "Lieutenant Edric", nosferatu.normal)
+			end
+		end
+	}
+
 
 end
 
@@ -212,9 +265,16 @@ function Entity.new(x, y, type, area, name, id)
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
-		local xAdj, yAdj = x + (npc.image.xAdj or 0), y + (npc.image.yAdj or 0)
-		local id = tfm.exec.addImage(npc.image.id, "?999", xAdj, yAdj)
-		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
+		tfm.exec.addNPC(npc.displayName, {
+			title = npc.title,
+			look = npc.look,
+			x = x,
+			y = y,
+			female = npc.female,
+			lookLeft = npc.lookLeft,
+			lookAtPlayer = npc.lookAtPlayer,
+			interactive = npc.interactive
+		})
 	else
 		local entity = Entity.entities[type]
 		self.resourceCap = entity.resourceCap

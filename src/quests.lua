@@ -44,6 +44,25 @@ local quests = {
 		}
 	},
 
-	_all = { "wc", "nosferatu" }
+	strength_test = {
+		id = 3,
+		title_locales = {
+			en = "Strength test"
+		},
+		{
+			description_locales = {
+				en = "Gather recipes and talk to Lieutenant Edric"
+			},
+			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Defeat 30 monsters"
+			},
+			tasks = 30
+		}
+	},
+
+	_all = { "wc", "nosferatu", "strength_test" }
 
 }

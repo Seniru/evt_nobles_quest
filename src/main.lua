@@ -8,7 +8,21 @@ end
 dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
 	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
 
-craftingPanel = Panel(300, "", 20, 30, 760, 300, nil, nil, 1, true)
+craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30, nil, nil, 1, true)
+	:setCloseButton(300)
+	:addPanel(Panel(301, "", 20, 30, 500, 300, nil, nil, 1, true))
+	:addPanel(
+		Panel(302, "", 530, 30, 200, 300, nil, nil, 1, true)
+			:setActionListener(function(id, name, event)
+				print("came here")
+				p({event, recipes[event]})
+				if not recipes[event] then return print("not a recipe") end
+				local player = Player.players[name]
+				if not player:canCraft(event) then return print("cant craft") end
+				player:craftItem(event)
+			end)
+	)
+
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50
@@ -159,4 +173,4 @@ do
 	for name, player in next, tfm.get.room.playerList do
 		eventNewPlayer(name)
 	end
-end	
+end

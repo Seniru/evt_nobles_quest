@@ -26,5 +26,19 @@ translations["en"] = {
 		"Pickaxe?",
 		"Exchange",
 		"Nevermind."
+	},
+	EDRIC_DIALOGUES = {
+		"Our princess... and the treasury, is in the hands of evil. We gotta hurry",
+		"Hold on. So you say <b><VP>Nosferatu</VP></b> sent you here and you can help our troops with the missions???",
+		"That's great. But working for an army is not simple as you think.\nYou will need to do some <b><VP>intense training</VP></b> considering your body is not in the right shape either.\nHead to the <b><VP>training area to the leftside of me</VP></b> to start your training.",
+		"But before that, make sure you are fully prepared. There are few <b><VP>recipes</VP></b> scattered around the <b><VP>weapon racks</VP></b> and the <b><VP>gloomy forests down the hill</VP></b>\nHope you will make a good use of them!",
+		"Talk to me again when you think you ready!",
+		"Are you ready to take the challenge?",
+		"Great! Go start your training in the training area. You need to <b><VP>defeat 30 monsters</VP></b> to pass this challenge.",
+		"You can take as much as time you want, but if you died you'll have to redo everything!\nKeep that in mind and good luck to you!!!"
+	},
+	EDRIC_QUESTIONS = {
+		"I need more time...",
+		"I am ready!"
 	}
 }

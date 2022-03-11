@@ -578,7 +578,26 @@ local quests = {
 		}
 	},
 
-	_all = { "wc", "nosferatu" }
+	strength_test = {
+		id = 3,
+		title_locales = {
+			en = "Strength test"
+		},
+		{
+			description_locales = {
+				en = "Gather recipes and talk to Lieutenant Edric"
+			},
+			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Defeat 30 monsters"
+			},
+			tasks = 30
+		}
+	},
+
+	_all = { "wc", "nosferatu", "strength_test" }
 
 }
 
@@ -586,12 +605,15 @@ local quests = {
 
 local IS_TEST = true
 
+math.randomseed(os.time())
 -- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
 local eventLoaded, mapLoaded, eventEnding = false, false, false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="4800" H="800" MEDATA="3,1;;;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3910" Y="576" L="1751" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="3367" Y="658" C="22" nosync="" P="0" type="rock"/><O X="3807" Y="758" C="22" nosync="" P="0" type="rock"/><O X="4333" Y="758" C="22" nosync="" P="0" type="rock"/><O X="3965" Y="762" C="22" nosync="" P="0" type="rock"/><O X="3637" Y="702" C="22" nosync="" P="0" type="iron_ore"/><O X="4449" Y="754" C="22" nosync="" P="0" type="rock"/><O X="4561" Y="752" C="22" nosync="" P="0" type="iron_ore"/><O X="4727" Y="558" C="22" nosync="" P="0" type="iron_ore"/><O X="4711" Y="750" C="22" nosync="" P="0" type="rock"/></O><L/></Z></C>]]
+	mine = [[<C><P L="4800" H="800" MEDATA="3,1;;;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3910" Y="576" L="1751" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="3367" Y="658" C="22" nosync="" P="0" type="rock"/><O X="3807" Y="758" C="22" nosync="" P="0" type="rock"/><O X="4333" Y="758" C="22" nosync="" P="0" type="rock"/><O X="3965" Y="762" C="22" nosync="" P="0" type="rock"/><O X="3637" Y="702" C="22" nosync="" P="0" type="iron_ore"/><O X="4449" Y="754" C="22" nosync="" P="0" type="rock"/><O X="4561" Y="752" C="22" nosync="" P="0" type="iron_ore"/><O X="4727" Y="558" C="22" nosync="" P="0" type="iron_ore"/><O X="4711" Y="750" C="22" nosync="" P="0" type="rock"/></O><L/></Z></C>]],
+	castle = [[<C><P L="1600" H="800" MEDATA="9,1;;;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="395" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1200" Y="593" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="12" X="1190" Y="389" L="815" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1602" Y="574" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="793" Y="574" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1180" Y="729" L="848" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1347" Y="610" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="910" Y="693" C="14" nosync="" P="0" type="monster_spawn"/><O X="1510" Y="712" C="14" nosync="" P="0" type="monster_spawn"/><O X="1058" Y="669" C="14" nosync="" P="0" type="monster_spawn"/><O X="1492" Y="614" C="14" nosync="" P="0" type="monster_spawn"/><O X="1167" Y="601" C="14" nosync="" P="0" type="monster_spawn"/><O X="925" Y="473" C="14" nosync="" P="0" type="monster_spawn"/></O><L/></Z></C>]]
+
 }
 
 local keys = {
@@ -610,6 +632,7 @@ local keys = {
 	KEY_7	= 55,
 	KEY_8	= 56,
 	KEY_9	= 57,
+	KEY_R 	= 82
 }
 
 local assets = {
@@ -644,6 +667,12 @@ local teleports = {
 		canEnter = function(player, terminalId)
 			local quest = player.questProgress.nosferatu
 			return quest and (quest.completed or quest.stage >= 3)
+		end
+	},
+	arena = {
+		canEnter = function(player, terminalId)
+			local quest = player.questProgress.strength_test
+			return quest and (quest.completed or quest.stage >= 2)
 		end
 	}
 }
@@ -685,6 +714,20 @@ translations["en"] = {
 		"Pickaxe?",
 		"Exchange",
 		"Nevermind."
+	},
+	EDRIC_DIALOGUES = {
+		"Our princess... and the treasury, is in the hands of evil. We gotta hurry",
+		"Hold on. So you say <b><VP>Nosferatu</VP></b> sent you here and you can help our troops with the missions???",
+		"That's great. But working for an army is not simple as you think.\nYou will need to do some <b><VP>intense training</VP></b> considering your body is not in the right shape either.\nHead to the <b><VP>training area to the leftside of me</VP></b> to start your training.",
+		"But before that, make sure you are fully prepared. There are few <b><VP>recipes</VP></b> scattered around the <b><VP>weapon racks</VP></b> and the <b><VP>gloomy forests down the hill</VP></b>\nHope you will make a good use of them!",
+		"Talk to me again when you think you ready!",
+		"Are you ready to take the challenge?",
+		"Great! Go start your training in the training area. You need to <b><VP>defeat 30 monsters</VP></b> to pass this challenge.",
+		"You can take as much as time you want, but if you died you'll have to redo everything!\nKeep that in mind and good luck to you!!!"
+	},
+	EDRIC_QUESTIONS = {
+		"I need more time...",
+		"I am ready!"
 	}
 }
 
@@ -933,7 +976,12 @@ function Monster:regen()
 	end
 end
 
-function Monster:destroy()
+function Monster:destroy(destroyedBy)
+	local qProgress = destroyedBy.questProgress
+	if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
+		print("hmmm")
+		destroyedBy:updateQuestProgress("strength_test", 1)
+	end
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil
@@ -1289,7 +1337,7 @@ function Player:attack(monster)
 	end
 	monster.latestActionReceived = os.time()
 	if monster.health <= 0 then
-		monster:destroy()
+		monster:destroy(self)
 	end
 end
 
@@ -1323,7 +1371,25 @@ recipes = {
 	},
 	basic_shovel = {
 		{ Item.items.wood, 5 },
-	}
+	},
+	test = {
+		{ Item.items.wood, 5 },
+
+	},
+	test2 = {
+		{ Item.items.wood, 5 },
+
+	},
+	test3 = {
+		{ Item.items.wood, 5 },
+
+	},
+	test4 = {
+		{ Item.items.wood, 5 },
+
+	},
+	test5 = {		{ Item.items.wood, 5 },
+}
 }
 
 recipesBitList = BitList {
@@ -1332,13 +1398,35 @@ recipesBitList = BitList {
 
 openCraftingTable = function(player)
 	local name = player.name
-	--craftingPanel:show(name)
+	local items = Item.items
+	craftingPanel:show(name)
 	--craftingPanel:update(prettify(player.learnedRecipes, 1, {}).res, player)
 	-- craft all the craftable recipes for now
 	p(player.learnedRecipes)
-	for recipeName in next, player.learnedRecipes do
-		player:craftItem(recipeName)
+	local cols, rows, i = 0, 0, 1
+	for recipeName in next, recipes do
+		--player:craftItem(recipeName)
+		cols = cols + 1
+		i = i + 1
+		craftingPanel:addPanelTemp(
+			Panel(320 + i, ("<a href='event:%s'>%s</a>"):format(recipeName, recipeName), 20 + cols * 50, 30 + rows * 50, 50, 70, nil, nil, 1, true)
+				:setActionListener(displayRecipeInfo)
+		, name)
+		if cols == 3 then
+			cols = 0
+			rows = rows + 1
+		end
 	end
+end
+
+displayRecipeInfo = function(_id, name, recipeName)
+	local player = Player.players[name]
+	p({_id, name, recipeName})
+	local recipe = recipes[recipeName]
+	Panel.panels[302]:update(
+		("<b>%s</b><br>%s<br>%s")
+			:format(recipeName, prettify(recipe, 1, {}).res, player:canCraft(recipeName) and ("<a href='event:%s'>Craft</a>"):format(recipeName) or "Can't craft")
+	, name)
 end
 
 local Entity = {}
@@ -1470,11 +1558,12 @@ do
 
 	Entity.entities.nosferatu = {
 		displayName = "Nosferatu",
-		image = {
-			id = "17ebeab46db.png",
-			xAdj = 0,
-			yAdj = -35
-		},
+		look = "22;0,4_201412,0,1_301C18,39_FFB753,87_201412+201412+201412+301C18+41201A+201412,36_301C18+301C18+201412+201412+201412+FFBB27+FFECA5+41201A+FFB753,21_41201A,0",
+		title = 0,
+		female = false,
+		lookLeft = true,
+		lookAtPlayer = false,
+		interactive = true,
 		onAction = function(self, player)
 			local name = player.name
 			local qProgress = player.questProgress.nosferatu
@@ -1534,13 +1623,65 @@ do
 					})
 				end
 			else
-				addDialogueBox(10, translate("NOSFERATU_DIALOGUES", player.language, 12), name, "Nosferatu", nosferatu.normal, {
+				addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 16), name, "Nosferatu", nosferatu.normal, {
 					{ translate("NOSFERATU_QUESTIONS", player.language, 3), print, {} },
-					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 13), name, "Nosferatu", nosferatu.normal }}
+					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 17), name, "Nosferatu", nosferatu.normal }}
 				})
 			end
 		end
 	}
+
+	Entity.entities.edric = {
+		displayName = "Lieutenant Edric",
+		look = "120;135_49382E+A27D35+49382E+53191E,9_53191E,0,0,19_DCA22E+53191E,53_CBBEB1+53191E,0,25,16_231810+A27D35+8D1C23+49382E",
+		title = 0,
+		female = false,
+		lookLeft = true,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			local name = player.name
+			local qProgress = player.questProgress
+			if qProgress.strength_test then
+				if qProgress.strength_test.completed then
+
+				else
+					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 6), name, "Lieutenant Edric", nosferatu.normal, {
+						{ translate("EDRIC_QUESTIONS", player.language, 1), addDialogueBox, { 3, translate("EDRIC_DIALOGUES", player.language, 5), name, "Lieutenant Edric", nosferatu.normal} },
+						{ translate("EDRIC_QUESTIONS", player.language, 2), addDialogueSeries,
+							{ name, 3, {
+								{ text = translate("EDRIC_DIALOGUES", player.language, 7), icon = nosferatu.normal },
+								{ text = translate("EDRIC_DIALOGUES", player.language, 8), icon = nosferatu.normal }
+							}, "Lieutenant Edric", function(id, name, event)
+								dialoguePanel:hide(name)
+								player:displayInventory()
+								if player.questProgress.strength_test and player.questProgress.strength_test.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+								player:updateQuestProgress("strength_test", 1)
+							end }
+						}
+					})
+				end
+			elseif qProgress.nosferatu and qProgress.nosferatu.completed then
+				addDialogueSeries(name, 3, {
+					{ text = translate("EDRIC_DIALOGUES", player.language, 1), icon = nosferatu.shocked },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 2), icon = nosferatu.thinking },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 3), icon = nosferatu.happy },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 4), icon = nosferatu.normal },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 5), icon = nosferatu.normal },
+				}, "Lieutenant Edric", function(id, _name, event)
+					--if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
+					--player:updateQuestProgress("nosferatu", 1)
+					player:addNewQuest("strength_test")
+					dialoguePanel:hide(name)
+					player:displayInventory()
+
+				end)
+			else
+				addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 1), name, "Lieutenant Edric", nosferatu.normal)
+			end
+		end
+	}
+
 
 end
 
@@ -1555,9 +1696,16 @@ function Entity.new(x, y, type, area, name, id)
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
-		local xAdj, yAdj = x + (npc.image.xAdj or 0), y + (npc.image.yAdj or 0)
-		local id = tfm.exec.addImage(npc.image.id, "?999", xAdj, yAdj)
-		ui.addTextArea(id, Entity.entities[name].displayName, nil, xAdj - 10, yAdj, 0, 0, nil, nil, 0, false)
+		tfm.exec.addNPC(npc.displayName, {
+			title = npc.title,
+			look = npc.look,
+			x = x,
+			y = y,
+			female = npc.female,
+			lookLeft = npc.lookLeft,
+			lookAtPlayer = npc.lookAtPlayer,
+			interactive = npc.interactive
+		})
 	else
 		local entity = Entity.entities[type]
 		self.resourceCap = entity.resourceCap
@@ -1687,7 +1835,7 @@ eventPlayerDataLoaded = function(name, data)
 	player.inventory = inventory
 
 	-- stuff
-	player:addInventoryItem(Item.items.basic_axe, 1)
+	--player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
 	player:changeInventorySlot(1)
 
@@ -1738,6 +1886,8 @@ eventKeyboard = function(name, key, down, x, y)
 		local n = tonumber(table.find(keys, key):sub(-1))
 		n = n == 0 and 10 or n
 		player:changeInventorySlot(n)
+	elseif key == keys.KEY_R then
+		openCraftingTable(player)
 	end
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 	if key == keys.DUCK then
@@ -1754,6 +1904,19 @@ eventKeyboard = function(name, key, down, x, y)
 	end
 
 end
+do
+
+	local npcNames = {
+		["Nosferatu"] = "nosferatu",
+		["Lieutenant Edric"] = "edric"
+	}
+
+	eventTalkToNPC = function(name, npc)
+		print(npcNames[npc])
+		Entity.entities[npcNames[npc]]:onAction(Player.players[name])
+	end
+end
+
 eventTextAreaCallback = function(id, name, event)
 	Panel.handleActions(id, name, event)
 end
@@ -1770,7 +1933,21 @@ end
 dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
 	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
 
-craftingPanel = Panel(300, "", 20, 30, 760, 300, nil, nil, 1, true)
+craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30, nil, nil, 1, true)
+	:setCloseButton(300)
+	:addPanel(Panel(301, "", 20, 30, 500, 300, nil, nil, 1, true))
+	:addPanel(
+		Panel(302, "", 530, 30, 200, 300, nil, nil, 1, true)
+			:setActionListener(function(id, name, event)
+				print("came here")
+				p({event, recipes[event]})
+				if not recipes[event] then return print("not a recipe") end
+				local player = Player.players[name]
+				if not player:canCraft(event) then return print("cant craft") end
+				player:craftItem(event)
+			end)
+	)
+
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50
@@ -1921,5 +2098,5 @@ do
 	for name, player in next, tfm.get.room.playerList do
 		eventNewPlayer(name)
 	end
-end	
+end
 

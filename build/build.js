@@ -41,6 +41,7 @@ combine({
 			"src/events/eventNewGame.lua",
       		"src/events/eventPlayerDataLoaded.lua",
 			"src/events/eventKeyboard.lua",
+			"src/events/eventTalkToNPC.lua",
 			"src/events/eventTextAreaCallback.lua"
     	],
   	},
