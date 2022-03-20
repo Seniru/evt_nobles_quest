@@ -1,4 +1,4 @@
-local Entity = {}
+Entity = {}
 
 Entity.__index = Entity
 Entity.__tostring = function(self)
@@ -105,6 +105,18 @@ Entity.entities = {
 			else
 				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
 			end
+		end
+	},
+
+	dropped_item = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player)
+			p(self.name)
+			p(self.id)
+			player:addInventoryItem(self.name, self.id)
+			self:destroy()
 		end
 	}
 }
@@ -262,6 +274,7 @@ function Entity.new(x, y, type, area, name, id)
 	self.area = area
 	self.name = name
 	self.id = id
+	self.isDestroyed = false
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
@@ -280,13 +293,14 @@ function Entity.new(x, y, type, area, name, id)
 		self.resourceCap = entity.resourceCap
 		self.resourcesLeft = entity.resourceCap
 		self.latestActionTimestamp = -1/0
-		local id = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
-		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 0, false)
+		self.imageId = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
+		ui.addTextArea(self.imageId, type, nil, x, y, 0, 0, nil, nil, 0, false)
 	end
 	return self
 end
 
 function Entity:receiveAction(player)
+	if self.isDestroyed then return end
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
 		onAction(self, player)
@@ -298,4 +312,12 @@ function Entity:regen()
 		local regenAmount = math.floor(os.time() - self.latestActionTimestamp) / 2000
 		self.resourcesLeft = math.min(self.resourceCap, self.resourcesLeft + regenAmount)
 	end
+end
+
+function Entity:destroy()
+	-- removing visual hints and marking state as destroyed should be enough
+	-- we can't really remove the object because it is cached inside the Area
+	-- keeping track of the index isn't going to be an easier task within our implementation
+	self.isDestroyed = true
+	ui.removeTextArea(self.imageId)
 end

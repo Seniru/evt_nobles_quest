@@ -16,14 +16,14 @@ Trigger.triggers = {
 
 	monster_spawn = {
 		onactivate = function(self)
-			Monster.new({ health = 20 }, self)
+			Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 		end,
 		ontick = function(self)
 			for _, monster in next, self.area.monsters do
 				if monster then monster:action() end
 			end
 			if math.random(1, 40) % (self.area.monsters == 0 and 5 or 20) == 0 then
-				Monster.new({ health = 20}, self)
+				Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 			end
 		end,
 		ondeactivate = function(self)

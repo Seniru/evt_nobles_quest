@@ -13,6 +13,31 @@ setmetatable(Monster, {
 	end,
 })
 
+Monster.all = {
+	mutant_rat = {}
+}
+
+do
+	local monsters = Monster.all
+
+	monsters.mutant_rat.sprites = {
+		idle = "",
+		primary_attack = "",
+		secondary_attack = "",
+		dead = ""
+	}
+	monsters.mutant_rat.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+
+end
+
+
 function Monster.new(metadata, spawnPoint)
 	local self = setmetatable({}, Monster)
 	local id = #Monster.monsters + 1
@@ -21,7 +46,8 @@ function Monster.new(metadata, spawnPoint)
 	self.x = spawnPoint.x
 	self.y = spawnPoint.y
 	self.area = spawnPoint.area
-	self.health = metadata.health
+	self.species = metadata.species
+	self.health = metadata.health or metadata.species.health
 	self.metadata = metadata
 	self.stance = -1 -- right
 	self.decisionMakeCooldown = os.time()
@@ -71,14 +97,14 @@ function Monster:action()
 		if self.stance == -1 then
 			local normalScore = lScore / math.max(#lDists, 1)
 			if lDists[1] and lDists[1] < 60 then
-				self:attack(lPlayers[lDists[1]], "slash")
+				self:attack(lPlayers[lDists[1]], "primary")
 			elseif rDists[1] and rDists[1] < 60 then
 				self:changeStance(1)
-				self:attack(rPlayers[rDists[1]], "slash")
+				self:attack(rPlayers[rDists[1]], "primary")
 			elseif normalScore > 100 then
 				self:move()
 			elseif normalScore > 10 then
-				self:attack(lPlayers[lDists[math.random(#lDists)]], "bullet")
+				self:attack(lPlayers[lDists[math.random(#lDists)]], "secondary")
 			elseif lScore > rScore then
 				self:move()
 			else
@@ -88,14 +114,14 @@ function Monster:action()
 		else
 			local normalScore = rScore / math.max(#rDists, 1)
 			if rDists[1] and rDists[1] < 60 then
-				self:attack(rPlayers[rDists[1]], "slash")
+				self:attack(rPlayers[rDists[1]], "primary")
 			elseif lDists[1] and lDists[1] < 60 then
 				self:changeStance(1)
-				self:attack(lPlayers[lDists[1]], "slash")
+				self:attack(lPlayers[lDists[1]], "primary")
 			elseif normalScore > 100 then
 				self:move()
 			elseif normalScore > 10 then
-				self:attack(rPlayers[rDists[math.random(#rDists)]], "bullet")
+				self:attack(rPlayers[rDists[math.random(#rDists)]], "secondary")
 			elseif lScore < rScore then
 				self:move()
 			else
@@ -115,9 +141,8 @@ end
 function Monster:attack(player, attackType)
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
-	if attackType == "slash" then
-		playerObj.health = playerObj.health - 2.5
-	end
+	p(self.species.attacks)
+	self.species.attacks[attackType](self, playerObj)
 	if playerObj.health < 0 then
 		playerObj:destroy()
 	end
@@ -138,10 +163,11 @@ function Monster:regen()
 end
 
 function Monster:destroy(destroyedBy)
-	local qProgress = destroyedBy.questProgress
-	if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
-		print("hmmm")
-		destroyedBy:updateQuestProgress("strength_test", 1)
+	if destroyedBy then
+		local qProgress = destroyedBy.questProgress
+		if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
+			destroyedBy:updateQuestProgress("strength_test", 1)
+		end
 	end
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil

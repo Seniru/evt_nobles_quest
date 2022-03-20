@@ -611,7 +611,7 @@ local eventLoaded, mapLoaded, eventEnding = false, false, false
 local mapPlaying = ""
 
 local maps = {
-	mine = [[<C><P L="4800" H="800" MEDATA="3,1;;;;-0;0:::1-"/><Z><S><S T="8" X="1437" Y="712" L="318" H="175" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="208" Y="560" L="374" H="204" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="1281" Y="193" L="216" H="91" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3910" Y="576" L="1751" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="845" Y="690" L="332" H="182" P="0,0,0.3,0.2,-60,0,0,0" c="4" lua="5"/><S T="8" X="284" Y="93" L="532" H="244" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="12" X="155" Y="433" L="300" H="37" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="802" Y="771" L="1600" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="12" Y="402" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1610" Y="420" L="778" H="18" P="0,0,0.3,0.2,90,0,0,0" o="324650"/><S T="12" X="1404" Y="609" L="399" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1615" Y="692" L="44" H="210" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1216" Y="624" L="25" H="67" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="13" X="1327" Y="784" L="53" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="892" Y="650" L="824" H="27" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="433" Y="390" L="295" H="32" P="0,0,0.3,0.2,-20,0,0,0" o="324650"/><S T="12" X="459" Y="548" L="295" H="32" P="0,0,0.3,0.2,-40,0,0,0" o="324650"/><S T="12" X="903" Y="276" L="295" H="32" P="0,0,0.3,0.2,-10,0,0,0" o="324650"/><S T="12" X="416" Y="701" L="802" H="184" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1021" Y="801" L="560" H="184" P="0,0,0.3,0.2,20,0,0,0" o="324650"/><S T="12" X="1382" Y="487" L="450" H="224" P="0,0,0.3,0.2,-30,0,0,0" o="324650"/><S T="12" X="1500" Y="300" L="218" H="594" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="804" Y="-10" L="1622" H="70" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="358" Y="215" L="678" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="708" Y="218" L="49" H="28" P="0,0,0.3,0.2,10,0,0,0" o="324650"/><S T="12" X="1269" Y="374" L="452" H="266" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="270" Y="189" L="538" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1297" Y="239" L="196" H="36" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="456" Y="625" L="220" H="102" P="0,0,0.3,0.2,30,0,0,0" o="324650"/><S T="13" X="835" Y="627" L="59" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="40" Y="394"/></D><O><O X="364" Y="129" C="22" nosync="" P="0" type="tree"/><O X="88" Y="543" C="22" nosync="" P="0" type="tree"/><O X="936" Y="607" C="22" nosync="" P="0" type="tree"/><O X="308" Y="587" C="22" nosync="" P="0" type="tree"/><O X="214" Y="121" C="22" nosync="" P="0" type="tree"/><O X="442" Y="119" C="22" nosync="" P="0" type="rock"/><O X="300" Y="127" C="22" nosync="" P="0" type="tree"/><O X="1460" Y="718" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="1301" Y="204" C="22" nosync="" P="0" type="craft_table"/><O X="131" Y="578" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="201" Y="570" C="22" nosync="" P="0" type="rock"/><O X="253" Y="562" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="79" Y="143" C="14" nosync="" P="0" type="monster_spawn"/><O X="1562" Y="736" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="3367" Y="658" C="22" nosync="" P="0" type="rock"/><O X="3807" Y="758" C="22" nosync="" P="0" type="rock"/><O X="4333" Y="758" C="22" nosync="" P="0" type="rock"/><O X="3965" Y="762" C="22" nosync="" P="0" type="rock"/><O X="3637" Y="702" C="22" nosync="" P="0" type="iron_ore"/><O X="4449" Y="754" C="22" nosync="" P="0" type="rock"/><O X="4561" Y="752" C="22" nosync="" P="0" type="iron_ore"/><O X="4727" Y="558" C="22" nosync="" P="0" type="iron_ore"/><O X="4711" Y="750" C="22" nosync="" P="0" type="rock"/></O><L/></Z></C>]],
+	mine = [[<C><P L="1622" H="852" D="17f32282dfc.png,2,5" APS="17f322853ac.png,,820,535,800,317,-1,0" MEDATA=";;;;1,1-0;0:::1-"/><Z><S><S T="1" X="1628" Y="108" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="1" X="-7" Y="196" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="0" X="5" Y="5" L="11" H="10" P="0,0,0.3,0.2,2880,0,0,0" c="4" nosync="" i="0,0,17f32282dfc.png"/><S T="0" X="30" Y="202" L="61" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="0" X="85" Y="221" L="59" H="10" P="0,0,0.3,0.2,2910,0,0,0" m=""/><S T="0" X="149" Y="319" L="139" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="119" Y="246" L="26" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="209" Y="399" L="102" H="10" P="0,0,0.3,0.2,2918,0,0,0" m=""/><S T="0" X="264" Y="453" L="57" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="298" Y="509" L="79" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="321" Y="562" L="49" H="10" P="0,0,0.3,0.2,2970,0,0,0" m=""/><S T="0" X="524" Y="535" L="230" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="235" Y="658" L="230" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="667" Y="474" L="88" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="778" Y="425" L="163" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="957" Y="398" L="212" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1082" Y="390" L="54" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1130" Y="380" L="69" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1193" Y="346" L="85" H="12" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1237" Y="333" L="67" H="10" P="0,0,0.3,0.2,2800,0,0,0" m=""/><S T="0" X="1314" Y="263" L="161" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="1430" Y="214" L="94" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1532" Y="207" L="113" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1602" Y="210" L="34" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="4" X="357" Y="673" L="10" H="235" P="0,0,20,0.2,2910,0,0,0" m=""/><S T="0" X="900" Y="844" L="1800" H="22" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="894" Y="862" L="136" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1003" Y="811" L="121" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1121" Y="795" L="118" H="10" P="0,0,0.3,0.2,2875,0,0,0" m=""/><S T="0" X="1528" Y="850" L="118" H="10" P="0,0,0.3,0.2,2915,0,0,0" m=""/><S T="0" X="1332" Y="804" L="314" H="10" P="0,0,0.3,0.2,2885,0,0,0" m=""/><S T="0" X="245" Y="810" L="200" H="10" P="0,0,0.3,0.2,2900,0,0,0" m=""/><S T="1" X="150" Y="859" L="10" H="268" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="8" X="1261" Y="670" L="718" H="375" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="148" Y="253" L="302" H="499" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="730" Y="395" L="264" H="151" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3910" Y="576" L="1751" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="1308" Y="275" L="630" H="257" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="8" X="75" Y="799" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="8" X="563" Y="794" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="8"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="947" Y="380"/></D><O><O X="31" Y="152" C="22" nosync="" P="0" type="tree"/><O X="212" Y="345" C="22" nosync="" P="0" type="tree"/><O X="259" Y="398" C="22" nosync="" P="0" type="tree"/><O X="1272" Y="702" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="732" Y="392" C="22" nosync="" P="0" type="craft_table"/><O X="580" Y="776" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="1458" Y="185" C="22" nosync="" P="0" type="rock"/><O X="1549" Y="181" C="22" nosync="" P="0" type="rock"/><O X="1259" Y="281" C="22" nosync="" P="0" type="rock"/><O X="3110" Y="752" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="1535" Y="799" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="3367" Y="658" C="22" nosync="" P="0" type="rock"/><O X="3807" Y="758" C="22" nosync="" P="0" type="rock"/><O X="4333" Y="758" C="22" nosync="" P="0" type="rock"/><O X="3965" Y="762" C="22" nosync="" P="0" type="rock"/><O X="3637" Y="702" C="22" nosync="" P="0" type="iron_ore"/><O X="4449" Y="754" C="22" nosync="" P="0" type="rock"/><O X="4561" Y="752" C="22" nosync="" P="0" type="iron_ore"/><O X="4727" Y="558" C="22" nosync="" P="0" type="iron_ore"/><O X="4711" Y="750" C="22" nosync="" P="0" type="rock"/><O X="1029" Y="375" C="22" nosync="" P="0" type="tree"/><O X="56" Y="805" C="22" nosync="" P="0" type="tree"/></O><L/></Z></C>]],
 	castle = [[<C><P L="1600" H="800" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="395" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1200" Y="593" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="12" X="1190" Y="389" L="815" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1602" Y="574" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="793" Y="574" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1180" Y="729" L="848" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1347" Y="610" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="910" Y="693" C="14" nosync="" P="0" type="monster_spawn"/><O X="1543" Y="692" C="14" nosync="" P="0" type="monster_spawn"/></O><L/></Z></C>]]
 
 }
@@ -632,7 +632,8 @@ local keys = {
 	KEY_7	= 55,
 	KEY_8	= 56,
 	KEY_9	= 57,
-	KEY_R 	= 82
+	KEY_R 	= 82,
+	KEY_X	= 88
 }
 
 local assets = {
@@ -852,6 +853,31 @@ setmetatable(Monster, {
 	end,
 })
 
+Monster.all = {
+	mutant_rat = {}
+}
+
+do
+	local monsters = Monster.all
+
+	monsters.mutant_rat.sprites = {
+		idle = "",
+		primary_attack = "",
+		secondary_attack = "",
+		dead = ""
+	}
+	monsters.mutant_rat.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+
+end
+
+
 function Monster.new(metadata, spawnPoint)
 	local self = setmetatable({}, Monster)
 	local id = #Monster.monsters + 1
@@ -860,7 +886,8 @@ function Monster.new(metadata, spawnPoint)
 	self.x = spawnPoint.x
 	self.y = spawnPoint.y
 	self.area = spawnPoint.area
-	self.health = metadata.health
+	self.species = metadata.species
+	self.health = metadata.health or metadata.species.health
 	self.metadata = metadata
 	self.stance = -1 -- right
 	self.decisionMakeCooldown = os.time()
@@ -910,14 +937,14 @@ function Monster:action()
 		if self.stance == -1 then
 			local normalScore = lScore / math.max(#lDists, 1)
 			if lDists[1] and lDists[1] < 60 then
-				self:attack(lPlayers[lDists[1]], "slash")
+				self:attack(lPlayers[lDists[1]], "primary")
 			elseif rDists[1] and rDists[1] < 60 then
 				self:changeStance(1)
-				self:attack(rPlayers[rDists[1]], "slash")
+				self:attack(rPlayers[rDists[1]], "primary")
 			elseif normalScore > 100 then
 				self:move()
 			elseif normalScore > 10 then
-				self:attack(lPlayers[lDists[math.random(#lDists)]], "bullet")
+				self:attack(lPlayers[lDists[math.random(#lDists)]], "secondary")
 			elseif lScore > rScore then
 				self:move()
 			else
@@ -927,14 +954,14 @@ function Monster:action()
 		else
 			local normalScore = rScore / math.max(#rDists, 1)
 			if rDists[1] and rDists[1] < 60 then
-				self:attack(rPlayers[rDists[1]], "slash")
+				self:attack(rPlayers[rDists[1]], "primary")
 			elseif lDists[1] and lDists[1] < 60 then
 				self:changeStance(1)
-				self:attack(lPlayers[lDists[1]], "slash")
+				self:attack(lPlayers[lDists[1]], "primary")
 			elseif normalScore > 100 then
 				self:move()
 			elseif normalScore > 10 then
-				self:attack(rPlayers[rDists[math.random(#rDists)]], "bullet")
+				self:attack(rPlayers[rDists[math.random(#rDists)]], "secondary")
 			elseif lScore < rScore then
 				self:move()
 			else
@@ -954,9 +981,8 @@ end
 function Monster:attack(player, attackType)
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
-	if attackType == "slash" then
-		playerObj.health = playerObj.health - 2.5
-	end
+	p(self.species.attacks)
+	self.species.attacks[attackType](self, playerObj)
 	if playerObj.health < 0 then
 		playerObj:destroy()
 	end
@@ -977,10 +1003,11 @@ function Monster:regen()
 end
 
 function Monster:destroy(destroyedBy)
-	local qProgress = destroyedBy.questProgress
-	if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
-		print("hmmm")
-		destroyedBy:updateQuestProgress("strength_test", 1)
+	if destroyedBy then
+		local qProgress = destroyedBy.questProgress
+		if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
+			destroyedBy:updateQuestProgress("strength_test", 1)
+		end
 	end
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
@@ -1007,14 +1034,14 @@ Trigger.triggers = {
 
 	monster_spawn = {
 		onactivate = function(self)
-			Monster.new({ health = 20 }, self)
+			Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 		end,
 		ontick = function(self)
 			for _, monster in next, self.area.monsters do
 				if monster then monster:action() end
 			end
 			if math.random(1, 40) % (self.area.monsters == 0 and 5 or 20) == 0 then
-				Monster.new({ health = 20}, self)
+				Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 			end
 		end,
 		ondeactivate = function(self)
@@ -1170,6 +1197,7 @@ function Player.new(name)
 	self.area = nil
 	self.equipped = nil
 	self.inventorySelection = 1
+	self.stance = -1 -- right
 	self.health = 50
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
@@ -1330,6 +1358,27 @@ function Player:craftItem(recipe)
 	self:addInventoryItem(Item.items[recipe], 1)
 end
 
+function Player:dropItem()
+	local invSelection = self.inventorySelection
+	if #self.inventory[invSelection] == 0 then return end
+	local droppedItem = self.inventory[invSelection]
+	self.inventory[invSelection] = {}
+	self:changeInventorySlot(invSelection)
+	self:displayInventory()
+	local pData = tfm.get.room.playerList[self.name]
+	p(self.stance * 2)
+	local dropId = tfm.exec.addShamanObject(tfm.enum.shamanObject.littleBox, pData.x, pData.y, 45, -2 * self.stance, -2, true)
+	Timer.new("drop_item" .. dropId, function()
+		local obj = tfm.get.room.objectList[dropId]
+		local x, y = obj.x, obj.y
+		tfm.exec.removeObject(dropId)
+		local area = Area.getAreaByCoords(x, y)
+		if not area then return end
+		Entity.new(x, y, "dropped_item", area, droppedItem[1], droppedItem[2])
+	end, 1000, false)
+	-- TODO: drop the item actually
+end
+
 function Player:attack(monster)
 	if self.equipped == nil then
 		monster:regen()
@@ -1432,7 +1481,7 @@ displayRecipeInfo = function(_id, name, recipeName)
 	, name)
 end
 
-local Entity = {}
+Entity = {}
 
 Entity.__index = Entity
 Entity.__tostring = function(self)
@@ -1539,6 +1588,18 @@ Entity.entities = {
 			else
 				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
 			end
+		end
+	},
+
+	dropped_item = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player)
+			p(self.name)
+			p(self.id)
+			player:addInventoryItem(self.name, self.id)
+			self:destroy()
 		end
 	}
 }
@@ -1696,6 +1757,7 @@ function Entity.new(x, y, type, area, name, id)
 	self.area = area
 	self.name = name
 	self.id = id
+	self.isDestroyed = false
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
@@ -1714,13 +1776,14 @@ function Entity.new(x, y, type, area, name, id)
 		self.resourceCap = entity.resourceCap
 		self.resourcesLeft = entity.resourceCap
 		self.latestActionTimestamp = -1/0
-		local id = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
-		ui.addTextArea(id, type, nil, x, y, 0, 0, nil, nil, 0, false)
+		self.imageId = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
+		ui.addTextArea(self.imageId, type, nil, x, y, 0, 0, nil, nil, 0, false)
 	end
 	return self
 end
 
 function Entity:receiveAction(player)
+	if self.isDestroyed then return end
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
 		onAction(self, player)
@@ -1732,6 +1795,14 @@ function Entity:regen()
 		local regenAmount = math.floor(os.time() - self.latestActionTimestamp) / 2000
 		self.resourcesLeft = math.min(self.resourceCap, self.resourcesLeft + regenAmount)
 	end
+end
+
+function Entity:destroy()
+	-- removing visual hints and marking state as destroyed should be enough
+	-- we can't really remove the object because it is cached inside the Area
+	-- keeping track of the index isn't going to be an easier task within our implementation
+	self.isDestroyed = true
+	ui.removeTextArea(self.imageId)
 end
 
 
@@ -1885,14 +1956,23 @@ end
 
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
+
 	if player.alive and key >= keys.KEY_0 and keys.KEY_9 >= key then
 		local n = tonumber(table.find(keys, key):sub(-1))
 		n = n == 0 and 10 or n
 		player:changeInventorySlot(n)
+	elseif key == keys.LEFT then
+		player.stance = 1
+	elseif key == keys.RIGHT then
+		player.stance = -1
 	elseif key == keys.KEY_R then
 		openCraftingTable(player)
+	elseif key == keys.KEY_X then
+		player:dropItem()
 	end
+
 	if (not player.alive) or (not player:setArea(x, y)) then return end
+
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
 		local monster = area:getClosestMonsterTo(x, y)

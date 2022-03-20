@@ -25,6 +25,7 @@ function Player.new(name)
 	self.area = nil
 	self.equipped = nil
 	self.inventorySelection = 1
+	self.stance = -1 -- right
 	self.health = 50
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
@@ -183,6 +184,27 @@ function Player:craftItem(recipe)
 		self.inventory[idx][2] = amount - neededItem[2]
 	end
 	self:addInventoryItem(Item.items[recipe], 1)
+end
+
+function Player:dropItem()
+	local invSelection = self.inventorySelection
+	if #self.inventory[invSelection] == 0 then return end
+	local droppedItem = self.inventory[invSelection]
+	self.inventory[invSelection] = {}
+	self:changeInventorySlot(invSelection)
+	self:displayInventory()
+	local pData = tfm.get.room.playerList[self.name]
+	p(self.stance * 2)
+	local dropId = tfm.exec.addShamanObject(tfm.enum.shamanObject.littleBox, pData.x, pData.y, 45, -2 * self.stance, -2, true)
+	Timer.new("drop_item" .. dropId, function()
+		local obj = tfm.get.room.objectList[dropId]
+		local x, y = obj.x, obj.y
+		tfm.exec.removeObject(dropId)
+		local area = Area.getAreaByCoords(x, y)
+		if not area then return end
+		Entity.new(x, y, "dropped_item", area, droppedItem[1], droppedItem[2])
+	end, 1000, false)
+	-- TODO: drop the item actually
 end
 
 function Player:attack(monster)
