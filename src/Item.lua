@@ -72,7 +72,7 @@ Item("wood", Item.types.RESOURCE, true, nil, {
 })
 
 -- Special items
-Item("basic_axe", Item.types.AXE, false, nil, {
+Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", {
 	en = "Basic axe"
 }, {
 	en = "Just a basic axe"

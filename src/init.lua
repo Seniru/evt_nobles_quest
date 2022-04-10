@@ -1,5 +1,7 @@
 local IS_TEST = true
 
+tfm.exec.disableAfkDeath()
+
 math.randomseed(os.time())
 -- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
 local eventLoaded, mapLoaded, eventEnding = false, false, false

@@ -605,6 +605,8 @@ local quests = {
 
 local IS_TEST = true
 
+tfm.exec.disableAfkDeath()
+
 math.randomseed(os.time())
 -- NOTE: Sometimes the script is loaded twice in the same round (detect it when eventNewGame is called twice). You must use system.exit() is this case, because it doesn't load the player data correctly, and the textareas (are duplicated) doesn't trigger eventTextAreaCallback.
 local eventLoaded, mapLoaded, eventEnding = false, false, false
@@ -862,10 +864,36 @@ do
 	local monsters = Monster.all
 
 	monsters.mutant_rat.sprites = {
-		idle = "",
-		primary_attack = "",
-		secondary_attack = "",
-		dead = ""
+		idle_left = {
+			id = "18012c3631a.png",
+			xAdj = -30,
+			yAdj = -30,
+			scale = 1
+		},
+		idle_right = {
+			id = "18012d4d75e.png",
+			xAdj = -30,
+			yAdj = -30,
+			scale = 1
+		},
+		primary_attack = {
+			id = "18012a96ae8.png",
+			xAdj = 0,
+			yAdj = 0,
+			scale = 0.4
+		},
+		secondary_attack = {
+			id = "18012a95393.png",
+			xAdj = 0,
+			yAdj = 0,
+			scale = 0.4
+		},
+		dead = {
+			id = "18012ab9db8.png",
+			xAdj = 0,
+			yAdj = 0,
+			scale = 0.4
+		}
 	}
 	monsters.mutant_rat.attacks = {
 		primary = function(self, target)
@@ -896,6 +924,8 @@ function Monster.new(metadata, spawnPoint)
 	self.latestActionReceived = os.time()
 	self.lastAction = "move"
 	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+	local imageData = self.species.sprites.idle_left
+	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
 	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
 	Monster.monsters[id] = self
 	self.area.monsters[id] = self
@@ -977,6 +1007,9 @@ end
 
 function Monster:changeStance(stance)
 	self.stance = stance
+	tfm.exec.removeImage(self.imageId)
+	local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
+	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
 end
 
 function Monster:attack(player, attackType)
@@ -1041,7 +1074,8 @@ Trigger.triggers = {
 			for _, monster in next, self.area.monsters do
 				if monster then monster:action() end
 			end
-			if math.random(1, 40) % (self.area.monsters == 0 and 5 or 20) == 0 then
+			print(#self.area.monsters)
+			if (math.random(1, 40) % (#self.area.monsters == 0 and 5 or 20)) == 0 then
 				Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 			end
 		end,
@@ -1155,7 +1189,7 @@ Item("wood", Item.types.RESOURCE, true, nil, {
 })
 
 -- Special items
-Item("basic_axe", Item.types.AXE, false, nil, {
+Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", {
 	en = "Basic axe"
 }, {
 	en = "Just a basic axe"
@@ -1276,12 +1310,10 @@ function Player:displayInventory()
 	local invSelection = self.inventorySelection
 	inventoryPanel:show(self.name)
 	for i, item in next, self.inventory do
-		p({"len", i, #item})
 		if #item > 0 then
 			Panel.panels[100 + i]:addImageTemp(Image(item[1].image, "~1", Panel.panels[100 + i].x, 350), self.name)
 		end
 		if i == invSelection then
-			p(item[i])
 			Panel.panels[120 + i]:update("<b><font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font></b>", self.name)
 		else
 			Panel.panels[120 + i]:update("<font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font>", self.name)
@@ -1918,7 +1950,7 @@ eventPlayerDataLoaded = function(name, data)
 	player.inventory = inventory
 
 	-- stuff
-	--player:addInventoryItem(Item.items.basic_axe, 1)
+	player:addInventoryItem(Item.items.basic_axe, 1)
 	player:displayInventory()
 	player:changeInventorySlot(1)
 
@@ -2022,7 +2054,7 @@ do
 	for i = 0, 9 do
 		local x = 76 + (i >= 5 and 50 or 0) + 62 * i
 		inventoryPanel:addPanel(Panel(101 + i, "", x, 350, 40, 40, nil, nil, 0, true))
-		inventoryPanel:addPanel(Panel(121 + i, "", x + 30, 340, 0, 0, nil, nil, 0, true))
+		inventoryPanel:addPanel(Panel(121 + i, "", x + 25, 340, 0, 0, nil, nil, 0, true))
 	end
 end
 
@@ -2100,8 +2132,8 @@ displayDamage = function(target)
 		fg = tfm.exec.addImage(assets.damageFg, "?999", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
 	elseif target.__type == "monster" then
 		local obj = tfm.get.room.objectList[target.objId]
-		bg = tfm.exec.addImage(assets.damageBg, "?999", obj.x, obj.y - 30)
-		fg = tfm.exec.addImage(assets.damageFg, "?999" .. target.objId, obj.x + 1, obj.y + 1 - 30, nil, target.health / target.metadata.health)
+		bg = tfm.exec.addImage(assets.damageBg, "=" .. target.objId, 0, -30)
+		fg = tfm.exec.addImage(assets.damageFg, "=" .. target.objId, 1, 1 - 30, nil, target.health / target.metadata.health)
 	elseif target.__type == "player" then
 		bg = tfm.exec.addImage(assets.damageBg, "$" .. target.name, 0, -30)
 		fg = tfm.exec.addImage(assets.damageFg, "$" .. target.name, 1, -30 + 1, nil, target.health / 50)
