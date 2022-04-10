@@ -102,16 +102,21 @@ function Player:displayInventory()
 	local invSelection = self.inventorySelection
 	inventoryPanel:show(self.name)
 	for i, item in next, self.inventory do
+		if #item > 0 then
+			Panel.panels[100 + i]:addImageTemp(Image(item[1].image, "~1", Panel.panels[100 + i].x, 350), self.name)
+		end
 		if i == invSelection then
-			Panel.panels[100 + i]:update("<b>" .. prettify({item[1] and item[1].id, item[2]}, 1, {}).res .. "</b>", self.name)
+			Panel.panels[120 + i]:update("<b><font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font></b>", self.name)
 		else
-			Panel.panels[100 + i]:update(prettify({item[1] and item[1].id, item[2]}, 1, {}).res, self.name)
+			Panel.panels[120 + i]:update("<font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font>", self.name)
 		end
 	end
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	local item = self.equipped
+	-- we only need to calculate the regen when it receives another action
+	-- so we can save resources used to calculate the regen over each intervals
 	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
 		tfm.exec.chatMessage("cant use")

@@ -639,7 +639,8 @@ local keys = {
 local assets = {
 	ui = {
 		reply = "171d2f983ba.png",
-		btnNext = "17eaa38a3f8.png"
+		btnNext = "17eaa38a3f8.png",
+		inventory = "17ff9b6b11f.png"
 	},
 	damageFg = "17f2a88995c.png",
 	damageBg = "17f2a890350.png"
@@ -1102,12 +1103,13 @@ Item.types = {
 }
 
 
-function Item.new(id, type, stackable, locales, description_locales, attrs)
+function Item.new(id, type, stackable, image, locales, description_locales, attrs)
 	local self = setmetatable({}, Item)
 	self.id = id
 	self.nid = #Item.items._all + 1
 	self.type = type
 	self.stackable = stackable
+	self.image = image or "17ff9c560ce.png"
 	self.locales = locales
 	self.description_locales = description_locales or {}
 
@@ -1136,24 +1138,24 @@ function Item:getItem()
 end
 
 -- Setting up the items
-Item("stick", Item.types.RESOURCE, true, {
+Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", {
 	en = "Stick"
 })
 
-Item("stone", Item.types.RESOURCE, true, {
+Item("stone", Item.types.RESOURCE, true, nil, {
 	en = "Stone"
 })
 
-Item("iron_ore", Item.types.RESOURCE, true, {
+Item("iron_ore", Item.types.RESOURCE, true, nil, {
 	en = "Iron ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, {
+Item("wood", Item.types.RESOURCE, true, nil, {
 	en = "Wood"
 })
 
 -- Special items
-Item("basic_axe", Item.types.AXE, false, {
+Item("basic_axe", Item.types.AXE, false, nil, {
 	en = "Basic axe"
 }, {
 	en = "Just a basic axe"
@@ -1162,7 +1164,7 @@ Item("basic_axe", Item.types.AXE, false, {
 	chopping = 1
 })
 
-Item("basic_shovel", Item.types.SHOVEL, false, {
+Item("basic_shovel", Item.types.SHOVEL, nil, false, {
 	en = "Basic shovel"
 }, {
 	en = "Evolution started here"
@@ -1274,16 +1276,23 @@ function Player:displayInventory()
 	local invSelection = self.inventorySelection
 	inventoryPanel:show(self.name)
 	for i, item in next, self.inventory do
+		p({"len", i, #item})
+		if #item > 0 then
+			Panel.panels[100 + i]:addImageTemp(Image(item[1].image, "~1", Panel.panels[100 + i].x, 350), self.name)
+		end
 		if i == invSelection then
-			Panel.panels[100 + i]:update("<b>" .. prettify({item[1] and item[1].id, item[2]}, 1, {}).res .. "</b>", self.name)
+			p(item[i])
+			Panel.panels[120 + i]:update("<b><font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font></b>", self.name)
 		else
-			Panel.panels[100 + i]:update(prettify({item[1] and item[1].id, item[2]}, 1, {}).res, self.name)
+			Panel.panels[120 + i]:update("<font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font>", self.name)
 		end
 	end
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	local item = self.equipped
+	-- we only need to calculate the regen when it receives another action
+	-- so we can save resources used to calculate the regen over each intervals
 	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
 		tfm.exec.chatMessage("cant use")
@@ -2006,10 +2015,14 @@ end
 
 --==[[ main ]]==--
 
-inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
+inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 0, true)
+	:addImage(Image(assets.ui.inventory, "~1", 20, 320))
+
 do
 	for i = 0, 9 do
-		inventoryPanel:addPanel(Panel(101 + i, "", 30 + 74 * i, 350, 50, 50, nil, nil, 1, true))
+		local x = 76 + (i >= 5 and 50 or 0) + 62 * i
+		inventoryPanel:addPanel(Panel(101 + i, "", x, 350, 40, 40, nil, nil, 0, true))
+		inventoryPanel:addPanel(Panel(121 + i, "", x + 30, 340, 0, 0, nil, nil, 0, true))
 	end
 end
 

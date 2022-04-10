@@ -34,7 +34,8 @@ local keys = {
 local assets = {
 	ui = {
 		reply = "171d2f983ba.png",
-		btnNext = "17eaa38a3f8.png"
+		btnNext = "17eaa38a3f8.png",
+		inventory = "17ff9b6b11f.png"
 	},
 	damageFg = "17f2a88995c.png",
 	damageBg = "17f2a890350.png"

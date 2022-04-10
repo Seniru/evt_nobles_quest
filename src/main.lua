@@ -1,7 +1,11 @@
-inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 1, true)
+inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 0, true)
+	:addImage(Image(assets.ui.inventory, "~1", 20, 320))
+
 do
 	for i = 0, 9 do
-		inventoryPanel:addPanel(Panel(101 + i, "", 30 + 74 * i, 350, 50, 50, nil, nil, 1, true))
+		local x = 76 + (i >= 5 and 50 or 0) + 62 * i
+		inventoryPanel:addPanel(Panel(101 + i, "", x, 350, 40, 40, nil, nil, 0, true))
+		inventoryPanel:addPanel(Panel(121 + i, "", x + 25, 340, 0, 0, nil, nil, 0, true))
 	end
 end
 
