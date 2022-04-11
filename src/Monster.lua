@@ -25,49 +25,41 @@ do
 			id = "18012c3631a.png",
 			xAdj = -30,
 			yAdj = -30,
-			scale = 1
 		},
 		idle_right = {
 			id = "18012d4d75e.png",
 			xAdj = -30,
 			yAdj = -30,
-			scale = 1
 		},
 		primary_attack_left = {
-			id = "18012a96ae8.png",
+			id = "180192208f0.png",
 			xAdj = -30,
-			yAdj = -30,
-			scale = 0.4
+			yAdj = -35,
 		},
 		primary_attack_right = {
-			id = "18012a96ae8.png",
-			xAdj = -30,
-			yAdj = -30,
-			scale = 0.4
+			id = "18019222e6a.png",
+			xAdj = -45,
+			yAdj = -35
 		},
 		secondary_attack_left = {
-			id = "18012a95393.png",
-			xAdj = 0,
-			yAdj = -30,
-			scale = 0.4
+			id = "180192b8289.png",
+			xAdj = -30,
+			yAdj = -35
 		},
 		secondary_attack_right = {
-			id = "18012a95393.png",
-			xAdj = 0,
-			yAdj = 0,
-			scale = 0.4
+			id = "180192ba692.png",
+			xAdj = -45,
+			yAdj = -35
 		},
 		dead_left = {
-			id = "18012ab9db8.png",
-			xAdj = 0,
-			yAdj = 0,
-			scale = 0.4
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
 		},
 		dead_right = {
-			id = "18012ab9db8.png",
-			xAdj = 0,
-			yAdj = 0,
-			scale = 0.4
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
 		}
 	}
 	monsters.mutant_rat.attacks = {
@@ -93,14 +85,14 @@ function Monster.new(metadata, spawnPoint)
 	self.species = metadata.species
 	self.health = metadata.health or metadata.species.health
 	self.metadata = metadata
-	self.stance = -1 -- right
+	self.stance = -1 -- left
 	self.decisionMakeCooldown = os.time()
 	self.latestActionCooldown = os.time()
 	self.latestActionReceived = os.time()
 	self.lastAction = "move"
 	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
 	local imageData = self.species.sprites.idle_left
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
+	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
 	Monster.monsters[id] = self
 	self.area.monsters[id] = self
@@ -114,6 +106,7 @@ function Monster:action()
 	-- monsters are not fast enough to calculate new actions, in other words dumb
 	-- if somebody couldn't get past these monsters, I call them noob
 	if self.decisionMakeCooldown > os.time() then
+		self:changeStance(self.stance)
 		if self.lastAction == "move" then
 			-- keep moving to the same direction till the monster realized he did a bad move
 			tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
@@ -140,11 +133,12 @@ function Monster:action()
 		table.sort(lDists)
 		table.sort(rDists)
 
-		if self.stance == -1 then
+		if self.stance == -1 then -- left side
 			local normalScore = lScore / math.max(#lDists, 1)
 			if lDists[1] and lDists[1] < 60 then
 				self:attack(lPlayers[lDists[1]], "primary")
 			elseif rDists[1] and rDists[1] < 60 then
+				-- if there are players to right, turn right and attack
 				self:changeStance(1)
 				self:attack(rPlayers[rDists[1]], "primary")
 			elseif normalScore > 100 then
@@ -154,15 +148,17 @@ function Monster:action()
 			elseif lScore > rScore then
 				self:move()
 			else
+				-- turn to right side and move
 				self:changeStance(1)
 				self:move()
 			end
-		else
+		else --right side
 			local normalScore = rScore / math.max(#rDists, 1)
 			if rDists[1] and rDists[1] < 60 then
 				self:attack(rPlayers[rDists[1]], "primary")
 			elseif lDists[1] and lDists[1] < 60 then
-				self:changeStance(1)
+				-- if there are players to left, turn left and attack
+				self:changeStance(-1)
 				self:attack(lPlayers[lDists[1]], "primary")
 			elseif normalScore > 100 then
 				self:move()
@@ -171,6 +167,7 @@ function Monster:action()
 			elseif lScore < rScore then
 				self:move()
 			else
+				-- turn left and move
 				self:changeStance(-1)
 				self:move()
 			end
@@ -184,17 +181,16 @@ function Monster:changeStance(stance)
 	self.stance = stance
 	tfm.exec.removeImage(self.imageId)
 	local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
+	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 end
 
 function Monster:attack(player, attackType)
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
-	p(self.species.attacks)
 	self.species.attacks[attackType](self, playerObj)
 	tfm.exec.removeImage(self.imageId)
-	local imageData = self.species.sprites[attackType .. "_attack_" .. (stance == -1 and "left" or "right")]
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
+	local imageData = self.species.sprites[attackType .. "_attack_" .. (self.stance == -1 and "left" or "right")]
+	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	if playerObj.health < 0 then
 		playerObj:destroy()
 	end
@@ -205,8 +201,8 @@ function Monster:move()
 	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
 	if self.lastAction ~= "move" then
 		tfm.exec.removeImage(self.imageId)
-		local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
-		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
+		local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	end
 	self.lastAction = "move"
 end

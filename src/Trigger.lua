@@ -22,9 +22,8 @@ Trigger.triggers = {
 			for _, monster in next, self.area.monsters do
 				if monster then monster:action() end
 			end
-			print(#self.area.monsters)
-			if (math.random(1, 40) % (#self.area.monsters == 0 and 5 or 20)) == 0 then
-				Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
+			if (math.random(1, 1000) > (#self.area.monsters == 0 and 200 or 990)) then
+				--Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 			end
 		end,
 		ondeactivate = function(self)
