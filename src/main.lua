@@ -23,7 +23,8 @@ craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30
 				if not recipes[event] then return print("not a recipe") end
 				local player = Player.players[name]
 				if not player:canCraft(event) then return print("cant craft") end
-				player:craftItem(event)
+				local success, err = pcall(player.craftItem, player, event)
+				p({success, err})
 			end)
 	)
 

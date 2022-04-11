@@ -35,20 +35,20 @@ do
 		},
 		primary_attack_left = {
 			id = "18012a96ae8.png",
-			xAdj = 0,
-			yAdj = 0,
+			xAdj = -30,
+			yAdj = -30,
 			scale = 0.4
 		},
 		primary_attack_right = {
 			id = "18012a96ae8.png",
-			xAdj = 0,
-			yAdj = 0,
+			xAdj = -30,
+			yAdj = -30,
 			scale = 0.4
 		},
 		secondary_attack_left = {
 			id = "18012a95393.png",
 			xAdj = 0,
-			yAdj = 0,
+			yAdj = -30,
 			scale = 0.4
 		},
 		secondary_attack_right = {
@@ -193,7 +193,7 @@ function Monster:attack(player, attackType)
 	p(self.species.attacks)
 	self.species.attacks[attackType](self, playerObj)
 	tfm.exec.removeImage(self.imageId)
-	local imageData = self.species.sprites[attackType .. "_attack_" .. stance == -1 and "left" or "right"]
+	local imageData = self.species.sprites[attackType .. "_attack_" .. (stance == -1 and "left" or "right")]
 	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
 	if playerObj.health < 0 then
 		playerObj:destroy()

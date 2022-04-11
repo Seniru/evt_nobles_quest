@@ -303,7 +303,8 @@ function Entity:receiveAction(player)
 	if self.isDestroyed then return end
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
-		onAction(self, player)
+		local success, error = pcall(onAction, self, player)
+		p({success, error})
 	end
 end
 

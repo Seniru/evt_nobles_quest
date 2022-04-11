@@ -29,6 +29,7 @@ function Player.new(name)
 	self.health = 50
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	self.carriageWeight = 0
 	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
@@ -60,6 +61,8 @@ function Player:getInventoryItem(item)
 end
 
 function Player:addInventoryItem(newItem, quantity)
+	local newWeight = self.carriageWeight + newItem.weight * quantity
+	if newWeight > 20 then error("Full inventory") end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
@@ -82,6 +85,7 @@ function Player:addInventoryItem(newItem, quantity)
 			return self:displayInventory()
 		end
 	end
+	error("Full inventory", 2)
 end
 
 -- use some kind of class based thing to add items

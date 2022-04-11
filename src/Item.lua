@@ -20,13 +20,14 @@ Item.types = {
 }
 
 
-function Item.new(id, type, stackable, image, locales, description_locales, attrs)
+function Item.new(id, type, stackable, image, weight, locales, description_locales, attrs)
 	local self = setmetatable({}, Item)
 	self.id = id
 	self.nid = #Item.items._all + 1
 	self.type = type
 	self.stackable = stackable
 	self.image = image or "17ff9c560ce.png"
+	self.weight = weight
 	self.locales = locales
 	self.description_locales = description_locales or {}
 
@@ -55,24 +56,24 @@ function Item:getItem()
 end
 
 -- Setting up the items
-Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", {
+Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	en = "Stick"
 })
 
-Item("stone", Item.types.RESOURCE, true, nil, {
+Item("stone", Item.types.RESOURCE, true, nil, 0.01, {
 	en = "Stone"
 })
 
-Item("iron_ore", Item.types.RESOURCE, true, nil, {
+Item("iron_ore", Item.types.RESOURCE, true, nil, 0.04, {
 	en = "Iron ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, nil, {
+Item("wood", Item.types.RESOURCE, true, nil, 0.8, {
 	en = "Wood"
 })
 
 -- Special items
-Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", {
+Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
 	en = "Basic axe"
 }, {
 	en = "Just a basic axe"
@@ -81,7 +82,7 @@ Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", {
 	chopping = 1
 })
 
-Item("basic_shovel", Item.types.SHOVEL, nil, false, {
+Item("basic_shovel", Item.types.SHOVEL, false, nil, 1, {
 	en = "Basic shovel"
 }, {
 	en = "Evolution started here"

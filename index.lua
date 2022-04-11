@@ -876,19 +876,37 @@ do
 			yAdj = -30,
 			scale = 1
 		},
-		primary_attack = {
+		primary_attack_left = {
 			id = "18012a96ae8.png",
-			xAdj = 0,
-			yAdj = 0,
+			xAdj = -30,
+			yAdj = -30,
 			scale = 0.4
 		},
-		secondary_attack = {
+		primary_attack_right = {
+			id = "18012a96ae8.png",
+			xAdj = -30,
+			yAdj = -30,
+			scale = 0.4
+		},
+		secondary_attack_left = {
+			id = "18012a95393.png",
+			xAdj = 0,
+			yAdj = -30,
+			scale = 0.4
+		},
+		secondary_attack_right = {
 			id = "18012a95393.png",
 			xAdj = 0,
 			yAdj = 0,
 			scale = 0.4
 		},
-		dead = {
+		dead_left = {
+			id = "18012ab9db8.png",
+			xAdj = 0,
+			yAdj = 0,
+			scale = 0.4
+		},
+		dead_right = {
 			id = "18012ab9db8.png",
 			xAdj = 0,
 			yAdj = 0,
@@ -1017,6 +1035,9 @@ function Monster:attack(player, attackType)
 	self.lastAction = "attack"
 	p(self.species.attacks)
 	self.species.attacks[attackType](self, playerObj)
+	tfm.exec.removeImage(self.imageId)
+	local imageData = self.species.sprites[attackType .. "_attack_" .. (stance == -1 and "left" or "right")]
+	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
 	if playerObj.health < 0 then
 		playerObj:destroy()
 	end
@@ -1025,6 +1046,11 @@ end
 
 function Monster:move()
 	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+	if self.lastAction ~= "move" then
+		tfm.exec.removeImage(self.imageId)
+		local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil, imageData.scale, imageData.scale)
+	end
 	self.lastAction = "move"
 end
 
@@ -1137,13 +1163,14 @@ Item.types = {
 }
 
 
-function Item.new(id, type, stackable, image, locales, description_locales, attrs)
+function Item.new(id, type, stackable, image, weight, locales, description_locales, attrs)
 	local self = setmetatable({}, Item)
 	self.id = id
 	self.nid = #Item.items._all + 1
 	self.type = type
 	self.stackable = stackable
 	self.image = image or "17ff9c560ce.png"
+	self.weight = weight
 	self.locales = locales
 	self.description_locales = description_locales or {}
 
@@ -1172,24 +1199,24 @@ function Item:getItem()
 end
 
 -- Setting up the items
-Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", {
+Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	en = "Stick"
 })
 
-Item("stone", Item.types.RESOURCE, true, nil, {
+Item("stone", Item.types.RESOURCE, true, nil, 0.01, {
 	en = "Stone"
 })
 
-Item("iron_ore", Item.types.RESOURCE, true, nil, {
+Item("iron_ore", Item.types.RESOURCE, true, nil, 0.04, {
 	en = "Iron ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, nil, {
+Item("wood", Item.types.RESOURCE, true, nil, 0.8, {
 	en = "Wood"
 })
 
 -- Special items
-Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", {
+Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
 	en = "Basic axe"
 }, {
 	en = "Just a basic axe"
@@ -1198,7 +1225,7 @@ Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", {
 	chopping = 1
 })
 
-Item("basic_shovel", Item.types.SHOVEL, nil, false, {
+Item("basic_shovel", Item.types.SHOVEL, false, nil, 1, {
 	en = "Basic shovel"
 }, {
 	en = "Evolution started here"
@@ -1237,6 +1264,7 @@ function Player.new(name)
 	self.health = 50
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
+	self.carriageWeight = 0
 	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
@@ -1268,6 +1296,8 @@ function Player:getInventoryItem(item)
 end
 
 function Player:addInventoryItem(newItem, quantity)
+	local newWeight = self.carriageWeight + newItem.weight * quantity
+	if newWeight > 20 then error("Full inventory") end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos then
@@ -1290,6 +1320,7 @@ function Player:addInventoryItem(newItem, quantity)
 			return self:displayInventory()
 		end
 	end
+	error("Full inventory", 2)
 end
 
 -- use some kind of class based thing to add items
@@ -1827,7 +1858,8 @@ function Entity:receiveAction(player)
 	if self.isDestroyed then return end
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
-		onAction(self, player)
+		local success, error = pcall(onAction, self, player)
+		p({success, error})
 	end
 end
 
@@ -1946,11 +1978,13 @@ eventPlayerDataLoaded = function(name, data)
 			item.durability = itemData[4]
 			inventory[i] = { item, 1 }
 		end
+		player.carriageWeight = player.carriageWeight + inventory[i][1].weight * inventory[i][2]
 	end
 	player.inventory = inventory
 
 	-- stuff
 	player:addInventoryItem(Item.items.basic_axe, 1)
+	player:addInventoryItem(Item.items.stone, 10)
 	player:displayInventory()
 	player:changeInventorySlot(1)
 
@@ -2072,7 +2106,8 @@ craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30
 				if not recipes[event] then return print("not a recipe") end
 				local player = Player.players[name]
 				if not player:canCraft(event) then return print("cant craft") end
-				player:craftItem(event)
+				local success, err = pcall(player.craftItem, player, event)
+				p({success, err})
 			end)
 	)
 

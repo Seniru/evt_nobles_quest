@@ -32,11 +32,13 @@ eventPlayerDataLoaded = function(name, data)
 			item.durability = itemData[4]
 			inventory[i] = { item, 1 }
 		end
+		player.carriageWeight = player.carriageWeight + inventory[i][1].weight * inventory[i][2]
 	end
 	player.inventory = inventory
 
 	-- stuff
 	player:addInventoryItem(Item.items.basic_axe, 1)
+	player:addInventoryItem(Item.items.stone, 10)
 	player:displayInventory()
 	player:changeInventorySlot(1)
 
