@@ -24,7 +24,8 @@ Entity.entities = {
 			yAdj = 0
 		},
 		resourceCap = 100,
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			if player.equipped == nil then
 				self:regen()
 				if self.resourcesLeft <= 0 then
@@ -49,7 +50,8 @@ Entity.entities = {
 			yAdj = 0
 		},
 		resourceCap = 100,
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
 			player:addInventoryItem(Item.items.stone,
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
@@ -64,7 +66,8 @@ Entity.entities = {
 			yAdj = 0
 		},
 		resourceCap = 60,
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
 			player:addInventoryItem(Item.items.iron_ore,
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
@@ -78,8 +81,8 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
-			openCraftingTable(player)
+		onAction = function(self, player, down)
+			if down then openCraftingTable(player) end
 		end
 	},
 
@@ -87,8 +90,8 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
-			player:learnRecipe(self.name)
+		onAction = function(self, player, down)
+			if down then player:learnRecipe(self.name) end
 		end
 	},
 
@@ -96,7 +99,8 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
 			if not tpInfo.canEnter(player, tp2) then return end
@@ -112,13 +116,56 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			p(self.name)
 			p(self.id)
 			player:addInventoryItem(self.name, self.id)
 			self:destroy()
 		end
+	},
+
+	bridge = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player, down)
+			self.building = self.building or false
+			self.buildProgress = self.buildProgress or 0
+			self.bridges = self.bridges or {}
+			-- TODO: block building if someone is building already
+			--if player.equipped.id ~= "bridge" then return end
+			if down then
+				self.building = true
+				Timer.new("bridge_" .. player.name, function()
+					self.buildProgress = self.buildProgress + 1
+					displayDamage(self) -- it's progress here
+					-- TODO: Change to 20
+					if self.buildProgress > 2 then -- 0 then
+						Timer._timers["bridge_" .. player.name]:kill()
+						self.building = false
+						local bridgeCount = #self.bridges + 1
+						self.buildProgress = 0
+						tfm.exec.addPhysicObject(100 + bridgeCount, self.x + 20 + bridgeCount * 50, self.y + 20, {
+							type = 0,
+							width = 50,
+							height = 10,
+							friction = 30
+						})
+						self.bridges[bridgeCount] = {100 + bridgeCount, self.x + 20 + bridgeCount * 50, self.y + 20 }
+						if bridgeCount == 4 then
+							tfm.exec.removePhysicObject(4)
+						end
+					end
+				end, 500, true)
+			else
+				self.building = false
+				self.buildProgress = 0
+				Timer._timers["bridge_" .. player.name]:kill()
+			end
+		end
 	}
+
 }
 
 -- npcs
@@ -146,6 +193,7 @@ do
 		lookAtPlayer = false,
 		interactive = true,
 		onAction = function(self, player)
+			if not down then return end
 			local name = player.name
 			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
@@ -221,6 +269,7 @@ do
 		lookAtPlayer = true,
 		interactive = true,
 		onAction = function(self, player)
+			if not down then return end
 			local name = player.name
 			local qProgress = player.questProgress
 			if qProgress.strength_test then
@@ -299,11 +348,11 @@ function Entity.new(x, y, type, area, name, id)
 	return self
 end
 
-function Entity:receiveAction(player)
+function Entity:receiveAction(player, keydown)
 	if self.isDestroyed then return end
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
-		local success, error = pcall(onAction, self, player)
+		local success, error = pcall(onAction, self, player, keydown)
 		p({success, error})
 	end
 end

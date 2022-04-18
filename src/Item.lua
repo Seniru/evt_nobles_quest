@@ -60,19 +60,31 @@ Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	en = "Stick"
 })
 
-Item("stone", Item.types.RESOURCE, true, nil, 0.01, {
+Item("stone", Item.types.RESOURCE, true, nil, 0.05, {
 	en = "Stone"
 })
 
-Item("iron_ore", Item.types.RESOURCE, true, nil, 0.04, {
+Item("clay", Item.types.RESOURCE, true, nil, 0.05, {
+	"Clay"
+})
+
+Item("iron_ore", Item.types.RESOURCE, true, nil, 0.08, {
 	en = "Iron ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, nil, 0.8, {
+Item("wood", Item.types.RESOURCE, true, nil, 1.2, {
 	en = "Wood"
 })
 
 -- Special items
+Item("log_stakes", Item.types.SPECIAL, false, nil, 3.8, {
+	en = "Log stakes"
+})
+
+Item("bridge", Item.types.SPECIAL, false, nil, 19.5, {
+	en = "Bridge"
+})
+
 Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
 	en = "Basic axe"
 }, {

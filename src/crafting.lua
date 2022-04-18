@@ -22,12 +22,21 @@ recipes = {
 		{ Item.items.wood, 5 },
 
 	},
-	test5 = {		{ Item.items.wood, 5 },
-}
+	test5 = {
+		{ Item.items.wood, 5 },
+	},
+	log_stakes = {
+		{ Item.items.wood, 3 },
+	},
+	bridge = {
+		{ Item.items.log_stakes, 5 },
+		{ Item.items.clay, 20 },
+		{ Item.items.stone, 8 }
+	}
 }
 
 recipesBitList = BitList {
-	"basic_axe", "basic_shovel"
+	"basic_axe", "basic_shovel", "log_stakes", "bridge"
 }
 
 openCraftingTable = function(player)

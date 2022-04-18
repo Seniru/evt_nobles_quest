@@ -614,7 +614,7 @@ local mapPlaying = ""
 
 local maps = {
 	mine = [[<C><P L="1622" H="852" D="17f32282dfc.png,2,5" APS="17f322853ac.png,,820,535,800,317,-1,0" MEDATA=";;;;1,1-0;0:::1-"/><Z><S><S T="1" X="1628" Y="108" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="1" X="-7" Y="196" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="0" X="5" Y="5" L="11" H="10" P="0,0,0.3,0.2,2880,0,0,0" c="4" nosync="" i="0,0,17f32282dfc.png"/><S T="0" X="30" Y="202" L="61" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="0" X="85" Y="221" L="59" H="10" P="0,0,0.3,0.2,2910,0,0,0" m=""/><S T="0" X="149" Y="319" L="139" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="119" Y="246" L="26" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="209" Y="399" L="102" H="10" P="0,0,0.3,0.2,2918,0,0,0" m=""/><S T="0" X="264" Y="453" L="57" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="298" Y="509" L="79" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="321" Y="562" L="49" H="10" P="0,0,0.3,0.2,2970,0,0,0" m=""/><S T="0" X="524" Y="535" L="230" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="235" Y="658" L="230" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="667" Y="474" L="88" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="778" Y="425" L="163" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="957" Y="398" L="212" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1082" Y="390" L="54" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1130" Y="380" L="69" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1193" Y="346" L="85" H="12" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1237" Y="333" L="67" H="10" P="0,0,0.3,0.2,2800,0,0,0" m=""/><S T="0" X="1314" Y="263" L="161" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="1430" Y="214" L="94" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1532" Y="207" L="113" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1602" Y="210" L="34" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="4" X="357" Y="673" L="10" H="235" P="0,0,20,0.2,2910,0,0,0" m=""/><S T="0" X="900" Y="844" L="1800" H="22" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="894" Y="862" L="136" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1003" Y="811" L="121" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1121" Y="795" L="118" H="10" P="0,0,0.3,0.2,2875,0,0,0" m=""/><S T="0" X="1528" Y="850" L="118" H="10" P="0,0,0.3,0.2,2915,0,0,0" m=""/><S T="0" X="1332" Y="804" L="314" H="10" P="0,0,0.3,0.2,2885,0,0,0" m=""/><S T="0" X="245" Y="810" L="200" H="10" P="0,0,0.3,0.2,2900,0,0,0" m=""/><S T="1" X="150" Y="859" L="10" H="268" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="8" X="1261" Y="670" L="718" H="375" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="148" Y="253" L="302" H="499" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="730" Y="395" L="264" H="151" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3910" Y="576" L="1751" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="1308" Y="275" L="630" H="257" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="8" X="75" Y="799" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="8" X="563" Y="794" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="8"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="947" Y="380"/></D><O><O X="31" Y="152" C="22" nosync="" P="0" type="tree"/><O X="212" Y="345" C="22" nosync="" P="0" type="tree"/><O X="259" Y="398" C="22" nosync="" P="0" type="tree"/><O X="1272" Y="702" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="732" Y="392" C="22" nosync="" P="0" type="craft_table"/><O X="580" Y="776" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="1458" Y="185" C="22" nosync="" P="0" type="rock"/><O X="1549" Y="181" C="22" nosync="" P="0" type="rock"/><O X="1259" Y="281" C="22" nosync="" P="0" type="rock"/><O X="3110" Y="752" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="1535" Y="799" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="3367" Y="658" C="22" nosync="" P="0" type="rock"/><O X="3807" Y="758" C="22" nosync="" P="0" type="rock"/><O X="4333" Y="758" C="22" nosync="" P="0" type="rock"/><O X="3965" Y="762" C="22" nosync="" P="0" type="rock"/><O X="3637" Y="702" C="22" nosync="" P="0" type="iron_ore"/><O X="4449" Y="754" C="22" nosync="" P="0" type="rock"/><O X="4561" Y="752" C="22" nosync="" P="0" type="iron_ore"/><O X="4727" Y="558" C="22" nosync="" P="0" type="iron_ore"/><O X="4711" Y="750" C="22" nosync="" P="0" type="rock"/><O X="1029" Y="375" C="22" nosync="" P="0" type="tree"/><O X="56" Y="805" C="22" nosync="" P="0" type="tree"/></O><L/></Z></C>]],
-	castle = [[<C><P L="1600" H="800" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="395" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1200" Y="593" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="12" X="1190" Y="389" L="815" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1602" Y="574" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="793" Y="574" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1180" Y="729" L="848" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1347" Y="610" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="910" Y="693" C="14" nosync="" P="0" type="monster_spawn"/><O X="1543" Y="692" C="14" nosync="" P="0" type="monster_spawn"/></O><L/></Z></C>]]
+	castle = [[<C><P L="1600" H="800" MEDATA=";;7,1;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="397" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1200" Y="593" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="12" X="1190" Y="389" L="815" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1602" Y="574" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="793" Y="574" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1180" Y="729" L="848" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1207" Y="-1" L="805" H="29" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1607" Y="207" L="21" H="412" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="1204" Y="193" L="787" H="391" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="12" X="888" Y="331" L="158" H="112" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1428" Y="330" L="339" H="129" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1255" Y="136" L="58" H="273" P="0,0,0.3,0.2,0,0,0,0" o="324650" m="" lua="4"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1347" Y="610" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="693" Y="343" C="11" nosync="" P="0" type="teleport" route="bridge" id="1"/><O X="851" Y="256" C="11" nosync="" P="0" type="teleport" route="bridge" id="2"/><O X="910" Y="693" C="14" nosync="" P="0" type="monster_spawn"/><O X="1543" Y="692" C="14" nosync="" P="0" type="monster_spawn"/><O X="1502" Y="242" C="14" nosync="" P="0" type="fiery_dragon"/><O X="172" Y="346" C="22" nosync="" P="0" type="recipe" name="bridge"/><O X="948" Y="260" C="22" nosync="" P="0" type="bridge"/></O><L/></Z></C>]]
 
 }
 
@@ -677,6 +677,12 @@ local teleports = {
 		canEnter = function(player, terminalId)
 			local quest = player.questProgress.strength_test
 			return quest and (quest.completed or quest.stage >= 2)
+		end
+	},
+	bridge = {
+		canEnter = function(player, terminalId)
+			local quest = player.questProgress.strength_test
+			return quest and quest.completed
 		end
 	}
 }
@@ -750,97 +756,6 @@ end
 
 --==[[ classes ]]==--
 
-local Area = {}
-Area.areas = {}
-
-Area.__index = Area
-Area.__tostring = function(self)
-	return table.tostring(self)
-end
-
-setmetatable(Area, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function Area.new(x, y, w, h)
-	local self = setmetatable({}, Area)
-	self.id = #Area.areas + 1
-	self.x = tonumber(x)
-	self.y = tonumber(y)
-	self.w = tonumber(w)
-	self.h = tonumber(h)
-	self.x = self.x - self.w / 2
-	self.y = self.y - self.h / 2
-	self.isTriggered = false
-	self.playerCount = 0
-	self.players = {}
-	self.triggers = {}
-	self.entities = {}
-	self.monsters = {}
-	Area.areas[#Area.areas + 1] = self
-	return self
-end
-
-function Area.getAreaByCoords(x, y)
-	for id, area in next, Area.areas do
-		if x >= area.x and x <= area.x + area.w and y >= area.y and y <= area.y + area.h then
-			return area
-		end
-	end
-end
-
-function Area:getClosestEntityTo(x, y)
-	local min, closest = 1/0, nil
-	for id, obj in next, self.entities do
-		local dist = math.pythag(x, y, obj.x, obj.y)
-		if dist <= 30 and dist < min then
-			min = dist
-			closest = obj
-		end
-	end
-	return closest
-end
-
-function Area:getClosestMonsterTo(x, y)
-	local min, closest = 1/0, nil
-	local objList = tfm.get.room.objectList
-	for id, monster in next, self.monsters do
-		local obj = objList[monster.objId]
-		local dist = math.pythag(x, y, obj.x, obj.y)
-		if dist <= 60 and dist < min then
-			min = dist
-			closest = monster
-		end
-	end
-	return closest
-end
-
-
-function Area:onNewPlayer(player)
-	self.players[player.name] = true
-	self.playerCount = self.playerCount + 1
-	if not self.isTriggered then
-		self.isTriggered = true
-		for _, trigger in next, self.triggers do
-			trigger:activate()
-		end
-	end
-
-end
-
-function Area:onPlayerLeft(player)
-	self.players[player.name] = nil
-	self.playerCount = self.playerCount - 1
-	if self.playerCount == 0 then
-		for _, trigger in next, self.triggers do
-			trigger:deactivate()
-		end
-		self.isTriggered = false
-	end
-end
-
 local Monster = {}
 Monster.monsters = {}
 
@@ -857,7 +772,8 @@ setmetatable(Monster, {
 })
 
 Monster.all = {
-	mutant_rat = {}
+	mutant_rat = {},
+	fiery_dragon = {}
 }
 
 do
@@ -905,6 +821,20 @@ do
 			yAdj = -30
 		}
 	}
+	monsters.mutant_rat.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.mutant_rat.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
 	monsters.mutant_rat.attacks = {
 		primary = function(self, target)
 			target.health = target.health - 2.5
@@ -914,8 +844,100 @@ do
 		end
 	}
 
-end
 
+	monsters.fiery_dragon.sprites = {
+		idle_left = {
+			id = "18012c3631a.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		idle_right = {
+			id = "18012d4d75e.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "180192208f0.png",
+			xAdj = -30,
+			yAdj = -35,
+		},
+		primary_attack_right = {
+			id = "18019222e6a.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "180192b8289.png",
+			xAdj = -30,
+			yAdj = -35
+		},
+		secondary_attack_right = {
+			id = "180192ba692.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.fiery_dragon.spawn = function(self)
+		self.wait = 0
+		self.objId = 999999
+		tfm.exec.addPhysicObject(200, self.x, self.y - 80, {
+			type = 1,
+			width = 130,
+			height = 200,
+			dynamic = true,
+			friction = 30,
+			mass = 9999,
+			fixedRotation = true,
+			linearDamping = 999
+		})
+		--local imageData = self.species.sprites.idle_left
+		--self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.fiery_dragon.move = function(self)
+		self.wait = self.wait - 1
+		local dragX = tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 130)
+		if self.wait < 0 then
+			tfm.exec.removeObject(self.objId)
+			self.objId = tfm.exec.addShamanObject(62, self.x + 50, self.y - 50, 180, -100, 0, false)
+			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -20)
+			self.wait = 3
+		end
+		local entityBridge
+		for i, e in next, self.area.entities do
+			if e.type == "bridge" then
+				entityBridge = e
+				break
+			end
+		end
+		p(entityBridge.bridges)
+		for i, bridge in next, (entityBridge.bridges or {}) do
+			if math.abs(bridge[2] - dragX) < 50 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+				tfm.exec.removePhysicObject(bridge[1])
+				entityBridge.bridges[i] = nil
+			end
+		end
+					--local imageData = self.species.sprites.idle_left
+		--self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.fiery_dragon.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+end
 
 function Monster.new(metadata, spawnPoint)
 	local self = setmetatable({}, Monster)
@@ -933,18 +955,17 @@ function Monster.new(metadata, spawnPoint)
 	self.latestActionCooldown = os.time()
 	self.latestActionReceived = os.time()
 	self.lastAction = "move"
-	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
-	local imageData = self.species.sprites.idle_left
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	self.species.spawn(self)
 	Monster.monsters[id] = self
+	spawnPoint.monsters[id] = self
 	self.area.monsters[id] = self
 	return self
 end
 
 function Monster:action()
 	if self.latestActionCooldown > os.time() then return end
-	local obj = tfm.get.room.objectList[self.objId]
+	local obj = self.species == Monster.all.fiery_dragon and { x = self.x, y = self.y } or  tfm.get.room.objectList[self.objId]
+	if not obj then return end
 	self.x, self.y = obj.x, obj.y
 	-- monsters are not fast enough to calculate new actions, in other words dumb
 	-- if somebody couldn't get past these monsters, I call them noob
@@ -952,7 +973,8 @@ function Monster:action()
 		self:changeStance(self.stance)
 		if self.lastAction == "move" then
 			-- keep moving to the same direction till the monster realized he did a bad move
-			tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+			--tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+			self:move()
 
 		end
 	else
@@ -1041,12 +1063,7 @@ function Monster:attack(player, attackType)
 end
 
 function Monster:move()
-	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
-	if self.lastAction ~= "move" then
-		tfm.exec.removeImage(self.imageId)
-		local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
-		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-	end
+	self.species.move(self)
 	self.lastAction = "move"
 end
 
@@ -1072,6 +1089,99 @@ function Monster:destroy(destroyedBy)
 end
 
 
+local Area = {}
+Area.areas = {}
+
+Area.__index = Area
+Area.__tostring = function(self)
+	return table.tostring(self)
+end
+
+setmetatable(Area, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function Area.new(x, y, w, h)
+	local self = setmetatable({}, Area)
+	self.id = #Area.areas + 1
+	self.x = tonumber(x)
+	self.y = tonumber(y)
+	self.w = tonumber(w)
+	self.h = tonumber(h)
+	self.x = self.x - self.w / 2
+	self.y = self.y - self.h / 2
+	self.isTriggered = false
+	self.playerCount = 0
+	self.players = {}
+	self.triggers = {}
+	self.entities = {}
+	self.monsters = {}
+	Area.areas[#Area.areas + 1] = self
+	return self
+end
+
+function Area.getAreaByCoords(x, y)
+	for id, area in next, Area.areas do
+		if x >= area.x and x <= area.x + area.w and y >= area.y and y <= area.y + area.h then
+			return area
+		end
+	end
+end
+
+function Area:getClosestEntityTo(x, y)
+	local min, closest = 1/0, nil
+	for id, obj in next, self.entities do
+		local dist = math.pythag(x, y, obj.x, obj.y)
+		if dist <= 30 and dist < min then
+			min = dist
+			closest = obj
+		end
+	end
+	return closest
+end
+
+function Area:getClosestMonsterTo(x, y)
+	local min, closest = 1/0, nil
+	local objList = tfm.get.room.objectList
+	for id, monster in next, self.monsters do
+		print(monster.species == Monster.all.fiery_dragon)
+		print()
+		local obj =  (monster.species == Monster.all.fiery_dragon) and { x = monster.x, y = monster.y } or tfm.get.room.objectList[monster.objId]
+		local dist = math.pythag(x, y, obj.x, obj.y)
+		if dist <= 60 and dist < min then
+			min = dist
+			closest = monster
+		end
+	end
+	return closest
+end
+
+
+function Area:onNewPlayer(player)
+	self.players[player.name] = true
+	self.playerCount = self.playerCount + 1
+	if not self.isTriggered then
+		self.isTriggered = true
+		for _, trigger in next, self.triggers do
+			trigger:activate()
+		end
+	end
+
+end
+
+function Area:onPlayerLeft(player)
+	self.players[player.name] = nil
+	self.playerCount = self.playerCount - 1
+	if self.playerCount == 0 then
+		for _, trigger in next, self.triggers do
+			trigger:deactivate()
+		end
+		self.isTriggered = false
+	end
+end
+
 local Trigger = {}
 
 Trigger.__index = Trigger
@@ -1093,21 +1203,36 @@ Trigger.triggers = {
 			Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 		end,
 		ontick = function(self)
-			for _, monster in next, self.area.monsters do
+			for _, monster in next, self.monsters do
 				if monster then monster:action() end
 			end
-			if (math.random(1, 1000) > (#self.area.monsters == 0 and 200 or 990)) then
+			if (math.random(1, 1000) > (#self.monsters == 0 and 200 or 990)) then
 				--Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
 			end
 		end,
 		ondeactivate = function(self)
 			-- to prevent invalid keys to "next"
 			local previousMonster
-			for i, monster in next, self.area.monsters do
+			for i, monster in next, self.monsters do
 				if previousMonster then previousMonster:destroy() end
 				previousMonster = monster
 			end
 			if previousMonster then previousMonster:destroy() end
+		end
+	},
+
+	fiery_dragon = {
+		onactivate = function(self)
+			Monster.new({ health = 9999, species = Monster.all.fiery_dragon }, self)
+		end,
+		ontick = function(self)
+			print(next(self.monsters))
+			for _, monster in next, self.monsters do
+				if monster then monster:action() end
+			end
+		end,
+		ondeactivate = function(self)
+			next(self.monsters):destroy()
 		end
 	}
 
@@ -1121,6 +1246,7 @@ function Trigger.new(x, y, type, area, name)
 	self.area = area
 	self.name = name
 	self.id = #area.triggers + 1
+	self.monsters = {}
 	area.triggers[self.id] = self
 	return self
 end
@@ -1198,19 +1324,31 @@ Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	en = "Stick"
 })
 
-Item("stone", Item.types.RESOURCE, true, nil, 0.01, {
+Item("stone", Item.types.RESOURCE, true, nil, 0.05, {
 	en = "Stone"
 })
 
-Item("iron_ore", Item.types.RESOURCE, true, nil, 0.04, {
+Item("clay", Item.types.RESOURCE, true, nil, 0.05, {
+	"Clay"
+})
+
+Item("iron_ore", Item.types.RESOURCE, true, nil, 0.08, {
 	en = "Iron ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, nil, 0.8, {
+Item("wood", Item.types.RESOURCE, true, nil, 1.2, {
 	en = "Wood"
 })
 
 -- Special items
+Item("log_stakes", Item.types.SPECIAL, false, nil, 3.8, {
+	en = "Log stakes"
+})
+
+Item("bridge", Item.types.SPECIAL, false, nil, 19.5, {
+	en = "Bridge"
+})
+
 Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
 	en = "Basic axe"
 }, {
@@ -1507,12 +1645,21 @@ recipes = {
 		{ Item.items.wood, 5 },
 
 	},
-	test5 = {		{ Item.items.wood, 5 },
-}
+	test5 = {
+		{ Item.items.wood, 5 },
+	},
+	log_stakes = {
+		{ Item.items.wood, 3 },
+	},
+	bridge = {
+		{ Item.items.log_stakes, 5 },
+		{ Item.items.clay, 20 },
+		{ Item.items.stone, 8 }
+	}
 }
 
 recipesBitList = BitList {
-	"basic_axe", "basic_shovel"
+	"basic_axe", "basic_shovel", "log_stakes", "bridge"
 }
 
 openCraftingTable = function(player)
@@ -1574,7 +1721,8 @@ Entity.entities = {
 			yAdj = 0
 		},
 		resourceCap = 100,
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			if player.equipped == nil then
 				self:regen()
 				if self.resourcesLeft <= 0 then
@@ -1599,7 +1747,8 @@ Entity.entities = {
 			yAdj = 0
 		},
 		resourceCap = 100,
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
 			player:addInventoryItem(Item.items.stone,
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
@@ -1614,7 +1763,8 @@ Entity.entities = {
 			yAdj = 0
 		},
 		resourceCap = 60,
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
 			player:addInventoryItem(Item.items.iron_ore,
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
@@ -1628,8 +1778,8 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
-			openCraftingTable(player)
+		onAction = function(self, player, down)
+			if down then openCraftingTable(player) end
 		end
 	},
 
@@ -1637,8 +1787,8 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
-			player:learnRecipe(self.name)
+		onAction = function(self, player, down)
+			if down then player:learnRecipe(self.name) end
 		end
 	},
 
@@ -1646,7 +1796,8 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
 			if not tpInfo.canEnter(player, tp2) then return end
@@ -1662,13 +1813,56 @@ Entity.entities = {
 		image = {
 			id = "no.png"
 		},
-		onAction = function(self, player)
+		onAction = function(self, player, down)
+			if not down then return end
 			p(self.name)
 			p(self.id)
 			player:addInventoryItem(self.name, self.id)
 			self:destroy()
 		end
+	},
+
+	bridge = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player, down)
+			self.building = self.building or false
+			self.buildProgress = self.buildProgress or 0
+			self.bridges = self.bridges or {}
+			-- TODO: block building if someone is building already
+			--if player.equipped.id ~= "bridge" then return end
+			if down then
+				self.building = true
+				Timer.new("bridge_" .. player.name, function()
+					self.buildProgress = self.buildProgress + 1
+					displayDamage(self) -- it's progress here
+					-- TODO: Change to 20
+					if self.buildProgress > 2 then -- 0 then
+						Timer._timers["bridge_" .. player.name]:kill()
+						self.building = false
+						local bridgeCount = #self.bridges + 1
+						self.buildProgress = 0
+						tfm.exec.addPhysicObject(100 + bridgeCount, self.x + 20 + bridgeCount * 50, self.y + 20, {
+							type = 0,
+							width = 50,
+							height = 10,
+							friction = 30
+						})
+						self.bridges[bridgeCount] = {100 + bridgeCount, self.x + 20 + bridgeCount * 50, self.y + 20 }
+						if bridgeCount == 4 then
+							tfm.exec.removePhysicObject(4)
+						end
+					end
+				end, 500, true)
+			else
+				self.building = false
+				self.buildProgress = 0
+				Timer._timers["bridge_" .. player.name]:kill()
+			end
+		end
 	}
+
 }
 
 -- npcs
@@ -1696,6 +1890,7 @@ do
 		lookAtPlayer = false,
 		interactive = true,
 		onAction = function(self, player)
+			if not down then return end
 			local name = player.name
 			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
@@ -1771,6 +1966,7 @@ do
 		lookAtPlayer = true,
 		interactive = true,
 		onAction = function(self, player)
+			if not down then return end
 			local name = player.name
 			local qProgress = player.questProgress
 			if qProgress.strength_test then
@@ -1849,11 +2045,11 @@ function Entity.new(x, y, type, area, name, id)
 	return self
 end
 
-function Entity:receiveAction(player)
+function Entity:receiveAction(player, keydown)
 	if self.isDestroyed then return end
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
-		local success, error = pcall(onAction, self, player)
+		local success, error = pcall(onAction, self, player, keydown)
 		p({success, error})
 	end
 end
@@ -1893,6 +2089,7 @@ eventNewPlayer = function(name)
 	Player.new(name)
 	system.loadPlayerData(name)
 	for key, code in next, keys do system.bindKeyboard(name, code, true, true) end
+	system.bindKeyboard(name, keys.DUCK, false, true)
 	totalPlayers = totalPlayers + 1
 end
 
@@ -2049,7 +2246,7 @@ eventKeyboard = function(name, key, down, x, y)
 		else
 			local entity = area:getClosestEntityTo(x, y)
 			if entity then
-				entity:receiveAction(player)
+				entity:receiveAction(player, down)
 			end
 		end
 	end
@@ -2155,9 +2352,12 @@ end
 
 displayDamage = function(target)
 	local bg, fg
-	if target.__type == "entity" then
-		bg = tfm.exec.addImage(assets.damageBg, "?999", target.x, target.y)
-		fg = tfm.exec.addImage(assets.damageFg, "?999", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
+	if target.type == "bridge" then
+		bg = tfm.exec.addImage(assets.damageBg, "!1", target.x, target.y)
+		fg = tfm.exec.addImage(assets.damageFg, "!2", target.x + 1, target.y + 1, nil, target.buildProgress / 20)
+	elseif target.__type == "entity" then
+		bg = tfm.exec.addImage(assets.damageBg, "!1", target.x, target.y)
+		fg = tfm.exec.addImage(assets.damageFg, "!2", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
 	elseif target.__type == "monster" then
 		local obj = tfm.get.room.objectList[target.objId]
 		bg = tfm.exec.addImage(assets.damageBg, "=" .. target.objId, 0, -30)

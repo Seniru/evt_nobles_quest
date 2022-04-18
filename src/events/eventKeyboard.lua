@@ -25,7 +25,7 @@ eventKeyboard = function(name, key, down, x, y)
 		else
 			local entity = area:getClosestEntityTo(x, y)
 			if entity then
-				entity:receiveAction(player)
+				entity:receiveAction(player, down)
 			end
 		end
 	end

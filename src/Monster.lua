@@ -14,7 +14,8 @@ setmetatable(Monster, {
 })
 
 Monster.all = {
-	mutant_rat = {}
+	mutant_rat = {},
+	fiery_dragon = {}
 }
 
 do
@@ -62,6 +63,20 @@ do
 			yAdj = -30
 		}
 	}
+	monsters.mutant_rat.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.mutant_rat.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
 	monsters.mutant_rat.attacks = {
 		primary = function(self, target)
 			target.health = target.health - 2.5
@@ -71,8 +86,100 @@ do
 		end
 	}
 
-end
 
+	monsters.fiery_dragon.sprites = {
+		idle_left = {
+			id = "18012c3631a.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		idle_right = {
+			id = "18012d4d75e.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "180192208f0.png",
+			xAdj = -30,
+			yAdj = -35,
+		},
+		primary_attack_right = {
+			id = "18019222e6a.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "180192b8289.png",
+			xAdj = -30,
+			yAdj = -35
+		},
+		secondary_attack_right = {
+			id = "180192ba692.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.fiery_dragon.spawn = function(self)
+		self.wait = 0
+		self.objId = 999999
+		tfm.exec.addPhysicObject(200, self.x, self.y - 80, {
+			type = 1,
+			width = 130,
+			height = 200,
+			dynamic = true,
+			friction = 30,
+			mass = 9999,
+			fixedRotation = true,
+			linearDamping = 999
+		})
+		--local imageData = self.species.sprites.idle_left
+		--self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.fiery_dragon.move = function(self)
+		self.wait = self.wait - 1
+		local dragX = tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 130)
+		if self.wait < 0 then
+			tfm.exec.removeObject(self.objId)
+			self.objId = tfm.exec.addShamanObject(62, self.x + 50, self.y - 50, 180, -100, 0, false)
+			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -20)
+			self.wait = 3
+		end
+		local entityBridge
+		for i, e in next, self.area.entities do
+			if e.type == "bridge" then
+				entityBridge = e
+				break
+			end
+		end
+		p(entityBridge.bridges)
+		for i, bridge in next, (entityBridge.bridges or {}) do
+			if math.abs(bridge[2] - dragX) < 50 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+				tfm.exec.removePhysicObject(bridge[1])
+				entityBridge.bridges[i] = nil
+			end
+		end
+					--local imageData = self.species.sprites.idle_left
+		--self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.fiery_dragon.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+end
 
 function Monster.new(metadata, spawnPoint)
 	local self = setmetatable({}, Monster)
@@ -90,18 +197,17 @@ function Monster.new(metadata, spawnPoint)
 	self.latestActionCooldown = os.time()
 	self.latestActionReceived = os.time()
 	self.lastAction = "move"
-	self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
-	local imageData = self.species.sprites.idle_left
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-	tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	self.species.spawn(self)
 	Monster.monsters[id] = self
+	spawnPoint.monsters[id] = self
 	self.area.monsters[id] = self
 	return self
 end
 
 function Monster:action()
 	if self.latestActionCooldown > os.time() then return end
-	local obj = tfm.get.room.objectList[self.objId]
+	local obj = self.species == Monster.all.fiery_dragon and { x = self.x, y = self.y } or  tfm.get.room.objectList[self.objId]
+	if not obj then return end
 	self.x, self.y = obj.x, obj.y
 	-- monsters are not fast enough to calculate new actions, in other words dumb
 	-- if somebody couldn't get past these monsters, I call them noob
@@ -109,7 +215,8 @@ function Monster:action()
 		self:changeStance(self.stance)
 		if self.lastAction == "move" then
 			-- keep moving to the same direction till the monster realized he did a bad move
-			tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+			--tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+			self:move()
 
 		end
 	else
@@ -198,12 +305,7 @@ function Monster:attack(player, attackType)
 end
 
 function Monster:move()
-	tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
-	if self.lastAction ~= "move" then
-		tfm.exec.removeImage(self.imageId)
-		local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
-		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-	end
+	self.species.move(self)
 	self.lastAction = "move"
 end
 

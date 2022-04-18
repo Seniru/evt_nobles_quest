@@ -26,8 +26,8 @@ combine({
   	},
 	  
   	classes: { files: [			
-		"src/Area.lua",
 	  	"src/Monster.lua",
+		"src/Area.lua",
 	  	"src/Trigger.lua",
 	  	"src/Item.lua",
 	  	"src/Player.lua",

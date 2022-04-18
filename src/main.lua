@@ -79,9 +79,12 @@ end
 
 displayDamage = function(target)
 	local bg, fg
-	if target.__type == "entity" then
-		bg = tfm.exec.addImage(assets.damageBg, "?999", target.x, target.y)
-		fg = tfm.exec.addImage(assets.damageFg, "?999", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
+	if target.type == "bridge" then
+		bg = tfm.exec.addImage(assets.damageBg, "!1", target.x, target.y)
+		fg = tfm.exec.addImage(assets.damageFg, "!2", target.x + 1, target.y + 1, nil, target.buildProgress / 20)
+	elseif target.__type == "entity" then
+		bg = tfm.exec.addImage(assets.damageBg, "!1", target.x, target.y)
+		fg = tfm.exec.addImage(assets.damageFg, "!2", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
 	elseif target.__type == "monster" then
 		local obj = tfm.get.room.objectList[target.objId]
 		bg = tfm.exec.addImage(assets.damageBg, "=" .. target.objId, 0, -30)
