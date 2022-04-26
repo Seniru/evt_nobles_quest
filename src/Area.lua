@@ -55,8 +55,6 @@ function Area:getClosestMonsterTo(x, y)
 	local min, closest = 1/0, nil
 	local objList = tfm.get.room.objectList
 	for id, monster in next, self.monsters do
-		print(monster.species == Monster.all.fiery_dragon)
-		print()
 		local obj =  (monster.species == Monster.all.fiery_dragon) and { x = monster.x, y = monster.y } or tfm.get.room.objectList[monster.objId]
 		local dist = math.pythag(x, y, obj.x, obj.y)
 		if dist <= 60 and dist < min then

@@ -72,6 +72,14 @@ Item("iron_ore", Item.types.RESOURCE, true, nil, 0.08, {
 	en = "Iron ore"
 })
 
+Item("copper_ore", Item.types.RESOURCE, true, nil, 0.09, {
+	en = "Copper ore"
+})
+
+Item("gold_ore", Item.types.RESOURCE, true, nil, 0.3, {
+	en = "Gold ore"
+})
+
 Item("wood", Item.types.RESOURCE, true, nil, 1.2, {
 	en = "Wood"
 })

@@ -75,6 +75,38 @@ Entity.entities = {
 		end
 	},
 
+	copper_ore = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		},
+		resourceCap = 60,
+		onAction = function(self, player, down)
+			if not down then return end
+			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
+			player:addInventoryItem(Item.items.iron_ore,
+				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
+			)
+		end
+	},
+
+	gold_ore = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		},
+		resourceCap = 60,
+		onAction = function(self, player, down)
+			if not down then return end
+			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
+			player:addInventoryItem(Item.items.iron_ore,
+				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
+			)
+		end
+	},
+
 	-- triggers
 
 	craft_table = {
@@ -105,9 +137,11 @@ Entity.entities = {
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
 			if not tpInfo.canEnter(player, tp2) then return end
 			if tp1 == self then
-				tfm.exec.movePlayer(player.name, tp2.x, tp2.y )
+				tfm.exec.movePlayer(player.name, tp2.x, tp2.y)
+				tpInfo.onEnter(player, 2)
 			else
 				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
+				tpInfo.onEnter(player, 1)
 			end
 		end
 	},
