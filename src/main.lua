@@ -28,6 +28,7 @@ craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30
 			end)
 	)
 
+divineChargePanel = Panel(400, "", 30, 110, 600, 50, nil, nil, 1, true)
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50

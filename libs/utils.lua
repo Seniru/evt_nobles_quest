@@ -58,17 +58,17 @@ math.pythag = function(x1, y1, x2, y2)
 	return ((x1 - x2) ^ 2 + (y1 - y2) ^ 2) ^ (1/2)
 end
 
-local prettyify
-
+local prettify
+-- https://github.com/a801-luadev/useful-stuff/blob/master/prettyprint.lua
 do
 
-	local typeLookup = {
-		["string"] = function(obj) return ("<VP>\"%s\"</VP>"):format(obj) end,
-		["number"] = function(obj) return ("<J>%s</J>"):format(obj) end,
-		["boolean"] = function(obj) return ("<J>%s</J>"):format(obj) end,
-		["function"] = function(obj) return ("<b><V>%s</V></b>"):format(obj) end,
-		["nil"] = function() return ("<G>nil</G>") end
-	}
+    local typeLookup = {
+	    ["string"] = function(obj) return ("<VP>\"%s\"</VP>"):format(obj) end,
+	    ["number"] = function(obj) return ("<J>%s</J>"):format(obj) end,
+	    ["boolean"] = function(obj) return ("<J>%s</J>"):format(obj) end,
+	    ["function"] = function(obj) return ("<b><V>%s</V></b>"):format(obj) end,
+	    ["nil"] = function() return ("<G>nil</G>") end
+    }
 
 	local string_repeat = function(str, times)
 		local res = ""
@@ -79,8 +79,7 @@ do
 		return res
 	end
 
-	prettify = function(obj, depth, opt)
-
+	prettify = function(obj, depth, opt, checked)
 		opt = opt or {}
 		opt.maxDepth = opt.maxDepth or 30
 		opt.truncateAt = opt.truncateAt or 30
@@ -88,12 +87,21 @@ do
 		local prettifyFn = typeLookup[type(obj)]
 		if (prettifyFn) then return { res = (prettifyFn(tostring(obj))), count = 1 } end -- not the type of object ({}, [])
 
+		if checked[obj] then
+			return {
+				res = ("<b><V>circular</V></b>"):format(tostring(obj)),
+				count = 1
+			}
+		end
+
 		if depth >= opt.maxDepth then
 			return {
 				res = ("<b><V>%s</V></b>"):format(tostring(obj)),
 				count = 1
 			}
 		end
+
+		checked[obj] = true
 
 		local kvPairs = {}
 		local totalObjects = 0
@@ -110,7 +118,7 @@ do
 				key = tn and (((previousKey and tn - previousKey == 1) and "" or "[" .. key .. "]:")) or (key .. ":")
 				-- we only need to check if the previous key is a number, so a nil key doesn't matter
 				previousKey = tn
-				local prettified = prettify(value, depth + 1, opt)
+				local prettified = prettify(value, depth + 1, opt, checked)
 				kvPairs[#kvPairs + 1] = key .. " " .. prettified.res
 
 				totalObjects = totalObjects + prettified.count
@@ -133,7 +141,7 @@ do
 
 end
 
-local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}).res) end
+local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}, {}).res) end
 local p = prettyprint
 
 -- Credits: lua users wiki

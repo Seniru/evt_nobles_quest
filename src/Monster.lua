@@ -15,7 +15,8 @@ setmetatable(Monster, {
 
 Monster.all = {
 	mutant_rat = {},
-	fiery_dragon = {}
+	fiery_dragon = {},
+	final_boss = {}
 }
 
 do
@@ -179,6 +180,76 @@ do
 
 		end
 	}
+
+	monsters.final_boss.sprites = {
+		idle_left = {
+			id = "18012c3631a.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		idle_right = {
+			id = "18012d4d75e.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "180192208f0.png",
+			xAdj = -30,
+			yAdj = -35,
+		},
+		primary_attack_right = {
+			id = "18019222e6a.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "180192b8289.png",
+			xAdj = -30,
+			yAdj = -35
+		},
+		secondary_attack_right = {
+			id = "180192ba692.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.final_boss.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.final_boss.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
+	monsters.final_boss.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+	monsters.final_boss.death = function(self, killedBy)
+		print("YOu win")
+	end
+
+
 end
 
 function Monster.new(metadata, spawnPoint)
@@ -193,6 +264,7 @@ function Monster.new(metadata, spawnPoint)
 	self.health = metadata.health or metadata.species.health
 	self.metadata = metadata
 	self.stance = -1 -- left
+	self.isAlive = true
 	self.decisionMakeCooldown = os.time()
 	self.latestActionCooldown = os.time()
 	self.latestActionReceived = os.time()
@@ -324,6 +396,9 @@ function Monster:destroy(destroyedBy)
 			destroyedBy:updateQuestProgress("strength_test", 1)
 		end
 	end
+	p(self.species.death)
+	if self.species.death then self.species.death(self, destroyedBy) end
+	self.isAlive = false
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil

@@ -17,6 +17,8 @@ eventKeyboard = function(name, key, down, x, y)
 
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 
+	if down then player:processSequence(key) end
+
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
 		local monster = area:getClosestMonsterTo(x, y)

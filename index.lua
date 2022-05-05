@@ -60,17 +60,17 @@ math.pythag = function(x1, y1, x2, y2)
 	return ((x1 - x2) ^ 2 + (y1 - y2) ^ 2) ^ (1/2)
 end
 
-local prettyify
-
+local prettify
+-- https://github.com/a801-luadev/useful-stuff/blob/master/prettyprint.lua
 do
 
-	local typeLookup = {
-		["string"] = function(obj) return ("<VP>\"%s\"</VP>"):format(obj) end,
-		["number"] = function(obj) return ("<J>%s</J>"):format(obj) end,
-		["boolean"] = function(obj) return ("<J>%s</J>"):format(obj) end,
-		["function"] = function(obj) return ("<b><V>%s</V></b>"):format(obj) end,
-		["nil"] = function() return ("<G>nil</G>") end
-	}
+    local typeLookup = {
+	    ["string"] = function(obj) return ("<VP>\"%s\"</VP>"):format(obj) end,
+	    ["number"] = function(obj) return ("<J>%s</J>"):format(obj) end,
+	    ["boolean"] = function(obj) return ("<J>%s</J>"):format(obj) end,
+	    ["function"] = function(obj) return ("<b><V>%s</V></b>"):format(obj) end,
+	    ["nil"] = function() return ("<G>nil</G>") end
+    }
 
 	local string_repeat = function(str, times)
 		local res = ""
@@ -81,8 +81,7 @@ do
 		return res
 	end
 
-	prettify = function(obj, depth, opt)
-
+	prettify = function(obj, depth, opt, checked)
 		opt = opt or {}
 		opt.maxDepth = opt.maxDepth or 30
 		opt.truncateAt = opt.truncateAt or 30
@@ -90,12 +89,21 @@ do
 		local prettifyFn = typeLookup[type(obj)]
 		if (prettifyFn) then return { res = (prettifyFn(tostring(obj))), count = 1 } end -- not the type of object ({}, [])
 
+		if checked[obj] then
+			return {
+				res = ("<b><V>circular</V></b>"):format(tostring(obj)),
+				count = 1
+			}
+		end
+
 		if depth >= opt.maxDepth then
 			return {
 				res = ("<b><V>%s</V></b>"):format(tostring(obj)),
 				count = 1
 			}
 		end
+
+		checked[obj] = true
 
 		local kvPairs = {}
 		local totalObjects = 0
@@ -112,7 +120,7 @@ do
 				key = tn and (((previousKey and tn - previousKey == 1) and "" or "[" .. key .. "]:")) or (key .. ":")
 				-- we only need to check if the previous key is a number, so a nil key doesn't matter
 				previousKey = tn
-				local prettified = prettify(value, depth + 1, opt)
+				local prettified = prettify(value, depth + 1, opt, checked)
 				kvPairs[#kvPairs + 1] = key .. " " .. prettified.res
 
 				totalObjects = totalObjects + prettified.count
@@ -135,7 +143,7 @@ do
 
 end
 
-local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}).res) end
+local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}, {}).res) end
 local p = prettyprint
 
 -- Credits: lua users wiki
@@ -612,9 +620,14 @@ math.randomseed(os.time())
 local eventLoaded, mapLoaded, eventEnding = false, false, false
 local mapPlaying = ""
 
+-- final boss battle
+local bossBattleTriggered, divineChargeTimeOver, divinePowerCasted = false, false, false
+local divinePowerCharge = 0
+local FINAL_BOSS_ATK_MAX_CHARGE = 2000
+
 local maps = {
-	mine = [[<C><P L="1622" H="852" D="17f32282dfc.png,2,5" APS="17f322853ac.png,,820,535,800,317,-1,0" MEDATA=";;;;1,1-0;0:::1-"/><Z><S><S T="1" X="1628" Y="108" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="1" X="-7" Y="196" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="0" X="5" Y="5" L="11" H="10" P="0,0,0.3,0.2,2880,0,0,0" c="4" nosync="" i="0,0,17f32282dfc.png"/><S T="0" X="30" Y="202" L="61" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="0" X="85" Y="221" L="59" H="10" P="0,0,0.3,0.2,2910,0,0,0" m=""/><S T="0" X="149" Y="319" L="139" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="119" Y="246" L="26" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="209" Y="399" L="102" H="10" P="0,0,0.3,0.2,2918,0,0,0" m=""/><S T="0" X="264" Y="453" L="57" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="298" Y="509" L="79" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="321" Y="562" L="49" H="10" P="0,0,0.3,0.2,2970,0,0,0" m=""/><S T="0" X="524" Y="535" L="230" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="235" Y="658" L="230" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="667" Y="474" L="88" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="778" Y="425" L="163" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="957" Y="398" L="212" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1082" Y="390" L="54" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1130" Y="380" L="69" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1193" Y="346" L="85" H="12" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1237" Y="333" L="67" H="10" P="0,0,0.3,0.2,2800,0,0,0" m=""/><S T="0" X="1314" Y="263" L="161" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="1430" Y="214" L="94" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1532" Y="207" L="113" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1602" Y="210" L="34" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="4" X="357" Y="673" L="10" H="235" P="0,0,20,0.2,2910,0,0,0" m=""/><S T="0" X="900" Y="844" L="1800" H="22" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="894" Y="862" L="136" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1003" Y="811" L="121" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1121" Y="795" L="118" H="10" P="0,0,0.3,0.2,2875,0,0,0" m=""/><S T="0" X="1528" Y="850" L="118" H="10" P="0,0,0.3,0.2,2915,0,0,0" m=""/><S T="0" X="1332" Y="804" L="314" H="10" P="0,0,0.3,0.2,2885,0,0,0" m=""/><S T="0" X="245" Y="810" L="200" H="10" P="0,0,0.3,0.2,2900,0,0,0" m=""/><S T="1" X="150" Y="859" L="10" H="268" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="8" X="1261" Y="670" L="718" H="375" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="148" Y="253" L="302" H="499" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="730" Y="395" L="264" H="151" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3910" Y="576" L="1751" H="454" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="8" X="1308" Y="275" L="630" H="257" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="8" X="75" Y="799" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="8" X="563" Y="794" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="8"/><S T="12" X="3909" Y="392" L="1786" H="28" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3035" Y="590" L="30" H="428" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3911" Y="793" L="1774" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="4786" Y="589" L="32" H="418" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="3418" Y="770" L="477" H="63" P="0,0,0.3,0.2,0,0,0,0" o="324650"/></S><D><DS X="947" Y="380"/></D><O><O X="31" Y="152" C="22" nosync="" P="0" type="tree"/><O X="212" Y="345" C="22" nosync="" P="0" type="tree"/><O X="259" Y="398" C="22" nosync="" P="0" type="tree"/><O X="1272" Y="702" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="732" Y="392" C="22" nosync="" P="0" type="craft_table"/><O X="580" Y="776" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="1458" Y="185" C="22" nosync="" P="0" type="rock"/><O X="1549" Y="181" C="22" nosync="" P="0" type="rock"/><O X="1259" Y="281" C="22" nosync="" P="0" type="rock"/><O X="3110" Y="752" C="22" nosync="" P="0" type="recipe" name="basic_axe"/><O X="1535" Y="799" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3105" Y="459" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="3367" Y="658" C="22" nosync="" P="0" type="rock"/><O X="3807" Y="758" C="22" nosync="" P="0" type="rock"/><O X="4333" Y="758" C="22" nosync="" P="0" type="rock"/><O X="3965" Y="762" C="22" nosync="" P="0" type="rock"/><O X="3637" Y="702" C="22" nosync="" P="0" type="iron_ore"/><O X="4449" Y="754" C="22" nosync="" P="0" type="rock"/><O X="4561" Y="752" C="22" nosync="" P="0" type="iron_ore"/><O X="4727" Y="558" C="22" nosync="" P="0" type="iron_ore"/><O X="4711" Y="750" C="22" nosync="" P="0" type="rock"/><O X="1029" Y="375" C="22" nosync="" P="0" type="tree"/><O X="56" Y="805" C="22" nosync="" P="0" type="tree"/></O><L/></Z></C>]],
-	castle = [[<C><P L="1600" H="800" MEDATA=";;7,1;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="397" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1200" Y="593" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="12" X="1190" Y="389" L="815" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1602" Y="574" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="793" Y="574" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1180" Y="729" L="848" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1207" Y="-1" L="805" H="29" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1607" Y="207" L="21" H="412" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="1204" Y="193" L="787" H="391" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="12" X="888" Y="331" L="158" H="112" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1428" Y="330" L="339" H="129" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1255" Y="136" L="58" H="273" P="0,0,0.3,0.2,0,0,0,0" o="324650" m="" lua="4"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1347" Y="610" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="693" Y="343" C="11" nosync="" P="0" type="teleport" route="bridge" id="1"/><O X="851" Y="256" C="11" nosync="" P="0" type="teleport" route="bridge" id="2"/><O X="910" Y="693" C="14" nosync="" P="0" type="monster_spawn"/><O X="1543" Y="692" C="14" nosync="" P="0" type="monster_spawn"/><O X="1502" Y="242" C="14" nosync="" P="0" type="fiery_dragon"/><O X="172" Y="346" C="22" nosync="" P="0" type="recipe" name="bridge"/><O X="948" Y="260" C="22" nosync="" P="0" type="bridge"/></O><L/></Z></C>]]
+	mine = [[<C><P L="9000" H="1600" D="17f32282dfc.png,2,5" APS="17f322853ac.png,,820,535,800,317,-1,0" Ca="" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="1" X="1628" Y="108" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="1" X="-7" Y="196" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="0" X="5" Y="5" L="11" H="10" P="0,0,0.3,0.2,2880,0,0,0" c="4" nosync="" i="0,0,17f32282dfc.png"/><S T="0" X="30" Y="202" L="61" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="0" X="85" Y="221" L="59" H="10" P="0,0,0.3,0.2,2910,0,0,0" m=""/><S T="0" X="149" Y="319" L="139" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="119" Y="246" L="26" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="209" Y="399" L="102" H="10" P="0,0,0.3,0.2,2918,0,0,0" m=""/><S T="0" X="264" Y="453" L="57" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="298" Y="509" L="79" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="321" Y="562" L="49" H="10" P="0,0,0.3,0.2,2970,0,0,0" m=""/><S T="0" X="524" Y="535" L="230" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="235" Y="658" L="230" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="667" Y="474" L="88" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="778" Y="425" L="163" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="957" Y="398" L="212" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1082" Y="390" L="54" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1130" Y="380" L="69" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1193" Y="346" L="85" H="12" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1237" Y="333" L="67" H="10" P="0,0,0.3,0.2,2800,0,0,0" m=""/><S T="0" X="1314" Y="263" L="161" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="1430" Y="214" L="94" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1532" Y="207" L="113" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1602" Y="210" L="34" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="4" X="357" Y="673" L="10" H="235" P="0,0,20,0.2,2910,0,0,0" m=""/><S T="0" X="900" Y="844" L="1800" H="22" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="894" Y="862" L="136" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1003" Y="811" L="121" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1121" Y="795" L="118" H="10" P="0,0,0.3,0.2,2875,0,0,0" m=""/><S T="0" X="1528" Y="850" L="118" H="10" P="0,0,0.3,0.2,2915,0,0,0" m=""/><S T="0" X="1332" Y="804" L="314" H="10" P="0,0,0.3,0.2,2885,0,0,0" m=""/><S T="0" X="245" Y="810" L="200" H="10" P="0,0,0.3,0.2,2900,0,0,0" m=""/><S T="1" X="150" Y="859" L="10" H="268" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="8" X="1261" Y="670" L="718" H="375" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="148" Y="253" L="302" H="499" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="730" Y="395" L="264" H="151" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3893" Y="591" L="670" H="520" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="5" X="3564" Y="401" L="154" H="42" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4234" Y="401" L="154" H="42" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="3585" Y="368" L="91" H="31" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="3565" Y="615" L="91" H="31" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="3584" Y="611" L="91" H="31" P="0,0,0.3,0.2,130,0,0,0"/><S T="5" X="4218" Y="624" L="91" H="31" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4213" Y="368" L="91" H="31" P="0,0,0.3,0.2,-110,0,0,0"/><S T="5" X="3606" Y="360" L="78" H="42" P="0,0,0.3,0.2,150,0,0,0"/><S T="5" X="4192" Y="360" L="78" H="42" P="0,0,0.3,0.2,-150,0,0,0"/><S T="8" X="1308" Y="275" L="630" H="257" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="8" X="75" Y="799" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="8" X="563" Y="794" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="8"/><S T="5" X="4016" Y="492" L="110" H="23" P="0,0,0.3,0.2,140,0,0,0"/><S T="5" X="3663" Y="535" L="58" H="23" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="3952" Y="534" L="58" H="23" P="0,0,0.3,0.2,160,0,0,0"/><S T="5" X="4139" Y="505" L="49" H="23" P="0,0,0.3,0.2,180,0,0,0"/><S T="5" X="4093" Y="484" L="74" H="23" P="0,0,0.3,0.2,220,0,0,0"/><S T="5" X="3996" Y="686" L="58" H="23" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="3657" Y="572" L="196" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3822" Y="616" L="101" H="23" P="0,0,0.3,0.2,-50,0,0,0"/><S T="5" X="3747" Y="650" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3978" Y="648" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4192" Y="614" L="101" H="23" P="0,0,0.3,0.2,-50,0,0,0"/><S T="5" X="4204" Y="626" L="47" H="23" P="0,0,0.3,0.2,-50,0,0,0"/><S T="5" X="4195" Y="728" L="156" H="23" P="0,0,0.3,0.2,280,0,0,0"/><S T="5" X="3917" Y="474" L="101" H="23" P="0,0,0.3,0.2,-20,0,0,0"/><S T="5" X="3738" Y="472" L="45" H="23" P="0,0,0.3,0.2,150,0,0,0"/><S T="5" X="3827" Y="421" L="33" H="23" P="0,0,0.3,0.2,150,0,0,0"/><S T="5" X="3929" Y="381" L="195" H="23" P="0,0,0.3,0.2,160,0,0,0"/><S T="5" X="3731" Y="398" L="157" H="23" P="0,0,0.3,0.2,240,0,0,0"/><S T="5" X="4012" Y="457" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4158" Y="648" L="161" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4072" Y="405" L="129" H="23" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="4032" Y="789" L="129" H="23" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="3893" Y="617" L="111" H="23" P="0,0,0.3,0.2,-140,0,0,0"/><S T="5" X="3837" Y="539" L="101" H="23" P="0,0,0.3,0.2,70,0,0,0"/><S T="5" X="3705" Y="741" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3857" Y="777" L="101" H="23" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="4035" Y="726" L="101" H="23" P="0,0,0.3,0.2,-180,0,0,0"/><S T="5" X="3910" Y="804" L="101" H="23" P="0,0,0.3,0.2,20,0,0,0"/><S T="5" X="3591" Y="629" L="138" H="23" P="0,0,0.3,0.2,130,0,0,0"/><S T="5" X="3602" Y="709" L="138" H="23" P="0,0,0.3,0.2,210,0,0,0"/><S T="5" X="3563" Y="772" L="156" H="23" P="0,0,0.3,0.2,270,0,0,0"/><S T="5" X="3638" Y="826" L="156" H="23" P="0,0,0.3,0.2,350,0,0,0"/><S T="5" X="3686" Y="835" L="156" H="23" P="0,0,0.3,0.2,360,0,0,0"/><S T="5" X="3977" Y="824" L="528" H="44" P="0,0,0.3,0.2,360,0,0,0"/><S T="5" X="4141" Y="572" L="196" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3545" Y="591" L="30" H="550" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3572" Y="518" L="94" H="26" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4217" Y="735" L="163" H="26" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4206" Y="770" L="163" H="26" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="4226" Y="518" L="94" H="26" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="4218" Y="453" L="130" H="23" P="0,0,0.3,0.2,-110,0,0,0"/><S T="5" X="3902" Y="853" L="700" H="26" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3898" Y="354" L="526" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3586" Y="436" L="94" H="23" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="3634" Y="366" L="94" H="23" P="0,0,0.3,0.2,140,0,0,0"/><S T="5" X="4244" Y="591" L="32" H="550" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4164" Y="366" L="94" H="23" P="0,0,0.3,0.2,-140,0,0,0"/><S T="5" X="3909" Y="330" L="700" H="28" P="0,0,0.3,0.2,0,0,0,0"/></S><D><DS X="947" Y="380"/></D><O><O X="31" Y="152" C="22" nosync="" P="0" type="tree"/><O X="212" Y="345" C="22" nosync="" P="0" type="tree"/><O X="259" Y="398" C="22" nosync="" P="0" type="tree"/><O X="1272" Y="702" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="732" Y="392" C="22" nosync="" P="0" type="craft_table"/><O X="580" Y="776" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="1458" Y="185" C="22" nosync="" P="0" type="rock"/><O X="1549" Y="181" C="22" nosync="" P="0" type="rock"/><O X="1259" Y="281" C="22" nosync="" P="0" type="rock"/><O X="1535" Y="799" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3598" Y="806" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="1029" Y="375" C="22" nosync="" P="0" type="tree"/><O X="56" Y="805" C="22" nosync="" P="0" type="tree"/><O X="3670" Y="720" C="22" nosync="" P="0" type="rock"/><O X="3615" Y="552" C="22" nosync="" P="0" type="rock"/><O X="3727" Y="452" C="22" nosync="" P="0" type="copper_ore"/><O X="3873" Y="380" C="22" nosync="" P="0" type="gold_ore"/><O X="3988" Y="489" C="22" nosync="" P="0" type="copper_ore"/><O X="4120" Y="474" C="22" nosync="" P="0" type="iron_ore"/><O X="3950" Y="629" C="22" nosync="" P="0" type="rock"/><O X="4143" Y="792" C="22" nosync="" P="0" type="rock"/><O X="4101" Y="794" C="22" nosync="" P="0" type="rock"/><O X="4020" Y="703" C="22" nosync="" P="0" type="iron_ore"/></O><L/></Z></C>]],
+	castle = [[<C><P L="16000" H="8000" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="397" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,100,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1902" Y="1141" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2" i="0,0,180937fe3b8.png"/><S T="12" X="1899" Y="952" L="826" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1912" Y="1309" L="826" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="2302" Y="1137" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1494" Y="1137" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="408" Y="729" L="704" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1207" Y="-1" L="805" H="29" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1607" Y="207" L="21" H="412" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="1204" Y="193" L="787" H="391" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="417" Y="578" L="651" H="313" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="12" X="888" Y="331" L="158" H="112" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1428" Y="330" L="339" H="129" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1255" Y="136" L="58" H="273" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="79" Y="685" L="43" H="348" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="401" Y="416" L="677" H="30" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="760" Y="594" L="46" H="393" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="1" X="417" Y="515" L="647" H="20" P="0,0,0,0.2,0,0,0,0"/><S T="0" X="180" Y="435" L="10" H="32" P="0,0,0.3,0.2,0,0,0,0"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1892" Y="1258" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="693" Y="343" C="11" nosync="" P="0" type="teleport" route="bridge" id="1"/><O X="851" Y="256" C="11" nosync="" P="0" type="teleport" route="bridge" id="2"/><O X="1610" Y="1258" C="14" nosync="" P="0" type="monster_spawn"/><O X="550" Y="695" C="14" nosync="" P="0" type="final_boss"/><O X="2243" Y="1255" C="14" nosync="" P="0" type="monster_spawn"/><O X="1502" Y="242" C="14" nosync="" P="0" type="fiery_dragon"/><O X="172" Y="346" C="22" nosync="" P="0" type="recipe" name="bridge"/><O X="948" Y="260" C="22" nosync="" P="0" type="bridge"/></O><L/></Z></C>]]
 
 }
 
@@ -671,6 +684,9 @@ local teleports = {
 		canEnter = function(player, terminalId)
 			local quest = player.questProgress.nosferatu
 			return quest and (quest.completed or quest.stage >= 3)
+		end,
+		onEnter = function(player, terminalId)
+			tfm.exec.setPlayerNightMode(terminalId == 2, player.name)
 		end
 	},
 	arena = {
@@ -686,6 +702,8 @@ local teleports = {
 		end
 	}
 }
+
+local directionSequence = {}
 
 local mineQuestCompletedPlayers, mineQuestIncompletedPlayers, totalPlayers, totalProcessedPlayers = 0, 0, 0, 0
 
@@ -773,7 +791,8 @@ setmetatable(Monster, {
 
 Monster.all = {
 	mutant_rat = {},
-	fiery_dragon = {}
+	fiery_dragon = {},
+	final_boss = {}
 }
 
 do
@@ -937,6 +956,76 @@ do
 
 		end
 	}
+
+	monsters.final_boss.sprites = {
+		idle_left = {
+			id = "18012c3631a.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		idle_right = {
+			id = "18012d4d75e.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "180192208f0.png",
+			xAdj = -30,
+			yAdj = -35,
+		},
+		primary_attack_right = {
+			id = "18019222e6a.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "180192b8289.png",
+			xAdj = -30,
+			yAdj = -35
+		},
+		secondary_attack_right = {
+			id = "180192ba692.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.final_boss.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.final_boss.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
+	monsters.final_boss.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+	monsters.final_boss.death = function(self, killedBy)
+		print("YOu win")
+	end
+
+
 end
 
 function Monster.new(metadata, spawnPoint)
@@ -951,6 +1040,7 @@ function Monster.new(metadata, spawnPoint)
 	self.health = metadata.health or metadata.species.health
 	self.metadata = metadata
 	self.stance = -1 -- left
+	self.isAlive = true
 	self.decisionMakeCooldown = os.time()
 	self.latestActionCooldown = os.time()
 	self.latestActionReceived = os.time()
@@ -1082,6 +1172,9 @@ function Monster:destroy(destroyedBy)
 			destroyedBy:updateQuestProgress("strength_test", 1)
 		end
 	end
+	p(self.species.death)
+	if self.species.death then self.species.death(self, destroyedBy) end
+	self.isAlive = false
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil
@@ -1146,8 +1239,6 @@ function Area:getClosestMonsterTo(x, y)
 	local min, closest = 1/0, nil
 	local objList = tfm.get.room.objectList
 	for id, monster in next, self.monsters do
-		print(monster.species == Monster.all.fiery_dragon)
-		print()
 		local obj =  (monster.species == Monster.all.fiery_dragon) and { x = monster.x, y = monster.y } or tfm.get.room.objectList[monster.objId]
 		local dist = math.pythag(x, y, obj.x, obj.y)
 		if dist <= 60 and dist < min then
@@ -1232,7 +1323,72 @@ Trigger.triggers = {
 			end
 		end,
 		ondeactivate = function(self)
-			next(self.monsters):destroy()
+			self.monsters[next(self.monsters)]:destroy()
+		end
+	},
+
+	final_boss = {
+		onactivate = function(self)
+			-- TODO: Make the battle start only after a few seconds of activation
+			bossBattleTriggered = true
+			for name in next, self.area.players do
+				divineChargePanel:show(name)
+			end
+			Monster.new({ health = 1000, species = Monster.all.final_boss }, self)
+			Timer.new("bossDivineCharger", function()
+				print("Time up!")
+				divineChargeTimeOver = true
+				local monster = self.monsters[next(self.monsters)]
+				-- TODO: Deduct health considering the divine charge
+				monster.health = monster.health - 500
+				print("didnt pass here")
+			end, 1000 * 5, false)
+		end,
+		ontick = function(self)
+			for _, monster in next, self.monsters do
+				if monster and monster.isAlive then monster:action() end
+			end
+
+			if divineChargeTimeOver or divinePowerCharge >= FINAL_BOSS_ATK_MAX_CHARGE then
+				--[[local boss = self.monsters[next(self.monsters)]
+				p(boss)]]
+				--if not divinePowerCasted then self.area.monsters[1].health = self.area.monsters[1].health - 600				end
+				return
+			end
+
+			directionSequence.lastPassed = nil
+			local id = 8000 + #directionSequence + 1
+
+			if #directionSequence > 0 and directionSequence[#directionSequence][3] > os.time() then return end
+			--if #directionSequence > 0 then directionSequence[#directionSequence][3] = os.time() print("set") end
+			tfm.exec.addPhysicObject(id, 713, 500, {
+				type = 1,
+				width = 10,
+				height = 10,
+				friction = 0,
+				dynamic = true,
+				fixedRotation = true
+			})
+			tfm.exec.movePhysicObject(id, 0, 0, false, -20, 0)
+			directionSequence[#directionSequence + 1] = { id, math.random(0, 3), os.time() + math.max(500, 5000 - (id - 8000) * 200), os.time() }
+			local s, v = 528, 20
+			-- s = t(u + v)/2
+			-- division by 3 is because the given vx is in a different unit than px/s
+			local t = (2 * s / (v + v - 0.01)) / 3
+			Timer.new("bossMinigame" .. tostring(#directionSequence), function()
+				print("should trigger")
+				for name in next, self.area.players do
+					divineChargePanel:addPanelTemp(Panel(401, "", 30, 110, (divinePowerCharge / FINAL_BOSS_ATK_MAX_CHARGE) * 600, 50, 0xff0000, 0xff0000, 1, true), name)
+					local player = Player.players[name]
+					directionSequence.lastPassed = id - 8000
+					p({player.sequenceIndex, directionSequence.lastPassed})
+					if player.sequenceIndex > directionSequence.lastPassed then return end
+					player.sequenceIndex = directionSequence.lastPassed + 1
+					p({name, "Too late!"})
+					divinePowerCharge = math.max(0, divinePowerCharge - 3)
+					player.chargedDivinePower = math.max(0, player.chargedDivinePower - 3)
+				end
+			end, t * 1000 + 500, false)
 		end
 	}
 
@@ -1336,6 +1492,14 @@ Item("iron_ore", Item.types.RESOURCE, true, nil, 0.08, {
 	en = "Iron ore"
 })
 
+Item("copper_ore", Item.types.RESOURCE, true, nil, 0.09, {
+	en = "Copper ore"
+})
+
+Item("gold_ore", Item.types.RESOURCE, true, nil, 0.3, {
+	en = "Gold ore"
+})
+
 Item("wood", Item.types.RESOURCE, true, nil, 1.2, {
 	en = "Wood"
 })
@@ -1398,6 +1562,8 @@ function Player.new(name)
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.carriageWeight = 0
+	self.sequenceIndex = 1
+	self.chargedDivinePower = 0
 	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
@@ -1598,11 +1764,33 @@ function Player:attack(monster)
 	end
 end
 
+function Player:processSequence(dir)
+	if not (bossBattleTriggered and self.area) then return end
+	local s, v = 528, 20
+	-- s = t(u + v)/2
+	-- division by 3 is because the given vx is in a different unit than px/s
+	local t = ((2 * s / (v + v - 0.01)) / 3) * 1000
+	local currDir = directionSequence[self.sequenceIndex]
+	if not currDir then return end
+	t = t + currDir[4]
+	local diff = math.abs(t - os.time()) / 1000
+	if diff <= 1 then -- it passed the line
+		self.sequenceIndex = self.sequenceIndex + 1
+		divinePowerCharge = math.min(FINAL_BOSS_ATK_MAX_CHARGE,  divinePowerCharge + (20 - diff * 20))
+		self.chargedDivinePower = math.min(FINAL_BOSS_ATK_MAX_CHARGE, self.chargedDivinePower + (20 - diff * 20))
+	else -- too late/early
+		print("too early!")
+		divinePowerCharge = math.max(0,  divinePowerCharge - 3)
+		self.chargedDivinePower = math.max(0, self.chargedDivinePower - 3)
+	end
+end
+
 function Player:destroy()
 	local name = self.name
 	tfm.exec.killPlayer(name)
 	for key, code in next, keys do system.bindKeyboard(name, code, true, false) end
 	self.alive = false
+	divinePowerCharge = divinePowerCharge - self.chargedDivinePower
 	self:setArea(-1, -1) -- area is heaven :)
 end
 
@@ -1772,6 +1960,38 @@ Entity.entities = {
 		end
 	},
 
+	copper_ore = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		},
+		resourceCap = 60,
+		onAction = function(self, player, down)
+			if not down then return end
+			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
+			player:addInventoryItem(Item.items.iron_ore,
+				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
+			)
+		end
+	},
+
+	gold_ore = {
+		image = {
+			id = "no.png",
+			xAdj = 0,
+			yAdj = 0
+		},
+		resourceCap = 60,
+		onAction = function(self, player, down)
+			if not down then return end
+			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
+			player:addInventoryItem(Item.items.iron_ore,
+				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
+			)
+		end
+	},
+
 	-- triggers
 
 	craft_table = {
@@ -1802,9 +2022,11 @@ Entity.entities = {
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
 			if not tpInfo.canEnter(player, tp2) then return end
 			if tp1 == self then
-				tfm.exec.movePlayer(player.name, tp2.x, tp2.y )
+				tfm.exec.movePlayer(player.name, tp2.x, tp2.y)
+				tpInfo.onEnter(player, 2)
 			else
 				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
+				tpInfo.onEnter(player, 1)
 			end
 		end
 	},
@@ -2238,6 +2460,8 @@ eventKeyboard = function(name, key, down, x, y)
 
 	if (not player.alive) or (not player:setArea(x, y)) then return end
 
+	if down then player:processSequence(key) end
+
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
 		local monster = area:getClosestMonsterTo(x, y)
@@ -2252,6 +2476,7 @@ eventKeyboard = function(name, key, down, x, y)
 	end
 
 end
+
 do
 
 	local npcNames = {
@@ -2301,6 +2526,7 @@ craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30
 			end)
 	)
 
+divineChargePanel = Panel(400, "", 30, 110, 600, 50, nil, nil, 1, true)
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50

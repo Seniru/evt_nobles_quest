@@ -30,6 +30,8 @@ function Player.new(name)
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.carriageWeight = 0
+	self.sequenceIndex = 1
+	self.chargedDivinePower = 0
 	self.learnedRecipes = {}
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
@@ -230,11 +232,33 @@ function Player:attack(monster)
 	end
 end
 
+function Player:processSequence(dir)
+	if not (bossBattleTriggered and self.area) then return end
+	local s, v = 528, 20
+	-- s = t(u + v)/2
+	-- division by 3 is because the given vx is in a different unit than px/s
+	local t = ((2 * s / (v + v - 0.01)) / 3) * 1000
+	local currDir = directionSequence[self.sequenceIndex]
+	if not currDir then return end
+	t = t + currDir[4]
+	local diff = math.abs(t - os.time()) / 1000
+	if diff <= 1 then -- it passed the line
+		self.sequenceIndex = self.sequenceIndex + 1
+		divinePowerCharge = math.min(FINAL_BOSS_ATK_MAX_CHARGE,  divinePowerCharge + (20 - diff * 20))
+		self.chargedDivinePower = math.min(FINAL_BOSS_ATK_MAX_CHARGE, self.chargedDivinePower + (20 - diff * 20))
+	else -- too late/early
+		print("too early!")
+		divinePowerCharge = math.max(0,  divinePowerCharge - 3)
+		self.chargedDivinePower = math.max(0, self.chargedDivinePower - 3)
+	end
+end
+
 function Player:destroy()
 	local name = self.name
 	tfm.exec.killPlayer(name)
 	for key, code in next, keys do system.bindKeyboard(name, code, true, false) end
 	self.alive = false
+	divinePowerCharge = divinePowerCharge - self.chargedDivinePower
 	self:setArea(-1, -1) -- area is heaven :)
 end
 
