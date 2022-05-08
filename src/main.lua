@@ -177,6 +177,12 @@ decodeQuestProgress = function(data)
 	return res
 end
 
+getVelocity = function(x_to, x_from, y_to, y_from, t)
+	local vcostheta = (x_to - x_from) / t
+	local vsintheta = (y_to - y_from + 10 * t ^ 2) / t
+	return vcostheta * 1.2, vsintheta * 1.2
+end
+
 do
 	eventNewGame()
 	for name, player in next, tfm.get.room.playerList do

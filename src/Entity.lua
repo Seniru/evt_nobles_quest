@@ -136,13 +136,16 @@ Entity.entities = {
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
 			if not tpInfo.canEnter(player, tp2) then return end
+			local terminal, x, y
 			if tp1 == self then
-				tfm.exec.movePlayer(player.name, tp2.x, tp2.y)
-				tpInfo.onEnter(player, 2)
+				x, y, terminal = tp2.x, tp2.y, 2
 			else
-				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
-				tpInfo.onEnter(player, 1)
+				x, y, terminal = tp1.x, tp1.y, 1
 			end
+			tfm.exec.movePlayer(player.name, x, y)
+			Timer.new("tp_anim", tfm.exec.displayParticle, 10, false, 37, x, y)
+			if tpInfo.onEnter then tpInfo.onEnter(player, terminal) end
+
 		end
 	},
 

@@ -12,6 +12,8 @@ setmetatable(Trigger, {
 	end,
 })
 
+
+local spawnRarities = {1 ,1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3 }
 Trigger.triggers = {
 
 	monster_spawn = {
@@ -22,8 +24,9 @@ Trigger.triggers = {
 			for _, monster in next, self.monsters do
 				if monster then monster:action() end
 			end
-			if (math.random(1, 1000) > (#self.monsters == 0 and 200 or 990)) then
-				--Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
+			print(self.monsterCount)
+			if (math.random(1, 1000) > (self.monsterCount < 1 and 500 or 900 + self.monsterCount * 30 )) then
+				Monster.new({ health = 20, species = Monster.all[({"mutant_rat", "snail", "the_rock"})[spawnRarities[math.random(#spawnRarities)]]] }, self)
 			end
 		end,
 		ondeactivate = function(self)
@@ -128,6 +131,7 @@ function Trigger.new(x, y, type, area, name)
 	self.name = name
 	self.id = #area.triggers + 1
 	self.monsters = {}
+	self.monsterCount = 0
 	area.triggers[self.id] = self
 	return self
 end

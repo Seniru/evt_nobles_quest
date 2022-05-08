@@ -27,6 +27,7 @@ combine({
 	  
   	classes: { files: [			
 	  	"src/Monster.lua",
+		"src/monster_metadata.lua",
 		"src/Area.lua",
 	  	"src/Trigger.lua",
 	  	"src/Item.lua",
@@ -42,7 +43,8 @@ combine({
       		"src/events/eventPlayerDataLoaded.lua",
 			"src/events/eventKeyboard.lua",
 			"src/events/eventTalkToNPC.lua",
-			"src/events/eventTextAreaCallback.lua"
+			"src/events/eventTextAreaCallback.lua",
+			"src/events/eventContactListener.lua"
     	],
   	},
   	main: {

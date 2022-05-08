@@ -627,7 +627,7 @@ local FINAL_BOSS_ATK_MAX_CHARGE = 2000
 
 local maps = {
 	mine = [[<C><P L="9000" H="1600" D="17f32282dfc.png,2,5" APS="17f322853ac.png,,820,535,800,317,-1,0" Ca="" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="1" X="1628" Y="108" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="1" X="-7" Y="196" L="10" H="2016" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="0" X="5" Y="5" L="11" H="10" P="0,0,0.3,0.2,2880,0,0,0" c="4" nosync="" i="0,0,17f32282dfc.png"/><S T="0" X="30" Y="202" L="61" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="0" X="85" Y="221" L="59" H="10" P="0,0,0.3,0.2,2910,0,0,0" m=""/><S T="0" X="149" Y="319" L="139" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="119" Y="246" L="26" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="209" Y="399" L="102" H="10" P="0,0,0.3,0.2,2918,0,0,0" m=""/><S T="0" X="264" Y="453" L="57" H="10" P="0,0,0.3,0.2,2950,0,0,0" m=""/><S T="0" X="298" Y="509" L="79" H="10" P="0,0,0.3,0.2,2930,0,0,0" m=""/><S T="0" X="321" Y="562" L="49" H="10" P="0,0,0.3,0.2,2970,0,0,0" m=""/><S T="0" X="524" Y="535" L="230" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="235" Y="658" L="230" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="667" Y="474" L="88" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="778" Y="425" L="163" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="957" Y="398" L="212" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1082" Y="390" L="54" H="10" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1130" Y="380" L="69" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1193" Y="346" L="85" H="12" P="0,0,0.3,0.2,2860,0,0,0" m=""/><S T="0" X="1237" Y="333" L="67" H="10" P="0,0,0.3,0.2,2800,0,0,0" m=""/><S T="0" X="1314" Y="263" L="161" H="10" P="0,0,0.3,0.2,2850,0,0,0" m=""/><S T="0" X="1430" Y="214" L="94" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1532" Y="207" L="113" H="10" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="1602" Y="210" L="34" H="10" P="0,0,0.3,0.2,2890,0,0,0" m=""/><S T="4" X="357" Y="673" L="10" H="235" P="0,0,20,0.2,2910,0,0,0" m=""/><S T="0" X="900" Y="844" L="1800" H="22" P="0,0,0.3,0.2,2880,0,0,0" m=""/><S T="0" X="894" Y="862" L="136" H="10" P="0,0,0.3,0.2,2840,0,0,0" m=""/><S T="0" X="1003" Y="811" L="121" H="10" P="0,0,0.3,0.2,2870,0,0,0" m=""/><S T="0" X="1121" Y="795" L="118" H="10" P="0,0,0.3,0.2,2875,0,0,0" m=""/><S T="0" X="1528" Y="850" L="118" H="10" P="0,0,0.3,0.2,2915,0,0,0" m=""/><S T="0" X="1332" Y="804" L="314" H="10" P="0,0,0.3,0.2,2885,0,0,0" m=""/><S T="0" X="245" Y="810" L="200" H="10" P="0,0,0.3,0.2,2900,0,0,0" m=""/><S T="1" X="150" Y="859" L="10" H="268" P="0,0,0,0.2,2880,0,0,0" m=""/><S T="8" X="1261" Y="670" L="718" H="375" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2"/><S T="8" X="148" Y="253" L="302" H="499" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="730" Y="395" L="264" H="151" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="4"/><S T="8" X="3893" Y="591" L="670" H="520" P="0,0,0.3,0.2,0,0,0,0" c="2" lua="7"/><S T="5" X="3564" Y="401" L="154" H="42" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4234" Y="401" L="154" H="42" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="3585" Y="368" L="91" H="31" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="3565" Y="615" L="91" H="31" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="3584" Y="611" L="91" H="31" P="0,0,0.3,0.2,130,0,0,0"/><S T="5" X="4218" Y="624" L="91" H="31" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4213" Y="368" L="91" H="31" P="0,0,0.3,0.2,-110,0,0,0"/><S T="5" X="3606" Y="360" L="78" H="42" P="0,0,0.3,0.2,150,0,0,0"/><S T="5" X="4192" Y="360" L="78" H="42" P="0,0,0.3,0.2,-150,0,0,0"/><S T="8" X="1308" Y="275" L="630" H="257" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="8" X="75" Y="799" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="6"/><S T="8" X="563" Y="794" L="157" H="107" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="8"/><S T="5" X="4016" Y="492" L="110" H="23" P="0,0,0.3,0.2,140,0,0,0"/><S T="5" X="3663" Y="535" L="58" H="23" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="3952" Y="534" L="58" H="23" P="0,0,0.3,0.2,160,0,0,0"/><S T="5" X="4139" Y="505" L="49" H="23" P="0,0,0.3,0.2,180,0,0,0"/><S T="5" X="4093" Y="484" L="74" H="23" P="0,0,0.3,0.2,220,0,0,0"/><S T="5" X="3996" Y="686" L="58" H="23" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="3657" Y="572" L="196" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3822" Y="616" L="101" H="23" P="0,0,0.3,0.2,-50,0,0,0"/><S T="5" X="3747" Y="650" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3978" Y="648" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4192" Y="614" L="101" H="23" P="0,0,0.3,0.2,-50,0,0,0"/><S T="5" X="4204" Y="626" L="47" H="23" P="0,0,0.3,0.2,-50,0,0,0"/><S T="5" X="4195" Y="728" L="156" H="23" P="0,0,0.3,0.2,280,0,0,0"/><S T="5" X="3917" Y="474" L="101" H="23" P="0,0,0.3,0.2,-20,0,0,0"/><S T="5" X="3738" Y="472" L="45" H="23" P="0,0,0.3,0.2,150,0,0,0"/><S T="5" X="3827" Y="421" L="33" H="23" P="0,0,0.3,0.2,150,0,0,0"/><S T="5" X="3929" Y="381" L="195" H="23" P="0,0,0.3,0.2,160,0,0,0"/><S T="5" X="3731" Y="398" L="157" H="23" P="0,0,0.3,0.2,240,0,0,0"/><S T="5" X="4012" Y="457" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4158" Y="648" L="161" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4072" Y="405" L="129" H="23" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="4032" Y="789" L="129" H="23" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="3893" Y="617" L="111" H="23" P="0,0,0.3,0.2,-140,0,0,0"/><S T="5" X="3837" Y="539" L="101" H="23" P="0,0,0.3,0.2,70,0,0,0"/><S T="5" X="3705" Y="741" L="101" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3857" Y="777" L="101" H="23" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="4035" Y="726" L="101" H="23" P="0,0,0.3,0.2,-180,0,0,0"/><S T="5" X="3910" Y="804" L="101" H="23" P="0,0,0.3,0.2,20,0,0,0"/><S T="5" X="3591" Y="629" L="138" H="23" P="0,0,0.3,0.2,130,0,0,0"/><S T="5" X="3602" Y="709" L="138" H="23" P="0,0,0.3,0.2,210,0,0,0"/><S T="5" X="3563" Y="772" L="156" H="23" P="0,0,0.3,0.2,270,0,0,0"/><S T="5" X="3638" Y="826" L="156" H="23" P="0,0,0.3,0.2,350,0,0,0"/><S T="5" X="3686" Y="835" L="156" H="23" P="0,0,0.3,0.2,360,0,0,0"/><S T="5" X="3977" Y="824" L="528" H="44" P="0,0,0.3,0.2,360,0,0,0"/><S T="5" X="4141" Y="572" L="196" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3545" Y="591" L="30" H="550" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3572" Y="518" L="94" H="26" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4217" Y="735" L="163" H="26" P="0,0,0.3,0.2,90,0,0,0"/><S T="5" X="4206" Y="770" L="163" H="26" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="4226" Y="518" L="94" H="26" P="0,0,0.3,0.2,-90,0,0,0"/><S T="5" X="4218" Y="453" L="130" H="23" P="0,0,0.3,0.2,-110,0,0,0"/><S T="5" X="3902" Y="853" L="700" H="26" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3898" Y="354" L="526" H="23" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="3586" Y="436" L="94" H="23" P="0,0,0.3,0.2,110,0,0,0"/><S T="5" X="3634" Y="366" L="94" H="23" P="0,0,0.3,0.2,140,0,0,0"/><S T="5" X="4244" Y="591" L="32" H="550" P="0,0,0.3,0.2,0,0,0,0"/><S T="5" X="4164" Y="366" L="94" H="23" P="0,0,0.3,0.2,-140,0,0,0"/><S T="5" X="3909" Y="330" L="700" H="28" P="0,0,0.3,0.2,0,0,0,0"/></S><D><DS X="947" Y="380"/></D><O><O X="31" Y="152" C="22" nosync="" P="0" type="tree"/><O X="212" Y="345" C="22" nosync="" P="0" type="tree"/><O X="259" Y="398" C="22" nosync="" P="0" type="tree"/><O X="1272" Y="702" C="22" nosync="" P="0" type="npc" name="nosferatu"/><O X="732" Y="392" C="22" nosync="" P="0" type="craft_table"/><O X="580" Y="776" C="22" nosync="" P="0" type="recipe" name="basic_shovel"/><O X="1458" Y="185" C="22" nosync="" P="0" type="rock"/><O X="1549" Y="181" C="22" nosync="" P="0" type="rock"/><O X="1259" Y="281" C="22" nosync="" P="0" type="rock"/><O X="1535" Y="799" C="11" nosync="" P="0" type="teleport" route="mine" id="1"/><O X="3598" Y="806" C="11" nosync="" P="0" type="teleport" route="mine" id="2"/><O X="1029" Y="375" C="22" nosync="" P="0" type="tree"/><O X="56" Y="805" C="22" nosync="" P="0" type="tree"/><O X="3670" Y="720" C="22" nosync="" P="0" type="rock"/><O X="3615" Y="552" C="22" nosync="" P="0" type="rock"/><O X="3727" Y="452" C="22" nosync="" P="0" type="copper_ore"/><O X="3873" Y="380" C="22" nosync="" P="0" type="gold_ore"/><O X="3988" Y="489" C="22" nosync="" P="0" type="copper_ore"/><O X="4120" Y="474" C="22" nosync="" P="0" type="iron_ore"/><O X="3950" Y="629" C="22" nosync="" P="0" type="rock"/><O X="4143" Y="792" C="22" nosync="" P="0" type="rock"/><O X="4101" Y="794" C="22" nosync="" P="0" type="rock"/><O X="4020" Y="703" C="22" nosync="" P="0" type="iron_ore"/></O><L/></Z></C>]],
-	castle = [[<C><P L="16000" H="8000" MEDATA=";;;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="397" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,100,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1902" Y="1141" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2" i="0,0,180937fe3b8.png"/><S T="12" X="1899" Y="952" L="826" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1912" Y="1309" L="826" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="2302" Y="1137" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1494" Y="1137" L="20" H="464" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="408" Y="729" L="704" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1207" Y="-1" L="805" H="29" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1607" Y="207" L="21" H="412" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="1204" Y="193" L="787" H="391" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="417" Y="578" L="651" H="313" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="12" X="888" Y="331" L="158" H="112" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1428" Y="330" L="339" H="129" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1255" Y="136" L="58" H="273" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="79" Y="685" L="43" H="348" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="401" Y="416" L="677" H="30" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="760" Y="594" L="46" H="393" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="1" X="417" Y="515" L="647" H="20" P="0,0,0,0.2,0,0,0,0"/><S T="0" X="180" Y="435" L="10" H="32" P="0,0,0.3,0.2,0,0,0,0"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1892" Y="1258" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="693" Y="343" C="11" nosync="" P="0" type="teleport" route="bridge" id="1"/><O X="851" Y="256" C="11" nosync="" P="0" type="teleport" route="bridge" id="2"/><O X="1610" Y="1258" C="14" nosync="" P="0" type="monster_spawn"/><O X="550" Y="695" C="14" nosync="" P="0" type="final_boss"/><O X="2243" Y="1255" C="14" nosync="" P="0" type="monster_spawn"/><O X="1502" Y="242" C="14" nosync="" P="0" type="fiery_dragon"/><O X="172" Y="346" C="22" nosync="" P="0" type="recipe" name="bridge"/><O X="948" Y="260" C="22" nosync="" P="0" type="bridge"/></O><L/></Z></C>]]
+	castle = [[<C><P L="2315" H="1360" Ca="" MEDATA=";;6,1;;-0;0:::1-"/><Z><S><S T="12" X="399" Y="386" L="797" H="26" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="0" Y="198" L="27" H="392" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="800" Y="193" L="34" H="405" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="397" Y="-1" L="834" H="31" P="0,0,0.3,0.2,0,0,100,0" o="324650"/><S T="8" X="399" Y="198" L="792" H="365" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="1"/><S T="8" X="1488" Y="1151" L="900" H="405" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="2" i="0,0,180938afb04.png"/><S T="12" X="1499" Y="952" L="826" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1500" Y="1283" L="826" H="13" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1902" Y="1137" L="20" H="451" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="1094" Y="1159" L="20" H="400" P="0,0,0.3,0.2,0,0,0,0" o="324650" m=""/><S T="12" X="408" Y="729" L="704" H="18" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1207" Y="-1" L="805" H="29" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1607" Y="207" L="21" H="412" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="8" X="1204" Y="193" L="787" H="391" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="3"/><S T="8" X="417" Y="578" L="651" H="313" P="0,0,0.3,0.2,0,0,0,0" c="4" lua="5"/><S T="12" X="888" Y="331" L="158" H="112" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1428" Y="330" L="339" H="129" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="1255" Y="134" L="58" H="273" P="0,0,0.3,0.2,0,0,0,0" o="324650" m="" lua="4"/><S T="12" X="79" Y="685" L="43" H="348" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="401" Y="416" L="677" H="30" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="12" X="760" Y="594" L="46" H="393" P="0,0,0.3,0.2,0,0,0,0" o="324650"/><S T="1" X="417" Y="515" L="647" H="20" P="0,0,0,0.2,0,0,0,0"/><S T="0" X="180" Y="435" L="10" H="32" P="0,0,0.3,0.2,0,0,0,0"/></S><D><DS X="85" Y="355"/></D><O><O X="606" Y="341" C="22" nosync="" P="0" type="npc" name="edric"/><O X="1492" Y="1258" C="11" nosync="" P="0" type="teleport" route="arena" id="2"/><O X="300" Y="342" C="11" nosync="" P="0" type="teleport" route="arena" id="1"/><O X="693" Y="343" C="11" nosync="" P="0" type="teleport" route="bridge" id="1"/><O X="851" Y="256" C="11" nosync="" P="0" type="teleport" route="bridge" id="2"/><O X="1210" Y="1258" C="14" nosync="" P="0" type="monster_spawn"/><O X="1750" Y="1251" C="14" nosync="" P="0" type="monster_spawn"/><O X="550" Y="695" C="14" nosync="" P="0" type="final_boss"/><O X="1502" Y="242" C="14" nosync="" P="0" type="fiery_dragon"/><O X="172" Y="346" C="22" nosync="" P="0" type="recipe" name="bridge"/><O X="948" Y="260" C="22" nosync="" P="0" type="bridge"/></O><L/></Z></C>]]
 
 }
 
@@ -658,7 +658,8 @@ local assets = {
 		inventory = "17ff9b6b11f.png"
 	},
 	damageFg = "17f2a88995c.png",
-	damageBg = "17f2a890350.png"
+	damageBg = "17f2a890350.png",
+	stone = "18093cce38d.png"
 }
 
 local dHandler = DataHandler.new("evt_nq", {
@@ -704,6 +705,7 @@ local teleports = {
 }
 
 local directionSequence = {}
+local projectiles = {}
 
 local mineQuestCompletedPlayers, mineQuestIncompletedPlayers, totalPlayers, totalProcessedPlayers = 0, 0, 0, 0
 
@@ -789,245 +791,6 @@ setmetatable(Monster, {
 	end,
 })
 
-Monster.all = {
-	mutant_rat = {},
-	fiery_dragon = {},
-	final_boss = {}
-}
-
-do
-	local monsters = Monster.all
-
-	monsters.mutant_rat.sprites = {
-		idle_left = {
-			id = "18012c3631a.png",
-			xAdj = -30,
-			yAdj = -30,
-		},
-		idle_right = {
-			id = "18012d4d75e.png",
-			xAdj = -30,
-			yAdj = -30,
-		},
-		primary_attack_left = {
-			id = "180192208f0.png",
-			xAdj = -30,
-			yAdj = -35,
-		},
-		primary_attack_right = {
-			id = "18019222e6a.png",
-			xAdj = -45,
-			yAdj = -35
-		},
-		secondary_attack_left = {
-			id = "180192b8289.png",
-			xAdj = -30,
-			yAdj = -35
-		},
-		secondary_attack_right = {
-			id = "180192ba692.png",
-			xAdj = -45,
-			yAdj = -35
-		},
-		dead_left = {
-			id = "180193395b8.png",
-			xAdj = -35,
-			yAdj = -30
-		},
-		dead_right = {
-			id = "1801933c6e6.png",
-			xAdj = -40,
-			yAdj = -30
-		}
-	}
-	monsters.mutant_rat.spawn = function(self)
-		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
-		local imageData = self.species.sprites.idle_left
-		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
-	end
-	monsters.mutant_rat.move = function(self)
-		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
-		if self.lastAction ~= "move" then
-			tfm.exec.removeImage(self.imageId)
-			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
-			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-		end
-	end
-	monsters.mutant_rat.attacks = {
-		primary = function(self, target)
-			target.health = target.health - 2.5
-		end,
-		secondary = function(self, target)
-
-		end
-	}
-
-
-	monsters.fiery_dragon.sprites = {
-		idle_left = {
-			id = "18012c3631a.png",
-			xAdj = -30,
-			yAdj = -30,
-		},
-		idle_right = {
-			id = "18012d4d75e.png",
-			xAdj = -30,
-			yAdj = -30,
-		},
-		primary_attack_left = {
-			id = "180192208f0.png",
-			xAdj = -30,
-			yAdj = -35,
-		},
-		primary_attack_right = {
-			id = "18019222e6a.png",
-			xAdj = -45,
-			yAdj = -35
-		},
-		secondary_attack_left = {
-			id = "180192b8289.png",
-			xAdj = -30,
-			yAdj = -35
-		},
-		secondary_attack_right = {
-			id = "180192ba692.png",
-			xAdj = -45,
-			yAdj = -35
-		},
-		dead_left = {
-			id = "180193395b8.png",
-			xAdj = -35,
-			yAdj = -30
-		},
-		dead_right = {
-			id = "1801933c6e6.png",
-			xAdj = -40,
-			yAdj = -30
-		}
-	}
-	monsters.fiery_dragon.spawn = function(self)
-		self.wait = 0
-		self.objId = 999999
-		tfm.exec.addPhysicObject(200, self.x, self.y - 80, {
-			type = 1,
-			width = 130,
-			height = 200,
-			dynamic = true,
-			friction = 30,
-			mass = 9999,
-			fixedRotation = true,
-			linearDamping = 999
-		})
-		--local imageData = self.species.sprites.idle_left
-		--self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-	end
-	monsters.fiery_dragon.move = function(self)
-		self.wait = self.wait - 1
-		local dragX = tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 130)
-		if self.wait < 0 then
-			tfm.exec.removeObject(self.objId)
-			self.objId = tfm.exec.addShamanObject(62, self.x + 50, self.y - 50, 180, -100, 0, false)
-			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -20)
-			self.wait = 3
-		end
-		local entityBridge
-		for i, e in next, self.area.entities do
-			if e.type == "bridge" then
-				entityBridge = e
-				break
-			end
-		end
-		p(entityBridge.bridges)
-		for i, bridge in next, (entityBridge.bridges or {}) do
-			if math.abs(bridge[2] - dragX) < 50 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
-				tfm.exec.removePhysicObject(bridge[1])
-				entityBridge.bridges[i] = nil
-			end
-		end
-					--local imageData = self.species.sprites.idle_left
-		--self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-	end
-	monsters.fiery_dragon.attacks = {
-		primary = function(self, target)
-			target.health = target.health - 2.5
-		end,
-		secondary = function(self, target)
-
-		end
-	}
-
-	monsters.final_boss.sprites = {
-		idle_left = {
-			id = "18012c3631a.png",
-			xAdj = -30,
-			yAdj = -30,
-		},
-		idle_right = {
-			id = "18012d4d75e.png",
-			xAdj = -30,
-			yAdj = -30,
-		},
-		primary_attack_left = {
-			id = "180192208f0.png",
-			xAdj = -30,
-			yAdj = -35,
-		},
-		primary_attack_right = {
-			id = "18019222e6a.png",
-			xAdj = -45,
-			yAdj = -35
-		},
-		secondary_attack_left = {
-			id = "180192b8289.png",
-			xAdj = -30,
-			yAdj = -35
-		},
-		secondary_attack_right = {
-			id = "180192ba692.png",
-			xAdj = -45,
-			yAdj = -35
-		},
-		dead_left = {
-			id = "180193395b8.png",
-			xAdj = -35,
-			yAdj = -30
-		},
-		dead_right = {
-			id = "1801933c6e6.png",
-			xAdj = -40,
-			yAdj = -30
-		}
-	}
-	monsters.final_boss.spawn = function(self)
-		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
-		local imageData = self.species.sprites.idle_left
-		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
-	end
-	monsters.final_boss.move = function(self)
-		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
-		if self.lastAction ~= "move" then
-			tfm.exec.removeImage(self.imageId)
-			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
-			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-		end
-	end
-	monsters.final_boss.attacks = {
-		primary = function(self, target)
-			target.health = target.health - 2.5
-		end,
-		secondary = function(self, target)
-
-		end
-	}
-	monsters.final_boss.death = function(self, killedBy)
-		print("YOu win")
-	end
-
-
-end
-
 function Monster.new(metadata, spawnPoint)
 	local self = setmetatable({}, Monster)
 	local id = #Monster.monsters + 1
@@ -1048,6 +811,7 @@ function Monster.new(metadata, spawnPoint)
 	self.species.spawn(self)
 	Monster.monsters[id] = self
 	spawnPoint.monsters[id] = self
+	spawnPoint.monsterCount = spawnPoint.monsterCount + 1
 	self.area.monsters[id] = self
 	return self
 end
@@ -1133,23 +897,31 @@ function Monster:action()
 end
 
 function Monster:changeStance(stance)
+	local isDragon = self.species == Monster.all.fiery_dragon
 	self.stance = stance
 	tfm.exec.removeImage(self.imageId)
-	local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	if not isDragon then
+		local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
 end
 
 function Monster:attack(player, attackType)
+	local isDragon = self.species == Monster.all.fiery_dragon
+	if not self.isAlive then return end
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
+	p({self.species.attacks, attackType, self.species.attacks[attackType]})
 	self.species.attacks[attackType](self, playerObj)
 	tfm.exec.removeImage(self.imageId)
-	local imageData = self.species.sprites[attackType .. "_attack_" .. (self.stance == -1 and "left" or "right")]
-	self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	if not isDragon then
+		local imageData = self.species.sprites[attackType .. "_attack_" .. (self.stance == -1 and "left" or "right")]
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	if attackType == "primary" then displayDamage(playerObj) end
 	if playerObj.health < 0 then
 		playerObj:destroy()
 	end
-	displayDamage(playerObj)
 end
 
 function Monster:move()
@@ -1178,10 +950,414 @@ function Monster:destroy(destroyedBy)
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil
+	self.spawnPoint.monsters[self.id] = nil
+	self.spawnPoint.monsterCount = self.spawnPoint.monsterCount - 1
 	self = nil
 end
 
 
+Monster.all = {
+	mutant_rat = {},
+	the_rock = {},
+	snail = {},
+	fiery_dragon = {},
+	final_boss = {}
+}
+
+do
+	local monsters = Monster.all
+
+	monsters.mutant_rat.sprites = {
+		idle_left = {
+			id = "18012c3631a.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		idle_right = {
+			id = "18012d4d75e.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "180192208f0.png",
+			xAdj = -30,
+			yAdj = -35,
+		},
+		primary_attack_right = {
+			id = "18019222e6a.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "180192b8289.png",
+			xAdj = -30,
+			yAdj = -35
+		},
+		secondary_attack_right = {
+			id = "180192ba692.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.mutant_rat.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.mutant_rat.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
+	monsters.mutant_rat.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 3
+		end,
+		secondary = function(self, target)
+			local id = #projectiles + 1
+			local projectile = tfm.exec.addPhysicObject(12000 + id, self.x, self.y - 5, {
+				type = 2,
+				width = 10,
+				height = 10,
+				friction = 2,
+				contactListener = true,
+				dynamic = true,
+				groundCollision = false
+			})
+			local player = tfm.get.room.playerList[target.name]
+			local vx, vy = getVelocity(player.x, self.x, player.y, self.y - 5, 3)
+			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
+			local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
+			projectiles[id] = { 1, false }
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+		end
+	}
+
+	monsters.the_rock.sprites = {
+		idle_left = {
+			id = "180989fbe7d.png",
+			xAdj = -27,
+			yAdj = -25,
+		},
+		idle_right = {
+			id = "18098a542e3.png",
+			xAdj = -27,
+			yAdj = -25,
+		},
+		primary_attack_left = {
+			id = "18098ad201c.png",
+			xAdj = -33,
+			yAdj = -20,
+		},
+		primary_attack_right = {
+			id = "18098ae95b3.png",
+			xAdj = -33,
+			yAdj = -20
+		},
+		secondary_attack_left = {
+			id = "180989fbe7d.png",
+			xAdj = -27,
+			yAdj = -25,
+		},
+		secondary_attack_right = {
+			id = "18098a542e3.png",
+			xAdj = -27,
+			yAdj = -25,
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.the_rock.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.the_rock.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
+	monsters.the_rock.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 7
+		end,
+		secondary = function(self, target)
+			self:changeStance(self.stance * -1)
+			self:move()
+		end
+	}
+
+	monsters.snail.sprites = {
+		idle_left = {
+			id = "1809debd5c6.png",
+			xAdj = -28,
+			yAdj = -22,
+		},
+		idle_right = {
+			id = "1809dee97e2.png",
+			xAdj = -30,
+			yAdj = -22,
+		},
+		primary_attack_left = {
+			id = "1809df1bc2e.png",
+			xAdj = -28,
+			yAdj = -23,
+		},
+		primary_attack_right = {
+			id = "1809df30ef7.png",
+			xAdj = -28,
+			yAdj = -23
+		},
+		secondary_attack_left = {
+			id = "1809df1bc2e.png",
+			xAdj = -28,
+			yAdj = -23,
+		},
+		secondary_attack_right = {
+			id = "1809df30ef7.png",
+			xAdj = -28,
+			yAdj = -23
+		},
+		dead_left = {
+			id = "180193395b8.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1801933c6e6.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.snail.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.snail.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
+
+	local snailAttack = function(self, target)
+		local id = #projectiles + 1
+			local projectile = tfm.exec.addPhysicObject(12000 + id, self.x, self.y - 5, {
+				type = 2,
+				width = 30,
+				height = 10,
+				friction = 2,
+				contactListener = true,
+				dynamic = true,
+				groundCollision = false
+			})
+			local player = tfm.get.room.playerList[target.name]
+			local vx, vy = getVelocity(player.x, self.x, player.y, self.y - 5, 3)
+			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
+			--local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
+			projectiles[id] = { 0, true, 1000 }
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+	end
+	monsters.snail.attacks = {
+		primary = snailAttack,
+		secondary = snailAttack
+	}
+
+
+
+	monsters.fiery_dragon.sprites = {
+		idle_left = {
+			id = "1809dfcd636.png",
+			xAdj = -200,
+			yAdj = -100,
+		},
+		idle_right = {
+			id = "1809dfcd636.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "1809dfcd636.png",
+			xAdj = -200,
+			yAdj = -100,
+		},
+		primary_attack_right = {
+			id = "1809dfcd636.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "1809dfcd636.png",
+			xAdj = -200,
+			yAdj = -100,
+		},
+		secondary_attack_right = {
+			id = "1809dfcd636.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "1809dfcd636.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1809dfcd636.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.fiery_dragon.spawn = function(self)
+		self.wait = 0
+		self.objId = 999999
+		self.bodyId = 200
+		tfm.exec.addPhysicObject(self.bodyId, self.x, self.y - 80, {
+			type = 1,
+			width = 345,
+			height = 185,
+			dynamic = true,
+			friction = 30,
+			mass = 9999,
+			fixedRotation = true,
+			linearDamping = 999
+		})
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.fiery_dragon.move = function(self)
+		self.wait = self.wait - 1
+		local dragX = tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 130)
+		if self.wait < 0 then
+			tfm.exec.removeObject(self.objId)
+			self.objId = tfm.exec.addShamanObject(62, self.x + 50, self.y - 50, 180, -100, 0, false)
+			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -20)
+			self.wait = 3
+		end
+		local entityBridge
+		for i, e in next, self.area.entities do
+			if e.type == "bridge" then
+				entityBridge = e
+				break
+			end
+		end
+		p(entityBridge.bridges)
+		for i, bridge in next, (entityBridge.bridges or {}) do
+			if math.abs(bridge[2] - dragX) < 50 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+				tfm.exec.removePhysicObject(bridge[1])
+				entityBridge.bridges[i] = nil
+			end
+		end
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.fiery_dragon.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+
+	monsters.final_boss.sprites = {
+		idle_left = {
+			id = "1809dfcd636.png",
+			xAdj = -200,
+			yAdj = -100,
+		},
+		idle_right = {
+			id = "1809dfcd636.png",
+			xAdj = -30,
+			yAdj = -30,
+		},
+		primary_attack_left = {
+			id = "1809dfcd636.png",
+			xAdj = -200,
+			yAdj = -100,
+		},
+		primary_attack_right = {
+			id = "1809dfcd636.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		secondary_attack_left = {
+			id = "1809dfcd636.png",
+			xAdj = -200,
+			yAdj = -100,
+		},
+		secondary_attack_right = {
+			id = "1809dfcd636.png",
+			xAdj = -45,
+			yAdj = -35
+		},
+		dead_left = {
+			id = "1809dfcd636.png",
+			xAdj = -35,
+			yAdj = -30
+		},
+		dead_right = {
+			id = "1809dfcd636.png",
+			xAdj = -40,
+			yAdj = -30
+		}
+	}
+	monsters.final_boss.spawn = function(self)
+		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
+	end
+	monsters.final_boss.move = function(self)
+		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
+		if self.lastAction ~= "move" then
+			tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
+			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		end
+	end
+	monsters.final_boss.attacks = {
+		primary = function(self, target)
+			target.health = target.health - 2.5
+		end,
+		secondary = function(self, target)
+
+		end
+	}
+	monsters.final_boss.death = function(self, killedBy)
+		print("YOu win")
+	end
+
+end
 local Area = {}
 Area.areas = {}
 
@@ -1287,6 +1463,8 @@ setmetatable(Trigger, {
 	end,
 })
 
+
+local spawnRarities = {1 ,1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3 }
 Trigger.triggers = {
 
 	monster_spawn = {
@@ -1297,8 +1475,9 @@ Trigger.triggers = {
 			for _, monster in next, self.monsters do
 				if monster then monster:action() end
 			end
-			if (math.random(1, 1000) > (#self.monsters == 0 and 200 or 990)) then
-				--Monster.new({ health = 20, species = Monster.all.mutant_rat }, self)
+			print(self.monsterCount)
+			if (math.random(1, 1000) > (self.monsterCount < 1 and 500 or 900 + self.monsterCount * 30 )) then
+				Monster.new({ health = 20, species = Monster.all[({"mutant_rat", "snail", "the_rock"})[spawnRarities[math.random(#spawnRarities)]]] }, self)
 			end
 		end,
 		ondeactivate = function(self)
@@ -1403,6 +1582,7 @@ function Trigger.new(x, y, type, area, name)
 	self.name = name
 	self.id = #area.triggers + 1
 	self.monsters = {}
+	self.monsterCount = 0
 	area.triggers[self.id] = self
 	return self
 end
@@ -1500,7 +1680,7 @@ Item("gold_ore", Item.types.RESOURCE, true, nil, 0.3, {
 	en = "Gold ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, nil, 1.2, {
+Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 1.2, {
 	en = "Wood"
 })
 
@@ -2021,13 +2201,16 @@ Entity.entities = {
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
 			if not tpInfo.canEnter(player, tp2) then return end
+			local terminal, x, y
 			if tp1 == self then
-				tfm.exec.movePlayer(player.name, tp2.x, tp2.y)
-				tpInfo.onEnter(player, 2)
+				x, y, terminal = tp2.x, tp2.y, 2
 			else
-				tfm.exec.movePlayer(player.name, tp1.x, tp1.y)
-				tpInfo.onEnter(player, 1)
+				x, y, terminal = tp1.x, tp1.y, 1
 			end
+			tfm.exec.movePlayer(player.name, x, y)
+			Timer.new("tp_anim", tfm.exec.displayParticle, 10, false, 37, x, y)
+			if tpInfo.onEnter then tpInfo.onEnter(player, terminal) end
+
 		end
 	},
 
@@ -2493,6 +2676,17 @@ end
 eventTextAreaCallback = function(id, name, event)
 	Panel.handleActions(id, name, event)
 end
+eventContactListener = function(name, id, contactInfo)
+	local player = Player.players[name]
+	local bulletData = projectiles[id - 12000]
+	local stun = bulletData[2]
+	player.health = player.health - bulletData[1]
+	displayDamage(player)
+	if stun then
+		tfm.exec.freezePlayer(name, true, true)
+		Timer.new("stun" .. name, tfm.exec.freezePlayer, bulletData[3], false, name, false)
+	end
+end
 
 --==[[ main ]]==--
 
@@ -2673,6 +2867,12 @@ decodeQuestProgress = function(data)
 		res[questId] = { stage = stage, stageProgress = stageProgress, completed = completed }
 	end
 	return res
+end
+
+getVelocity = function(x_to, x_from, y_to, y_from, t)
+	local vcostheta = (x_to - x_from) / t
+	local vsintheta = (y_to - y_from + 10 * t ^ 2) / t
+	return vcostheta * 1.2, vsintheta * 1.2
 end
 
 do
