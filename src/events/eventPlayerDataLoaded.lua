@@ -73,6 +73,7 @@ eventPlayerDataLoaded = function(name, data)
 		else
 			mapPlaying = "castle"
 		end
+		mapPlaying = "mine"
 		tfm.exec.newGame(maps[mapPlaying])
 		tfm.exec.setGameTime(150)
 		mapLoaded = true

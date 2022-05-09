@@ -24,7 +24,6 @@ Trigger.triggers = {
 			for _, monster in next, self.monsters do
 				if monster then monster:action() end
 			end
-			print(self.monsterCount)
 			if (math.random(1, 1000) > (self.monsterCount < 1 and 500 or 900 + self.monsterCount * 30 )) then
 				Monster.new({ health = 20, species = Monster.all[({"mutant_rat", "snail", "the_rock"})[spawnRarities[math.random(#spawnRarities)]]] }, self)
 			end
@@ -45,8 +44,7 @@ Trigger.triggers = {
 			Monster.new({ health = 9999, species = Monster.all.fiery_dragon }, self)
 		end,
 		ontick = function(self)
-			print(next(self.monsters))
-			for _, monster in next, self.monsters do
+			for _, monster in next, (self.monsters or {}) do
 				if monster then monster:action() end
 			end
 		end,
@@ -109,7 +107,6 @@ Trigger.triggers = {
 					divineChargePanel:addPanelTemp(Panel(401, "", 30, 110, (divinePowerCharge / FINAL_BOSS_ATK_MAX_CHARGE) * 600, 50, 0xff0000, 0xff0000, 1, true), name)
 					local player = Player.players[name]
 					directionSequence.lastPassed = id - 8000
-					p({player.sequenceIndex, directionSequence.lastPassed})
 					if player.sequenceIndex > directionSequence.lastPassed then return end
 					player.sequenceIndex = directionSequence.lastPassed + 1
 					p({name, "Too late!"})

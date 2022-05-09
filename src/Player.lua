@@ -67,7 +67,7 @@ function Player:addInventoryItem(newItem, quantity)
 	if newWeight > 20 then error("Full inventory") end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
-		if invPos then
+		if invPos and itemQuantity + quantity < 128 then
 			local newQuantity = itemQuantity + quantity
 			if newQuantity < 0 then return end
 			if newQuantity == 0 then
@@ -81,7 +81,10 @@ function Player:addInventoryItem(newItem, quantity)
 	end
 	if quantity <= 0 then return end
 	for i, item in next, self.inventory do
-		if #item == 0 then
+		if #item > 0 and newItem.stackable and newItem.id == item[1].id and quantity + item[2] < 128 then
+			self.inventory[i][2] = item[2] + quantity
+			return self:displayInventory()
+		elseif #item == 0 then
 			self.inventory[i] = { newItem:getItem(), quantity }
 			if i == self.inventorySelection then self:changeInventorySlot(i) end
 			return self:displayInventory()
@@ -106,6 +109,7 @@ end
 
 function Player:displayInventory()
 	local invSelection = self.inventorySelection
+	inventoryPanel:hide(self.name)
 	inventoryPanel:show(self.name)
 	for i, item in next, self.inventory do
 		if #item > 0 then

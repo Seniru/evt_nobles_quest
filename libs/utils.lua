@@ -58,8 +58,8 @@ math.pythag = function(x1, y1, x2, y2)
 	return ((x1 - x2) ^ 2 + (y1 - y2) ^ 2) ^ (1/2)
 end
 
-local prettify
--- https://github.com/a801-luadev/useful-stuff/blob/master/prettyprint.lua
+local prettyify
+
 do
 
     local typeLookup = {
@@ -79,7 +79,8 @@ do
 		return res
 	end
 
-	prettify = function(obj, depth, opt, checked)
+	prettify = function(obj, depth, opt)
+	
 		opt = opt or {}
 		opt.maxDepth = opt.maxDepth or 30
 		opt.truncateAt = opt.truncateAt or 30
@@ -87,21 +88,12 @@ do
 		local prettifyFn = typeLookup[type(obj)]
 		if (prettifyFn) then return { res = (prettifyFn(tostring(obj))), count = 1 } end -- not the type of object ({}, [])
 
-		if checked[obj] then
-			return {
-				res = ("<b><V>circular</V></b>"):format(tostring(obj)),
-				count = 1
-			}
-		end
-
 		if depth >= opt.maxDepth then
-			return {
+			return { 
 				res = ("<b><V>%s</V></b>"):format(tostring(obj)),
 				count = 1
 			}
 		end
-
-		checked[obj] = true
 
 		local kvPairs = {}
 		local totalObjects = 0
@@ -113,12 +105,12 @@ do
 		for key, value in next, obj do
 
 			if not shouldTruncate then
-
+				
 				local tn = tonumber(key)
 				key = tn and (((previousKey and tn - previousKey == 1) and "" or "[" .. key .. "]:")) or (key .. ":")
 				-- we only need to check if the previous key is a number, so a nil key doesn't matter
 				previousKey = tn
-				local prettified = prettify(value, depth + 1, opt, checked)
+				local prettified = prettify(value, depth + 1, opt)
 				kvPairs[#kvPairs + 1] = key .. " " .. prettified.res
 
 				totalObjects = totalObjects + prettified.count
@@ -133,7 +125,7 @@ do
 
 		if totalObjects < 6 then
 			return { res = "<N>{ " .. table.concat(kvPairs, ", ") .. " }</N>", count = totalObjects }
-		else
+		else 
 			return { res = "<N>{ " .. table.concat(kvPairs, ",\n  " .. string_repeat("  ", depth)) .. " }</N>", count = totalObjects }
 		end
 
@@ -141,7 +133,7 @@ do
 
 end
 
-local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}, {}).res) end
+local prettyprint = function(obj, opt) print(prettify(obj, 0, opt or {}).res) end
 local p = prettyprint
 
 -- Credits: lua users wiki

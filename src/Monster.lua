@@ -58,7 +58,7 @@ function Monster:action()
 		local lDists, lPlayers, lScore, rDists, rPlayers, rScore = {}, {}, 0, {}, {}, 0
 		for name in next, self.area.players do
 			local player = tfm.get.room.playerList[name]
-			local dist = math.pythag(self.x, self.y, player.x, player.y)
+			local dist = math.pythag(self.realX or self.x, self.y, player.x, player.y)
 			if dist <= 300 then
 				if player.x < self.x  then -- player is to left
 					lDists[#lDists + 1] = dist
@@ -133,10 +133,9 @@ function Monster:attack(player, attackType)
 	if not self.isAlive then return end
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
-	p({self.species.attacks, attackType, self.species.attacks[attackType]})
 	self.species.attacks[attackType](self, playerObj)
-	tfm.exec.removeImage(self.imageId)
 	if not isDragon then
+		tfm.exec.removeImage(self.imageId)
 		local imageData = self.species.sprites[attackType .. "_attack_" .. (self.stance == -1 and "left" or "right")]
 		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	end
@@ -166,7 +165,6 @@ function Monster:destroy(destroyedBy)
 			destroyedBy:updateQuestProgress("strength_test", 1)
 		end
 	end
-	p(self.species.death)
 	if self.species.death then self.species.death(self, destroyedBy) end
 	self.isAlive = false
 	tfm.exec.removeObject(self.objId)

@@ -44,10 +44,22 @@ Entity.entities = {
 	},
 
 	rock = {
-		image = {
-			id = "no.png",
-			xAdj = 0,
-			yAdj = 0
+		images = {
+			{
+				id = "180a4ca7edc.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "180a4cba62e.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "180a4cbf706.png",
+				xAdj = -20,
+				yAdj = -16
+			}
 		},
 		resourceCap = 100,
 		onAction = function(self, player, down)
@@ -230,7 +242,6 @@ do
 		lookAtPlayer = false,
 		interactive = true,
 		onAction = function(self, player)
-			if not down then return end
 			local name = player.name
 			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
@@ -290,7 +301,17 @@ do
 				end
 			else
 				addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 16), name, "Nosferatu", nosferatu.normal, {
-					{ translate("NOSFERATU_QUESTIONS", player.language, 3), print, {} },
+					{ translate("NOSFERATU_QUESTIONS", player.language, 3), function(player)
+						local idx, stickAmount = player:getInventoryItem("stick")
+						if stickAmount < 35 then
+							addDialogueBox(2, "bruh", name, "Nosferatu", nosferatu.normal)
+						else
+							-- TOOD: handle inventory overflowing
+							player:addInventoryItem(Item.items.stick, -35)
+							player:addInventoryItem(Item.items.stone, 10)
+							addDialogueBox(2, "ok i steal them", name, "Nosferatu", nosferatu.normal)
+						end
+					end, { player } },
 					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 17), name, "Nosferatu", nosferatu.normal }}
 				})
 			end
@@ -306,7 +327,6 @@ do
 		lookAtPlayer = true,
 		interactive = true,
 		onAction = function(self, player)
-			if not down then return end
 			local name = player.name
 			local qProgress = player.questProgress
 			if qProgress.strength_test then
@@ -379,7 +399,8 @@ function Entity.new(x, y, type, area, name, id)
 		self.resourceCap = entity.resourceCap
 		self.resourcesLeft = entity.resourceCap
 		self.latestActionTimestamp = -1/0
-		self.imageId = tfm.exec.addImage(entity.image.id, "?999", x + (entity.image.xAdj or 0), y + (entity.image.yAdj or 0))
+		local imageData = entity.images and entity.images[math.random(#entity.images)] or entity.image
+		self.imageId = tfm.exec.addImage(imageData.id, "_999", x + (imageData.xAdj or 0), y + (imageData.yAdj or 0))
 		ui.addTextArea(self.imageId, type, nil, x, y, 0, 0, nil, nil, 0, false)
 	end
 	return self

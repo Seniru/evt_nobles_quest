@@ -60,7 +60,7 @@ Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	en = "Stick"
 })
 
-Item("stone", Item.types.RESOURCE, true, nil, 0.05, {
+Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
 	en = "Stone"
 })
 

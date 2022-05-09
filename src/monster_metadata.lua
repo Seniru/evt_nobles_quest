@@ -226,7 +226,7 @@ do
 			local player = tfm.get.room.playerList[target.name]
 			local vx, vy = getVelocity(player.x, self.x, player.y, self.y - 5, 3)
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
-			--local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
+			local imgId = tfm.exec.addImage(assets.spit, "+" .. (12000 + id), -15, -5)
 			projectiles[id] = { 0, true, 1000 }
 			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
 	end
@@ -238,6 +238,7 @@ do
 
 
 	monsters.fiery_dragon.sprites = {
+		-- copy left-side content to right side content instead of relying on wrong images
 		idle_left = {
 			id = "1809dfcd636.png",
 			xAdj = -200,
@@ -249,9 +250,9 @@ do
 			yAdj = -30,
 		},
 		primary_attack_left = {
-			id = "1809dfcd636.png",
-			xAdj = -200,
-			yAdj = -100,
+			id = "180a2a35e91.png",
+			xAdj = -235,
+			yAdj = -110,
 		},
 		primary_attack_right = {
 			id = "1809dfcd636.png",
@@ -259,14 +260,19 @@ do
 			yAdj = -35
 		},
 		secondary_attack_left = {
-			id = "1809dfcd636.png",
-			xAdj = -200,
+			id = "180a34985f3.png",
+			xAdj = -180,
 			yAdj = -100,
 		},
 		secondary_attack_right = {
 			id = "1809dfcd636.png",
-			xAdj = -45,
-			yAdj = -35
+			xAdj = -135,
+			yAdj = -120
+		},
+		throw_animation = {
+			id = "180a34763fa.png",
+			xAdj = -135,
+			yAdj = -120
 		},
 		dead_left = {
 			id = "1809dfcd636.png",
@@ -293,16 +299,19 @@ do
 			fixedRotation = true,
 			linearDamping = 999
 		})
+		self.realX = self.x
 		local imageData = self.species.sprites.idle_left
-		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+		tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+		self.imageId = imageData
 	end
 	monsters.fiery_dragon.move = function(self)
 		self.wait = self.wait - 1
-		local dragX = tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 130)
+		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 345) + 10 or self.realX)
+		self.realX = dragX
 		if self.wait < 0 then
 			tfm.exec.removeObject(self.objId)
 			self.objId = tfm.exec.addShamanObject(62, self.x + 50, self.y - 50, 180, -100, 0, false)
-			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -20)
+			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -30)
 			self.wait = 3
 		end
 		local entityBridge
@@ -320,14 +329,61 @@ do
 			end
 		end
 		local imageData = self.species.sprites.idle_left
-		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+		if imageData ~= self.imageId then
+			tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+		end
+		self.imageId = imageData
 	end
 	monsters.fiery_dragon.attacks = {
 		primary = function(self, target)
-			target.health = target.health - 2.5
+			--tfm.exec.removeImage(self.imageId)
+			local imageData = self.species.sprites.primary_attack_left
+			if imageData ~= self.imageId then
+				tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+			end
+			self.imageId = imageData
+			self.latestActionCooldown = os.time() + 3000
+			-- attack all the players nearby to the target
+			local player = tfm.get.room.playerList[target.name]
+			local x1, y1 = player.x, player.y
+			for name in next, self.area.players do
+				local playerOther = tfm.get.room.playerList[name]
+				if math.pythag(x1, y1, playerOther.x, playerOther.y) <= 50 then
+					local playerOtherObject = Player.players[name]
+					playerOtherObject.health = playerOtherObject.health - 1
+					displayDamage(playerOtherObject)
+				end
+			end
 		end,
 		secondary = function(self, target)
-
+			print("secondary")
+			local imageData = self.species.sprites.secondary_attack_left
+			tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
+			local id = #projectiles + 1
+			local projectile = tfm.exec.addPhysicObject(12000 + id, self.realX - 15, self.y + 15, {
+				type = 1,
+				width = 30,
+				height = 30,
+				friction = 2,
+				contactListener = true,
+				dynamic = true,
+				groundCollision = false
+			})
+			local player = tfm.get.room.playerList[target.name]
+			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, 0, -60)
+			--local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+			Timer.new("rock_throw", function()
+				local imgData = self.species.sprites.throw_animation
+				tfm.exec.addImage(imgData.id, "+" .. self.bodyId, imgData.xAdj, imgData.yAdj, nil)
+				self.imageId = imgData
+				ui.addTextArea(3495, "x", nil, self.realX, self.y - 15, 10, 10, nil, nil, 1, false)
+				local vx, vy = getVelocity(player.x, self.realX - 15, player.y, self.y - 15, 3)
+				tfm.exec.movePhysicObject(12000 + id, 0, 0, false, 0, 0)
+				tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
+				projectiles[id] = { 10, true, 2500 }
+			end, 1000, false, id)
+			self.latestActionCooldown = os.time() + 5000
 		end
 	}
 
@@ -353,8 +409,8 @@ do
 			yAdj = -35
 		},
 		secondary_attack_left = {
-			id = "1809dfcd636.png",
-			xAdj = -200,
+			id = "180a34985f3.png",
+			xAdj = -180,
 			yAdj = -100,
 		},
 		secondary_attack_right = {
