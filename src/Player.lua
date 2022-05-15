@@ -73,7 +73,11 @@ function Player:addInventoryItem(newItem, quantity)
 			if newQuantity == 0 then
 				self.inventory[invPos] = {}
 			else
-				self.inventory[invPos][2] = newQuantity
+				if newQuantity <= 0 then
+					self.inventory[invPos] = {}
+				else
+					self.inventory[invPos][2] = newQuantity
+				end
 			end
 			if invPos == self.inventorySelection then self:changeInventorySlot(invPos) end
 			return self:displayInventory()
@@ -129,7 +133,7 @@ function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 	-- so we can save resources used to calculate the regen over each intervals
 	targetEntity:regen()
 	if (not item[requiredProperty] == 0) or targetEntity.resourcesLeft <= 0 then
-		tfm.exec.chatMessage("cant use")
+		tfm.exec.chatMessage(translate("OUT_OF_RESOURCES", player.language), self.name)
 		return 0
 	end
 	local isCorrectItem = item.type == requiredType
@@ -153,7 +157,14 @@ end
 
 function Player:addNewQuest(quest)
 	self.questProgress[quest] = { stage = 1, stageProgress = 0, completed = false }
-	tfm.exec.chatMessage("New quest")
+	local qData = quests[quest]
+	tfm.exec.chatMessage(translate("NEW_QUEST", self.language, nil, {
+		questName = qData.title_locales[self.language] or qData.title_locales["en"],
+	}), self.name)
+	tfm.exec.chatMessage(translate("NEW_STAGE", self.language, nil, {
+		questName = qData.title_locales[self.language] or qData.title_locales["en"],
+		desc = qData[1].description_locales[self.language] or qData[1].description_locales["en"] or "cant find",
+	}), self.name)
 end
 
 function Player:updateQuestProgress(quest, newProgress)
@@ -178,7 +189,9 @@ end
 function Player:learnRecipe(recipe)
 	if self.learnedRecipes[recipe] then return end
 	self.learnedRecipes[recipe] = true
-	tfm.exec.chatMessage("Learned a new recipe")
+	local item = Item.items[recipe]
+	p({item.locales[self.language], self.language})
+	tfm.exec.chatMessage(translate("NEW_RECIPE", self.language, nil, { itemName = item.locales[self.language], itemDesc = item.description_locales[self.language] }), self.name)
 	dHandler:set(self.name, "recipes", recipesBitList:encode(self.learnedRecipes))
 	self:savePlayerData()
 end
@@ -219,7 +232,6 @@ function Player:dropItem()
 		if not area then return end
 		Entity.new(x, y, "dropped_item", area, droppedItem[1], droppedItem[2])
 	end, 1000, false)
-	-- TODO: drop the item actually
 end
 
 function Player:attack(monster)

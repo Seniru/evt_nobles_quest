@@ -56,7 +56,7 @@ do
 		end
 	})
 
-	function Image.new(imageId, target, x, y, parent)
+	function Image.new(imageId, target, x, y, scaleX, scaleY, angle, alpha, anchorX, anchorY)
 
 		local self = setmetatable({
 			id = #Image.images + 1,
@@ -64,6 +64,12 @@ do
 			target = target,
 			x = x,
 			y = y,
+			scaleX = scaleX,
+			scaleY = scaleY,
+			angle = angle,
+			alpha = alpha,
+			anchorX = anchorX,
+			anchorY = anchorY,
 			instances = {},
 		}, Image)
 
@@ -76,7 +82,7 @@ do
 	function Image:show(target)
 		if target == nil then error("Target cannot be nil") end
 		if self.instances[target] then return self end
-		self.instances[target] = tfm.exec.addImage(self.imageId, self.target, self.x, self.y, target)
+		self.instances[target] = tfm.exec.addImage(self.imageId, self.target, self.x, self.y, target, self.scaleX, self.scaleY, self.angle, self.alpha, self.anchorX, self.anchorY)
 		return self
 	end
 

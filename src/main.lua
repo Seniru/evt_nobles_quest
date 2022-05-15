@@ -36,25 +36,28 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:hide(name)
 	inventoryPanel:hide(name)
 	dialoguePanel:show(name)
-
-	dialoguePanel:addPanelTemp(Panel(id * 1000, text, x, y, w, h, 0x472315, 0xd1b130, 1, true), name)
-	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, speakerName or "???", x + w - 150, y, 0, 0, nil, nil, 1, true), name)
+	local isReplyBox = type(replies) == "table"
+	dialoguePanel:addPanelTemp(Panel(id * 1000, text, x + (isReplyBox and 25 or 20), y, w, h, 0, 0, 0, true)
+		:addImageTemp(Image(assets.ui[isReplyBox and "dialogue_replies" or "dialogue_proceed"], "~1", 20, 280), name),
+	name)
+	Panel.panels[id * 1000]:update(text, name)
+	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b>" .. (speakerName or "???") .. "</b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
 	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
-	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 80, y - 20), name)
+	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
 	dialoguePanel:update(text, name)
-	if type(replies) == "table" then
+	if isReplyBox then
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w + 30, y - 10 + 20 * (i - 1), 130, 25, nil, nil, 0, true)
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1), 130, 25, nil, nil, 0, true)
 				:setActionListener(function(id, name, event)
 					reply[2](table.unpack(reply[3]))
 				end),
 			name)
-			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w, y - 10 + 20 * (i - 1)), name)
+			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w - 10, y - 10 + 26 * (i - 1), 1.1, 0.9), name)
 		end
 	else
-		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "&1", x + w - 20, y + h - 20), name)
+		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "~1", x + w - 25, y + h - 30), name)
 		dialoguePanel:addPanelTemp(
-			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w + 20, y + h - 20, 30, 30, nil, nil, 1, true)
+			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w - 25, y + h - 30, 30, 30, nil, nil, 0, true)
 				:setActionListener(replies or function(id, name, event)
 					dialoguePanel:hide(name)
 					Player.players[name]:displayInventory()
@@ -72,7 +75,7 @@ addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
 		Panel.panels[id * 1000]:update(dialogues[page].text, name)
 		Panel.panels[201]:hide(name)
 		Panel.panels[201]:show(name)
-		Panel.panels[201]:addImageTemp(Image(dialogues[page].icon, "&1", x + w - 80, y - 20), name)
+		Panel.panels[201]:addImageTemp(Image(dialogues[page].icon, "&1",  x + w - 100, y - 55), name)
 		Panel.panels[id * 1000 + 10]:update(("<a href='event:%d'>\n\n\n</a>"):format(page + 1), name)
 	end)
 end

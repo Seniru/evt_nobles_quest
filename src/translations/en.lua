@@ -1,4 +1,10 @@
+-- theme color pallete: https://www.colourpod.com/post/173929539115/a-medieval-recipe-for-murder-submitted-by
+
 translations["en"] = {
+	OUT_OF_RESOURCES = "Out of resources",
+	NEW_RECIPE = "<font color='#506d3d' size='8'><b>[NEW RECIPE]</b></font> <font color='#ab5e42'><b>${itemName}</b></font>\n${itemDesc}",
+	NEW_QUEST = "<font color='#506d3d' size='8'><b>[NEW QUEST]</b></font> <font color='#ab5e42'><b>${questName}</b></font>",
+	NEW_STAGE = "<font color='#506d3d' size='8'><b>[UPDATE]</b></font> <font color='#ab5e42'><b>${questName}</b></font>\n\t<font color='#BBB6B5' size='12'>${desc}</font>",
 	ANNOUNCER_DIALOGUES = {
 		"Princess die yes yes"
 	},

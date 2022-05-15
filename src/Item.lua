@@ -19,35 +19,46 @@ Item.types = {
 	SPECIAL 	= 100
 }
 
+do
 
-function Item.new(id, type, stackable, image, weight, locales, description_locales, attrs)
-	local self = setmetatable({}, Item)
-	self.id = id
-	self.nid = #Item.items._all + 1
-	self.type = type
-	self.stackable = stackable
-	self.image = image or "17ff9c560ce.png"
-	self.weight = weight
-	self.locales = locales
-	self.description_locales = description_locales or {}
+	locale_mt = { _index = function(tbl, k)
+		p({tbl, rawget(tbl, k), rawget(tbl, "en")})
+		return rawget(tbl, k) or rawget(tbl, "en") or ""
+	end }
 
-	if type ~= Item.types.RESOURCE and type ~= Item.types.SPECIAL then
-		-- basic settings for most of the basic tools
-		self.durability = 10
-		self.attack = 1
-		self.chopping = 1
-		self.mining = 0
-		self.tier = 1
+	desc_locale_mt = { _index = function(tbl, k)
+		return rawget(tbl, k) or rawget(tbl, "en") or ""
+	end }
+
+	function Item.new(id, type, stackable, image, weight, locales, description_locales, attrs)
+		local self = setmetatable({}, Item)
+		self.id = id
+		self.nid = #Item.items._all + 1
+		self.type = type
+		self.stackable = stackable
+		self.image = image or "17ff9c560ce.png"
+		self.weight = weight
+		self.locales = setmetatable(locales, locale_mt)
+		self.description_locales = setmetatable(description_locales or {}, desc_locale_mt)
+	
+		if type ~= Item.types.RESOURCE and type ~= Item.types.SPECIAL then
+			-- basic settings for most of the basic tools
+			self.durability = 10
+			self.attack = 1
+			self.chopping = 1
+			self.mining = 0
+			self.tier = 1
+		end
+	
+		attrs = attrs or {}
+		for k, v in next, attrs do
+			self[k] = v
+		end
+	
+		Item.items[id] = self
+		Item.items._all[self.nid] = id
+		return self
 	end
-
-	attrs = attrs or {}
-	for k, v in next, attrs do
-		self[k] = v
-	end
-
-	Item.items[id] = self
-	Item.items._all[self.nid] = id
-	return self
 end
 
 function Item:getItem()
@@ -65,7 +76,7 @@ Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
 })
 
 Item("clay", Item.types.RESOURCE, true, nil, 0.05, {
-	"Clay"
+	en = "Clay"
 })
 
 Item("iron_ore", Item.types.RESOURCE, true, nil, 0.08, {

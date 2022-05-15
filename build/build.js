@@ -34,6 +34,7 @@ combine({
 	  	"src/Player.lua",
 	  	"src/crafting.lua",
 	  	"src/Entity.lua",
+		"src/entity_metadata.lua"
 	] },
   	events: {
     	files: [

@@ -1,5 +1,9 @@
 eventPlayerDataLoaded = function(name, data)
 	-- reset player data if they are stored according to the old version
+
+
+	-- TODO: remove
+	data = ""
 	if data:find("^v2") then
 		dHandler:newPlayer(name, data:sub(3))
 	else
@@ -12,7 +16,8 @@ eventPlayerDataLoaded = function(name, data)
 
 	local questProgress = dHandler:get(name, "questProgress")
 	if questProgress == "" then
-		player.questProgress =  { wc = { stage = 1, stageProgress = 0, completed = false } }
+		--player.questProgress =  { wc = { stage = 1, stageProgress = 0, completed = false } }
+		player:addNewQuest("wc")
 	else
 		player.questProgress = decodeQuestProgress(dHandler:get(name, "questProgress"))
 	end
@@ -46,7 +51,7 @@ eventPlayerDataLoaded = function(name, data)
 
 	if not player.questProgress.wc.completed then
 		addDialogueSeries(name, 1, {
-			{ text = "Welcome to the town loser", icon = "17088637078.png" },
+			{ text = "Welcome to the town loser", icon = "17f17003375.png" },
 			{ text = "yes that works", icon = assets.ui.btnNext },
 			{ text = "yes yes now close this", icon = "17088637078.png" },
 		}, "Announcer", function(id, _name, event)
@@ -57,7 +62,7 @@ eventPlayerDataLoaded = function(name, data)
 		end)
 	end
 
-	if player.questProgress.nosferatu.completed then
+	if player.questProgress.nosferatu and player.questProgress.nosferatu.completed then
 		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
 	else
 		mineQuestIncompletedPlayers = mineQuestIncompletedPlayers + 1
