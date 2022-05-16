@@ -51,9 +51,9 @@ eventPlayerDataLoaded = function(name, data)
 
 	if not player.questProgress.wc.completed then
 		addDialogueSeries(name, 1, {
-			{ text = "Welcome to the town loser", icon = "17f17003375.png" },
-			{ text = "yes that works", icon = assets.ui.btnNext },
-			{ text = "yes yes now close this", icon = "17088637078.png" },
+			{ text = "Welcome to the town loser", icon = "180c6ce0308.png" },
+			{ text = "yes that works", icon = "180c6ce0308.png" },
+			{ text = "yes yes now close this", icon = "180c6ce0308.png" },
 		}, "Announcer", function(id, _name, event)
 			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
@@ -78,7 +78,7 @@ eventPlayerDataLoaded = function(name, data)
 		else
 			mapPlaying = "castle"
 		end
-		mapPlaying = "mine"
+		mapPlaying = "castle"
 		tfm.exec.newGame(maps[mapPlaying])
 		tfm.exec.setGameTime(150)
 		mapLoaded = true

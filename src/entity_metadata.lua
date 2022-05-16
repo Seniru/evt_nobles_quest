@@ -3,10 +3,22 @@ Entity.entities = {
 	-- resources
 
 	tree = {
-		image = {
-			id = "no.png",
-			xAdj = 0,
-			yAdj = 0
+		images = {
+			{
+				id = "180cc69ce37.png",
+				xAdj = 0,
+				yAdj = 0
+			},
+			{
+				id = "180cc6a2d6e.png",
+				xAdj = 0,
+				yAdj = 0
+			},
+			{
+				id = "180cc6a7e24.png",
+				xAdj = 0,
+				yAdj = 0
+			}
 		},
 		resourceCap = 100,
 		onAction = function(self, player, down)

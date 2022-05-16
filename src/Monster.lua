@@ -40,7 +40,7 @@ end
 
 function Monster:action()
 	if self.latestActionCooldown > os.time() then return end
-	local obj = self.species == Monster.all.fiery_dragon and { x = self.x, y = self.y } or  tfm.get.room.objectList[self.objId]
+	local obj = (self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss) and { x = self.x, y = self.y } or  tfm.get.room.objectList[self.objId]
 	if not obj then return end
 	self.x, self.y = obj.x, obj.y
 	-- monsters are not fast enough to calculate new actions, in other words dumb
@@ -59,7 +59,7 @@ function Monster:action()
 		for name in next, self.area.players do
 			local player = tfm.get.room.playerList[name]
 			local dist = math.pythag(self.realX or self.x, self.y, player.x, player.y)
-			if dist <= 300 then
+			if dist <= (self.visibilityRange or 300) then
 				if player.x < self.x  then -- player is to left
 					lDists[#lDists + 1] = dist
 					lPlayers[dist] = name
@@ -119,22 +119,25 @@ function Monster:action()
 end
 
 function Monster:changeStance(stance)
-	local isDragon = self.species == Monster.all.fiery_dragon
+	local isBoss = self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss
 	self.stance = stance
 	tfm.exec.removeImage(self.imageId)
-	if not isDragon then
+	if not isBoss then
 		local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
 		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	elseif self.species == Monster.all.final_boss then
+		local imageData = self.species.sprites[stance == -1 and "idle_left" or "idle_right"]
+		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	end
 end
 
 function Monster:attack(player, attackType)
-	local isDragon = self.species == Monster.all.fiery_dragon
+	local isBoss = self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss
 	if not self.isAlive then return end
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
 	self.species.attacks[attackType](self, playerObj)
-	if not isDragon then
+	if not isBoss then
 		tfm.exec.removeImage(self.imageId)
 		local imageData = self.species.sprites[attackType .. "_attack_" .. (self.stance == -1 and "left" or "right")]
 		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)

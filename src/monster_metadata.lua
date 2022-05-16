@@ -287,6 +287,7 @@ do
 	}
 	monsters.fiery_dragon.spawn = function(self)
 		self.wait = 0
+		self.visibilityRange = 2000
 		self.objId = 999999
 		self.bodyId = 200
 		tfm.exec.addPhysicObject(self.bodyId, self.x, self.y - 80, {
@@ -356,7 +357,6 @@ do
 			end
 		end,
 		secondary = function(self, target)
-			print("secondary")
 			local imageData = self.species.sprites.secondary_attack_left
 			tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
 			local id = #projectiles + 1
@@ -389,67 +389,90 @@ do
 
 	monsters.final_boss.sprites = {
 		idle_left = {
-			id = "1809dfcd636.png",
-			xAdj = -200,
-			yAdj = -100,
+			id = "180c7398a1f.png",
+			xAdj = -230,
+			yAdj = -150,
 		},
 		idle_right = {
-			id = "1809dfcd636.png",
-			xAdj = -30,
-			yAdj = -30,
+			id = "180c7398a1f.png",
+			xAdj = -230,
+			yAdj = -150,
 		},
 		primary_attack_left = {
-			id = "1809dfcd636.png",
-			xAdj = -200,
-			yAdj = -100,
+			id = "180c7386662.png",
+			xAdj = -230,
+			yAdj = -150,
 		},
 		primary_attack_right = {
-			id = "1809dfcd636.png",
-			xAdj = -45,
-			yAdj = -35
+			id = "180c7386662.png",
+			xAdj = -230,
+			yAdj = -150,
 		},
 		secondary_attack_left = {
-			id = "180a34985f3.png",
-			xAdj = -180,
-			yAdj = -100,
+			id = "180c739b495.png",
+			xAdj = -230,
+			yAdj = -150,
 		},
 		secondary_attack_right = {
-			id = "1809dfcd636.png",
-			xAdj = -45,
-			yAdj = -35
+			id = "180c739b495.png",
+			xAdj = -230,
+			yAdj = -150,
 		},
 		dead_left = {
 			id = "1809dfcd636.png",
-			xAdj = -35,
-			yAdj = -30
+			xAdj = -230,
+			yAdj = -150,
 		},
 		dead_right = {
 			id = "1809dfcd636.png",
-			xAdj = -40,
-			yAdj = -30
+			xAdj = -230,
+			yAdj = -150,
 		}
 	}
-	monsters.final_boss.spawn = function(self)
-		self.objId = tfm.exec.addShamanObject(10, self.x, self.y)
-		local imageData = self.species.sprites.idle_left
-		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
-		tfm.exec.moveObject(self.objId, 0, 0, true, -20, -20, false, 0, true)
-	end
-	monsters.final_boss.move = function(self)
-		tfm.exec.moveObject(self.objId, 0, 0, true, self.stance * 20, -20, false, 0, true)
-		if self.lastAction ~= "move" then
-			tfm.exec.removeImage(self.imageId)
-			local imageData = self.species.sprites[self.stance == -1 and "idle_left" or "idle_right"]
-			self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+
+	local final_boss_secondaries = function(boss)
+		local spawnRarities = {1 ,1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3 }
+		local choice = math.random(1, 10)
+		if choice == 1 then
+			local imageData = boss.species.sprites.secondary_attack_left
+			tfm.exec.addImage(imageData.id, "+" .. boss.objId, imageData.xAdj, imageData.yAdj, nil)
+			for name in next, boss.area.players do
+				local playerOtherObject = Player.players[name]
+				playerOtherObject.health = playerOtherObject.health - 10
+				displayDamage(playerOtherObject)
+			end
+
+			local laser = tfm.exec.addImage(assets.laser, "!1", 200, 4646)
+			Timer.new("laser_remove" .. laser, tfm.exec.removeImage, 500, false, laser)
+		elseif choice > 9 then
+			local imageData = boss.species.sprites.secondary_attack_left
+			tfm.exec.addImage(imageData.id, "+" .. boss.objId, imageData.xAdj, imageData.yAdj, nil)
+			local monster = Monster.new({ health = 20, species = Monster.all[({"mutant_rat", "snail", "the_rock"})[spawnRarities[math.random(#spawnRarities)]]] }, boss.spawnPoint.area.triggers[2])
+			monster:changeStance(1)
 		end
 	end
+	monsters.final_boss.spawn = function(self)
+		self.objId = 300
+		self.visibilityRange = 700
+		tfm.exec.addPhysicObject(self.objId, self.x, self.y - 80, {
+			type = 1,
+			width = 400,
+			height = 250,
+			dynamic = true,
+			friction = 0
+		})
+		self.x = self.x - 350
+		local imageData = self.species.sprites.idle_left
+		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+	monsters.final_boss.move = final_boss_secondaries
 	monsters.final_boss.attacks = {
 		primary = function(self, target)
 			target.health = target.health - 2.5
+			local imageData = self.species.sprites.primary_attack_left
+			tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 		end,
-		secondary = function(self, target)
-
-		end
+		secondary = final_boss_secondaries
 	}
 	monsters.final_boss.death = function(self, killedBy)
 		print("YOu win")

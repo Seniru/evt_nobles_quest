@@ -39,6 +39,24 @@ Trigger.triggers = {
 		end
 	},
 
+	monster_spawn_passive = {
+		onactivate = function() end,
+		ontick = function(self)
+			for _, monster in next, self.monsters do
+				if monster then monster:action() end
+			end
+		end,
+		ondeactivate = function(self)
+			-- to prevent invalid keys to "next"
+			local previousMonster
+			for i, monster in next, self.monsters do
+				if previousMonster then previousMonster:destroy() end
+				previousMonster = monster
+			end
+			if previousMonster then previousMonster:destroy() end
+		end
+	},
+
 	fiery_dragon = {
 		onactivate = function(self)
 			Monster.new({ health = 9999, species = Monster.all.fiery_dragon }, self)
@@ -58,17 +76,15 @@ Trigger.triggers = {
 			-- TODO: Make the battle start only after a few seconds of activation
 			bossBattleTriggered = true
 			for name in next, self.area.players do
-				divineChargePanel:show(name)
+				--divineChargePanel:show(name)
 			end
 			Monster.new({ health = 1000, species = Monster.all.final_boss }, self)
 			Timer.new("bossDivineCharger", function()
-				print("Time up!")
 				divineChargeTimeOver = true
 				local monster = self.monsters[next(self.monsters)]
 				-- TODO: Deduct health considering the divine charge
 				monster.health = monster.health - 500
-				print("didnt pass here")
-			end, 1000 * 5, false)
+			end, 1000 * 70, false)
 		end,
 		ontick = function(self)
 			for _, monster in next, self.monsters do
@@ -87,7 +103,7 @@ Trigger.triggers = {
 
 			if #directionSequence > 0 and directionSequence[#directionSequence][3] > os.time() then return end
 			--if #directionSequence > 0 then directionSequence[#directionSequence][3] = os.time() print("set") end
-			tfm.exec.addPhysicObject(id, 713, 500, {
+			tfm.exec.addPhysicObject(id, 850, 4395, {
 				type = 1,
 				width = 10,
 				height = 10,
@@ -96,8 +112,9 @@ Trigger.triggers = {
 				fixedRotation = true
 			})
 			tfm.exec.movePhysicObject(id, 0, 0, false, -20, 0)
+			tfm.exec.addImage("1752b1c10bc.png", "+" .. id, 0, 150)
 			directionSequence[#directionSequence + 1] = { id, math.random(0, 3), os.time() + math.max(500, 5000 - (id - 8000) * 200), os.time() }
-			local s, v = 528, 20
+			local s, v = 660, 20
 			-- s = t(u + v)/2
 			-- division by 3 is because the given vx is in a different unit than px/s
 			local t = (2 * s / (v + v - 0.01)) / 3
@@ -114,7 +131,8 @@ Trigger.triggers = {
 					player.chargedDivinePower = math.max(0, player.chargedDivinePower - 3)
 				end
 			end, t * 1000 + 500, false)
-		end
+		end,
+		ondeactivate = function() end
 	}
 
 }

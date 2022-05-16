@@ -24,6 +24,7 @@ function Entity.new(x, y, type, area, name, id)
 	self.name = name
 	self.id = id
 	self.isDestroyed = false
+	p({type, name, id})
 	area.entities[#area.entities + 1] = self
 	if type == "npc" then
 		local npc = Entity.entities[name]
