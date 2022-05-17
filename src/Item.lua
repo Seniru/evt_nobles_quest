@@ -21,12 +21,12 @@ Item.types = {
 
 do
 
-	locale_mt = { _index = function(tbl, k)
+	locale_mt = { __index = function(tbl, k)
 		p({tbl, rawget(tbl, k), rawget(tbl, "en")})
 		return rawget(tbl, k) or rawget(tbl, "en") or ""
 	end }
 
-	desc_locale_mt = { _index = function(tbl, k)
+	desc_locale_mt = { __index = function(tbl, k)
 		return rawget(tbl, k) or rawget(tbl, "en") or ""
 	end }
 

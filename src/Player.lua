@@ -64,7 +64,7 @@ end
 
 function Player:addInventoryItem(newItem, quantity)
 	local newWeight = self.carriageWeight + newItem.weight * quantity
-	if newWeight > 20 then error("Full inventory") end
+	if newWeight > 20 then error("Full inventory", 1) end
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos and itemQuantity + quantity < 128 then
@@ -163,7 +163,7 @@ function Player:addNewQuest(quest)
 	}), self.name)
 	tfm.exec.chatMessage(translate("NEW_STAGE", self.language, nil, {
 		questName = qData.title_locales[self.language] or qData.title_locales["en"],
-		desc = qData[1].description_locales[self.language] or qData[1].description_locales["en"] or "cant find",
+		desc = qData[1].description_locales[self.language] or qData[1].description_locales["en"] or "",
 	}), self.name)
 end
 
@@ -171,16 +171,26 @@ function Player:updateQuestProgress(quest, newProgress)
 	local pProgress = self.questProgress[quest]
 	local progress = pProgress.stageProgress + newProgress
 	local q = quests[quest]
+	local announceStageProgress = true
 	self.questProgress[quest].stageProgress = progress
 	if progress >= quests[quest][pProgress.stage].tasks then
 		if pProgress.stage >= #q then
-			tfm.exec.chatMessage("Quest completed")
+			tfm.exec.chatMessage(translate("QUEST_OVER", self.language, nil, {
+				questName = q.title_locales[self.language] or q.title_locales["en"],
+			}), self.name)
 			self.questProgress[quest].completed = true
 		else
-			tfm.exec.chatMessage("New stage")
 			self.questProgress[quest].stage = self.questProgress[quest].stage + 1
 			self.questProgress[quest].stageProgress = 0
+			tfm.exec.chatMessage(translate("NEW_STAGE", self.language, nil, {
+				questName = q.title_locales[self.language] or q.title_locales["en"],
+				desc = q[pProgress.stage].description_locales[self.language] or q[pProgress.stage].description_locales["en"] or "",
+			}), self.name)
 		end
+		announceStageProgress = false
+	end
+	if announceStageProgress then
+		tfm.exec.chatMessage(progress, self.name)
 	end
 	dHandler:set(self.name, "questProgress", encodeQuestProgress(self.questProgress))
 	self:savePlayerData()
@@ -208,8 +218,8 @@ end
 function Player:craftItem(recipe)
 	if not self:canCraft(recipe) then return end
 	for _, neededItem in next, recipes[recipe] do
-		local idx, amount = self:getInventoryItem(neededItem[1].id)
-		self.inventory[idx][2] = amount - neededItem[2]
+		self:addInventoryItem(neededItem[1], -neededItem[2])
+		--self.inventory[idx][2] = amount - neededItem[2]
 	end
 	self:addInventoryItem(Item.items[recipe], 1)
 end
@@ -291,4 +301,5 @@ function Player:savePlayerData()
 	p(inventory)
 	dHandler:set(name, "inventory", encodeInventory(inventory))
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
+	print("v2" .. dHandler:dumpPlayer(name))
 end

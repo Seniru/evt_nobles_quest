@@ -58,6 +58,16 @@ math.pythag = function(x1, y1, x2, y2)
 	return ((x1 - x2) ^ 2 + (y1 - y2) ^ 2) ^ (1/2)
 end
 
+local _xpcall = xpcall
+
+xpcall = function(f, msgh, arg1, arg2, arg3, arg4, arg5)
+	local fWrapper = function()
+		return f(arg1, arg2, arg3, arg4, arg5)
+	end
+	local success = _xpcall(fWrapper, msgh)
+	if success then msgh(nil, true) end
+end
+
 local prettyify
 
 do

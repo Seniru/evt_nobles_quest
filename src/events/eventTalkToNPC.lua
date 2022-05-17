@@ -2,7 +2,9 @@ do
 
 	local npcNames = {
 		["Nosferatu"] = "nosferatu",
-		["Lieutenant Edric"] = "edric"
+		["Lieutenant Edric"] = "edric",
+		["Garry"] = "garry",
+		["Thompson"] = "thompson"
 	}
 
 	eventTalkToNPC = function(name, npc)

@@ -41,9 +41,11 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 		:addImageTemp(Image(assets.ui[isReplyBox and "dialogue_replies" or "dialogue_proceed"], "~1", 20, 280), name),
 	name)
 	Panel.panels[id * 1000]:update(text, name)
-	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b>" .. (speakerName or "???") .. "</b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
+	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b><font size='10'>" .. (speakerName or "???") .. "</font></b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
 	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
+	print({"is problem here", speakerIcon})
 	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
+	print("problem not there")
 	dialoguePanel:update(text, name)
 	if isReplyBox then
 		for i, reply in next, replies do

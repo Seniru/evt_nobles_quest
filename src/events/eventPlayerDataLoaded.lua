@@ -1,9 +1,5 @@
 eventPlayerDataLoaded = function(name, data)
 	-- reset player data if they are stored according to the old version
-
-
-	-- TODO: remove
-	data = ""
 	if data:find("^v2") then
 		dHandler:newPlayer(name, data:sub(3))
 	else
@@ -38,6 +34,7 @@ eventPlayerDataLoaded = function(name, data)
 			inventory[i] = { item, 1 }
 		end
 		player.carriageWeight = player.carriageWeight + inventory[i][1].weight * inventory[i][2]
+		print(player.carriageWeight)
 	end
 	player.inventory = inventory
 
@@ -51,9 +48,13 @@ eventPlayerDataLoaded = function(name, data)
 
 	if not player.questProgress.wc.completed then
 		addDialogueSeries(name, 1, {
-			{ text = "Welcome to the town loser", icon = "180c6ce0308.png" },
-			{ text = "yes that works", icon = "180c6ce0308.png" },
-			{ text = "yes yes now close this", icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 1), icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 2), icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 3), icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 4), icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 5), icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 6), icon = "180c6ce0308.png" },
+			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 7), icon = "180c6ce0308.png" },
 		}, "Announcer", function(id, _name, event)
 			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
@@ -78,7 +79,7 @@ eventPlayerDataLoaded = function(name, data)
 		else
 			mapPlaying = "castle"
 		end
-		mapPlaying = "castle"
+		mapPlaying = "mine"
 		tfm.exec.newGame(maps[mapPlaying])
 		tfm.exec.setGameTime(150)
 		mapLoaded = true

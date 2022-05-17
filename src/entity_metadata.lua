@@ -6,18 +6,18 @@ Entity.entities = {
 		images = {
 			{
 				id = "180cc69ce37.png",
-				xAdj = 0,
-				yAdj = 0
+				xAdj = -20,
+				yAdj = -165
 			},
 			{
 				id = "180cc6a2d6e.png",
-				xAdj = 0,
-				yAdj = 0
+				xAdj = -20,
+				yAdj = -165
 			},
 			{
 				id = "180cc6a7e24.png",
-				xAdj = 0,
-				yAdj = 0
+				xAdj = -20,
+				yAdj = -165
 			}
 		},
 		resourceCap = 100,
@@ -225,7 +225,16 @@ do
 		thinking = "17f170dc941.png",
 		happy = "17f170fda30.png",
 		question = "17f17132155.png"
+	}
 
+	local garry = {
+		sad = "180d2707c36.png"
+	}
+
+	local thompson = {
+		pointing = "180d28c6772.png",
+		thinking = "180d29fd7a6.png",
+		happy = "180d2a009e2.png"
 	}
 
 	-- npc metadata
@@ -239,6 +248,7 @@ do
 		lookAtPlayer = false,
 		interactive = true,
 		onAction = function(self, player)
+			print("came here ")
 			local name = player.name
 			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
@@ -254,25 +264,37 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("nosferatu", 1)
-						dialoguePanel:hide(name)
-						player:addInventoryItem(Item.items.stone, 10)
-						player:displayInventory()
-
+						xpcall(player.addInventoryItem, function(err, success)
+							if success then
+								player:updateQuestProgress("nosferatu", 1)
+								dialoguePanel:hide(name)
+								player:displayInventory()
+							elseif err:match("Full inventory") then
+								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+							end
+						end, player, Item.items.stone, 10)
 					end)
 				-- change wood amount later
-				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 10 then
+				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 15 then
 					addDialogueSeries(name, 2, {
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 5), icon = nosferatu.normal },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 6), icon = nosferatu.happy },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 7), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("nosferatu", 1)
-						player:addInventoryItem(Item.items.wood, -10)
-						player:addInventoryItem(Item.items.stone, 10)
 						dialoguePanel:hide(name)
 						player:displayInventory()
+						xpcall(player.addInventoryItem, function(err, success)
+							if success then
+								player:addInventoryItem(Item.items.wood, -15)
+								player:updateQuestProgress("nosferatu", 1)
+								dialoguePanel:hide(name)
+								player:displayInventory()
+							elseif err:match("Full inventory") then
+								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+							end
+						end, player, Item.items.stone, 10)
+
 					end)
 				elseif qProgress.stage == 3 and oreAmount and oreAmount >= 15 then
 					addDialogueSeries(name, 2, {
@@ -284,11 +306,17 @@ do
 
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
-						player:updateQuestProgress("nosferatu", 1)
-						player:addInventoryItem(Item.items.iron_ore, -15)
-						player:addInventoryItem(Item.items.stone, 30)
-						dialoguePanel:hide(name)
-						player:displayInventory()
+						xpcall(player.addInventoryItem, function(err, success)
+							if success then
+								player:addInventoryItem(Item.items.iron_ore, -15)
+								player:updateQuestProgress("nosferatu", 1)
+								dialoguePanel:hide(name)
+								player:displayInventory()
+							elseif err:match("Full inventory") then
+								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+							end
+						end, player, Item.items.stone, 30)
+
 					end)
 				else
 					addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 13), name, "Nosferatu", nosferatu.question, {
@@ -303,10 +331,16 @@ do
 						if stickAmount < 35 then
 							addDialogueBox(2, "bruh", name, "Nosferatu", nosferatu.normal)
 						else
-							-- TODO: handle inventory overflowing
-							player:addInventoryItem(Item.items.stick, -35)
 							player:addInventoryItem(Item.items.stone, 10)
 							addDialogueBox(2, "ok i steal them", name, "Nosferatu", nosferatu.normal)
+							xpcall(player.addInventoryItem, function(err, success)
+								if success then
+									player:addInventoryItem(Item.items.stick, -35)
+									addDialogueBox(2, translate("EXCHANGE_STICKS", player.language, 19), name, "Nosferatu", nosferatu.happy)
+								elseif err:match("Full inventory") then
+									addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+								end
+							end, player, Item.items.stone, 10)
 						end
 					end, { player } },
 					{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 17), name, "Nosferatu", nosferatu.normal }}
@@ -366,5 +400,32 @@ do
 		end
 	}
 
+	Entity.entities.garry = {
+		displayName = "Garry",
+		look = "126;110_AE752F,0,55_5F524F+554A47+C5B4AE+C5B4AE+332A28+332A28,36_5F524F+554A47+242120+5F524F,0,75_583131+391E1E+1D121A,37_AE752F+AE752F,21_332A28,0",
+		title = 0,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			addDialogueBox(4, translate("GARRY_DIALOGUES", player.language, 1), player.name, "Garry", garry.sad)
+		end
+	}
+
+	Entity.entities.thompson = {
+		displayName = "Thompson",
+		look = "15;190_443A40+767576+585155+C48945+C48945+202020+E7E6E5,24,0,54,8,0,36,67,0",
+		title = 0,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			local name = player.name
+			addDialogueBox(4, translate("THOMPSON_DIALOGUES", player.language, 1), player.name, "Thompson", thompson.thinking, {
+				{ translate("THOMPSON_QUESTIONS", player.language, 1), addDialogueBox, { 2, translate("THOMPSON_DIALOGUES", player.language, 2), name, "Thompson", thompson.pointing } },
+				{ translate("THOMPSON_QUESTIONS", player.language, 2), addDialogueBox, { 2, translate("THOMPSON_DIALOGUES", player.language, 3), name, "Thompson", thompson.happy }}
+			})
+		end
+	}
 
 end
