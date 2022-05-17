@@ -65,6 +65,7 @@ end
 function Player:addInventoryItem(newItem, quantity)
 	local newWeight = self.carriageWeight + newItem.weight * quantity
 	if newWeight > 20 then error("Full inventory", 1) end
+	self.carriageWeight = newWeight
 	if newItem.stackable then
 		local invPos, itemQuantity = self:getInventoryItem(newItem.id)
 		if invPos and itemQuantity + quantity < 128 then
