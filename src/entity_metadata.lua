@@ -164,10 +164,22 @@ Entity.entities = {
 		},
 		onAction = function(self, player, down)
 			if not down then return end
-			p(self.name)
-			p(self.id)
 			player:addInventoryItem(self.name, self.id)
 			self:destroy()
+		end
+	},
+
+	spirit_orb  = {
+		image = {
+			id = "no.png"
+		},
+		onAction = function(self, player, down)
+			if not down then return end
+			if bit.band(player.spiritOrbs, bit.lshift(1, self.name)) > 1 then return end
+			player.spiritOrbs = bit.bor(player.spiritOrbs, bit.lshift(1, self.name))
+			print(player.spiritOrbs)
+			tfm.exec.chatMessage(translate("SPIRIT_ORB", player.language), player.name)
+			player:savePlayerData()
 		end
 	},
 
@@ -235,6 +247,14 @@ do
 		pointing = "180d28c6772.png",
 		thinking = "180d29fd7a6.png",
 		happy = "180d2a009e2.png"
+	}
+
+	local edric = {
+		normal = "180d7901bfb.png",
+		surprised = "180d79c0e9c.png",
+		happy = "180d79c2837.png",
+		exclamation = "180d79cba27.png",
+		question = "180d7df87b1.png"
 	}
 
 	-- npc metadata
@@ -362,14 +382,17 @@ do
 			local qProgress = player.questProgress
 			if qProgress.strength_test then
 				if qProgress.strength_test.completed then
-
+					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 9), name, "Lieutenant Edric", edric.exclamation)
 				else
-					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 6), name, "Lieutenant Edric", nosferatu.normal, {
-						{ translate("EDRIC_QUESTIONS", player.language, 1), addDialogueBox, { 3, translate("EDRIC_DIALOGUES", player.language, 5), name, "Lieutenant Edric", nosferatu.normal} },
+					if qProgress.strength_test.stage == 2 then
+						return addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 8), name, "Lieutenant Edric", edric.happy)
+					end
+					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 6), name, "Lieutenant Edric", edric.question, {
+						{ translate("EDRIC_QUESTIONS", player.language, 1), addDialogueBox, { 3, translate("EDRIC_DIALOGUES", player.language, 5), name, "Lieutenant Edric", edric.normal} },
 						{ translate("EDRIC_QUESTIONS", player.language, 2), addDialogueSeries,
 							{ name, 3, {
-								{ text = translate("EDRIC_DIALOGUES", player.language, 7), icon = nosferatu.normal },
-								{ text = translate("EDRIC_DIALOGUES", player.language, 8), icon = nosferatu.normal }
+								{ text = translate("EDRIC_DIALOGUES", player.language, 7), icon = edric.normal },
+								{ text = translate("EDRIC_DIALOGUES", player.language, 8), icon = edric.happy }
 							}, "Lieutenant Edric", function(id, name, event)
 								dialoguePanel:hide(name)
 								player:displayInventory()
@@ -381,11 +404,11 @@ do
 				end
 			elseif qProgress.nosferatu and qProgress.nosferatu.completed then
 				addDialogueSeries(name, 3, {
-					{ text = translate("EDRIC_DIALOGUES", player.language, 1), icon = nosferatu.shocked },
-					{ text = translate("EDRIC_DIALOGUES", player.language, 2), icon = nosferatu.thinking },
-					{ text = translate("EDRIC_DIALOGUES", player.language, 3), icon = nosferatu.happy },
-					{ text = translate("EDRIC_DIALOGUES", player.language, 4), icon = nosferatu.normal },
-					{ text = translate("EDRIC_DIALOGUES", player.language, 5), icon = nosferatu.normal },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 1), icon = edric.exclamation },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 2), icon = edric.surprised },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 3), icon = edric.normal },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 4), icon = edric.normal },
+					{ text = translate("EDRIC_DIALOGUES", player.language, 5), icon = edric.happy },
 				}, "Lieutenant Edric", function(id, _name, event)
 					--if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
 					--player:updateQuestProgress("nosferatu", 1)

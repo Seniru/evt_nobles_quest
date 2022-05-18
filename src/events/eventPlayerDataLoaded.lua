@@ -8,6 +8,7 @@ eventPlayerDataLoaded = function(name, data)
 	end
 
 	local player = Player.players[name]
+	player.spiritOrbs = dHandler:get(name, "spiritOrbs")
 	player.learnedRecipes = recipesBitList:decode(dHandler:get(name, "recipes"))
 
 	local questProgress = dHandler:get(name, "questProgress")
@@ -79,7 +80,7 @@ eventPlayerDataLoaded = function(name, data)
 		else
 			mapPlaying = "castle"
 		end
-		mapPlaying = "mine"
+		mapPlaying = "castle"
 		tfm.exec.newGame(maps[mapPlaying])
 		tfm.exec.setGameTime(150)
 		mapLoaded = true

@@ -91,7 +91,7 @@ Item("gold_ore", Item.types.RESOURCE, true, nil, 0.3, {
 	en = "Gold ore"
 })
 
-Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 1.2, {
+Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 1, {
 	en = "Wood"
 })
 

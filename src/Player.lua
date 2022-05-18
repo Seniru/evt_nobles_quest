@@ -33,6 +33,7 @@ function Player.new(name)
 	self.sequenceIndex = 1
 	self.chargedDivinePower = 0
 	self.learnedRecipes = {}
+	self.spiritOrbs = 0
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
 	}
@@ -191,7 +192,11 @@ function Player:updateQuestProgress(quest, newProgress)
 		announceStageProgress = false
 	end
 	if announceStageProgress then
-		tfm.exec.chatMessage(progress, self.name)
+		tfm.exec.chatMessage(translate("STAGE_PROGRESS", self.language, nil, {
+			questName = q.title_locales[self.language] or q.title_locales["en"],
+			progress = progress,
+			needed = quests[quest][pProgress.stage].tasks
+		}), self.name)
 	end
 	dHandler:set(self.name, "questProgress", encodeQuestProgress(self.questProgress))
 	self:savePlayerData()
@@ -301,6 +306,7 @@ function Player:savePlayerData()
 	end
 	p(inventory)
 	dHandler:set(name, "inventory", encodeInventory(inventory))
+	dHandler:set(name, "spiritOrbs", self.spiritOrbs)
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
 	print("v2" .. dHandler:dumpPlayer(name))
 end

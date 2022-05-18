@@ -5,7 +5,9 @@ translations["en"] = {
 	NEW_RECIPE = "<font color='#506d3d' size='8'><b>[NEW RECIPE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${itemName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${itemDesc})</font>",
 	NEW_QUEST = "\n<font color='#506d3d' size='8'><b>[NEW QUEST]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
 	NEW_STAGE = "<font color='#506d3d' size='8'><b>[UPDATE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${desc})</font>",
+	STAGE_PROGRESS = "<font color='#506d3d' size='8'><b>[UPDATE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font> <font color='#bd9d60' size='11' face='Lucida Console'>( ${progress} / ${needed} )</font>",
 	QUEST_OVER = "<font color='#506d3d' size='8'><b>[COMPLETED]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
+	SPIRIT_ORB = "You receive a spirit orb!",
 	ANNOUNCER_DIALOGUES = {
 		"ATTENTION EVERYONE! ATTENTION!!!",
 		"This message is from our magesty, the glorious King of this land...",
@@ -49,8 +51,9 @@ translations["en"] = {
 		"But before that, make sure you are fully prepared. There are few <b><VP>recipes</VP></b> scattered around the <b><VP>weapon racks</VP></b> and the <b><VP>gloomy forests down the hill</VP></b>\nHope you will make a good use of them!",
 		"Talk to me again when you think you ready!",
 		"Are you ready to take the challenge?",
-		"Great! Go start your training in the training area. You need to <b><VP>defeat 30 monsters</VP></b> to pass this challenge.",
-		"You can take as much as time you want, but if you died you'll have to redo everything!\nKeep that in mind and good luck to you!!!"
+		"Great! Go start your training in the training area. You need to <b><VP>defeat 50 monsters</VP></b> to pass this challenge.",
+		"You can take as much as time you want\nGood luck to you!!!",
+		"You proved that you are worthy! Hurry!!! Join the rest of our soldiers and fight the monsters!"
 	},
 	EDRIC_QUESTIONS = {
 		"I need more time...",
