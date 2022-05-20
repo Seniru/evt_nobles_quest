@@ -132,8 +132,8 @@ function Monster:changeStance(stance)
 end
 
 function Monster:attack(player, attackType)
-	local isBoss = self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss
 	if not self.isAlive then return end
+	local isBoss = self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss
 	local playerObj = Player.players[player]
 	self.lastAction = "attack"
 	self.species.attacks[attackType](self, playerObj)
@@ -173,7 +173,8 @@ function Monster:destroy(destroyedBy)
 	tfm.exec.removeObject(self.objId)
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil
-	self.spawnPoint.monsters[self.id] = nil
+	-- 	TODO: remove the dead monsters in the coming iteration
+	--self.spawnPoint.monsters[self.id] = nil
 	self.spawnPoint.monsterCount = self.spawnPoint.monsterCount - 1
 	self = nil
 end

@@ -120,7 +120,9 @@ Entity.entities = {
 
 	craft_table = {
 		image = {
-			id = "no.png"
+			id = "180dfe91752.png",
+			xAdj = -110,
+			yAdj = -120
 		},
 		onAction = function(self, player, down)
 			if down then openCraftingTable(player) end
@@ -144,7 +146,10 @@ Entity.entities = {
 			if not down then return end
 			local tpInfo = teleports[self.name]
 			local tp1, tp2 = tpInfo[1], tpInfo[2]
-			if not tpInfo.canEnter(player, tp2) then return end
+			if not tpInfo.canEnter(player, tp2) then
+				if tpInfo.onFailure then tpInfo.onFailure(player) end
+				return
+			end
 			local terminal, x, y
 			if tp1 == self then
 				x, y, terminal = tp2.x, tp2.y, 2
@@ -154,7 +159,6 @@ Entity.entities = {
 			tfm.exec.movePlayer(player.name, x, y)
 			Timer.new("tp_anim", tfm.exec.displayParticle, 10, false, 37, x, y)
 			if tpInfo.onEnter then tpInfo.onEnter(player, terminal) end
-
 		end
 	},
 
@@ -171,14 +175,19 @@ Entity.entities = {
 
 	spirit_orb  = {
 		image = {
-			id = "no.png"
+			id = "180dbcc0036.png"
 		},
 		onAction = function(self, player, down)
 			if not down then return end
-			if bit.band(player.spiritOrbs, bit.lshift(1, self.name)) > 1 then return end
+			local qProgress = player.questProgress
+			player:addNewQuest("spiritOrbs")
+			if bit.band(player.spiritOrbs, bit.lshift(1, self.name)) > 0 then return end
 			player.spiritOrbs = bit.bor(player.spiritOrbs, bit.lshift(1, self.name))
 			print(player.spiritOrbs)
 			tfm.exec.chatMessage(translate("SPIRIT_ORB", player.language), player.name)
+			if qProgress.spiritOrbs and qProgress.spiritOrbs.stage == 3 then
+				player:updateQuestProgress("spiritOrbs", 1)
+			end
 			player:savePlayerData()
 		end
 	},
@@ -255,6 +264,13 @@ do
 		happy = "180d79c2837.png",
 		exclamation = "180d79cba27.png",
 		question = "180d7df87b1.png"
+	}
+
+	local saruman = {
+		normal = "180dcb867ce.png",
+		exclamation = "180dcb7c454.png",
+		happy = "180dcb7e119.png",
+		question = "180dcb89e56.png"
 	}
 
 	-- npc metadata
@@ -448,6 +464,100 @@ do
 				{ translate("THOMPSON_QUESTIONS", player.language, 1), addDialogueBox, { 2, translate("THOMPSON_DIALOGUES", player.language, 2), name, "Thompson", thompson.pointing } },
 				{ translate("THOMPSON_QUESTIONS", player.language, 2), addDialogueBox, { 2, translate("THOMPSON_DIALOGUES", player.language, 3), name, "Thompson", thompson.happy }}
 			})
+		end
+	}
+
+	Entity.entities.laura = {
+		displayName = "Laura",
+		look = "9;2_FFAC38,0,0,0,49_532B21+532B21+532B21+FFAC38+FFAC38,26_291511+FFAC38,0,60_291511,0",
+		title = 0,
+		female = true,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			system.openEventShop("nobles", player.name)
+		end
+	}
+
+	Entity.entities.cole = {
+		displayName = "Cole",
+		look = "1;62_414131+25251E,46_25251E,0,0,60_25251E+414131+25251E+414131+25251E+25251E+25251E+414131+414131+414131,94_482F20+221C16+482F20+221C16,13_414131+54380A+D5B073,76_1F1A16,0;BD9067",
+		title = 0,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			addDialogueBox(5, translate("COLE_DIALOGUES", player.language, 2), player.name, "Cole", "180d8434702.png")
+		end
+	}
+
+	Entity.entities.marc = {
+		displayName = "Marc",
+		look = "194;0,0,0,0,0,0,0,0,0",
+		title = 0,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			addDialogueBox(6, translate("MARC_DIALOGUES", player.language, 1), player.name, "Marc", marc.angry)
+		end
+	}
+
+	Entity.entities.saruman = {
+		displayName = "Saruman",
+		look = "158;112,8,0,57_FFFFFF+2E483E,43_2E483E+456458+456458,0,54_74534D+160C2B+0+675548+56413D+D8D5D2+D4BDA5+635043,13,59",
+		title = 0,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			local qProgress = player.questProgress
+			if qProgress.spiritOrbs.stage == 2 then
+				addDialogueSeries(player.name, 7, {
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 2), icon = saruman.exclamation },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 3), icon = saruman.normal },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 4), icon = saruman.happy },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 5), icon = saruman.question },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 6), icon = saruman.normal },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 7), icon = saruman.normal },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 8), icon = saruman.normal },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 9), icon = saruman.exclamation },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 10), icon = saruman.normal },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 11), icon = saruman.normal },
+					{ text = translate("SARUMAN_DIALOGUES", player.language, 12), icon = saruman.happy },
+				}, "Saruman", function(id, name, event)
+					-- handle delayed packets/multiple text area callbacks at once
+					if qProgress.spiritOrbs.stage == 2 then player:updateQuestProgress("spiritOrbs", 1) end
+					local orbs = 0
+					for i = 1, 5 do
+						if bit.band(player.spiritOrbs, bit.lshift(1, i)) > 0 then
+							orbs = orbs + 1
+						end
+					end
+					player:updateQuestProgress("spiritOrbs", orbs)
+					dialoguePanel:hide(name)
+					player:displayInventory()
+				end)
+			else
+				if player.spiritOrbs == 62 then
+					return addDialogueBox(7, translat3e("SARUMAN_DIALOGUES", player.language, 22), player.name, "Saruman", saruman.exclamation)
+				end
+				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 13), player.name, "Saruman", saruman.question, {
+					{ translate("SARUMAN_QUESTIONS", player.language, 1), addDialogueSeries, { player.name, 7, {
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 14), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 15), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 16), icon = saruman.happy },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 17), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 18), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 19), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 20), icon = saruman.happy },
+					}, "Saruman", function(id, name, event)
+						dialoguePanel:hide(name)
+						player:displayInventory()
+					end}},
+					{ translate("SARUMAN_QUESTIONS", player.language, 2), addDialogueBox, { 7, translate("SARUMAN_DIALOGUES", player.language, 21), player.name, "Saruman", saruman.happy } }
+				})
+			end
 		end
 	}
 

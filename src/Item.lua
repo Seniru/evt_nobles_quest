@@ -16,6 +16,7 @@ Item.types = {
 	RESOURCE	= 1,
 	AXE			= 2,
 	SHOVEL		= 3,
+	SWORD		= 4,
 	SPECIAL 	= 100
 }
 
@@ -40,7 +41,7 @@ do
 		self.weight = weight
 		self.locales = setmetatable(locales, locale_mt)
 		self.description_locales = setmetatable(description_locales or {}, desc_locale_mt)
-	
+
 		if type ~= Item.types.RESOURCE and type ~= Item.types.SPECIAL then
 			-- basic settings for most of the basic tools
 			self.durability = 10
@@ -49,12 +50,12 @@ do
 			self.mining = 0
 			self.tier = 1
 		end
-	
+
 		attrs = attrs or {}
 		for k, v in next, attrs do
 			self[k] = v
 		end
-	
+
 		Item.items[id] = self
 		Item.items._all[self.nid] = id
 		return self
@@ -75,7 +76,7 @@ Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
 	en = "Stone"
 })
 
-Item("clay", Item.types.RESOURCE, true, nil, 0.05, {
+Item("clay", Item.types.RESOURCE, true, "180db604121.png", 0.05, {
 	en = "Clay"
 })
 
@@ -104,7 +105,7 @@ Item("bridge", Item.types.SPECIAL, false, nil, 19.5, {
 	en = "Bridge"
 })
 
-Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
+Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	en = "Basic axe"
 }, {
 	en = "Just a basic axe"
@@ -113,6 +114,34 @@ Item("basic_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
 	chopping = 1
 })
 
+Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
+	en = "Iron axe"
+}, {
+	en = "Just a basic axe"
+}, {
+	durability = 10,
+	chopping = 1
+})
+
+Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1, {
+	en = "Copper axe"
+}, {
+	en = "Just a basic axe"
+}, {
+	durability = 10,
+	chopping = 1
+})
+
+Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1, {
+	en = "Golden axe"
+}, {
+	en = "Just a basic axe"
+}, {
+	durability = 10,
+	chopping = 1
+})
+
+
 Item("basic_shovel", Item.types.SHOVEL, false, nil, 1, {
 	en = "Basic shovel"
 }, {
@@ -120,4 +149,11 @@ Item("basic_shovel", Item.types.SHOVEL, false, nil, 1, {
 }, {
 	durability = 10,
 	mining = 3
+})
+
+Item("basic_sword", Item.types.SPECIAL, false, nil, 1, {
+	en = "Basic sword",
+	{
+		attack = 2
+	}
 })

@@ -8,6 +8,8 @@ translations["en"] = {
 	STAGE_PROGRESS = "<font color='#506d3d' size='8'><b>[UPDATE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font> <font color='#bd9d60' size='11' face='Lucida Console'>( ${progress} / ${needed} )</font>",
 	QUEST_OVER = "<font color='#506d3d' size='8'><b>[COMPLETED]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
 	SPIRIT_ORB = "You receive a spirit orb!",
+	PASSCODE = "Please enter the access key.",
+	WRONG_GUESS = "<R>Incorrect access key.</R>",
 	ANNOUNCER_DIALOGUES = {
 		"ATTENTION EVERYONE! ATTENTION!!!",
 		"This message is from our magesty, the glorious King of this land...",
@@ -70,6 +72,54 @@ translations["en"] = {
 	THOMPSON_QUESTIONS = {
 		"Any recipes?",
 		"Just saying hi."
+	},
+	COLE_DIALOGUES = {
+		"There's a lot of <b><VP>monsters</VP></b> out there. Please be careful!",
+		"All of our army is fighting against the monsters. We need a lot of help.",
+		"OIIIIII! I CANT LET A WEAKLING LIKE YOU GO THAT WAY. COME BACK UP HERE!"
+	},
+	MARC_DIALOGUES = {
+		"BAD YOU! Touch my bench work NOT!"
+	},
+	SARUMAN_DIALOGUES = {
+		"EYYYYY!!!! EYYYYYYYYY!!!!\nIS SOMEBODY THERE???",
+		"HEYY!! HELP ME OUT THERE!\nTHANKS GOD FOR SAVING SOMEONE OUT HERE!!!",
+		"I am <b><VP>Saruman</VP></b> by the way. I've been stucked here for like...\n15 years?",
+		"My buddy <b><VP>Hootie</VP></b> is the reason I'm still alive.\nI'd die out of starvation if it wasn't him",
+		"So you want to know how and why I'm stuck here?",
+		"Well long story short, back when I was still <b>young</b> and strong as you,\nI heard about these treasures called <b><VP>spirit orbs</VP></b>",
+		"I was a professor too so I was quite interested in researching about this topic.\nI've gathered like a lots of information about them",
+		"These orbs are binded to one's soul. Once they are binded with all <b><VP>5 orbs</VP></b> they will be granted the <b><VP>divine power</VP></b>",
+		"I'm not sure what kind of power I'd get from those or what would they do to me...\nBut I'm pretty sure the <b><VP>monks</VP></b> know more about how to use it!",
+		"But nobody knew where they are exactly located so I came here to find them all by myself.",
+		"I think I did a pretty good job finding one <VP><b>shrine orb</b></VP>.\nBut... I choosed the wrong path and was stucked here forever since then.",
+		"I'm glad you helped me out! Feel free to talk to me to know anything about these orbs.\nKnowledge is there to share, and you saved me!",
+		"Yeah buddy! What do you want to know from me?",
+		"Like I said there are <b><VP>5 spirit orbs</VP></b>\n<b><VP>3</VP></b> of them could be found in the <b><VP>shrines</VP></b> in this gloomy forest.\nI'm quite unsure about the rest 2 though...",
+		"From the information I have collected, you'll have to face various challenges to get into shrines.",
+		"I think you know one already unless you had some magic power to teleport here",
+		"Second shrine is guarded by a lot of <b><VP>monsters</VP></b> on it's way.\nSo equip well before exploring there!",
+		"And for the last shrine I've found this <b><VP>hint</VP></b> from ancient books",
+		"<b><VP>\"ligma\"</VP></b>",
+		"That's all! Hope you make a good use of these information",
+		"Thanks for checking on me bud!",
+		"OH LOOKS LIKE YOU'VE COLLECTED ALL THE SPIRIT ORBS!!!\nWe're even now... thank me later!\nBut make sure you find more information about these orbs from a <b><VP>monk</VP></b>"
+	},
+	SARUMAN_QUESTIONS = {
+		"Where are orbs?",
+		"Just checking!"
+	},
+	MONK_DIALOGUES = {
+		"I've been holding this evil power for a long time...\nGlad to hear you came to help us",
+		"So you're telling you possess all <b><VP>5 spirit orbs</VP></b>",
+		"Quite a good job indeed. Now this will make it easier to defeat the evil power forever",
+		"These spirit orbs are indeed binded to one's spirit\nOnly couragous individuals can possess all 5",
+		"These orbs will help you to <b><VP>divine power</VP></b> which is the only way to destroy the evil\nas far as I know",
+		"Once you have activated the divine power and confronted the evil...\nYou will have to travel a long path inside your mind to achieve the <b><VP>divine status</VP></b>",
+		"The spirit orbs will help you to find the right path to achieve that. You only have to travel to the way it show you at the right time!",
+		"I'm pretty sure you won't succeed it to the most powerful divine energy.\nBut even if you get closer...",
+		"It will create a large divine energy which will then summon the <b><VP>goddess</VP></b>",
+		"Ancient books say that the beast is too powerful but I'm pretty sure the <b><VP>goddessess' blessing</VP></b> would put it in a weaker state",
+		"Which then is our time, to destroy the evil power forever!!!"
 	}
-
 }

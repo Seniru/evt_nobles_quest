@@ -43,9 +43,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	Panel.panels[id * 1000]:update(text, name)
 	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b><font size='10'>" .. (speakerName or "???") .. "</font></b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
 	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
-	print({"is problem here", speakerIcon})
 	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
-	print("problem not there")
 	dialoguePanel:update(text, name)
 	if isReplyBox then
 		for i, reply in next, replies do
@@ -187,6 +185,66 @@ getVelocity = function(x_to, x_from, y_to, y_from, t)
 	local vsintheta = (y_to - y_from + 10 * t ^ 2) / t
 	return vcostheta * 1.2, vsintheta * 1.2
 end
+
+teleports = {
+	mine = {
+		canEnter = function(player, terminalId)
+			local quest = player.questProgress.nosferatu
+			return quest and (quest.completed or quest.stage >= 3)
+		end,
+		onEnter = function(player, terminalId)
+			tfm.exec.setPlayerNightMode(terminalId == 2, player.name)
+		end
+	},
+	castle = {
+		canEnter = function() return true end,
+		onEnter = function(player, terminalId)
+			if terminalId == 2 then
+				addDialogueBox(5, translate("COLE_DIALOGUES", player.language, 1), player.name, "Cole", "180d8434702.png")
+			end
+		end
+	},
+	arena = {
+		canEnter = function(player, terminalId)
+			local quest = player.questProgress.strength_test
+			return quest and (quest.completed or quest.stage >= 2)
+		end
+	},
+	bridge = {
+		canEnter = function(player, terminalId)
+			local quest = player.questProgress.strength_test
+			return quest and quest.completed
+		end,
+		onFailure = function(player)
+			addDialogueBox(5, translate("COLE_DIALOGUES", player.language, 3), player.name, "Cole", "180d8434702.png")
+		end
+	},
+	shrines = {
+		canEnter = function() return true end,
+		onEnter = function(player, terminalId)
+			tfm.exec.setPlayerNightMode(terminalId == 2, player.name)
+			if terminalId == 2 and (not player.questProgress["spiritOrbs"] or player.questProgress.stage == 1) then
+				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
+					player:addNewQuest("spiritOrbs")
+					player:updateQuestProgress("spiritOrbs", 1)
+					dialoguePanel:hide(player.name)
+					player:displayInventory()
+				end)
+			end
+		end
+	},
+	final_boss = {
+		canEnter = function() return true end
+	},
+	enigma = {
+		canEnter = function(player, terminalId) return terminalId == 1 end,
+		onFailure = function(player)
+			print("failure")
+			local tfmPlayer = tfm.get.room.playerList[player.name]
+			ui.addPopup(69, 2, translate("PASSCODE", player.language), player.name, tfmPlayer.x - 10, tfmPlayer.y - 10, nil, false)
+		end
+	}
+}
 
 do
 	eventNewGame()

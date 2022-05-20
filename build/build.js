@@ -45,7 +45,8 @@ combine({
 			"src/events/eventKeyboard.lua",
 			"src/events/eventTalkToNPC.lua",
 			"src/events/eventTextAreaCallback.lua",
-			"src/events/eventContactListener.lua"
+			"src/events/eventContactListener.lua",
+			"src/events/eventPopupAnswer.lua"
     	],
   	},
   	main: {

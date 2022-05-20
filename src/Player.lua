@@ -158,6 +158,7 @@ function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
 end
 
 function Player:addNewQuest(quest)
+	if self.questProgress[quest] then return end
 	self.questProgress[quest] = { stage = 1, stageProgress = 0, completed = false }
 	local qData = quests[quest]
 	tfm.exec.chatMessage(translate("NEW_QUEST", self.language, nil, {
@@ -170,6 +171,7 @@ function Player:addNewQuest(quest)
 end
 
 function Player:updateQuestProgress(quest, newProgress)
+	if newProgress == 0 then return end
 	local pProgress = self.questProgress[quest]
 	local progress = pProgress.stageProgress + newProgress
 	local q = quests[quest]
@@ -251,12 +253,11 @@ function Player:dropItem()
 end
 
 function Player:attack(monster)
-	if self.equipped == nil then
-		monster:regen()
-		monster.health = monster.health - 2
-		displayDamage(monster)
-	elseif player.equipped.type ~= Item.types.SPECIAL then
-
+	monster:regen()
+	if self.equipped.type ~= Item.types.SPECIAL then
+		monster.health = monster.health - self.equipped.attack
+		local itemDamage = self.equipped.type == Item.types.SWORD and 1 or math.max(1, 4 - item.tier)
+		self.equipped.durability = self.equipped.durability - itemDamage
 	end
 	monster.latestActionReceived = os.time()
 	if monster.health <= 0 then

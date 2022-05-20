@@ -63,6 +63,31 @@ local quests = {
 		}
 	},
 
-	_all = { "wc", "nosferatu", "strength_test" }
+	spiritOrbs = {
+		id = 4,
+		title_locales = {
+			en = "The spiritual way"
+		},
+		{
+			description_locales = {
+				en = "Go to the gloomy forest"
+			},
+			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Find the mysterious voice"
+			},
+			tasks = 1
+		},
+		{
+			description_locales = {
+				en = "Gather all 5 spirit orbs"
+			},
+			tasks = 5
+		}
+	},
+
+	_all = { "wc", "nosferatu", "strength_test", "spiritOrbs" }
 
 }

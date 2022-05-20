@@ -221,10 +221,11 @@ do
 				friction = 2,
 				contactListener = true,
 				dynamic = true,
-				groundCollision = false
+				groundCollision = false,
+				mass = 0.0002
 			})
 			local player = tfm.get.room.playerList[target.name]
-			local vx, vy = getVelocity(player.x, self.x, player.y, self.y - 5, 3)
+			local vx, vy = 120 * self.stance, 20
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
 			local imgId = tfm.exec.addImage(assets.spit, "+" .. (12000 + id), -15, -5)
 			projectiles[id] = { 0, true, 1000 }
@@ -309,9 +310,12 @@ do
 		self.wait = self.wait - 1
 		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - 345) + 10 or self.realX)
 		self.realX = dragX
+		if dragX < 700 then
+			return self:destroy()
+		end
 		if self.wait < 0 then
 			tfm.exec.removeObject(self.objId)
-			self.objId = tfm.exec.addShamanObject(62, self.x + 50, self.y - 50, 180, -100, 0, false)
+			self.objId = tfm.exec.addShamanObject(62, self.x - 10, self.y - 50, 180, -100, 0, false)
 			tfm.exec.movePhysicObject(200, 0, 0, false, -25, -30)
 			self.wait = 3
 		end
@@ -323,11 +327,17 @@ do
 			end
 		end
 		p(entityBridge.bridges)
+		local toRemove = {}
 		for i, bridge in next, (entityBridge.bridges or {}) do
 			if math.abs(bridge[2] - dragX) < 50 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
 				tfm.exec.removePhysicObject(bridge[1])
-				entityBridge.bridges[i] = nil
+				toRemove[#toRemove + 1] = i
+				--entityBridge.bridges[i] = nil
 			end
+		end
+		for i, j in next, toRemove do
+			tfm.exec.removePhysicObject(entityBridge.bridges[j][1])
+			entityBridge.bridges[j] = nil
 		end
 		local imageData = self.species.sprites.idle_left
 		if imageData ~= self.imageId then
