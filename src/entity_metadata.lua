@@ -188,6 +188,9 @@ Entity.entities = {
 			if qProgress.spiritOrbs and qProgress.spiritOrbs.stage == 3 then
 				player:updateQuestProgress("spiritOrbs", 1)
 			end
+			if self.name == 5 then
+				player:updateQuestProgress("fiery_dragon", 1)
+			end
 			player:savePlayerData()
 		end
 	},
@@ -365,14 +368,12 @@ do
 					{ translate("NOSFERATU_QUESTIONS", player.language, 3), function(player)
 						local idx, stickAmount = player:getInventoryItem("stick")
 						if stickAmount < 35 then
-							addDialogueBox(2, "bruh", name, "Nosferatu", nosferatu.normal)
+							addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 20), name, "Nosferatu", nosferatu.normal)
 						else
-							player:addInventoryItem(Item.items.stone, 10)
-							addDialogueBox(2, "ok i steal them", name, "Nosferatu", nosferatu.normal)
 							xpcall(player.addInventoryItem, function(err, success)
 								if success then
 									player:addInventoryItem(Item.items.stick, -35)
-									addDialogueBox(2, translate("EXCHANGE_STICKS", player.language, 19), name, "Nosferatu", nosferatu.happy)
+									addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 19), name, "Nosferatu", nosferatu.happy)
 								elseif err:match("Full inventory") then
 									addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
 								end
@@ -397,8 +398,10 @@ do
 			local name = player.name
 			local qProgress = player.questProgress
 			if qProgress.strength_test then
-				if qProgress.strength_test.completed then
+				if qProgress.strength_test.completed or qProgress.strength_test.stage > 2 then
 					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 9), name, "Lieutenant Edric", edric.exclamation)
+					player:updateQuestProgress("strength_test", 1)
+					player:addNewQuest("fiery_dragon")
 				else
 					if qProgress.strength_test.stage == 2 then
 						return addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 8), name, "Lieutenant Edric", edric.happy)
@@ -434,7 +437,7 @@ do
 
 				end)
 			else
-				addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 1), name, "Lieutenant Edric", nosferatu.normal)
+				addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 1), name, "Lieutenant Edric", edric.exclamation)
 			end
 		end
 	}

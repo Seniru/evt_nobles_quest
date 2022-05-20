@@ -1,3 +1,29 @@
+createPrettyUI = function(id, x, y, w, h, fixed, closeButton)
+
+	local window = Panel(id * 100 + 10, "", x - 4, y - 4, w + 8, h + 8, 0x7f492d, 0x7f492d, 1, fixed)
+		:addPanel(
+			Panel(id * 100 + 20, "", x, y, w, h, 0x152d30, 0x0f1213, 1, fixed)
+		)
+		:addImage(Image(assets.widgets.borders.topLeft, "&1", x - 10, y - 10))
+		:addImage(Image(assets.widgets.borders.topRight, "&1", x + w - 18, y - 10))
+		:addImage(Image(assets.widgets.borders.bottomLeft, "&1", x - 10, y + h - 18))
+		:addImage(Image(assets.widgets.borders.bottomRight, "&1", x + w - 18, y + h - 18))
+
+	if closeButton then
+		window
+			:addPanel(
+				Panel(id * 100 + 30, "<a href='event:close'>\n\n\n\n\n\n</a>", x + w + 18, y - 10, 15, 20, nil, nil, 0, fixed)
+				:addImage(Image(assets.widgets.closeButton, ":0", x + w + 15, y - 10)
+				)
+			)
+			:setCloseButton(id * 100 + 30)
+	end
+
+	return window
+
+end
+
+
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 0, true)
 	:addImage(Image(assets.ui.inventory, "~1", 20, 320))
 
@@ -12,20 +38,37 @@ end
 dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
 	:addPanel(Panel(201, "", 0, 0, 0, 0, nil, nil, 0, true))
 
-craftingPanel = Panel(300, "<a href='event:close'>\n\n\n\n</a>", 780, 30, 30, 30, nil, nil, 1, true)
-	:setCloseButton(300)
-	:addPanel(Panel(301, "", 20, 30, 500, 300, nil, nil, 1, true))
+
+craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop window
 	:addPanel(
-		Panel(302, "", 530, 30, 200, 300, nil, nil, 1, true)
+		Panel(351, "〈", 620, 350, 40, 20, nil, 0x324650, 1, true)
+		:setActionListener(function(id, name, event)
+			openCraftingTable(Player.players[name], tonumber(event))
+		end)
+	):addPanel(
+		Panel(352, "〉", 680, 350, 40, 20, nil, 0x324650, 1, true)
+		:setActionListener(function(id, name, event)
+			openCraftingTable(Player.players[name], tonumber(event))
+		end)
+	)
+	:addPanel(-- preview window
+		createPrettyUI(4, 70, 50, 260, 330, true, false)
+		:addPanel(Panel(451, "yes", 160, 60, 150, 90, nil, nil, 0, true)) -- recipe descriptions
+		:addPanel(Panel(452, "test", 80, 160, 100, 100, nil, nil, 0, true)) -- recipe info
+		:addPanel(Panel(450, "craft", 80, 350, 240, 20, nil, 0x324650, 1, true)
 			:setActionListener(function(id, name, event)
-				print("came here")
-				p({event, recipes[event]})
 				if not recipes[event] then return print("not a recipe") end
 				local player = Player.players[name]
 				if not player:canCraft(event) then return print("cant craft") end
 				local success, err = pcall(player.craftItem, player, event)
-				p({success, err})
+				if not success then
+					for _, neededItem in next, recipes[event] do
+						self:addInventoryItem(neededItem[1], neededItem[2])
+						--self.inventory[idx][2] = amount - neededItem[2]
+					end
+				end
 			end)
+		)
 	)
 
 divineChargePanel = Panel(400, "", 30, 110, 600, 50, nil, nil, 1, true)
@@ -39,7 +82,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local isReplyBox = type(replies) == "table"
 	dialoguePanel:addPanelTemp(Panel(id * 1000, text, x + (isReplyBox and 25 or 20), y, w, h, 0, 0, 0, true)
 		:addImageTemp(Image(assets.ui[isReplyBox and "dialogue_replies" or "dialogue_proceed"], "~1", 20, 280), name),
-	name)
+		name)
 	Panel.panels[id * 1000]:update(text, name)
 	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b><font size='10'>" .. (speakerName or "???") .. "</font></b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
 	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
@@ -51,18 +94,18 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 				:setActionListener(function(id, name, event)
 					reply[2](table.unpack(reply[3]))
 				end),
-			name)
+				name)
 			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w - 10, y - 10 + 26 * (i - 1), 1.1, 0.9), name)
 		end
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "~1", x + w - 25, y + h - 30), name)
 		dialoguePanel:addPanelTemp(
 			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w - 25, y + h - 30, 30, 30, nil, nil, 0, true)
-				:setActionListener(replies or function(id, name, event)
-					dialoguePanel:hide(name)
-					Player.players[name]:displayInventory()
-				end)
-		, name)
+			:setActionListener(replies or function(id, name, event)
+				dialoguePanel:hide(name)
+				Player.players[name]:displayInventory()
+			end)
+			, name)
 	end
 end
 
@@ -75,7 +118,7 @@ addDialogueSeries = function(name, id, dialogues, speakerName, conclude)
 		Panel.panels[id * 1000]:update(dialogues[page].text, name)
 		Panel.panels[201]:hide(name)
 		Panel.panels[201]:show(name)
-		Panel.panels[201]:addImageTemp(Image(dialogues[page].icon, "&1",  x + w - 100, y - 55), name)
+		Panel.panels[201]:addImageTemp(Image(dialogues[page].icon, "&1", x + w - 100, y - 55), name)
 		Panel.panels[id * 1000 + 10]:update(("<a href='event:%d'>\n\n\n</a>"):format(page + 1), name)
 	end)
 end

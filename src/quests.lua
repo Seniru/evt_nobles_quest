@@ -13,7 +13,7 @@ local quests = {
 		},
 		{
 			description_locales = {
-				en = "Start your journey in this town and please edit this ugly desc later"
+				en = "Travel back from time to a town in the medieval era"
 			},
 			tasks = 1
 		}
@@ -22,7 +22,7 @@ local quests = {
 	nosferatu = {
 		id = 2,
 		title_locales = {
-			en = "Some nice title"
+			en = "The loyal servant"
 		},
 		{
 			description_locales = {
@@ -32,13 +32,13 @@ local quests = {
 		},
 		{
 			description_locales = {
-				en = "Gather wood"
+				en = "Gather 15 wood"
 			},
 			tasks = 1
 		},
 		{
 			description_locales = {
-				en = "Gather iron ore"
+				en = "Gather 15 iron ore"
 			},
 			tasks = 1
 		}
@@ -60,6 +60,12 @@ local quests = {
 				en = "Defeat 50 monsters"
 			},
 			tasks = 50
+		},
+		{
+			description_locales = {
+				en = "Meet Lieutenant Edric back"
+			},
+			tasks = 1
 		}
 	},
 
@@ -88,6 +94,31 @@ local quests = {
 		}
 	},
 
-	_all = { "wc", "nosferatu", "strength_test", "spiritOrbs" }
+	fiery_dragon = {
+		id = 5,
+		title_locales = {
+			en = "Resisting the fire"
+		},
+		{
+			description_locales = {
+				en = "Destroy the fiery dragon and collect it's spirit orb"
+			},
+			tasks = 1
+		}
+	},
+
+	final_boss = {
+		id = 6,
+		title_locales = {
+			en = "Medieval hero"
+		},
+		{
+			description_locales = {
+				en = "Destroy the evil spirit"
+			}
+		}
+	},
+
+	_all = { "wc", "nosferatu", "strength_test", "spiritOrbs", "fiery_dragon", "final_boss" }
 
 }

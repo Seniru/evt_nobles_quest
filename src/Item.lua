@@ -74,6 +74,8 @@ Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 
 Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
 	en = "Stone"
+}, {
+	en = ""
 })
 
 Item("clay", Item.types.RESOURCE, true, "180db604121.png", 0.05, {
@@ -99,10 +101,14 @@ Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 1, {
 -- Special items
 Item("log_stakes", Item.types.SPECIAL, false, nil, 3.8, {
 	en = "Log stakes"
+}, {
+	en = "One of the most important building blocks in constructions!\nIt can also use as a decoration or just for fire if you have no use of it."
 })
 
 Item("bridge", Item.types.SPECIAL, false, nil, 19.5, {
 	en = "Bridge"
+}, {
+	en = "Bridges! Most basic use is accessing the land on the other side of a river, but also is also a great component in city architecuring.\nBut... how are you going to fit a bridge inside your pocket???"
 })
 
 Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
@@ -114,36 +120,63 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	chopping = 1
 })
 
-Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1, {
+Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	en = "Iron axe"
 }, {
-	en = "Just a basic axe"
+	en = "The reinforcement added with iron makes it last twice more than a basic axe!"
 }, {
-	durability = 10,
+	durability = 20,
 	chopping = 1
 })
 
-Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1, {
+Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	en = "Copper axe"
 }, {
-	en = "Just a basic axe"
+	en = "Designed by notable blacksmiths. The edge design makes it much easier to use and sharper!"
 }, {
-	durability = 10,
-	chopping = 1
+	durability = 20,
+	chopping = 2
 })
 
-Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1, {
+Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	en = "Golden axe"
 }, {
-	en = "Just a basic axe"
+	en = "An axe designed after combining gold and other alloys to make it stronger and more durable.\nI'm not sure if any regular jacksmith uses such an expensive tool though."
 }, {
-	durability = 10,
-	chopping = 1
+	durability = 30,
+	chopping = 3
 })
 
 
 Item("basic_shovel", Item.types.SHOVEL, false, nil, 1, {
 	en = "Basic shovel"
+}, {
+	en = "Dig dig dig"
+}, {
+	durability = 10,
+	mining = 2
+})
+
+Item("iron_shovel", Item.types.SHOVEL, false, nil, 1.4, {
+	en = "Iron shovel"
+}, {
+	en = "Evolution started here"
+}, {
+	durability = 15,
+	mining = 3
+})
+
+Item("copper_shovel", Item.types.SHOVEL, false, nil, 1, {
+	en = "Copper shovel"
+}, {
+	en = "Evolution started here"
+}, {
+	durability = 10,
+	mining = 3
+})
+
+Item("gold_shovel", Item.types.SHOVEL, false, nil, 1, {
+	en = "Gold shovel"
 }, {
 	en = "Evolution started here"
 }, {
@@ -155,5 +188,55 @@ Item("basic_sword", Item.types.SPECIAL, false, nil, 1, {
 	en = "Basic sword",
 	{
 		attack = 2
+	}
+})
+
+Item("iron_sword", Item.types.SPECIAL, false, nil, 1.4, {
+	en = "Iron sword",
+	{
+		attack = 3
+	}
+})
+
+Item("copper_sword", Item.types.SPECIAL, false, nil, 1.4, {
+	en = "Copper sword",
+	{
+		attack = 3.5
+	}
+})
+
+Item("gold_sword", Item.types.SPECIAL, false, nil, 1.4, {
+	en = "Gold sword",
+	{
+		attack = 4
+	}
+})
+
+
+Item("basic_shield", Item.types.SPECIAL, false, nil, 0.7, {
+	en = "Basic shield",
+	{
+		defense = 1
+	}
+})
+
+Item("iron_shield", Item.types.SPECIAL, false, nil, 1, {
+	en = "Iron shield",
+	{
+		defense = 3
+	}
+})
+
+Item("copper_shield", Item.types.SPECIAL, false, nil, 1.4, {
+	en = "Copper shield",
+	{
+		defense = 4
+	}
+})
+
+Item("gold_shield", Item.types.SPECIAL, false, nil, 2, {
+	en = "Gold sword",
+	{
+		defense = 6
 	}
 })

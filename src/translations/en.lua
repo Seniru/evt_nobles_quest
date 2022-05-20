@@ -10,6 +10,9 @@ translations["en"] = {
 	SPIRIT_ORB = "You receive a spirit orb!",
 	PASSCODE = "Please enter the access key.",
 	WRONG_GUESS = "<R>Incorrect access key.</R>",
+	CRAFT = "Craft!",
+	CANT_CRAFT = "Can't craft",
+	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#cccccc'><i>“ ${desc} ”</i></font>",
 	ANNOUNCER_DIALOGUES = {
 		"ATTENTION EVERYONE! ATTENTION!!!",
 		"This message is from our magesty, the glorious King of this land...",
@@ -38,7 +41,8 @@ translations["en"] = {
 		"I sell <b><VP>10 stone</VP></b> for <b><VP>35 sticks</VP></b>",
 		"Ah ok farewell then",
 		"Your inventory seems to be full. How about you empty it come back for your reward.",
-		"Pleasure doing business with ya!"
+		"Pleasure doing business with ya!",
+		"Looks like you have no enough items to do this trade kiddo."
 	},
 	NOSFERATU_QUESTIONS = {
 		"How do I get wood?",
