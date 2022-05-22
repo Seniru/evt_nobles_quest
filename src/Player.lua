@@ -34,6 +34,8 @@ function Player.new(name)
 	self.chargedDivinePower = 0
 	self.learnedRecipes = {}
 	self.spiritOrbs = 0
+	self.divinePower = false
+	self.actionCooldown = 0
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
 	}
@@ -102,7 +104,7 @@ end
 -- use some kind of class based thing to add items
 
 function Player:changeInventorySlot(idx)
-	if idx < 0 or idx > 10 then return end
+	if idx < 0 or idx > 10 or self.divinePower then return end
 	self.inventorySelection = idx
 	local item = self.inventory[idx][1]
 	if item and item.type ~= Item.types.RESOURCE then
@@ -127,6 +129,10 @@ function Player:displayInventory()
 			Panel.panels[120 + i]:update("<font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font>", self.name)
 		end
 	end
+	Panel.panels[150]:update(translate("INVENTORY_INFO", self.language, nil, {
+		color = self.carriageWeight < 14 and "C2C2DA" or (self.carriageWeight < 18 and "de813e" or "d93931"),
+		weight = self.carriageWeight
+	}))
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
@@ -253,12 +259,13 @@ function Player:dropItem()
 end
 
 function Player:attack(monster)
+	print("got an attack tho")
+	print(monster.health)
 	monster:regen()
-	if self.equipped.type ~= Item.types.SPECIAL then
-		monster.health = monster.health - self.equipped.attack
-		local itemDamage = self.equipped.type == Item.types.SWORD and 1 or math.max(1, 4 - item.tier)
-		self.equipped.durability = self.equipped.durability - itemDamage
-	end
+	if (not self.equipped) or (self.equipped and self.equipped.type == Item.types.SPECIAL) then return end
+	monster.health = monster.health - self.equipped.attack
+	local itemDamage = self.equipped.type == Item.types.SWORD and 1 or math.max(1, 4 - item.tier)
+	self.equipped.durability = self.equipped.durability - itemDamage
 	monster.latestActionReceived = os.time()
 	if monster.health <= 0 then
 		monster:destroy(self)
@@ -266,8 +273,8 @@ function Player:attack(monster)
 end
 
 function Player:processSequence(dir)
-	if not (bossBattleTriggered and self.area) then return end
-	local s, v = 528, 20
+	if not self.divinePower or not (bossBattleTriggered and self.area) then return end
+	local s, v = 816 - 170, 20
 	-- s = t(u + v)/2
 	-- division by 3 is because the given vx is in a different unit than px/s
 	local t = ((2 * s / (v + v - 0.01)) / 3) * 1000
@@ -284,6 +291,13 @@ function Player:processSequence(dir)
 		divinePowerCharge = math.max(0,  divinePowerCharge - 3)
 		self.chargedDivinePower = math.max(0, self.chargedDivinePower - 3)
 	end
+end
+
+function Player:toggleDivinePower()
+	print(self.area == 3)
+	if bossBattleTriggered or not self.spiritOrbs == 62 then return end
+	self.divinePower = not self.divinePower
+	p({"divine power", self.divinePower})
 end
 
 function Player:destroy()

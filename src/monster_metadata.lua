@@ -387,7 +387,6 @@ do
 				local imgData = self.species.sprites.throw_animation
 				tfm.exec.addImage(imgData.id, "+" .. self.bodyId, imgData.xAdj, imgData.yAdj, nil)
 				self.imageId = imgData
-				ui.addTextArea(3495, "x", nil, self.realX, self.y - 15, 10, 10, nil, nil, 1, false)
 				local vx, vy = getVelocity(player.x, self.realX - 15, player.y, self.y - 15, 3)
 				tfm.exec.movePhysicObject(12000 + id, 0, 0, false, 0, 0)
 				tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
@@ -448,7 +447,7 @@ do
 			tfm.exec.addImage(imageData.id, "+" .. boss.objId, imageData.xAdj, imageData.yAdj, nil)
 			for name in next, boss.area.players do
 				local playerOtherObject = Player.players[name]
-				playerOtherObject.health = playerOtherObject.health - 10
+				playerOtherObject.health = playerOtherObject.health - (playerOtherObject.divinePower and 3 or 20)
 				displayDamage(playerOtherObject)
 			end
 
@@ -469,9 +468,12 @@ do
 			width = 400,
 			height = 250,
 			dynamic = true,
-			friction = 0
+			friction = 0,
+			mass = 9999
 		})
-		self.x = self.x - 350
+		self.x = self.x - 250
+		self.y = 4850
+		ui.addTextArea(34289, "x",nil, self.x, self.y, 10,10, nil, nil, 1, false)
 		local imageData = self.species.sprites.idle_left
 		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	end

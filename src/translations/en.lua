@@ -10,9 +10,12 @@ translations["en"] = {
 	SPIRIT_ORB = "You receive a spirit orb!",
 	PASSCODE = "Please enter the access key.",
 	WRONG_GUESS = "<R>Incorrect access key.</R>",
+	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Throw</b></N2></font></p></font>",
 	CRAFT = "Craft!",
 	CANT_CRAFT = "Can't craft",
 	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#cccccc'><i>“ ${desc} ”</i></font>",
+	FINAL_BATTLE_PING = "Final battle is happening!",
+	DIVINE_POWER_TOGGLE_REMINDER = "Press Y to toggle divine power!",
 	ANNOUNCER_DIALOGUES = {
 		"ATTENTION EVERYONE! ATTENTION!!!",
 		"This message is from our magesty, the glorious King of this land...",

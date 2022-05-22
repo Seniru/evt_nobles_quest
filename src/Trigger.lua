@@ -73,28 +73,39 @@ Trigger.triggers = {
 
 	final_boss = {
 		onactivate = function(self)
-			-- TODO: Make the battle start only after a few seconds of activation
-			bossBattleTriggered = true
-			for name in next, self.area.players do
-				--divineChargePanel:show(name)
+			for name, player in next, Player.players do
+				if player.questProgress.final_boss then
+					tfm.exec.chatMessage(translate("FINAL_BATTLE_PING", player.language), name)
+				end
 			end
-			Monster.new({ health = 1000, species = Monster.all.final_boss }, self)
-			Timer.new("bossDivineCharger", function()
-				divineChargeTimeOver = true
-				local monster = self.monsters[next(self.monsters)]
-				-- TODO: Deduct health considering the divine charge
-				monster.health = monster.health - 500
-			end, 1000 * 70, false)
+			Timer.new("start_boss", function()
+				bossBattleTriggered = true
+				for name in next, self.area.players do
+					local player = Player.players[name]
+					if player.divinePower then
+						inventoryPanel:hide()
+						dialoguePanel:hide()
+						divineChargePanel:show(name)
+						divineChargePanel:addPanelTemp(Panel(401, "", 290, 380, (1 / FINAL_BOSS_ATK_MAX_CHARGE) * 270, 20, 0x91cfde, 0x91cfde, 1, true), name)
+					end
+				end
+				local boss = Monster.new({ health = 1500, species = Monster.all.final_boss }, self)
+				Timer.new("bossDivineCharger", function()
+					divineChargeTimeOver = true
+					local monster = self.monsters[next(self.monsters)]
+					print(monster.health)
+					monster.health = monster.health - divinePowerCharge
+					print(monster.health)
+					displayDamage(monster)
+				end, 1000 * 80, false)
+			end, 1000 * 30 -_tc, false)
 		end,
 		ontick = function(self)
+			if not bossBattleTriggered then return end
 			for _, monster in next, self.monsters do
 				if monster and monster.isAlive then monster:action() end
 			end
-
 			if divineChargeTimeOver or divinePowerCharge >= FINAL_BOSS_ATK_MAX_CHARGE then
-				--[[local boss = self.monsters[next(self.monsters)]
-				p(boss)]]
-				--if not divinePowerCasted then self.area.monsters[1].health = self.area.monsters[1].health - 600				end
 				return
 			end
 
@@ -103,7 +114,7 @@ Trigger.triggers = {
 
 			if #directionSequence > 0 and directionSequence[#directionSequence][3] > os.time() then return end
 			--if #directionSequence > 0 then directionSequence[#directionSequence][3] = os.time() print("set") end
-			tfm.exec.addPhysicObject(id, 850, 4395, {
+			tfm.exec.addPhysicObject(id, 816, 4395, {
 				type = 1,
 				width = 10,
 				height = 10,
@@ -112,17 +123,18 @@ Trigger.triggers = {
 				fixedRotation = true
 			})
 			tfm.exec.movePhysicObject(id, 0, 0, false, -20, 0)
-			tfm.exec.addImage("1752b1c10bc.png", "+" .. id, 0, 150)
-			directionSequence[#directionSequence + 1] = { id, math.random(0, 3), os.time() + math.max(500, 5000 - (id - 8000) * 200), os.time() }
-			local s, v = 660, 20
+			tfm.exec.addImage("180e7b47ef5.png", "+" .. id, 0, 200)
+			directionSequence[#directionSequence + 1] = { id, math.random(0, 3), os.time() + math.max(1000, 5000 - (id - 8000) * 200), os.time() }
+			local s, v = 816 - 170, 20
 			-- s = t(u + v)/2
 			-- division by 3 is because the given vx is in a different unit than px/s
 			local t = (2 * s / (v + v - 0.01)) / 3
 			Timer.new("bossMinigame" .. tostring(#directionSequence), function()
 				print("should trigger")
 				for name in next, self.area.players do
-					divineChargePanel:addPanelTemp(Panel(401, "", 30, 110, (divinePowerCharge / FINAL_BOSS_ATK_MAX_CHARGE) * 600, 50, 0xff0000, 0xff0000, 1, true), name)
 					local player = Player.players[name]
+					if not player.divinePower then return end
+					divineChargePanel:addPanelTemp(Panel(401, "", 290, 380, (divinePowerCharge / FINAL_BOSS_ATK_MAX_CHARGE) * 270, 20, 0x91cfde, 0x91cfde, 1, true), name)
 					directionSequence.lastPassed = id - 8000
 					if player.sequenceIndex > directionSequence.lastPassed then return end
 					player.sequenceIndex = directionSequence.lastPassed + 1
@@ -130,7 +142,7 @@ Trigger.triggers = {
 					divinePowerCharge = math.max(0, divinePowerCharge - 3)
 					player.chargedDivinePower = math.max(0, player.chargedDivinePower - 3)
 				end
-			end, t * 1000 + 500, false)
+			end, t * 1000 + 400, false)
 		end,
 		ondeactivate = function() end
 	}

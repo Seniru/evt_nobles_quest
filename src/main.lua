@@ -26,6 +26,7 @@ end
 
 inventoryPanel = Panel(100, "", 30, 350, 740, 50, nil, nil, 0, true)
 	:addImage(Image(assets.ui.inventory, "~1", 20, 320))
+	:addPanel(Panel(150, "INFO", 370, 342, 66, 80, nil, nil, 0, true))
 
 do
 	for i = 0, 9 do
@@ -71,7 +72,9 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 		)
 	)
 
-divineChargePanel = Panel(400, "", 30, 110, 600, 50, nil, nil, 1, true)
+divineChargePanel = Panel(400, "", 30, 110, 600, 50, nil, nil, 0, true)
+	:addImage(Image(assets.ui.marker, "&1", 158, 15))
+	:addImage(Image(assets.ui.divine_panel, "&1", 170, 215))
 
 addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	local x, y, w, h = 30, 350, type(replies) == "table" and 600 or 740, 50
@@ -133,9 +136,16 @@ displayDamage = function(target)
 		bg = tfm.exec.addImage(assets.damageBg, "!1", target.x, target.y)
 		fg = tfm.exec.addImage(assets.damageFg, "!2", target.x + 1, target.y + 1, nil, target.resourcesLeft / target.resourceCap)
 	elseif target.__type == "monster" then
-		local obj = tfm.get.room.objectList[target.objId]
-		bg = tfm.exec.addImage(assets.damageBg, "=" .. target.objId, 0, -30)
-		fg = tfm.exec.addImage(assets.damageFg, "=" .. target.objId, 1, 1 - 30, nil, target.health / target.metadata.health)
+		local isBoss = 	target.species == Monster.all.fiery_dragon or target.species == Monster.all.final_boss
+		if isBoss then
+			print({target.realX or target.x, target.y})
+			bg = tfm.exec.addImage(assets.damageBg, "!1", target.realX or target.x, target.y)
+			fg = tfm.exec.addImage(assets.damageFg, "!1", (target.realX or target.x) + 1, target.y + 1 - 30, nil, target.health / target.metadata.health)
+		else
+			local obj = tfm.get.room.objectList[target.objId]
+			bg = tfm.exec.addImage(assets.damageBg, "=" .. target.objId, 0, -30)
+			fg = tfm.exec.addImage(assets.damageFg, "=" .. target.objId, 1, 1 - 30, nil, target.health / target.metadata.health)
+		end
 	elseif target.__type == "player" then
 		bg = tfm.exec.addImage(assets.damageBg, "$" .. target.name, 0, -30)
 		fg = tfm.exec.addImage(assets.damageFg, "$" .. target.name, 1, -30 + 1, nil, target.health / 50)
@@ -277,7 +287,15 @@ teleports = {
 		end
 	},
 	final_boss = {
-		canEnter = function() return true end
+		canEnter = function()
+			-- TODO: make it impossible to enter if the player doesn't have quest
+			return not bossBattleTriggered
+		end,
+		onEnter = function(player, terminalId)
+			if player.spiritOrbs == 62 then
+				tfm.exec.chatMessage(translate("DIVINE_POWER_TOGGLE_REMINDER", player.language), player.name)
+			end
+		end
 	},
 	enigma = {
 		canEnter = function(player, terminalId) return terminalId == 1 end,

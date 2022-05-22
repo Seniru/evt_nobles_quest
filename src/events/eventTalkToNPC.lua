@@ -12,7 +12,8 @@ do
 	}
 
 	eventTalkToNPC = function(name, npc)
-		print(npcNames[npc])
+		if player.actionCooldown > os.time() then return end
 		Entity.entities[npcNames[npc]]:onAction(Player.players[name])
+		player.actionCooldown = os.time() + 500
 	end
 end

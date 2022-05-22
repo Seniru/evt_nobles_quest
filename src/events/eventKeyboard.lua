@@ -1,5 +1,6 @@
 eventKeyboard = function(name, key, down, x, y)
 	local player = Player.players[name]
+	if player.actionCooldown > os.time() then return end
 
 	if player.alive and key >= keys.KEY_0 and keys.KEY_9 >= key then
 		local n = tonumber(table.find(keys, key):sub(-1))
@@ -13,6 +14,8 @@ eventKeyboard = function(name, key, down, x, y)
 		openCraftingTable(player)
 	elseif key == keys.KEY_X then
 		player:dropItem()
+	elseif key == keys.KEY_U then
+		player:toggleDivinePower()
 	end
 
 	if (not player.alive) or (not player:setArea(x, y)) then return end
@@ -31,5 +34,6 @@ eventKeyboard = function(name, key, down, x, y)
 			end
 		end
 	end
+	player.actionCooldown = os.time() + 500
 
 end

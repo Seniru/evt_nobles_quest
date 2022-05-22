@@ -1,4 +1,5 @@
 eventLoop = function(tc, tr)
+	_tc, _tr = tc, tr
 	if tr < 5000 and not eventEnding then
 		eventEnding = true
 		local players = Player.players
