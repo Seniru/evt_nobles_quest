@@ -60,7 +60,7 @@ translations["en"] = {
 		"But before that, make sure you are fully prepared. There are few <b><VP>recipes</VP></b> scattered around the <b><VP>weapon racks</VP></b> and the <b><VP>gloomy forests down the hill</VP></b>\nHope you will make a good use of them!",
 		"Talk to me again when you think you ready!",
 		"Are you ready to take the challenge?",
-		"Great! Go start your training in the training area. You need to <b><VP>defeat 50 monsters</VP></b> to pass this challenge.",
+		"Great! Go start your training in the training area. You need to <b><VP>defeat 25 monsters</VP></b> to pass this challenge.",
 		"You can take as much as time you want\nGood luck to you!!!",
 		"You proved that you are worthy! Hurry!!! Join the rest of our soldiers and fight the monsters!"
 	},

@@ -57,9 +57,9 @@ local quests = {
 		},
 		{
 			description_locales = {
-				en = "Defeat 50 monsters"
+				en = "Defeat 25 monsters"
 			},
-			tasks = 50
+			tasks = 25
 		},
 		{
 			description_locales = {

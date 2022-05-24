@@ -190,6 +190,7 @@ Entity.entities = {
 			end
 			if self.name == 5 then
 				player:updateQuestProgress("fiery_dragon", 1)
+				player:addNewQuest("final_boss")
 			end
 			player:savePlayerData()
 		end
@@ -216,13 +217,14 @@ Entity.entities = {
 						self.building = false
 						local bridgeCount = #self.bridges + 1
 						self.buildProgress = 0
-						tfm.exec.addPhysicObject(100 + bridgeCount, self.x + 20 + bridgeCount * 50, self.y + 20, {
+						local w = 560 / 4
+						tfm.exec.addPhysicObject(100 + bridgeCount, self.x - 20 + bridgeCount * w, self.y + 35, {
 							type = 0,
-							width = 50,
+							width = w,
 							height = 10,
 							friction = 30
 						})
-						self.bridges[bridgeCount] = {100 + bridgeCount, self.x + 20 + bridgeCount * 50, self.y + 20 }
+						self.bridges[bridgeCount] = {100 + bridgeCount, self.x - 20 + bridgeCount * w, self.y + 35 }
 						if bridgeCount == 4 then
 							tfm.exec.removePhysicObject(4)
 						end

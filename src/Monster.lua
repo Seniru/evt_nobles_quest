@@ -39,6 +39,7 @@ function Monster.new(metadata, spawnPoint)
 end
 
 function Monster:action()
+	if not self.isAlive then return end
 	if self.latestActionCooldown > os.time() then return end
 	local obj = (self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss) and { x = self.x, y = self.y } or  tfm.get.room.objectList[self.objId]
 	if not obj then return end
@@ -63,17 +64,16 @@ function Monster:action()
 				if player.x < self.x  then -- player is to left
 					lDists[#lDists + 1] = dist
 					lPlayers[dist] = name
-					lScore = lScore + 310 - dist
+					lScore = lScore + (self.visibilityRange or 300) + 10 - dist
 				else
 					rDists[#rDists + 1] = dist
 					rPlayers[dist] = name
-					rScore = rScore + 310 - dist
+					rScore = rScore + (self.visibilityRange or 300) + 10 - dist
 				end
 			end
 		end
 		table.sort(lDists)
 		table.sort(rDists)
-
 		if self.stance == -1 then -- left side
 			local normalScore = lScore / math.max(#lDists, 1)
 			if lDists[1] and lDists[1] < 60 then
@@ -82,7 +82,7 @@ function Monster:action()
 				-- if there are players to right, turn right and attack
 				self:changeStance(1)
 				self:attack(rPlayers[rDists[1]], "primary")
-			elseif normalScore > 100 then
+			elseif normalScore > (self.visibilityRange or 300) - 200 then
 				self:move()
 			elseif normalScore > 10 then
 				self:attack(lPlayers[lDists[math.random(#lDists)]], "secondary")
@@ -101,7 +101,7 @@ function Monster:action()
 				-- if there are players to left, turn left and attack
 				self:changeStance(-1)
 				self:attack(lPlayers[lDists[1]], "primary")
-			elseif normalScore > 100 then
+			elseif normalScore > (self.visibilityRange or 300) - 200 then
 				self:move()
 			elseif normalScore > 10 then
 				self:attack(rPlayers[rDists[math.random(#rDists)]], "secondary")
@@ -170,7 +170,18 @@ function Monster:destroy(destroyedBy)
 	end
 	if self.species.death then self.species.death(self, destroyedBy) end
 	self.isAlive = false
-	tfm.exec.removeObject(self.objId)
+	local isBoss = self.species == Monster.all.fiery_dragon or self.species == Monster.all.final_boss
+	if not isBoss then
+		tfm.exec.removeImage(self.imageId)
+		local imageData = self.species.sprites["dead_" .. (self.stance == -1 and "left" or "right")]
+		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+	end
+
+	Timer.new("clear_body_" .. self.id, function(image, objId)
+		tfm.exec.removeImage(image, true)
+		Timer.new("removeObject", tfm.exec.removeObject, 500, false, objId)
+	end, 2000, false, self.imageId, self.objId)
+
 	Monster.monsters[self.id] = nil
 	self.area.monsters[self.id] = nil
 	-- 	TODO: remove the dead monsters in the coming iteration

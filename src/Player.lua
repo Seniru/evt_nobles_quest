@@ -107,12 +107,25 @@ function Player:changeInventorySlot(idx)
 	if idx < 0 or idx > 10 or self.divinePower then return end
 	self.inventorySelection = idx
 	local item = self.inventory[idx][1]
-	if item and item.type ~= Item.types.RESOURCE then
+	if item and item.type ~= Item.types.RESOURCE and item.type ~= Item.types.SPECIAL then
 		self.equipped = self.inventory[idx][1]
+		self:changeHoldingItem()
 	else
 		self.equipped = nil
 	end
 	self:displayInventory()
+end
+
+function Player:changeHoldingItem()
+	local item = self.inventory[self.inventorySelection][1]
+	if self.holdingImage then
+		tfm.exec.removeImage(self.holdingImage)
+	end
+	if item and item.type ~= Item.types.RESOURCE and item.type ~= Item.types.SPECIAL then
+		print("got in here")
+		local isFacingRight = self.stance == -1
+		self.holdingImage = tfm.exec.addImage(item.image, "$" .. self.name, isFacingRight and 28 or -25, isFacingRight and -3 or 0, nil, 0.8, 0.8, isFacingRight and 0 or 180, 1, 0.5, 0.5)
+	end
 end
 
 function Player:displayInventory()
@@ -243,6 +256,8 @@ function Player:dropItem()
 	if #self.inventory[invSelection] == 0 then return end
 	local droppedItem = self.inventory[invSelection]
 	self.inventory[invSelection] = {}
+	self.carriageWeight = self.carriageWeight - droppedItem[1].weight * droppedItem[2]
+	self:changeHoldingItem()
 	self:changeInventorySlot(invSelection)
 	self:displayInventory()
 	local pData = tfm.get.room.playerList[self.name]
@@ -259,13 +274,19 @@ function Player:dropItem()
 end
 
 function Player:attack(monster)
-	print("got an attack tho")
-	print(monster.health)
 	monster:regen()
 	if (not self.equipped) or (self.equipped and self.equipped.type == Item.types.SPECIAL) then return end
-	monster.health = monster.health - self.equipped.attack
-	local itemDamage = self.equipped.type == Item.types.SWORD and 1 or math.max(1, 4 - item.tier)
+	local playerObj = tfm.get.room.playerList[self.name]
+	tfm.exec.displayParticle(3, playerObj.x - self.stance * 10, playerObj.y, 1)
+	local item = self.equipped
+	monster.health = monster.health - item.attack
+	displayDamage(monster)
+	local itemDamage = item.type == Item.types.SWORD and 1 or math.max(1, 4 - item.tier)
 	self.equipped.durability = self.equipped.durability - itemDamage
+	if item.durability <= 0 then
+		self.inventory[self.inventorySelection] = {}
+		self:changeInventorySlot(self.inventorySelection)
+	end
 	monster.latestActionReceived = os.time()
 	if monster.health <= 0 then
 		monster:destroy(self)

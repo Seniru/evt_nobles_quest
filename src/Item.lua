@@ -44,7 +44,7 @@ do
 
 		if type ~= Item.types.RESOURCE and type ~= Item.types.SPECIAL then
 			-- basic settings for most of the basic tools
-			self.durability = 10
+			self.durability = 15
 			self.attack = 1
 			self.chopping = 1
 			self.mining = 0
@@ -180,63 +180,66 @@ Item("gold_shovel", Item.types.SHOVEL, false, nil, 1, {
 }, {
 	en = "Evolution started here"
 }, {
-	durability = 10,
-	mining = 3
+	durability = 20,
+	mining = 4
 })
 
-Item("basic_sword", Item.types.SPECIAL, false, nil, 1, {
+Item("basic_sword", Item.types.SWORD, false, nil, 1, {
 	en = "Basic sword",
-	{
-		attack = 2
-	}
-})
-
-Item("iron_sword", Item.types.SPECIAL, false, nil, 1.4, {
-	en = "Iron sword",
-	{
+}, {}, {
 		attack = 3
 	}
-})
+)
 
-Item("copper_sword", Item.types.SPECIAL, false, nil, 1.4, {
+Item("iron_sword", Item.types.SWORD, false, nil, 1.4, {
+	en = "Iron sword",
+}, {}, {
+	attack = 5,
+	durability = 20
+	}
+)
+
+Item("copper_sword", Item.types.SWORD, false, nil, 1.4, {
 	en = "Copper sword",
-	{
-		attack = 3.5
+}, {}, {
+		attack = 7,
+		durability = 25
 	}
-})
+)
 
-Item("gold_sword", Item.types.SPECIAL, false, nil, 1.4, {
+Item("gold_sword", Item.types.SWORD, false, nil, 1.4, {
 	en = "Gold sword",
-	{
-		attack = 4
+}, {}, {
+		attack = 10,
+		durability = 30
 	}
-})
+)
 
 
 Item("basic_shield", Item.types.SPECIAL, false, nil, 0.7, {
 	en = "Basic shield",
-	{
+}, {}, {
 		defense = 1
 	}
-})
+)
 
 Item("iron_shield", Item.types.SPECIAL, false, nil, 1, {
 	en = "Iron shield",
-	{
+}, {}, {
 		defense = 3
 	}
-})
+)
 
 Item("copper_shield", Item.types.SPECIAL, false, nil, 1.4, {
 	en = "Copper shield",
-	{
-		defense = 4
+}, {}, {
+	defense = 4
 	}
-})
+)
 
 Item("gold_shield", Item.types.SPECIAL, false, nil, 2, {
 	en = "Gold sword",
-	{
-		defense = 6
+}, {}, {
+	defense = 6
 	}
-})
+)
