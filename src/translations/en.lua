@@ -1,24 +1,26 @@
 -- theme color pallete: https://www.colourpod.com/post/173929539115/a-medieval-recipe-for-murder-submitted-by
 
 translations["en"] = {
-	OUT_OF_RESOURCES = "Out of resources",
+	OUT_OF_RESOURCES = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Out of resources!</font>",
 	NEW_RECIPE = "<font color='#506d3d' size='8'><b>[NEW RECIPE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${itemName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${itemDesc})</font>",
-	NEW_QUEST = "\n<font color='#506d3d' size='8'><b>[NEW QUEST]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
+	NEW_QUEST = "<font color='#506d3d' size='8'><b>[NEW QUEST]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
 	NEW_STAGE = "<font color='#506d3d' size='8'><b>[UPDATE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${desc})</font>",
 	STAGE_PROGRESS = "<font color='#506d3d' size='8'><b>[UPDATE]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font> <font color='#bd9d60' size='11' face='Lucida Console'>( ${progress} / ${needed} )</font>",
 	QUEST_OVER = "<font color='#506d3d' size='8'><b>[COMPLETED]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
-	SPIRIT_ORB = "You receive a spirit orb!",
+	SPIRIT_ORB = "<b><font color='#ab5e42' face='Lucida Console'>You received a <font color='#bd9d60' face='Lucida Console'>spirit orb!</font></font></b>",
 	PASSCODE = "Please enter the access key.",
 	WRONG_GUESS = "<R>Incorrect access key.</R>",
 	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Throw</b></N2></font></p></font>",
+	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Your inventory is full!</font>",
+	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>You need to obtain the Dragon's spirit orb to enter this portal!</font>",
 	CRAFT = "Craft!",
 	CANT_CRAFT = "Can't craft",
-	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#cccccc'><i>“ ${desc} ”</i></font>",
-	FINAL_BATTLE_PING = "Final battle is happening!",
-	DIVINE_POWER_TOGGLE_REMINDER = "Press Y to toggle divine power!",
+	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#999999'><i>“ ${desc} ”</i></font>",
+	FINAL_BATTLE_PING = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Final battle is happening!</font>",
+	ACTIVATE_POWER = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Press <font color='#ab5e42'><b>U</b></font> to toggle <font color='#ab5e42'><b>divine power!</b></font></font>",
 	ANNOUNCER_DIALOGUES = {
 		"ATTENTION EVERYONE! ATTENTION!!!",
-		"This message is from our magesty, the glorious King of this land...",
+		"This message is from our majesty, the glorious King of this land...",
 		"Our land is under attack, by the ruthless monsters that have been once defeated a while ago.",
 		"This follows up with the unfortunate event yet to be announced. <b><VP>Our princess has been kidnapped.</VP></b>",
 		"The ruthless monsters also managed to get away with almost all the treasury we had.",
@@ -29,7 +31,7 @@ translations["en"] = {
 		"Ahh you look quite new here... anyways you look like useful",
 		"So you are telling, you came to here from another dimension, and have no idea where you are or what to do at all\n<i>*Hmmm maybe he is actually useful for me</i>",
 		"Well young fella, I guess you need a job to live. Don't worry about that, I'll give you a job yes yes.",
-		"But... before that, we need to check if you are in a good physical state.\nGather <VP><b>15 wood</b></VP> for me from the woods.\nHave these <VP><b>10 stone</b></VP> as an advance. Good luck!",
+		"But... before that, we need to check if you are in a good physical state.\nGather <VP><b>15 wood</b></VP> for me from the woods.\nHave these <VP><b>20 stone</b></VP> as an advance. Good luck!",
 		"Quite impressive indeed. But <i>back in our days</i> we did it much faster...\nNot like it matters now. As I promised <VP><b>job</b></VP> is yours.",
 		"That said, you now have access to the <b><VP>mine</VP></b>\nHead to the <b><VP>door</VP></b> to the leftside from here and <b><VP>↓</VP></b> to access it!",
 		"As your first job, I need you to gather<b><VP> 15 iron ore</VP></b>. Good luck again!",
@@ -40,7 +42,7 @@ translations["en"] = {
 		"Oh and don't forget your reward of <b><VP>30 stone</VP></b> for all the hard work!",
 		"Do you need anything?",
 		"That's quite general knowledge... You need to <b><VP>chop a tree with a Pickaxe</VP></b>",
-		"So you need a <b><VP>pickaxe</VP></b>? There should be one lying around in <b><VP>woods</VP></b>. <b><VP>↓</VP></b> to study it and craft the studied recipe in a <b><VP>crafting station</VP></b>.\nA station is located right above this mine.",
+		"So you need a <b><VP>pickaxe</VP></b>? There should be one lying around in <b><VP>woods</VP></b>.\n<b><VP>↓</VP></b> to study it and craft the studied recipe in a <b><VP>crafting station</VP></b>.\nA station is located right above this mine.",
 		"I sell <b><VP>10 stone</VP></b> for <b><VP>35 sticks</VP></b>",
 		"Ah ok farewell then",
 		"Your inventory seems to be full. How about you empty it come back for your reward.",
@@ -107,7 +109,7 @@ translations["en"] = {
 		"I think you know one already unless you had some magic power to teleport here",
 		"Second shrine is guarded by a lot of <b><VP>monsters</VP></b> on it's way.\nSo equip well before exploring there!",
 		"And for the last shrine I've found this <b><VP>hint</VP></b> from ancient books",
-		"<b><VP>\"ligma\"</VP></b>",
+		"<b><VP>\"Puzzles, and riddles, and old tradition\nMathematical score, but not addition\nA resource that so fruitfully bore\nComes to term with ones true lore\nTake the rank shown to all\nTo the world you must call\"</VP></b>",
 		"That's all! Hope you make a good use of these information",
 		"Thanks for checking on me bud!",
 		"OH LOOKS LIKE YOU'VE COLLECTED ALL THE SPIRIT ORBS!!!\nWe're even now... thank me later!\nBut make sure you find more information about these orbs from a <b><VP>monk</VP></b>"
@@ -123,10 +125,26 @@ translations["en"] = {
 		"These spirit orbs are indeed binded to one's spirit\nOnly couragous individuals can possess all 5",
 		"These orbs will help you to <b><VP>divine power</VP></b> which is the only way to destroy the evil\nas far as I know",
 		"Once you have activated the divine power and confronted the evil...\nYou will have to travel a long path inside your mind to achieve the <b><VP>divine status</VP></b>",
-		"The spirit orbs will help you to find the right path to achieve that. You only have to travel to the way it show you at the right time!",
+		"The spirit orbs will help you to find the right path to achieve that.\nYou only have to travel to the way it show you at the right time!",
 		"I'm pretty sure you won't succeed it to the most powerful divine energy.\nBut even if you get closer...",
 		"It will create a large divine energy which will then summon the <b><VP>goddess</VP></b>",
-		"Ancient books say that the beast is too powerful but I'm pretty sure the <b><VP>goddessess' blessing</VP></b> would put it in a weaker state",
-		"Which then is our time, to destroy the evil power forever!!!"
+		"Ancient books say that the beast is too powerful but I'm pretty sure the\n<b><VP>goddessess' blessing</VP></b> would put it in a weaker state",
+		"Which then is our time, to destroy the evil power forever!!!",
+		"The goddess... she's here\nIT IS HAPPENING!!!"
+	},
+	NIELS_DIALOGUES = {
+		"Everyone hold onto their positions!",
+		"The <b><VP>dragon</VP></b> on the other side of the river is too dangerous.\nHe will use his <b><VP>fire attacks</VP></b> and will <b><VP>throw rocks</VP></b> on you",
+		"Please be careful...",
+		"However we can't directly attack the dragon, as the bridge appears to be broken",
+		"The dragon once destroyed it with his fire, when he was trying to cross it.",
+		"So... we will have to repair it to reach him as well. Hurry!!!"
+	},
+	PROPS = {
+		attack = "Attack",
+		defense = "Defense",
+		durability = "Durability",
+		chopping = "Chopping",
+		mining = "Mining"
 	}
 }

@@ -3,10 +3,8 @@ eventKeyboard = function(name, key, down, x, y)
 
 	if key == keys.LEFT then
 		player.stance = 1
-		player:changeHoldingItem()
 	elseif key == keys.RIGHT then
 		player.stance = -1
-		player:changeHoldingItem()
 	end
 	if player.actionCooldown > os.time() then return end
 
@@ -14,7 +12,7 @@ eventKeyboard = function(name, key, down, x, y)
 		local n = tonumber(table.find(keys, key):sub(-1))
 		n = n == 0 and 10 or n
 		player:changeInventorySlot(n)
-	elseif key == keys.KEY_R then
+	elseif key == keys.KEY_P then
 		openCraftingTable(player)
 	elseif key == keys.KEY_X then
 		player:dropItem()
@@ -28,8 +26,12 @@ eventKeyboard = function(name, key, down, x, y)
 
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
+		local inventoryItem = player.inventory[player.inventorySelection][1]
+		p(inventoryItem)
 		local monster = area:getClosestMonsterTo(x, y)
-		if monster then
+		if inventoryItem and inventoryItem.id:match("shield") then
+			player:equipShield(down)
+		elseif monster then
 			player:attack(monster)
 		else
 			local entity = area:getClosestEntityTo(x, y)
@@ -38,6 +40,6 @@ eventKeyboard = function(name, key, down, x, y)
 			end
 		end
 	end
-	player.actionCooldown = os.time() + 500
+	player.actionCooldown = os.time() + 400
 
 end

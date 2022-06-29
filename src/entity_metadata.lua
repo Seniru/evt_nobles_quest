@@ -1,3 +1,32 @@
+local getOreFromTier = function(item, rockType)
+	local orePool = {}
+	local rockTypes = { ["rock"] = 2, ["iron_ore"] = 3, ["copper_ore"] = 4, ["gold_ore"] = 5 }
+	local itemTypes = { ["regular_shovel"] = 2, ["iron_shovel"] = 3, ["copper_shovel"] = 4, ["gold_shovel"] = 5 }
+
+	local ores = { Item.items.clay, Item.items.stone, Item.items.iron_ore, Item.items.copper_ore, Item.items.gold_ore }
+	rockType = rockTypes[rockType]
+	if item.type ~= Item.types.SHOVEL then
+		orePool = { 1, 1, 1, 1, 1, 2 }
+	else
+		item = itemTypes[item]
+		for i = 1, rockType do
+			-- add ores to the ore pool from lowest to highest tier ore
+			for j = 1, math.random((6 - i) * 2) + (rockType == item and 4 or 1) do -- make the chances of ore in the highest tier appear low
+				orePool[#orePool + 1] = i
+			end
+		end
+		-- adjust the outcomes to the ore type
+		for i = 1, math.random(2, 5) do
+			orePool[#orePool + 1] = rockType
+		end
+		for i = 1, math.random(2, 10) do
+			orePool[#orePool + 1] = 1 -- clay
+		end
+		p(orePool)
+		return ores[orePool[math.random(#orePool)]]
+	end
+end
+
 Entity.entities = {
 
 	-- resources
@@ -26,7 +55,7 @@ Entity.entities = {
 			if player.equipped == nil then
 				self:regen()
 				if self.resourcesLeft <= 0 then
-					return tfm.exec.chatMessage("cant use")
+					return tfm.exec.chatMessage(translate("OUT_OF_RESOURCES", player.language), player.name)
 				end
 				player:addInventoryItem(Item.items.stick, 2)
 				self.resourcesLeft = self.resourcesLeft - 2
@@ -62,55 +91,91 @@ Entity.entities = {
 		onAction = function(self, player, down)
 			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
-			player:addInventoryItem(Item.items.stone,
+			player:addInventoryItem(getOreFromTier(player.equipped, "rock"),
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
 			)
 		end
 	},
 
 	iron_ore = {
-		image = {
-			id = "no.png",
-			xAdj = 0,
-			yAdj = 0
+		images = {
+			{
+				id = "181aaa281d4.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "181aaa2b699.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "181aaa2e7d2.png",
+				xAdj = -20,
+				yAdj = -16
+			}
 		},
 		resourceCap = 60,
 		onAction = function(self, player, down)
 			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
-			player:addInventoryItem(Item.items.iron_ore,
+			player:addInventoryItem(getOreFromTier(player.equipped, "iron_ore"),
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
 			)
 		end
 	},
 
 	copper_ore = {
-		image = {
-			id = "no.png",
-			xAdj = 0,
-			yAdj = 0
+		images = {
+			{
+				id = "181aa9f7962.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "181aaa07218.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "181aaa05d8c.png",
+				xAdj = -20,
+				yAdj = -16
+			}
 		},
-		resourceCap = 60,
+		resourceCap = 40,
 		onAction = function(self, player, down)
 			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
-			player:addInventoryItem(Item.items.iron_ore,
+			player:addInventoryItem(getOreFromTier(player.equipped, "copper_ore"),
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
 			)
 		end
 	},
 
 	gold_ore = {
-		image = {
-			id = "no.png",
-			xAdj = 0,
-			yAdj = 0
+		images = {
+			{
+				id = "181aaa1345f.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "181aaa16014.png",
+				xAdj = -20,
+				yAdj = -10
+			},
+			{
+				id = "181aaa18f1d.png",
+				xAdj = -20,
+				yAdj = -16
+			}
 		},
-		resourceCap = 60,
+		resourceCap = 20,
 		onAction = function(self, player, down)
 			if not down then return end
 			if player.equipped == nil or player.equipped.type == Item.types.SPECIAL then return end
-			player:addInventoryItem(Item.items.iron_ore,
+			player:addInventoryItem(getOreFromTier(player.equipped, "gold_ore"),
 				player:useSelectedItem(Item.types.SHOVEL, "mining", self)
 			)
 		end
@@ -125,13 +190,14 @@ Entity.entities = {
 			yAdj = -120
 		},
 		onAction = function(self, player, down)
-			if down then openCraftingTable(player) end
+			if down then openCraftingTable(player, 1, true) end
 		end
 	},
 
 	recipe = {
 		image = {
-			id = "no.png"
+			id = "181aa8a80c6.png",
+			yAdj = -10
 		},
 		onAction = function(self, player, down)
 			if down then player:learnRecipe(self.name) end
@@ -140,7 +206,7 @@ Entity.entities = {
 
 	teleport = {
 		image = {
-			id = "no.png"
+			id = "181aa8a670a.png"
 		},
 		onAction = function(self, player, down)
 			if not down then return end
@@ -164,7 +230,7 @@ Entity.entities = {
 
 	dropped_item = {
 		image = {
-			id = "no.png"
+			id = "181aa8a2276.png"
 		},
 		onAction = function(self, player, down)
 			if not down then return end
@@ -204,27 +270,29 @@ Entity.entities = {
 			self.building = self.building or false
 			self.buildProgress = self.buildProgress or 0
 			self.bridges = self.bridges or {}
-			-- TODO: block building if someone is building already
-			--if player.equipped.id ~= "bridge" then return end
+			if self.building or #self.bridges > 4 then return end
+			local inventoryItem = player.inventory[player.inventorySelection][1]
+			--if (not inventoryItem) or inventoryItem.id ~= "bridge" then return end
 			if down then
 				self.building = true
 				Timer.new("bridge_" .. player.name, function()
 					self.buildProgress = self.buildProgress + 1
 					displayDamage(self) -- it's progress here
 					-- TODO: Change to 20
-					if self.buildProgress > 2 then -- 0 then
+					if self.buildProgress > 20 then -- 0 then
 						Timer._timers["bridge_" .. player.name]:kill()
 						self.building = false
 						local bridgeCount = #self.bridges + 1
 						self.buildProgress = 0
-						local w = 560 / 4
+						local w = 120
 						tfm.exec.addPhysicObject(100 + bridgeCount, self.x - 20 + bridgeCount * w, self.y + 35, {
 							type = 0,
 							width = w,
 							height = 10,
 							friction = 30
 						})
-						self.bridges[bridgeCount] = {100 + bridgeCount, self.x - 20 + bridgeCount * w, self.y + 35 }
+						local imgId = tfm.exec.addImage(assets.bridge, "+" .. 100 + bridgeCount, -5, -5)
+						self.bridges[bridgeCount] = {100 + bridgeCount, self.x - 20 + bridgeCount * w, self.y + 35, imgId }
 						if bridgeCount == 4 then
 							tfm.exec.removePhysicObject(4)
 						end
@@ -278,12 +346,25 @@ do
 		question = "180dcb89e56.png"
 	}
 
+	local niels = {
+		normal = "1817cce7595.png",
+		exclamation = "1817ccc59f5.png",
+		thinking = "1817ccd79f1.png"
+	}
+
+	local monk = {
+		normal = "1817ccb3999.png",
+		exclamation = "1817cca1b68.png",
+		happy = "1817cca6901.png",
+		thinking = "1817ccdb8d6.png"
+	}
+
 	-- npc metadata
 
 	Entity.entities.nosferatu = {
 		displayName = "Nosferatu",
 		look = "22;0,4_201412,0,1_301C18,39_FFB753,87_201412+201412+201412+301C18+41201A+201412,36_301C18+301C18+201412+201412+201412+FFBB27+FFECA5+41201A+FFB753,21_41201A,0",
-		title = 0,
+		title = 509,
 		female = false,
 		lookLeft = true,
 		lookAtPlayer = false,
@@ -313,7 +394,7 @@ do
 							elseif err:match("Full inventory") then
 								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
 							end
-						end, player, Item.items.stone, 10)
+						end, player, Item.items.stone, 20)
 					end)
 				-- change wood amount later
 				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 15 then
@@ -391,7 +472,7 @@ do
 	Entity.entities.edric = {
 		displayName = "Lieutenant Edric",
 		look = "120;135_49382E+A27D35+49382E+53191E,9_53191E,0,0,19_DCA22E+53191E,53_CBBEB1+53191E,0,25,16_231810+A27D35+8D1C23+49382E",
-		title = 0,
+		title = 267,
 		female = false,
 		lookLeft = true,
 		lookAtPlayer = true,
@@ -402,7 +483,7 @@ do
 			if qProgress.strength_test then
 				if qProgress.strength_test.completed or qProgress.strength_test.stage > 2 then
 					addDialogueBox(3, translate("EDRIC_DIALOGUES", player.language, 9), name, "Lieutenant Edric", edric.exclamation)
-					player:updateQuestProgress("strength_test", 1)
+					if not qProgress.strength_test.completed then player:updateQuestProgress("strength_test", 1) end
 					player:addNewQuest("fiery_dragon")
 				else
 					if qProgress.strength_test.stage == 2 then
@@ -447,7 +528,7 @@ do
 	Entity.entities.garry = {
 		displayName = "Garry",
 		look = "126;110_AE752F,0,55_5F524F+554A47+C5B4AE+C5B4AE+332A28+332A28,36_5F524F+554A47+242120+5F524F,0,75_583131+391E1E+1D121A,37_AE752F+AE752F,21_332A28,0",
-		title = 0,
+		title = 439,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
@@ -459,7 +540,7 @@ do
 	Entity.entities.thompson = {
 		displayName = "Thompson",
 		look = "15;190_443A40+767576+585155+C48945+C48945+202020+E7E6E5,24,0,54,8,0,36,67,0",
-		title = 0,
+		title = 439,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
@@ -475,7 +556,7 @@ do
 	Entity.entities.laura = {
 		displayName = "Laura",
 		look = "9;2_FFAC38,0,0,0,49_532B21+532B21+532B21+FFAC38+FFAC38,26_291511+FFAC38,0,60_291511,0",
-		title = 0,
+		title = 514,
 		female = true,
 		lookAtPlayer = true,
 		interactive = true,
@@ -487,7 +568,7 @@ do
 	Entity.entities.cole = {
 		displayName = "Cole",
 		look = "1;62_414131+25251E,46_25251E,0,0,60_25251E+414131+25251E+414131+25251E+25251E+25251E+414131+414131+414131,94_482F20+221C16+482F20+221C16,13_414131+54380A+D5B073,76_1F1A16,0;BD9067",
-		title = 0,
+		title = 387,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
@@ -499,19 +580,19 @@ do
 	Entity.entities.marc = {
 		displayName = "Marc",
 		look = "194;0,0,0,0,0,0,0,0,0",
-		title = 0,
+		title = 538,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
 		onAction = function(self, player)
-			addDialogueBox(6, translate("MARC_DIALOGUES", player.language, 1), player.name, "Marc", marc.angry)
+			addDialogueBox(6, translate("MARC_DIALOGUES", player.language, 1), player.name, "Marc", "181ae1bcb23.png")
 		end
 	}
 
 	Entity.entities.saruman = {
 		displayName = "Saruman",
 		look = "158;112,8,0,57_FFFFFF+2E483E,43_2E483E+456458+456458,0,54_74534D+160C2B+0+675548+56413D+D8D5D2+D4BDA5+635043,13,59",
-		title = 0,
+		title = 327,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
@@ -564,6 +645,64 @@ do
 				})
 			end
 		end
+	}
+
+	Entity.entities.monk = {
+		displayName = "Monk",
+		look = "1;123_403F28,0,30_DFB958+468573+745E43,33_D4C9AF+2F2F25,62_2A2A21+403F28+2F2F25+403F28+27271F+403F28,0,36_2F2823+282220+1A1616+211C18+402E2A+FFEE4A+D0D0D0+2E2019+FFE843,0,47;8C887F",
+		title = 538,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			addDialogueSeries(player.name, 8, {{ text = translate("MONK_DIALOGUES", player.language, 1), icon = monk.normal }}, "Monk", function(id, name, event)
+				if player.spiritOrbs == 62 then
+					addDialogueSeries(player.name, 8, {
+						{ text = translate("MONK_DIALOGUES", player.language, 2), icon = monk.exclamation },
+						{ text = translate("MONK_DIALOGUES", player.language, 3), icon = monk.happy },
+						{ text = translate("MONK_DIALOGUES", player.language, 4), icon = monk.normal },
+						{ text = translate("MONK_DIALOGUES", player.language, 5), icon = monk.normal },
+						{ text = translate("MONK_DIALOGUES", player.language, 6), icon = monk.normal },
+						{ text = translate("MONK_DIALOGUES", player.language, 7), icon = monk.normal },
+						{ text = translate("MONK_DIALOGUES", player.language, 8), icon = monk.thinking },
+						{ text = translate("MONK_DIALOGUES", player.language, 9), icon = monk.exclamation },
+						{ text = translate("MONK_DIALOGUES", player.language, 10), icon = monk.happy },
+						{ text = translate("MONK_DIALOGUES", player.language, 11), icon = monk.exclamation },
+					}, "Monk", function(id, name, event)
+						tfm.exec.chatMessage(translate("ACTIVATE_POWER", player.language), name)
+						dialoguePanel:hide(name)
+						player:displayInventory()
+					end)
+				else
+					dialoguePanel:hide(name)
+					player:displayInventory()
+				end
+			end)
+		end
+	}
+
+	Entity.entities.niels = {
+		displayName = "Niels",
+		look = "4;0,5_2A2B2B,46_55595A+55595A+55595A+6A7071+524945,0,0,4_2E2B29,0,0,16_6F4614+636A6D+8E6A3F+464A63",
+		title = 100,
+		female = false,
+		lookAtPlayer = true,
+		interactive = true,
+		onAction = function(self, player)
+			addDialogueSeries(player.name, 9, {
+				{ text = translate("NIELS_DIALOGUES", player.language, 1), icon = niels.exclamation },
+				{ text = translate("NIELS_DIALOGUES", player.language, 2), icon = niels.exclamation },
+				{ text = translate("NIELS_DIALOGUES", player.language, 3), icon = niels.normal },
+				{ text = translate("NIELS_DIALOGUES", player.language, 4), icon = niels.thinking },
+				{ text = translate("NIELS_DIALOGUES", player.language, 5), icon = niels.normal },
+				{ text = translate("NIELS_DIALOGUES", player.language, 6), icon = niels.exclamation },
+			}, "Niels", function(id, name, event)
+				dialoguePanel:hide(name)
+				player:displayInventory()
+			end)
+
+		end
+
 	}
 
 end

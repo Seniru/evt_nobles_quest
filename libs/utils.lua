@@ -179,3 +179,56 @@ do
 		end))
 	end
 end
+
+
+local healthMt = {
+	__sub = function(self, amount)
+		local player = Player.players[self.playerName]
+		if player.isShielded then
+			local shield = player.inventory[player.inventorySelection][1]
+			amount = amount - shield.defense
+			if amount > 0 then
+				shield.durability = shield.durability - shield.defense
+				self.health = self.health - amount
+			else
+				shield.durability = shield.durability - 1
+			end
+			if shield.durability <= 0 then
+				player.inventory[player.inventorySelection] = {}
+				player:changeInventorySlot(player.inventorySelection)
+				player:displayInventory()
+			end
+		else
+			self.health = self.health - amount
+		end
+		return self
+	end,
+
+	__div = function (self, amount)
+		return self.health / amount
+	end,
+
+	__lt = function(self, amount)
+		amount = amount.health
+		return self.health < amount
+	end,
+
+	__le = function(self, amount)
+		amount = amount.health
+		return self.health <= amount
+	end,
+
+	__gt = function(self, amount)
+		amount = amount.health
+		return self.health > amount
+	end,
+
+	__ge = function(self, amount)
+		amount = amount.health
+		return self.health >= amount.health
+	end
+}
+
+local health = function(health, player)
+	return setmetatable({ health = health, playerName = player}, healthMt)
+end

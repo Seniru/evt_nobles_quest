@@ -229,7 +229,7 @@ do
 			local vx, vy = 120 * self.stance, 20
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
 			local imgId = tfm.exec.addImage(assets.spit, "+" .. (12000 + id), -15, -5)
-			projectiles[id] = { 0, true, 1000 }
+			projectiles[id] = { 0, true, 1000, { assets.goo, "$" .. target.name, -15, -10 } }
 			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
 	end
 	monsters.snail.attacks = {
@@ -292,13 +292,14 @@ do
 		self.wait = self.wait - 1
 		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
 		self.realX = dragX
-		ui.addTextArea(34289, "x",nil, self.realX, self.y, 10,10, nil, nil, 1, false)
+		--ui.addTextArea(34289, "x",nil, self.realX, self.y, 10,10, nil, nil, 1, false)
 		if dragX < 700 then
 			return self:destroy()
 		end
 		if self.wait < 0 then
 			tfm.exec.removeObject(self.objId)
 			self.objId = tfm.exec.addShamanObject(62, self.realX + self.w + 120, self.y, 180, -50, 0, false)
+			tfm.exec.addImage("no.png", "#" .. self.objId, 0, 0)
 			self.wait = 1
 		end
 		local entityBridge
@@ -318,6 +319,7 @@ do
 		end
 		for i, j in next, toRemove do
 			tfm.exec.removePhysicObject(entityBridge.bridges[j][1])
+			tfm.exec.removeImage(entityBridge.bridges[j][4])
 			entityBridge.bridges[j] = nil
 		end
 	end
@@ -371,7 +373,7 @@ do
 				local playerOther = tfm.get.room.playerList[name]
 				if math.pythag(x1, y1, playerOther.x, playerOther.y) <= 50 then
 					local playerOtherObject = Player.players[name]
-					playerOtherObject.health = playerOtherObject.health - 1
+					playerOtherObject.health = playerOtherObject.health - 15
 					displayDamage(playerOtherObject)
 				end
 			end
@@ -468,7 +470,7 @@ do
 				displayDamage(playerOtherObject)
 			end
 
-			local laser = tfm.exec.addImage(assets.laser, "!1", 200, 4646)
+			local laser = tfm.exec.addImage(assets.laser, "!1", 250, 4695)
 			Timer.new("laser_remove" .. laser, tfm.exec.removeImage, 500, false, laser)
 		elseif choice > 9 then
 			local imageData = boss.species.sprites.secondary_attack_left
@@ -490,14 +492,13 @@ do
 		})
 		self.x = self.x - 250
 		self.y = 4850
-		ui.addTextArea(34289, "x",nil, self.x, self.y, 10,10, nil, nil, 1, false)
 		local imageData = self.species.sprites.idle_left
 		self.imageId = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	end
 	monsters.final_boss.move = final_boss_secondaries
 	monsters.final_boss.attacks = {
 		primary = function(self, target)
-			target.health = target.health - 2.5
+			target.health = target.health - 30
 			local imageData = self.species.sprites.primary_attack_left
 			tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 		end,

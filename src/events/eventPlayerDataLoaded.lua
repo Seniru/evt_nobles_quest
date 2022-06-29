@@ -66,7 +66,13 @@ eventPlayerDataLoaded = function(name, data)
 
 	--player:addInventoryItem(Item.items.basic_sword, 1)
 	--player:addInventoryItem(Item.items.basic_sword, 1)
-	--player:addInventoryItem(Item.items.basic_sword, 1)
+	--[[player:addInventoryItem(Item.items.basic_shovel, 1)
+	player:addInventoryItem(Item.items.iron_shovel, 1)
+	player:addInventoryItem(Item.items.copper_shovel, 1)
+	player:addInventoryItem(Item.items.gold_shovel, 1)]]
+	--[[player:addInventoryItem(Item.items.gold_sword, 1)
+	player:addInventoryItem(Item.items.gold_sword, 1)
+	player:addInventoryItem(Item.items.gold_sword, 1)]]
 
 	if player.questProgress.nosferatu and player.questProgress.nosferatu.completed then
 		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
@@ -84,9 +90,8 @@ eventPlayerDataLoaded = function(name, data)
 		else
 			mapPlaying = "castle"
 		end
-		mapPlaying = "castle"
 		tfm.exec.newGame(maps[mapPlaying])
-		tfm.exec.setGameTime(150)
+		tfm.exec.setGameTime(200)
 		mapLoaded = true
 
 	end

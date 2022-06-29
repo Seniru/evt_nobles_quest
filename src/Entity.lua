@@ -44,7 +44,7 @@ function Entity.new(x, y, type, area, name, id)
 		self.latestActionTimestamp = -1/0
 		local imageData = entity.images and entity.images[math.random(#entity.images)] or entity.image
 		self.imageId = tfm.exec.addImage(imageData.id, "_999", x + (imageData.xAdj or 0), y + (imageData.yAdj or 0))
-		ui.addTextArea(self.imageId, type, nil, x, y, 0, 0, nil, nil, 0, false)
+		--ui.addTextArea(self.imageId, type, nil, x, y, 0, 0, nil, nil, 0, false)
 	end
 	return self
 end
@@ -71,4 +71,5 @@ function Entity:destroy()
 	-- keeping track of the index isn't going to be an easier task within our implementation
 	self.isDestroyed = true
 	ui.removeTextArea(self.imageId)
+	tfm.exec.removeImage(self.imageId)
 end

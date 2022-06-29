@@ -8,7 +8,9 @@ do
 		["Laura"] = "laura",
 		["Cole"] = "cole",
 		["Marc"] = "marc",
-		["Saruman"] = "saruman"
+		["Saruman"] = "saruman",
+		["Niels"] = "niels",
+		["Monk"] = "monk"
 	}
 
 	eventTalkToNPC = function(name, npc)

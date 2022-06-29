@@ -143,7 +143,7 @@ function Monster:attack(player, attackType)
 		self.imageId = tfm.exec.addImage(imageData.id, "#" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
 	end
 	if attackType == "primary" then displayDamage(playerObj) end
-	if playerObj.health < 0 then
+	if playerObj.health < health(0) then
 		playerObj:destroy()
 	end
 end

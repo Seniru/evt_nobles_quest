@@ -17,6 +17,7 @@ setmetatable(Player, {
 	end,
 })
 
+
 function Player.new(name)
 	local self = setmetatable({}, Player)
 
@@ -26,7 +27,7 @@ function Player.new(name)
 	self.equipped = nil
 	self.inventorySelection = 1
 	self.stance = -1 -- right
-	self.health = 50
+	self.health = health(50, name)
 	self.alive = true
 	self.inventory = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {} }
 	self.carriageWeight = 0
@@ -35,6 +36,7 @@ function Player.new(name)
 	self.learnedRecipes = {}
 	self.spiritOrbs = 0
 	self.divinePower = false
+	self.isShielded = false
 	self.actionCooldown = 0
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
@@ -99,6 +101,7 @@ function Player:addInventoryItem(newItem, quantity)
 		end
 	end
 	error("Full inventory", 2)
+	tfm.exec.chatMessage(translate("FULL_INVENTORY", self.language), self.name)
 end
 
 -- use some kind of class based thing to add items
@@ -106,6 +109,7 @@ end
 function Player:changeInventorySlot(idx)
 	if idx < 0 or idx > 10 or self.divinePower then return end
 	self.inventorySelection = idx
+	self.isShielded = false
 	local item = self.inventory[idx][1]
 	if item and item.type ~= Item.types.RESOURCE and item.type ~= Item.types.SPECIAL then
 		self.equipped = self.inventory[idx][1]
@@ -117,7 +121,7 @@ function Player:changeInventorySlot(idx)
 end
 
 function Player:changeHoldingItem()
-	local item = self.inventory[self.inventorySelection][1]
+	--[[local item = self.inventory[self.inventorySelection][1]
 	if self.holdingImage then
 		tfm.exec.removeImage(self.holdingImage)
 	end
@@ -125,7 +129,7 @@ function Player:changeHoldingItem()
 		print("got in here")
 		local isFacingRight = self.stance == -1
 		self.holdingImage = tfm.exec.addImage(item.image, "$" .. self.name, isFacingRight and 28 or -25, isFacingRight and -3 or 0, nil, 0.8, 0.8, isFacingRight and 0 or 180, 1, 0.5, 0.5)
-	end
+	end]]
 end
 
 function Player:displayInventory()
@@ -293,7 +297,22 @@ function Player:attack(monster)
 	end
 end
 
+function Player:equipShield(equip)
+	if equip then
+		self.isShielded = true
+	else
+		self.isShielded = false
+	end
+end
+
 function Player:processSequence(dir)
+	dir = ({3, 0, 1, 2})[dir + 1]
+	--[[
+		0 - Transformice Left
+1 - Transformice Jump
+2 - Transformice Right
+3 - Transformice Duck
+	]]
 	if not self.divinePower or not (bossBattleTriggered and self.area) then return end
 	local s, v = 816 - 170, 20
 	-- s = t(u + v)/2
@@ -303,12 +322,17 @@ function Player:processSequence(dir)
 	if not currDir then return end
 	t = t + currDir[4]
 	local diff = math.abs(t - os.time()) / 1000
-	if diff <= 1 then -- it passed the line
+	p({dir, currDir})
+	if diff <= 1 and dir == currDir[2] then -- it passed the line
 		self.sequenceIndex = self.sequenceIndex + 1
 		divinePowerCharge = math.min(FINAL_BOSS_ATK_MAX_CHARGE,  divinePowerCharge + (20 - diff * 20))
 		self.chargedDivinePower = math.min(FINAL_BOSS_ATK_MAX_CHARGE, self.chargedDivinePower + (20 - diff * 20))
+		tfm.exec.addImage("1810e9320a6.png", "+" .. currDir[1], 0, 200, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
 	else -- too late/early
-		print("too early!")
+		tfm.exec.addImage("1810e90e75d.png", "+" .. currDir[1], 0, 200, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
+		Timer.new("resetCannon" .. self.name, function()
+			tfm.exec.addImage("180e7b47ef5.png", "+" .. currDir[1], 0, 200, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
+		end, 1000, false)
 		divinePowerCharge = math.max(0,  divinePowerCharge - 3)
 		self.chargedDivinePower = math.max(0, self.chargedDivinePower - 3)
 	end
@@ -316,9 +340,16 @@ end
 
 function Player:toggleDivinePower()
 	print(self.area == 3)
-	if bossBattleTriggered or not self.spiritOrbs == 62 then return end
-	self.divinePower = not self.divinePower
-	p({"divine power", self.divinePower})
+	if self.area == 3 and self.spiritOrbs == 62 and not bossBattleTriggered then
+		self.divinePower = not self.divinePower
+		self.isShielded = false
+		tfm.exec.freezePlayer(self.name, self.divinePower, false)
+		if self.divinePower then
+			self.divineImage = tfm.exec.addImage("18105fc6781.png", "$" .. self.name, -22, -20)
+		else
+			tfm.exec.removeImage(self.divineImage)
+		end
+	end
 end
 
 function Player:destroy()

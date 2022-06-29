@@ -54,9 +54,9 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 	)
 	:addPanel(-- preview window
 		createPrettyUI(4, 70, 50, 260, 330, true, false)
-		:addPanel(Panel(451, "yes", 160, 60, 150, 90, nil, nil, 0, true)) -- recipe descriptions
-		:addPanel(Panel(452, "test", 80, 160, 100, 100, nil, nil, 0, true)) -- recipe info
-		:addPanel(Panel(450, "craft", 80, 350, 240, 20, nil, 0x324650, 1, true)
+		:addPanel(Panel(451, "", 160, 60, 150, 90, nil, nil, 0, true)) -- recipe descriptions
+		:addPanel(Panel(452, "", 80, 160, 100, 100, nil, nil, 0, true)) -- recipe info
+		:addPanel(Panel(450, "", 80, 350, 240, 20, nil, 0x324650, 1, true)
 			:setActionListener(function(id, name, event)
 				if not recipes[event] then return print("not a recipe") end
 				local player = Player.players[name]
@@ -139,8 +139,8 @@ displayDamage = function(target)
 		local isBoss = 	target.species == Monster.all.fiery_dragon or target.species == Monster.all.final_boss
 		if isBoss then
 			print({target.realX or target.x, target.y})
-			bg = tfm.exec.addImage(assets.damageBg, "!1", target.realX or target.x, target.y)
-			fg = tfm.exec.addImage(assets.damageFg, "!1", (target.realX or target.x) + 1, target.y + 1 - 30, nil, target.health / target.metadata.health)
+			bg = tfm.exec.addImage(assets.damageBg, "!1", target.realX or target.x, target.y, nil, 4, 2)
+			fg = tfm.exec.addImage(assets.damageFg, "!2", (target.realX or target.x) + 2, target.y + 2, nil, (target.health / target.metadata.health) * 4, 2)
 		else
 			local obj = tfm.get.room.objectList[target.objId]
 			bg = tfm.exec.addImage(assets.damageBg, "=" .. target.objId, 0, -30)
@@ -239,6 +239,33 @@ getVelocity = function(x_to, x_from, y_to, y_from, t)
 	return vcostheta * 1.2, vsintheta * 1.2
 end
 
+fadeInSlowly = function(time, imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, angle, alpha, anchorX, anchorY)
+	local iterations = time / 500
+	local images = {}
+	local co
+	co = coroutine.create(function()
+		for i = 1, math.ceil(iterations) do
+			Timer.new(string.format("fadeIn_%s_%s", imageId, i), function()
+				images[#images + 1] = tfm.exec.addImage(imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, angle, (i / iterations) * alpha, anchorX, anchorY, true)
+				if i >= iterations then
+					print(coroutine.resume(co))
+				end
+			end, 500 * i, false)
+		end
+		coroutine.yield()
+		
+		-- I'm not really sure how to return values from coroutines so we have this for now
+		Timer.new("removeFinal", function()
+			for i = 1, #images do
+				tfm.exec.removeImage(images[i], true)
+			end
+		end, 3000, false)
+	end)
+
+	coroutine.resume(co)
+
+end
+
 teleports = {
 	mine = {
 		canEnter = function(player, terminalId)
@@ -287,13 +314,18 @@ teleports = {
 		end
 	},
 	final_boss = {
-		canEnter = function()
-			-- TODO: make it impossible to enter if the player doesn't have quest
-			return not bossBattleTriggered
+		canEnter = function(player)
+			return (player.questProgress.final_boss) and not bossBattleTriggered
 		end,
 		onEnter = function(player, terminalId)
 			if player.spiritOrbs == 62 then
 				tfm.exec.chatMessage(translate("DIVINE_POWER_TOGGLE_REMINDER", player.language), player.name)
+			end
+		end,
+		onFailure = function(player, terminalId)
+			print(terminalId)
+			if terminalId == 2 then
+				tfm.exec.chatMessage(translate("FINAL_BOSS_ENTER_FAIL", player.language), player.name)
 			end
 		end
 	},
