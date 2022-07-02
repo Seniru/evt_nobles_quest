@@ -398,6 +398,7 @@ function Player:destroy()
 end
 
 function Player:savePlayerData()
+	if not self.dataLoaded then return end
 	local name = self.name
 	local inventory = {}
 	local typeSpecial, typeResource = Item.types.SPECIAL, Item.types.RESOURCE
@@ -405,6 +406,8 @@ function Player:savePlayerData()
 		if #itemData > 0 then
 			local item, etc = itemData[1], itemData[2]
 			inventory[i] = { item.nid, item.type == typeSpecial, item.type == typeResource, item.durability or etc }
+		else
+			inventory[i] = {}
 		end
 	end
 	dHandler:set(name, "inventory", encodeInventory(inventory))

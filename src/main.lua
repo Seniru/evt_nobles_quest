@@ -42,9 +42,9 @@ dialoguePanel = Panel(200, "", 0, 0, 0, 0, nil, nil, 0, true)
 giveReward = function(name, level)
 	local rewards
 	if level == 0 then
-		rewards = { 1, 11, 24, 23, 23, 23, 23, 2514, 4, 4, 4, 4, 4, 21, -1, -1, -1, -1, -1, -1, 34, 2240, 34, 2240, 34, 2240,}
+		rewards = { 1, 11, 24, 23, 23, 23, 23, 2514, 4, 4, 4, 4, 4, 21, -1, -1, -1, -1, -1, -1 , 2240, 2240, 2240,}
 	else
-		rewards = { 2257, 2497, 2550, 2497, 2497, 2497, 2497 }
+		rewards = { 2257, 2497, 2497, 2497, 2497, 2497 }
 	end
 	local reward = rewards[math.random(#rewards)]
 	if reward == -1 then return end
@@ -88,6 +88,7 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 				end
 				player:displayInventory()
 				displayRecipeInfo(name, event, true)
+				player:savePlayerData()
 			end)
 		)
 	)

@@ -391,16 +391,17 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 3), icon = nosferatu.happy },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 4), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 1 then return end -- delayed packets can result in giving more than 10 stone
-						xpcall(player.addInventoryItem, function(err, success)
-							if success then
-								player:updateQuestProgress("nosferatu", 1)
-								dialoguePanel:hide(name)
-								player:displayInventory()
-							elseif err:match("Full inventory") then
-								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
-							end
-						end, player, Item.items.stone, 20)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage == 1 then
+							xpcall(player.addInventoryItem, function(err, success)
+								if success then
+									player:updateQuestProgress("nosferatu", 1)
+									dialoguePanel:hide(name)
+									player:displayInventory()
+								elseif err:match("Full inventory") then
+									addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+								end
+							end, player, Item.items.stone, 20)
+						end
 					end)
 				-- change wood amount later
 				elseif qProgress.stage == 2 and woodAmount and woodAmount >= 15 then
@@ -409,20 +410,20 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 6), icon = nosferatu.happy },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 7), icon = nosferatu.normal },
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 2 then return end -- delayed packets can result in giving more than 10 stone
-						dialoguePanel:hide(name)
-						player:displayInventory()
-						xpcall(player.addInventoryItem, function(err, success)
-							if success then
-								player:addInventoryItem(Item.items.wood, -15)
-								player:updateQuestProgress("nosferatu", 1)
-								dialoguePanel:hide(name)
-								player:displayInventory()
-							elseif err:match("Full inventory") then
-								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
-							end
-						end, player, Item.items.stone, 10)
-
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage == 2 then
+							dialoguePanel:hide(name)
+							player:displayInventory()
+							xpcall(player.addInventoryItem, function(err, success)
+								if success then
+									player:addInventoryItem(Item.items.wood, -15)
+									player:updateQuestProgress("nosferatu", 1)
+									dialoguePanel:hide(name)
+									player:displayInventory()
+								elseif err:match("Full inventory") then
+									addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+								end
+							end, player, Item.items.stone, 10)
+						end
 					end)
 				elseif qProgress.stage == 3 and oreAmount and oreAmount >= 15 then
 					addDialogueSeries(name, 2, {
@@ -433,17 +434,18 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 12), icon = nosferatu.happy },
 
 					}, "Nosferatu", function(id, _name, event)
-						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
-						xpcall(player.addInventoryItem, function(err, success)
-							if success then
-								player:addInventoryItem(Item.items.iron_ore, -15)
-								player:updateQuestProgress("nosferatu", 1)
-								dialoguePanel:hide(name)
-								player:displayInventory()
-							elseif err:match("Full inventory") then
-								addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
-							end
-						end, player, Item.items.stone, 30)
+						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage == 3 then
+							xpcall(player.addInventoryItem, function(err, success)
+								if success then
+									player:addInventoryItem(Item.items.iron_ore, -15)
+									player:updateQuestProgress("nosferatu", 1)
+									dialoguePanel:hide(name)
+									player:displayInventory()
+								elseif err:match("Full inventory") then
+									addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+								end
+							end, player, Item.items.stone, 30)
+						end
 
 					end)
 				else
