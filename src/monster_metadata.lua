@@ -292,7 +292,6 @@ do
 		self.wait = self.wait - 1
 		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
 		self.realX = dragX
-		ui.addTextArea(34289, "x",nil, self.realX, self.y, 10,10, nil, nil, 1, false)
 		if dragX < 700 then
 			return self:destroy()
 		end
@@ -311,7 +310,7 @@ do
 		end
 		local toRemove = {}
 		for i, bridge in next, (entityBridge.bridges or {}) do
-			if math.abs(bridge[2] - (560 / 8) - dragX) < 70 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+			if math.abs(bridge[2] - (560 / 8) - dragX) - 80 < 70 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
 				tfm.exec.removePhysicObject(bridge[1])
 				toRemove[#toRemove + 1] = i
 				--entityBridge.bridges[i] = nil

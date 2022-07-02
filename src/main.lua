@@ -139,7 +139,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b><font size='10'>" .. (speakerName or "???") .. "</font></b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
 	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
 	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
-	dialoguePanel:update(text, name)
+	--dialoguePanel:update(text, name)
 	if isReplyBox then
 		for i, reply in next, replies do
 			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1), 130, 25, nil, nil, 0, true)

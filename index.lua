@@ -2208,7 +2208,6 @@ do
 		self.wait = self.wait - 1
 		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
 		self.realX = dragX
-		ui.addTextArea(34289, "x",nil, self.realX, self.y, 10,10, nil, nil, 1, false)
 		if dragX < 700 then
 			return self:destroy()
 		end
@@ -2227,7 +2226,7 @@ do
 		end
 		local toRemove = {}
 		for i, bridge in next, (entityBridge.bridges or {}) do
-			if math.abs(bridge[2] - (560 / 8) - dragX) < 70 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+			if math.abs(bridge[2] - (560 / 8) - dragX) - 80 < 70 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
 				tfm.exec.removePhysicObject(bridge[1])
 				toRemove[#toRemove + 1] = i
 				--entityBridge.bridges[i] = nil
@@ -2484,7 +2483,7 @@ function Area:getClosestEntityTo(x, y)
 	local min, closest = 1/0, nil
 	for id, obj in next, self.entities do
 		local dist = math.pythag(x, y, obj.x, obj.y)
-		if dist <= 30 and dist < min then
+		if dist <= 40 and dist < min then
 			min = dist
 			closest = obj
 		end
@@ -4821,6 +4820,8 @@ eventPlayerDataLoaded = function(name, data)
 	--[[player:addInventoryItem(Item.items.gold_sword, 1)
 	player:addInventoryItem(Item.items.gold_sword, 1)
 	player:addInventoryItem(Item.items.gold_sword, 1)]]
+	--player:addInventoryItem(Item.items.gold_sword, 1)
+	--player:addInventoryItem(Item.items.gold_sword, 1)
 
 	if player.questProgress.nosferatu and player.questProgress.nosferatu.completed then
 		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
@@ -5125,7 +5126,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:addPanelTemp(Panel(id * 1000 + 1, "<b><font size='10'>" .. (speakerName or "???") .. "</font></b>", x + w - 180, y - 25, 0, 0, nil, nil, 0, true), name)
 	--dialoguePanel:addImageTemp(Image("171843a9f21.png", "&1", 730, 350), name)
 	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
-	dialoguePanel:update(text, name)
+	--dialoguePanel:update(text, name)
 	if isReplyBox then
 		for i, reply in next, replies do
 			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1), 130, 25, nil, nil, 0, true)

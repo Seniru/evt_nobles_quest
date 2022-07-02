@@ -43,7 +43,7 @@ function Area:getClosestEntityTo(x, y)
 	local min, closest = 1/0, nil
 	for id, obj in next, self.entities do
 		local dist = math.pythag(x, y, obj.x, obj.y)
-		if dist <= 30 and dist < min then
+		if dist <= 40 and dist < min then
 			min = dist
 			closest = obj
 		end

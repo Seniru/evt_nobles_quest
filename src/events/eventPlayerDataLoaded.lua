@@ -83,6 +83,8 @@ eventPlayerDataLoaded = function(name, data)
 	--[[player:addInventoryItem(Item.items.gold_sword, 1)
 	player:addInventoryItem(Item.items.gold_sword, 1)
 	player:addInventoryItem(Item.items.gold_sword, 1)]]
+	--player:addInventoryItem(Item.items.gold_sword, 1)
+	--player:addInventoryItem(Item.items.gold_sword, 1)
 
 	if player.questProgress.nosferatu and player.questProgress.nosferatu.completed then
 		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
