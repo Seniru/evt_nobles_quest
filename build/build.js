@@ -21,6 +21,10 @@ combine({
     	header: "local translations = {}\n\n",
     	files: [
     		"src/translations/en.lua",
+			"src/translations/pl.lua",
+			"src/translations/ro.lua",
+			"src/translations/ar.lua",
+			"src/translations/tr.lua",
       		"src/translations/translator.lua",
     	],
   	},

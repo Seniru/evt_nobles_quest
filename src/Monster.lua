@@ -167,6 +167,12 @@ function Monster:destroy(destroyedBy)
 		if destroyedBy.area == 2 and qProgress.strength_test and qProgress.strength_test.stage == 2 then
 			destroyedBy:updateQuestProgress("strength_test", 1)
 		end
+		destroyedBy.kills = destroyedBy.kills + 1
+		if destroyedBy.kills % 5 == 0 then
+			giveReward(destroyedBy.name, 1)
+		else
+			giveReward(destroyedBy.name, 0)
+		end
 	end
 	if self.species.death then self.species.death(self, destroyedBy) end
 	self.isAlive = false

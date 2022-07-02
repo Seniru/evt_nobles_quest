@@ -7,6 +7,7 @@ eventPlayerDataLoaded = function(name, data)
 		dHandler:newPlayer(name, "")
 	end
 
+
 	local player = Player.players[name]
 	player.spiritOrbs = dHandler:get(name, "spiritOrbs")
 	player.learnedRecipes = recipesBitList:decode(dHandler:get(name, "recipes"))
@@ -35,7 +36,6 @@ eventPlayerDataLoaded = function(name, data)
 			inventory[i] = { item, 1 }
 		end
 		player.carriageWeight = player.carriageWeight + inventory[i][1].weight * inventory[i][2]
-		print(player.carriageWeight)
 	end
 	player.inventory = inventory
 
@@ -43,9 +43,6 @@ eventPlayerDataLoaded = function(name, data)
 	player:displayInventory()
 	player:changeInventorySlot(1)
 
-	p(player.learnedRecipes)
-	p(player.inventory)
-	p(player.questProgress)
 
 	if not player.questProgress.wc.completed then
 		addDialogueSeries(name, 1, {
@@ -57,14 +54,15 @@ eventPlayerDataLoaded = function(name, data)
 			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 6), icon = "180c6ce0308.png" },
 			{ text = translate("ANNOUNCER_DIALOGUES", player.language, 7), icon = "180c6ce0308.png" },
 		}, "Announcer", function(id, _name, event)
-			player:updateQuestProgress("wc", 1)
 			dialoguePanel:hide(name)
 			player:displayInventory()
-			player:addNewQuest("nosferatu")
+			if not player.questProgress.wc.completed then
+				player:updateQuestProgress("wc", 1)
+				player:addNewQuest("nosferatu")
+			end
 		end)
 	end
 
-	--player:addInventoryItem(Item.items.basic_sword, 1)
 	--player:addInventoryItem(Item.items.basic_sword, 1)
 	--[[player:addInventoryItem(Item.items.basic_shovel, 1)
 	player:addInventoryItem(Item.items.iron_shovel, 1)
@@ -82,6 +80,7 @@ eventPlayerDataLoaded = function(name, data)
 
 	totalProcessedPlayers =  totalProcessedPlayers + 1
 
+	mapPlaying = "mine"
 	if totalProcessedPlayers == totalPlayers then
 		if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.6 then
 			mapPlaying = "mine"
@@ -90,10 +89,17 @@ eventPlayerDataLoaded = function(name, data)
 		else
 			mapPlaying = "castle"
 		end
-		tfm.exec.newGame(maps[mapPlaying])
-		tfm.exec.setGameTime(200)
-		mapLoaded = true
-
+		--mapPlaying ="castle"
+		--tfm.exec.newGame(maps[mapPlaying])
+		--tfm.exec.setGameTime(180)
+		--mapLoaded = true
 	end
+
+	Timer.new("startMap", function(mapPlaying)
+		tfm.exec.newGame(maps[mapPlaying])
+		tfm.exec.setGameTime(180)
+		mapLoaded = true
+		questProgressButton:show()
+	end, 3100, false, mapPlaying)
 
 end

@@ -9,12 +9,23 @@ local quests = {
 	wc = {
 		id = 1,
 		title_locales = {
-			en = "New person in the town"
+			ar = "شخص جديد في البلدة",
+			en = "New person in the town",
+			pl = "Nowa osoba w mieście",
+			ro = "Un nou vizitator în oraș",
+			tr = "Şehirdeki yeni kişi",
+			es = "Alguien nuevo en el poblado",
 		},
 		{
 			description_locales = {
-				en = "Travel back from time to a town in the medieval era"
+				ar = "سافر من وقت لآخر إلى بلدة في العصور الوسطى",
+				en = "Travel back from time to a town in the medieval era",
+				pl = "Cofnij się w czasie do średniowiecznego miasta",
+				ro = "Călătorește înapoi în timp într-un orășel din evul mediu",
+				tr = "Ortaçağ döneminde bulunan bir şehire zamanda geri git",
+				es = "Viaja atrás en el tiempo hacia un poblado en la época medieval",
 			},
+
 			tasks = 1
 		}
 	},
@@ -22,23 +33,43 @@ local quests = {
 	nosferatu = {
 		id = 2,
 		title_locales = {
-			en = "The loyal servant"
+			ar = "الخادم المخلص",
+			en = "The loyal servant",
+			pl = "Lojalny sługa",
+			ro = "Servitorul regal",
+			tr = "Sadık hizmetçi",
+			es = "El sirviente leal",
 		},
 		{
 			description_locales = {
-				en = "Meet Nosferatu at the mine"
+			ar = "قابل نوسفيراتو في المنجم",
+			en = "Meet Nosferatu at the mine",
+			pl = "potkaj się z Nosferatu w kopalni",
+			ro = "Întâlnește-l pe Nosferatu lângă mină",
+			tr = "Madende Nosferatu ile buluş",
+			es = "Ve con Nosferatu a la mina",
 			},
 			tasks = 1
 		},
 		{
 			description_locales = {
-				en = "Gather 15 wood"
+				ar = "اجمع 15 قطعة خشب",
+				en = "Gather 15 wood",
+				pl = "Zbierz 15 drewien",
+				ro = "Adună 15 lemne",
+				tr = "15 odun topla",
+				es = "Recolecta 15 de madera",
 			},
 			tasks = 1
 		},
 		{
 			description_locales = {
-				en = "Gather 15 iron ore"
+				ar = "اجمع 15 خام حديد",
+				en = "Gather 15 iron ore",
+				pl = "Zbierz 15 rud żelaza",
+				ro = "Adună 15 minereuri de fier",
+				tr = "15 demir cevheri topla",
+				es = "Recolecta 15 lingotes de hierro",
 			},
 			tasks = 1
 		}
@@ -47,23 +78,43 @@ local quests = {
 	strength_test = {
 		id = 3,
 		title_locales = {
-			en = "Strength test"
+			ar = "إختبار القوة",
+			en = "Strength test",
+			pl = "Test siły",
+			ro = "Testul forței",
+			tr = "Sağlamlık testi",
+			es = "Test de fuerza",
 		},
 		{
 			description_locales = {
-				en = "Gather recipes and talk to Lieutenant Edric"
+				ar = "اجمع الوصفات وتحدث إلى الملازم إدريك",
+				en = "Gather recipes and talk to Lieutenant Edric",
+				pl = "Zbierz przepisy i porozmawiaj z porucznikiem Edriciem",
+				ro = "Adună rețete pentru a vorbi cu Locotenentul Edric",
+				tr = "Tarifleri elde et ve Lieutenant Edric ile konuş",
+				es = "Recolecta recetas y habla con el Teniente Edric",
 			},
 			tasks = 1
 		},
 		{
 			description_locales = {
-				en = "Defeat 25 monsters"
+				ar = "اهزم 25 وحشًا",
+				en = "Defeat 25 monsters",
+				pl = "Pokonaj 25 potworów",
+				ro = "Înfrânge 25 monștri",
+				tr = "25 canavar yen",
+				es = "Derrota 25 monstruos",
 			},
 			tasks = 25
 		},
 		{
 			description_locales = {
-				en = "Meet Lieutenant Edric back"
+				ar = "قابل الملازم إدريك مرة أخرى",
+				en = "Meet Lieutenant Edric back",
+				pl = "Spotkaj się z powrotem z porucznikiem Edriciem",
+				ro = "Întâlnește Locotenentul Edric din nou",
+				tr = "Tekrar Lieutenant Edric ile buluş",
+				es = "Ve con el Teniente Edric de vuelta",
 			},
 			tasks = 1
 		}
@@ -72,23 +123,43 @@ local quests = {
 	spiritOrbs = {
 		id = 4,
 		title_locales = {
-			en = "The spiritual way"
+			ar = "الطريق الروحي",
+			en = "The spiritual way",
+			pl = "Droga duchowa",
+			ro = "Calea spirituală",
+			tr = "Ruhani yol",
+			es = "El camino espiritual",
 		},
 		{
 			description_locales = {
-				en = "Go to the gloomy forest"
+				ar = "اذهب إلى الغابة القاتمة",
+				en = "Go to the gloomy forest",
+				pl = "Udaj się do ponurego lasu",
+				ro = "Intră în pădurea mohorâtă",
+				tr = "Kasvetli ormana git",
+				es = "Ve al bosque sombrío",
 			},
 			tasks = 1
 		},
 		{
 			description_locales = {
-				en = "Find the mysterious voice"
+				ar = "ابحث عن الصوت الغامض",
+				en = "Find the mysterious voice",
+				pl = "Znajdź tajemniczy głos",
+				ro = "Găsește vocea misterioasă",
+				tr = "Gizemli sesi bul",
+				es = "Encuentra la voz misteriosa",
 			},
 			tasks = 1
 		},
 		{
 			description_locales = {
-				en = "Gather all 5 spirit orbs"
+				ar = "اجمع كل الأجرام السماوية الخمسة",
+				en = "Gather all 5 spirit orbs",
+				pl = "Zbierz wszystkie 5 duchowych kul",
+				ro = "Adună toate 5 globuri",
+				tr = "Tüm 5 ruh küresini topla",
+				es = "Recolecta las 5 orbes espirituales",
 			},
 			tasks = 5
 		}
@@ -97,11 +168,21 @@ local quests = {
 	fiery_dragon = {
 		id = 5,
 		title_locales = {
-			en = "Resisting the fire"
+			ar = "مقاومة النار",
+			en = "Resisting the fire",
+			pl = "Odporność na ogień",
+			ro = "Rezistând focului",
+			tr = "Ateşe direnmek",
+			es = "Resistiendo al fuego",
 		},
 		{
 			description_locales = {
-				en = "Destroy the fiery dragon and collect it's spirit orb"
+				ar = "تدمير التنين الناري وجمع الجرم السماوي الروحي",
+				en = "Destroy the fiery dragon and collect its spirit orb",
+				pl = "Zniszcz ognistego smoka i zbierz jego duchową kulę",
+				ro = "Distruge Dragonul de foc și pune mâna pe globul său de spirit",
+				tr = "Alevli ejderhayı yok et ve ruh küresini elde et",
+				es = "Destruye al dragón de fuego y recolecta su orbe espiritual",
 			},
 			tasks = 1
 		}
@@ -110,12 +191,23 @@ local quests = {
 	final_boss = {
 		id = 6,
 		title_locales = {
-			en = "Medieval hero"
+			ar = "بطل العصور الوسطى",
+			en = "Medieval hero",
+			pl = "Średniowieczny bohater",
+			ro = "Erou medieval",
+			tr = "Ortaçağın kahramanı",
+			es = "Héroe medieval",
 		},
 		{
 			description_locales = {
-				en = "Destroy the evil spirit"
-			}
+				ar = "اهلك الروح الشريرة",
+				en = "Destroy the evil spirit",
+				pl = "Zniszcz złego ducha",
+				ro = "Distruge spiritul răului",
+				tr = "Kötü ruhu yok et",
+				es = "Destruye el espíritu malvado",
+			},
+			tasks = 1
 		}
 	},
 

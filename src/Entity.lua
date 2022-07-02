@@ -54,7 +54,7 @@ function Entity:receiveAction(player, keydown)
 	local onAction = Entity.entities[self.type == "npc" and self.name or self.type].onAction
 	if onAction then
 		local success, error = pcall(onAction, self, player, keydown)
-		p({success, error})
+		if error then p({success, error}) end
 	end
 end
 

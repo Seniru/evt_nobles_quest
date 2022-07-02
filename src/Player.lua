@@ -38,6 +38,7 @@ function Player.new(name)
 	self.divinePower = false
 	self.isShielded = false
 	self.actionCooldown = 0
+	self.kills = 0
 	self.questProgress = {
 		-- quest: stage, stageProgress, completed?
 	}
@@ -89,19 +90,22 @@ function Player:addInventoryItem(newItem, quantity)
 			return self:displayInventory()
 		end
 	end
-	if quantity <= 0 then return end
+	--if quantity <= 0 then return end
 	for i, item in next, self.inventory do
 		if #item > 0 and newItem.stackable and newItem.id == item[1].id and quantity + item[2] < 128 then
 			self.inventory[i][2] = item[2] + quantity
 			return self:displayInventory()
-		elseif #item == 0 then
+		elseif #item == 0 and quantity > 0 then
 			self.inventory[i] = { newItem:getItem(), quantity }
 			if i == self.inventorySelection then self:changeInventorySlot(i) end
 			return self:displayInventory()
+		elseif #item > 0 and item[1].id == newItem.id and (not newItem.stackable) and quantity == -1 then
+			self.inventory[i] = {}
+			return self:displayInventory()
 		end
 	end
-	error("Full inventory", 2)
 	tfm.exec.chatMessage(translate("FULL_INVENTORY", self.language), self.name)
+	error("Full inventory", 2)
 end
 
 -- use some kind of class based thing to add items
@@ -143,13 +147,13 @@ function Player:displayInventory()
 		if i == invSelection then
 			Panel.panels[120 + i]:update("<b><font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font></b>", self.name)
 		else
-			Panel.panels[120 + i]:update("<font size='10px'>" .. (item[2] and "×" .. item[2] or "") .. "</font>", self.name)
+			Panel.panels[120 + i]:update("<font size='10px' color='#aaaaaa'>" .. (item[2] and "×" .. item[2] or "") .. "</font>", self.name)
 		end
 	end
 	Panel.panels[150]:update(translate("INVENTORY_INFO", self.language, nil, {
 		color = self.carriageWeight < 14 and "C2C2DA" or (self.carriageWeight < 18 and "de813e" or "d93931"),
 		weight = self.carriageWeight
-	}))
+	}), self.name)
 end
 
 function Player:useSelectedItem(requiredType, requiredProperty, targetEntity)
@@ -191,11 +195,13 @@ function Player:addNewQuest(quest)
 		questName = qData.title_locales[self.language] or qData.title_locales["en"],
 		desc = qData[1].description_locales[self.language] or qData[1].description_locales["en"] or "",
 	}), self.name)
+	self:savePlayerData()
 end
 
 function Player:updateQuestProgress(quest, newProgress)
 	if newProgress == 0 then return end
 	local pProgress = self.questProgress[quest]
+	if pProgress.completed then return end
 	local progress = pProgress.stageProgress + newProgress
 	local q = quests[quest]
 	local announceStageProgress = true
@@ -206,6 +212,13 @@ function Player:updateQuestProgress(quest, newProgress)
 				questName = q.title_locales[self.language] or q.title_locales["en"],
 			}), self.name)
 			self.questProgress[quest].completed = true
+			giveReward(self.name, 1)
+			if quest == "strength_test" then
+				system.giveEventGift(self.name, "evt_nobles_quest_title_542")
+				system.giveEventGift(self.name, "evt_nobles_quest_golden_ticket_20")
+			elseif quest ~= "wc" and quest ~= "final_boss" then
+				system.giveEventGift(self.name, "evt_nobles_quest_golden_ticket_20")
+			end
 		else
 			self.questProgress[quest].stage = self.questProgress[quest].stage + 1
 			self.questProgress[quest].stageProgress = 0
@@ -213,6 +226,7 @@ function Player:updateQuestProgress(quest, newProgress)
 				questName = q.title_locales[self.language] or q.title_locales["en"],
 				desc = q[pProgress.stage].description_locales[self.language] or q[pProgress.stage].description_locales["en"] or "",
 			}), self.name)
+			giveReward(self.name, 0)
 		end
 		announceStageProgress = false
 	end
@@ -231,8 +245,17 @@ function Player:learnRecipe(recipe)
 	if self.learnedRecipes[recipe] then return end
 	self.learnedRecipes[recipe] = true
 	local item = Item.items[recipe]
-	p({item.locales[self.language], self.language})
 	tfm.exec.chatMessage(translate("NEW_RECIPE", self.language, nil, { itemName = item.locales[self.language], itemDesc = item.description_locales[self.language] }), self.name)
+	local hasAllRecipes = true
+	for k, v in next, Item.items do
+		if not self.learnedRecipes[k] then
+			hasAllRecipes = false
+			break
+		end
+	end
+	if hasAllRecipes then
+		system.giveEventGift(self.name, "evt_nobles_quest_title_543")
+	end
 	dHandler:set(self.name, "recipes", recipesBitList:encode(self.learnedRecipes))
 	self:savePlayerData()
 end
@@ -240,7 +263,17 @@ end
 function Player:canCraft(recipe)
 	if not self.learnedRecipes[recipe] then return false end
 	for _, neededItem in next, recipes[recipe] do
-		local idx, amount = self:getInventoryItem(neededItem[1].id)
+		local idx, amount = nil, 0
+		if not neededItem[1].stackable then
+			for i, it in next, self.inventory do
+				if it[1] and it[1].id == neededItem[1].id then
+					idx = i
+					amount = amount + 1
+				end
+			end
+		else
+			idx, amount = self:getInventoryItem(neededItem[1].id)
+		end
 		if (not idx) or (neededItem[2] > amount) then return false end
 	end
 	return true
@@ -249,7 +282,13 @@ end
 function Player:craftItem(recipe)
 	if not self:canCraft(recipe) then return end
 	for _, neededItem in next, recipes[recipe] do
-		self:addInventoryItem(neededItem[1], -neededItem[2])
+		if not neededItem[1].stackable then
+			for i = 1, neededItem[2] do
+				self:addInventoryItem(neededItem[1], -1)
+			end
+		else
+			self:addInventoryItem(neededItem[1], -neededItem[2])
+		end
 		--self.inventory[idx][2] = amount - neededItem[2]
 	end
 	self:addInventoryItem(Item.items[recipe], 1)
@@ -265,7 +304,6 @@ function Player:dropItem()
 	self:changeInventorySlot(invSelection)
 	self:displayInventory()
 	local pData = tfm.get.room.playerList[self.name]
-	p(self.stance * 2)
 	local dropId = tfm.exec.addShamanObject(tfm.enum.shamanObject.littleBox, pData.x, pData.y, 45, -2 * self.stance, -2, true)
 	Timer.new("drop_item" .. dropId, function()
 		local obj = tfm.get.room.objectList[dropId]
@@ -322,16 +360,15 @@ function Player:processSequence(dir)
 	if not currDir then return end
 	t = t + currDir[4]
 	local diff = math.abs(t - os.time()) / 1000
-	p({dir, currDir})
 	if diff <= 1 and dir == currDir[2] then -- it passed the line
 		self.sequenceIndex = self.sequenceIndex + 1
 		divinePowerCharge = math.min(FINAL_BOSS_ATK_MAX_CHARGE,  divinePowerCharge + (20 - diff * 20))
 		self.chargedDivinePower = math.min(FINAL_BOSS_ATK_MAX_CHARGE, self.chargedDivinePower + (20 - diff * 20))
-		tfm.exec.addImage("1810e9320a6.png", "+" .. currDir[1], 0, 200, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
+		tfm.exec.addImage("1810e9320a6.png", "#" .. currDir[1], 0, 230, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
 	else -- too late/early
-		tfm.exec.addImage("1810e90e75d.png", "+" .. currDir[1], 0, 200, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
+		tfm.exec.addImage("1810e90e75d.png", "#" .. currDir[1], 0, 230, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
 		Timer.new("resetCannon" .. self.name, function()
-			tfm.exec.addImage("180e7b47ef5.png", "+" .. currDir[1], 0, 200, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
+			tfm.exec.addImage("180e7b47ef5.png", "#" .. currDir[1], 0, 230, self.name, 1, 1, math.rad(90 * currDir[2]), 1, 0.5, 0.5)
 		end, 1000, false)
 		divinePowerCharge = math.max(0,  divinePowerCharge - 3)
 		self.chargedDivinePower = math.max(0, self.chargedDivinePower - 3)
@@ -339,7 +376,6 @@ function Player:processSequence(dir)
 end
 
 function Player:toggleDivinePower()
-	print(self.area == 3)
 	if self.area == 3 and self.spiritOrbs == 62 and not bossBattleTriggered then
 		self.divinePower = not self.divinePower
 		self.isShielded = false
@@ -371,9 +407,8 @@ function Player:savePlayerData()
 			inventory[i] = { item.nid, item.type == typeSpecial, item.type == typeResource, item.durability or etc }
 		end
 	end
-	p(inventory)
 	dHandler:set(name, "inventory", encodeInventory(inventory))
 	dHandler:set(name, "spiritOrbs", self.spiritOrbs)
+	dHandler:set(name, "questProgress", encodeQuestProgress(self.questProgress))
 	system.savePlayerData(name, "v2" .. dHandler:dumpPlayer(name))
-	print("v2" .. dHandler:dumpPlayer(name))
 end

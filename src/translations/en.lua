@@ -12,12 +12,14 @@ translations["en"] = {
 	WRONG_GUESS = "<R>Incorrect access key.</R>",
 	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Throw</b></N2></font></p></font>",
 	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Your inventory is full!</font>",
-	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>You need to obtain the Dragon's spirit orb to enter this portal!</font>",
+	PORTAL_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Can't access the portal right now.</font>",
 	CRAFT = "Craft!",
 	CANT_CRAFT = "Can't craft",
+	QUESTS = "<font size='15' face='Lucida console'><b><BV>Quests</BV></b></font>\n\n",
 	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#999999'><i>“ ${desc} ”</i></font>",
 	FINAL_BATTLE_PING = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Final battle is happening!</font>",
 	ACTIVATE_POWER = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Press <font color='#ab5e42'><b>U</b></font> to toggle <font color='#ab5e42'><b>divine power!</b></font></font>",
+	ENDING_MESSAGE = "<font color='#cccccc'><font color='#bd9d60'><b>Congratulations</b></font> for completing the event!<br><br>Thanks <font color='#bd9d60'>King_seniru</font><font size='8' color='#ab5e42'>#5890</font>, <font color='#bd9d60'>Hattington</font><font size='8' color='#ab5e42'>#2583</font>, <font color='#bd9d60'>Vividia</font><font size='8' color='#ab5e42'>#0095</font>, <font color='#bd9d60'>Chibi</font><font size='8' color='#ab5e42'>#0095</font>, <font color='#bd9d60'>Karasu</font><font size='8' color='#ab5e42'>#0010</font>, <font color='#bd9d60'>Zetdey</font><font size='8' color='#ab5e42'>#3845</font>, <font color='#bd9d60'>Eremia</font><font size='8' color='#ab5e42'>#0020</font>, <font color='#bd9d60'>Event squad</font> and <font color='#bd9d60'>you</font> for making this event possible!\n\n</font><i><font color='#548336'>Don't stop there... there's still a lot more to explore! Happy exploring!!!</font></i>",
 	ANNOUNCER_DIALOGUES = {
 		"ATTENTION EVERYONE! ATTENTION!!!",
 		"This message is from our majesty, the glorious King of this land...",
@@ -41,7 +43,7 @@ translations["en"] = {
 		"I'll give you <b><VP>Nosferatu's recommendation letter</VP></b>, present this to <b><VP>Lieutenant</VP></b> and hopefully he'll recruit you into the army.\n<i>aaand that's some good money too</i>",
 		"Oh and don't forget your reward of <b><VP>30 stone</VP></b> for all the hard work!",
 		"Do you need anything?",
-		"That's quite general knowledge... You need to <b><VP>chop a tree with a Pickaxe</VP></b>",
+		"That's quite general knowledge... You need to <b><VP>chop a tree with an axe</VP></b>",
 		"So you need a <b><VP>pickaxe</VP></b>? There should be one lying around in <b><VP>woods</VP></b>.\n<b><VP>↓</VP></b> to study it and craft the studied recipe in a <b><VP>crafting station</VP></b>.\nA station is located right above this mine.",
 		"I sell <b><VP>10 stone</VP></b> for <b><VP>35 sticks</VP></b>",
 		"Ah ok farewell then",
@@ -92,7 +94,7 @@ translations["en"] = {
 	},
 	SARUMAN_DIALOGUES = {
 		"EYYYYY!!!! EYYYYYYYYY!!!!\nIS SOMEBODY THERE???",
-		"HEYY!! HELP ME OUT THERE!\nTHANKS GOD FOR SAVING SOMEONE OUT HERE!!!",
+		"HEYY!! HELP ME OUT THERE!\nTHANKS GOD FOR SAVING ME OUT HERE!!!",
 		"I am <b><VP>Saruman</VP></b> by the way. I've been stucked here for like...\n15 years?",
 		"My buddy <b><VP>Hootie</VP></b> is the reason I'm still alive.\nI'd die out of starvation if it wasn't him",
 		"So you want to know how and why I'm stuck here?",
@@ -109,10 +111,12 @@ translations["en"] = {
 		"I think you know one already unless you had some magic power to teleport here",
 		"Second shrine is guarded by a lot of <b><VP>monsters</VP></b> on it's way.\nSo equip well before exploring there!",
 		"And for the last shrine I've found this <b><VP>hint</VP></b> from ancient books",
-		"<b><VP>\"Puzzles, and riddles, and old tradition\nMathematical score, but not addition\nA resource that so fruitfully bore\nComes to term with ones true lore\nTake the rank shown to all\nTo the world you must call\"</VP></b>",
+		"<b><VP>\"Puzzles, and riddles, and old tradition\nMathematical score, but not addition",
 		"That's all! Hope you make a good use of these information",
 		"Thanks for checking on me bud!",
-		"OH LOOKS LIKE YOU'VE COLLECTED ALL THE SPIRIT ORBS!!!\nWe're even now... thank me later!\nBut make sure you find more information about these orbs from a <b><VP>monk</VP></b>"
+		"OH LOOKS LIKE YOU'VE COLLECTED ALL THE SPIRIT ORBS!!!\nWe're even now... thank me later!\nBut make sure you find more information about these orbs from a <b><VP>monk</VP></b>",
+		"<b><VP>\"A resource that so fruitfully bore\nComes to term with ones true lore\"</VP></b>",
+		"<b><VP>\"Take the rank shown to all\nTo the world you must call\"</VP></b>"
 	},
 	SARUMAN_QUESTIONS = {
 		"Where are orbs?",

@@ -27,7 +27,6 @@ eventKeyboard = function(name, key, down, x, y)
 	if key == keys.DUCK then
 		local area = Area.areas[player.area]
 		local inventoryItem = player.inventory[player.inventorySelection][1]
-		p(inventoryItem)
 		local monster = area:getClosestMonsterTo(x, y)
 		if inventoryItem and inventoryItem.id:match("shield") then
 			player:equipShield(down)

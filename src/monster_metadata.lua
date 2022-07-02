@@ -292,7 +292,7 @@ do
 		self.wait = self.wait - 1
 		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
 		self.realX = dragX
-		--ui.addTextArea(34289, "x",nil, self.realX, self.y, 10,10, nil, nil, 1, false)
+		ui.addTextArea(34289, "x",nil, self.realX, self.y, 10,10, nil, nil, 1, false)
 		if dragX < 700 then
 			return self:destroy()
 		end
@@ -311,7 +311,7 @@ do
 		end
 		local toRemove = {}
 		for i, bridge in next, (entityBridge.bridges or {}) do
-			if math.abs(bridge[2] - (560 / 8) - dragX) < 60 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+			if math.abs(bridge[2] - (560 / 8) - dragX) < 70 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
 				tfm.exec.removePhysicObject(bridge[1])
 				toRemove[#toRemove + 1] = i
 				--entityBridge.bridges[i] = nil
@@ -330,8 +330,9 @@ do
 		self.visibilityRange = 3400
 		self.objId = 999999
 		self.bodyId = 200
-		self.w = 200
-		tfm.exec.addPhysicObject(self.bodyId, self.x, self.y - 80, {
+		self.w = 150
+		self.rockThrowId = 0
+		--[[tfm.exec.addPhysicObject(self.bodyId, self.x, self.y - 80, {
 			type = 1,
 			width = self.w,
 			height = 170,
@@ -340,7 +341,8 @@ do
 			mass = 9999,
 			fixedRotation = true,
 			linearDamping = 999
-		})
+		})]]
+		tfm.exec.movePhysicObject(self.bodyId, self.x, self.y - 80)
 		self.y = self.y + 20
 		self.realX = self.x - self.w
 		local imageData = self.species.sprites.idle_left
@@ -382,7 +384,8 @@ do
 			dragonLocationCheck(self)
 			local imageData = self.species.sprites.secondary_attack_left
 			tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
-			local id = #projectiles + 1
+			self.rockThrowId = self.rockThrowId + 1
+			local id = #projectiles + 1--self.rockThrowId % 2
 			local projectile = tfm.exec.addPhysicObject(12000 + id, self.realX - 15, self.y + 15, {
 				type = 1,
 				width = 30,
@@ -394,6 +397,7 @@ do
 			})
 			tfm.exec.addImage(assets.rock, "+" .. (12000 + id), -30, -35, nil)
 			local player = tfm.get.room.playerList[target.name]
+			tfm.exec.movePhysicObject(12000 + id, self.realX - 15, self.y + 15, false, 0, 0)
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, 0, -60)
 			--local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
 			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
@@ -482,14 +486,15 @@ do
 	monsters.final_boss.spawn = function(self)
 		self.objId = 300
 		self.visibilityRange = 700
-		tfm.exec.addPhysicObject(self.objId, self.x, self.y - 80, {
+		--[[tfm.exec.addPhysicObject(self.objId, self.x, self.y - 80, {
 			type = 1,
 			width = 400,
 			height = 250,
 			dynamic = true,
 			friction = 0,
 			mass = 9999
-		})
+		})]]
+		tfm.exec.movePhysicObject(self.objId, self.x, self.y - 80)
 		self.x = self.x - 250
 		self.y = 4850
 		local imageData = self.species.sprites.idle_left
@@ -505,9 +510,15 @@ do
 		secondary = final_boss_secondaries
 	}
 	monsters.final_boss.death = function(self, killedBy)
-		for name in next, boss.area.players do
+		local imageData = self.species.sprites.dead_left
+		local image = tfm.exec.addImage(imageData.id, "+" .. self.objId, imageData.xAdj, imageData.yAdj, nil)
+		Timer.new("clear_body_final", tfm.exec.removeImage, 2000, false, image, true)
+		for name in next, self.area.players do
 			local player = Player.players[name]
 			player:updateQuestProgress("final_boss", 1)
+			system.giveEventGift(name, "evt_nobles_quest_golden_ticket_50")
+			system.giveEventGift(name, "evt_nobles_quest_badge")
+			tfm.exec.chatMessage(translate("ENDING_MESSAGE", player.language), name)
 		end
 	end
 

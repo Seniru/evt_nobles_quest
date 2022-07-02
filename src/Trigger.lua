@@ -82,7 +82,7 @@ Trigger.triggers = {
 				bossBattleTriggered = true
 				for name in next, self.area.players do
 					local player = Player.players[name]
-					tfm.exec.movePlayer(name, 23, 4793)
+					tfm.exec.movePlayer(name, 63, 4793)
 					if player.divinePower then
 						inventoryPanel:hide()
 						dialoguePanel:hide()
@@ -90,9 +90,11 @@ Trigger.triggers = {
 						divineChargePanel:addPanelTemp(Panel(401, "", 290, 380, (1 / FINAL_BOSS_ATK_MAX_CHARGE) * 270, 20, 0x91cfde, 0x91cfde, 1, true), name)
 					end
 				end
+				-- chnge health 2500
 				local boss = Monster.new({ health = 2500, species = Monster.all.final_boss }, self)
 				Timer.new("bossDivineCharger", function()
 					fadeInSlowly(5000, assets.divine_light, "!1", 0, 4570, nil, 1, 1, 0, 1, 0, 0)
+					divineChargePanel:hide()
 					for name in next, self.area.players do
 						local player = Player.players[name]
 						addDialogueBox(8, translate("MONK_DIALOGUES", player.language, 12), name, "Monk", "1817cca1b68.png")
@@ -100,13 +102,20 @@ Trigger.triggers = {
 					Timer.new("divineAttack", function()
 						divineChargeTimeOver = true
 						local monster = self.monsters[next(self.monsters)]
-						print(monster.health)
 						monster.health = monster.health - divinePowerCharge
-						print(monster.health)
 						displayDamage(monster)
+						dialoguePanel:hide()
+						for name in next, self.area.players do
+							local player = Player.players[name]
+							if player.divinePower then
+								divineChargePanel:show(name)
+							else
+								player:displayInventory()
+							end
+						end
 					end, 8000, false)
 				end, 1000 * 80, false)
-			end, 1000 * 45 -_tc, false)
+			end, 1000 * 50 -_tc, false) -- change thi sto 40
 		end,
 		ontick = function(self)
 			if not bossBattleTriggered then return end
@@ -118,28 +127,27 @@ Trigger.triggers = {
 			end
 
 			directionSequence.lastPassed = nil
-			local id = 8000 + #directionSequence + 1
-
+			
 			if #directionSequence > 0 and directionSequence[#directionSequence][3] > os.time() then return end
 			--if #directionSequence > 0 then directionSequence[#directionSequence][3] = os.time() print("set") end
-			directionSequence[#directionSequence + 1] = { id, math.random(0, 3), os.time() + math.max(1000, 5000 - (id - 8000) * 100), os.time() }
-			tfm.exec.addPhysicObject(id, 816, 4395, {
+			local id = tfm.exec.addShamanObject(1, 816, 4395, 0, -2, 0)
+			directionSequence[#directionSequence + 1] = { id, math.random(0, 3), os.time() + 3000, os.time() }
+			--[[tfm.exec.addPhysicObject(id, 816, 4395, {
 				type = 1,
 				width = 10,
 				height = 10,
 				friction = 0,
 				dynamic = true,
 				fixedRotation = true
-			})
-			tfm.exec.movePhysicObject(id, 0, 0, false, -20, 0)
-			local imageId = tfm.exec.addImage("180e7b47ef5.png", "+" .. id, 0, 200, nil, 1, 1, math.rad(90 * (directionSequence[#directionSequence] and directionSequence[#directionSequence][2] or 1)), 1, 0.5, 0.5)
+			})]]
+			--tfm.exec.movePhysicObject(id, 0, 0, false, -20, 0)
+			local imageId = tfm.exec.addImage("180e7b47ef5.png", "#" .. id, 0, 230, nil, 1, 1, math.rad(90 * (directionSequence[#directionSequence] and directionSequence[#directionSequence][2] or 1)), 1, 0.5, 0.5)
 			if directionSequence[#directionSequence] then directionSequence[#directionSequence][5] = imageId end
 			local s, v = 816 - 170, 20
 			-- s = t(u + v)/2
 			-- division by 3 is because the given vx is in a different unit than px/s
 			local t = (2 * s / (v + v - 0.01)) / 3
 			Timer.new("bossMinigame" .. tostring(#directionSequence), function()
-				print("should trigger")
 				directionSequence.lastPassed = id - 8000
 				local lastItemData = directionSequence[directionSequence.lastPassed]
 				for name in next, self.area.players do
@@ -148,7 +156,7 @@ Trigger.triggers = {
 					divineChargePanel:addPanelTemp(Panel(401, "", 290, 380, (divinePowerCharge / FINAL_BOSS_ATK_MAX_CHARGE) * 270, 20, 0x91cfde, 0x91cfde, 1, true), name)
 					if player.sequenceIndex > directionSequence.lastPassed then return end
 					player.sequenceIndex = directionSequence.lastPassed + 1
-					tfm.exec.addImage("1810e90e75d.png", "+" .. lastItemData[1], 0, 200, name, 1, 1, math.rad(90 * lastItemData[2]), 1, 0.5, 0.5)
+					tfm.exec.addImage("1810e90e75d.png", "#" .. lastItemData[1], 0, 230, name, 1, 1, math.rad(90 * lastItemData[2]), 1, 0.5, 0.5)
 					divinePowerCharge = math.max(0, divinePowerCharge - 3)
 					player.chargedDivinePower = math.max(0, player.chargedDivinePower - 3)
 				end

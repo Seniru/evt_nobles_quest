@@ -73,7 +73,7 @@ recipes = {
 		{ Item.items.wood, 3 },
 	},
 	bridge = {
-		{ Item.items.log_stakes, 5 },
+		{ Item.items.log_stakes, 3 },
 		{ Item.items.clay, 20 },
 		{ Item.items.stone, 8 }
 	}
@@ -126,7 +126,6 @@ openCraftingTable = function(player, page, inCraftingTable)
 		-- todo: c hange
 		if true then--player.learnedRecipes[name] then
 			local item = Item.items[name]
-			print(item.image)
 			local recipePanel = Panel(460 + count, "", 380 + col * 120, 100 + row * 120, 100, 100, 0x1A3846, 0x1A3846, 1, true)
 				:addImageTemp(Image(item.image, "&1", 410 + col * 120, 110 + row * 120), target)
 				:addPanel(
@@ -135,6 +134,8 @@ openCraftingTable = function(player, page, inCraftingTable)
 						displayRecipeInfo(name, event, inCraftingTable)
 					end)
 				)
+
+				if not player.learnedRecipes[name] then recipePanel:addImageTemp(Image(assets.ui.lock, "&1", 380 + col * 120, 80 + row * 120), target) end
 
 			craftingPanel:addPanelTemp(recipePanel, target)
 
@@ -150,11 +151,10 @@ openCraftingTable = function(player, page, inCraftingTable)
 end
 
 displayRecipeInfo = function(name, recipeName, inCraftingTable)
-	print(recipeName)
 	local player = Player.players[name]
 	local recipe = recipes[recipeName]
 	local item = Item.items[recipeName]
-	if not recipe then return print({"no recipe", recipe}) end
+	if not recipe then return end
 	local target = name
 
 	Panel.panels[410]:hide(target):show(target)

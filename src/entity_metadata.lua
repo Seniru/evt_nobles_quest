@@ -22,7 +22,6 @@ local getOreFromTier = function(item, rockType)
 		for i = 1, math.random(2, 10) do
 			orePool[#orePool + 1] = 1 -- clay
 		end
-		p(orePool)
 		return ores[orePool[math.random(#orePool)]]
 	end
 end
@@ -230,7 +229,9 @@ Entity.entities = {
 
 	dropped_item = {
 		image = {
-			id = "181aa8a2276.png"
+			id = "181aa8a2276.png",
+			xAdj = -10,
+			yAdj = -10
 		},
 		onAction = function(self, player, down)
 			if not down then return end
@@ -246,17 +247,19 @@ Entity.entities = {
 		onAction = function(self, player, down)
 			if not down then return end
 			local qProgress = player.questProgress
+			if self.name == "5" then
+				player:updateQuestProgress("fiery_dragon", 1)
+				player:addNewQuest("final_boss")
+			end
 			player:addNewQuest("spiritOrbs")
 			if bit.band(player.spiritOrbs, bit.lshift(1, self.name)) > 0 then return end
 			player.spiritOrbs = bit.bor(player.spiritOrbs, bit.lshift(1, self.name))
-			print(player.spiritOrbs)
 			tfm.exec.chatMessage(translate("SPIRIT_ORB", player.language), player.name)
 			if qProgress.spiritOrbs and qProgress.spiritOrbs.stage == 3 then
 				player:updateQuestProgress("spiritOrbs", 1)
 			end
-			if self.name == 5 then
-				player:updateQuestProgress("fiery_dragon", 1)
-				player:addNewQuest("final_boss")
+			if player.spiritOrbs == 62 then
+				system.giveEventGift(player.name, "evt_nobles_quest_title_544")
 			end
 			player:savePlayerData()
 		end
@@ -272,7 +275,7 @@ Entity.entities = {
 			self.bridges = self.bridges or {}
 			if self.building or #self.bridges > 4 then return end
 			local inventoryItem = player.inventory[player.inventorySelection][1]
-			--if (not inventoryItem) or inventoryItem.id ~= "bridge" then return end
+			if (not inventoryItem) or inventoryItem.id ~= "bridge" then return end
 			if down then
 				self.building = true
 				Timer.new("bridge_" .. player.name, function()
@@ -291,6 +294,8 @@ Entity.entities = {
 							height = 10,
 							friction = 30
 						})
+						player.inventory[player.inventorySelection] = {}
+						player:displayInventory()
 						local imgId = tfm.exec.addImage(assets.bridge, "+" .. 100 + bridgeCount, -5, -5)
 						self.bridges[bridgeCount] = {100 + bridgeCount, self.x - 20 + bridgeCount * w, self.y + 35, imgId }
 						if bridgeCount == 4 then
@@ -370,13 +375,14 @@ do
 		lookAtPlayer = false,
 		interactive = true,
 		onAction = function(self, player)
-			print("came here ")
 			local name = player.name
+			player:updateQuestProgress("wc", 1)
+			player:addNewQuest("nosferatu")
+			dialoguePanel:hide(name)
 			local qProgress = player.questProgress.nosferatu
 			if not qProgress then return end
 			local idx, woodAmount = player:getInventoryItem("wood")
 			local idx, oreAmount = player:getInventoryItem("iron_ore")
-			print({"wood", woodAmount})
 			if not qProgress.completed then
 				if qProgress.stage == 1 and qProgress.stageProgress == 0 then
 					addDialogueSeries(name, 2, {
@@ -424,7 +430,7 @@ do
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 9), icon = nosferatu.thinking },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 10), icon = nosferatu.shocked },
 						{ text = translate("NOSFERATU_DIALOGUES", player.language, 11), icon = nosferatu.normal },
-						{ text = translate("NOSFERATU_DIALOGUES", player.language, 10), icon = nosferatu.happy },
+						{ text = translate("NOSFERATU_DIALOGUES", player.language, 12), icon = nosferatu.happy },
 
 					}, "Nosferatu", function(id, _name, event)
 						if player.questProgress.nosferatu and player.questProgress.nosferatu.stage ~= 3 then return end -- delayed packets can result in giving more than 10 stone
@@ -561,7 +567,7 @@ do
 		lookAtPlayer = true,
 		interactive = true,
 		onAction = function(self, player)
-			system.openEventShop("nobles", player.name)
+			system.openEventShop("Nobles Quest", player.name)
 		end
 	}
 
@@ -636,6 +642,8 @@ do
 						{ text = translate("SARUMAN_DIALOGUES", player.language, 17), icon = saruman.normal },
 						{ text = translate("SARUMAN_DIALOGUES", player.language, 18), icon = saruman.normal },
 						{ text = translate("SARUMAN_DIALOGUES", player.language, 19), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 23), icon = saruman.normal },
+						{ text = translate("SARUMAN_DIALOGUES", player.language, 24), icon = saruman.normal },
 						{ text = translate("SARUMAN_DIALOGUES", player.language, 20), icon = saruman.happy },
 					}, "Saruman", function(id, name, event)
 						dialoguePanel:hide(name)
@@ -650,7 +658,7 @@ do
 	Entity.entities.monk = {
 		displayName = "Monk",
 		look = "1;123_403F28,0,30_DFB958+468573+745E43,33_D4C9AF+2F2F25,62_2A2A21+403F28+2F2F25+403F28+27271F+403F28,0,36_2F2823+282220+1A1616+211C18+402E2A+FFEE4A+D0D0D0+2E2019+FFE843,0,47;8C887F",
-		title = 538,
+		title = 544,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
@@ -684,7 +692,7 @@ do
 	Entity.entities.niels = {
 		displayName = "Niels",
 		look = "4;0,5_2A2B2B,46_55595A+55595A+55595A+6A7071+524945,0,0,4_2E2B29,0,0,16_6F4614+636A6D+8E6A3F+464A63",
-		title = 100,
+		title = 542,
 		female = false,
 		lookAtPlayer = true,
 		interactive = true,
