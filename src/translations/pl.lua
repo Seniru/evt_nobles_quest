@@ -8,7 +8,7 @@ translations["pl"] = {
 	SPIRIT_ORB = "<b><font color='#ab5e42' face='Lucida Console'>Otrzymujesz <font color='#bd9d60' face='Lucida Console'>duchową kulę!</font></font></b>",
 	PASSCODE = "Wprowadź klucz dostępu.",
 	WRONG_GUESS = "<R>Nieprawidłowy klucz dostępu.</R>",
-	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Throw</b></N2></font></p></font>",
+	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Obciążenie: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Rzuć</b></N2></font></p></font>",
 	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Twój ekwipunek jest pełny!</font>",
 	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'> Musisz zdobyć duchową kulę smoka, aby wejść do tego portalu!</font>",
 	CRAFT = "Twórz!",
@@ -39,8 +39,8 @@ translations["pl"] = {
 		"Dam ci <b><VP>list polecający Nosferatusa</VP></b>, przedstaw to <b><VP>porucznikowi</VP></b> i miej nadzieję, że zwerbuje cię do armii.\n<i>iii są też z tego niezłe pieniądze</i>",
 		"Och i nie zapomnij o swojej nagrodzie <b><VP>30 kamieni</VP></b> za całą ciężką pracę!",
 		"Czy potrzebujesz czegoś?",
-		"To dość ogólna wiedza... Musisz <b><VP>porąbać drzewo kilofem</VP></b>",
-		"Zatem potrzebujesz <b><VP>kilofa</VP></b>? Powinien leżeć jeden w <b><VP>lesie</VP></b>. <b><VP>↓</VP></b> aby przestudiować i wykonać przepis w <b><VP>stacji rzemieślniczej</VP></b>.\nStacja znajduje się tuż nad kopalnią.",
+		"To dość ogólna wiedza... Musisz <b><VP>porąbać drzewo siekierą</VP></b>",
+		"Zatem potrzebujesz <b><VP>siekiery</VP></b>? Powinna leżeć jedna w <b><VP>lesie</VP></b>. <b><VP>↓</VP></b> aby przestudiować i wykonać przepis w <b><VP>stacji rzemieślniczej</VP></b>.\nStacja znajduje się tuż nad kopalnią.",
 		"Sprzedam <b><VP>10 kamieni</VP></b> za <b><VP>35 patyków</VP></b>",
 		"W takim razie żegnam",
 		" Twój ekwipunek wydaje się być pełny. Może opróżnij go i wróć po nagrodę.",
@@ -49,7 +49,7 @@ translations["pl"] = {
 	},
 	NOSFERATU_QUESTIONS = {
 		"Jak zdobyć drewno?",
-		"Kilof?",
+		"Siekiera?",
 		"Wymiana",
 		"Nieważne."
 	},

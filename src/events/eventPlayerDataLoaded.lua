@@ -94,7 +94,7 @@ eventPlayerDataLoaded = function(name, data)
 
 	mapPlaying = "mine"
 	if totalProcessedPlayers == totalPlayers then
-		if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.6 then
+	--[[	if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.2 then
 			mapPlaying = "mine"
 		elseif math.random(1, 10) <= 4 then
 			mapPlaying = "mine"
@@ -105,10 +105,19 @@ eventPlayerDataLoaded = function(name, data)
 		--tfm.exec.newGame(maps[mapPlaying])
 		--tfm.exec.setGameTime(180)
 		--mapLoaded = true
+	]]
+		if mineQuestCompletedPlayers > 0 then
+			if math.random(1, 10) <= 6 then
+				mapPlaying = "mine"
+			else
+				mapPlaying = "castle"
+			end
+		end
 	end
 
+
 	Timer.new("startMap", function(mapPlaying)
-		tfm.exec.newGame(maps[mapPlaying])
+		tfm.exec.newGame(maps[mapPlaying], false)
 		tfm.exec.setGameTime(180)
 		mapLoaded = true
 		questProgressButton:show()

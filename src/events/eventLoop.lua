@@ -5,7 +5,7 @@ eventLoop = function(tc, tr)
 		local players = Player.players
 		for name in next, tfm.get.room.playerList do
 			tfm.exec.freezePlayer(name)
-			players[name]:savePlayerData()
+			if players[name] then players[name]:savePlayerData() end
 		end
 	else
 		Timer.process()

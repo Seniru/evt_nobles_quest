@@ -1108,7 +1108,7 @@ translations["pl"] = {
 	SPIRIT_ORB = "<b><font color='#ab5e42' face='Lucida Console'>Otrzymujesz <font color='#bd9d60' face='Lucida Console'>duchową kulę!</font></font></b>",
 	PASSCODE = "Wprowadź klucz dostępu.",
 	WRONG_GUESS = "<R>Nieprawidłowy klucz dostępu.</R>",
-	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Throw</b></N2></font></p></font>",
+	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Obciążenie: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] Rzuć</b></N2></font></p></font>",
 	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Twój ekwipunek jest pełny!</font>",
 	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'> Musisz zdobyć duchową kulę smoka, aby wejść do tego portalu!</font>",
 	CRAFT = "Twórz!",
@@ -1139,8 +1139,8 @@ translations["pl"] = {
 		"Dam ci <b><VP>list polecający Nosferatusa</VP></b>, przedstaw to <b><VP>porucznikowi</VP></b> i miej nadzieję, że zwerbuje cię do armii.\n<i>iii są też z tego niezłe pieniądze</i>",
 		"Och i nie zapomnij o swojej nagrodzie <b><VP>30 kamieni</VP></b> za całą ciężką pracę!",
 		"Czy potrzebujesz czegoś?",
-		"To dość ogólna wiedza... Musisz <b><VP>porąbać drzewo kilofem</VP></b>",
-		"Zatem potrzebujesz <b><VP>kilofa</VP></b>? Powinien leżeć jeden w <b><VP>lesie</VP></b>. <b><VP>↓</VP></b> aby przestudiować i wykonać przepis w <b><VP>stacji rzemieślniczej</VP></b>.\nStacja znajduje się tuż nad kopalnią.",
+		"To dość ogólna wiedza... Musisz <b><VP>porąbać drzewo siekierą</VP></b>",
+		"Zatem potrzebujesz <b><VP>siekiery</VP></b>? Powinna leżeć jedna w <b><VP>lesie</VP></b>. <b><VP>↓</VP></b> aby przestudiować i wykonać przepis w <b><VP>stacji rzemieślniczej</VP></b>.\nStacja znajduje się tuż nad kopalnią.",
 		"Sprzedam <b><VP>10 kamieni</VP></b> za <b><VP>35 patyków</VP></b>",
 		"W takim razie żegnam",
 		" Twój ekwipunek wydaje się być pełny. Może opróżnij go i wróć po nagrodę.",
@@ -1149,7 +1149,7 @@ translations["pl"] = {
 	},
 	NOSFERATU_QUESTIONS = {
 		"Jak zdobyć drewno?",
-		"Kilof?",
+		"Siekiera?",
 		"Wymiana",
 		"Nieważne."
 	},
@@ -2002,7 +2002,7 @@ do
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
 			local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
 			projectiles[id] = { 1, false }
-			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 3000, false, 1200 + id)
 		end
 	}
 
@@ -2146,7 +2146,7 @@ do
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
 			local imgId = tfm.exec.addImage(assets.spit, "+" .. (12000 + id), -15, -5)
 			projectiles[id] = { 0, true, 1000, { assets.goo, "$" .. target.name, -15, -10 } }
-			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 1500, false, 1200 + id)
 	end
 	monsters.snail.attacks = {
 		primary = snailAttack,
@@ -2920,7 +2920,7 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	en = "Basic axe",
 	br = "Machado básico",
 	pt = "Machado básico",
-	pl = "Zwykły topór",
+	pl = "Zwykła siekiera",
 	ro = "Topor simplu",
 	es = "Hacha básica",
 	tr = "Normal balta",
@@ -2929,7 +2929,7 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	en = "Just a basic axe",
 	br = "Reforçando com ferro faz durar duas vezes mais do que um machado básico!!",
 	pt = "Reforçando com ferro faz durar duas vezes mais do que um machado básico!!",
-	pl = "Po prostu zwykły topór",
+	pl = "Po prostu zwykła siekiera",
 	ro = "Doar un topor obișnuit",
 	es = "Simplemente una hacha básica",
 	tr = "Sadece basit bir balta",
@@ -2943,7 +2943,7 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	en = "Iron axe",
 	br = "Machado de ferro",
 	pt = "Machado de ferro",
-	pl = "Żelazny topór",
+	pl = "Żelazna siekiera",
 	ro = "Topor de fier",
 	es = "Hacha de hierro",
 	tr = "Demir balta",
@@ -2952,7 +2952,7 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	en = "The reinforcement added with iron makes it last twice more than a basic axe!",
 	br = "Reforçando com ferro faz durar duas vezes mais do que um machado básico!!",
 	pt = "Reforçando com ferro faz durar duas vezes mais do que um machado básico!!",
-	pl = "Wzmocniony żelazem, dzięki czemu wytrzymuje dwa razy więcej niż zwykły topór!",
+	pl = "Wzmocniona żelazem, dzięki czemu wytrzymuje dwa razy więcej niż zwykła siekiera!",
 	ro = "Întărit cu fier pentru a rezista de două ori mai mult timp decât un topor simplu!",
 	es = "Reforzada con hierro para hacerla durar el doble de lo que dura una hacha básica!",
 	tr = "Normal bir baltadan iki kat uzun süre dayanması için demir ile güçlendirilmiş!",
@@ -2966,7 +2966,7 @@ Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	en = "Copper axe",
 	br = "Machado de cobre",
 	pt = "Machado de cobre",
-	pl = "Miedziany topór",
+	pl = "Miedziana siekiera",
 	ro = "Topor de cupru",
 	es = "Hacha de cobre",
 	tr = "Bakır balta",
@@ -2975,7 +2975,7 @@ Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	en = "Designed by notable blacksmiths. The edge design makes it much easier to use and sharper!",
 	br = "Criado por incríveis ferreiros. O estilo da lâmina torna-a muito mais afiada e fácil de usar!!",
 	pt = "Criado por incríveis ferreiros. O estilo da lâmina torna-a muito mais afiada e fácil de usar!!",
-	pl = "Zaprojektowany przez wybitnych kowali. Konstrukcja krawędzi sprawia, że jest znacznie łatwiejszy w użyciu i o wiele ostrzejszy!",
+	pl = "Zaprojektowana przez wybitnych kowali. Konstrukcja krawędzi sprawia, że jest znacznie łatwiejsza w użyciu i o wiele ostrzejsza!",
 	ro = "Meșteșugărit de fierari cu renume. Stilul lamei îl face mult mai ascuțit și ușor de folosit!",
 	es = "Diseñada por herreros notables. ¡El diseño del filo la hace más fácil de utilizar y más afilada!",
 	tr = "Şöhretli bir demirci tarafından tasarlandı. Kenarlarının tasarımı kullanımını kolaylaştırıyor ve daha keskin olmasını sağlıyor!",
@@ -2989,7 +2989,7 @@ Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	en = "Golden axe",
 	br = "Machado de ouro",
 	pt = "Machado de ouro",
-	pl = "Złoty topór",
+	pl = "Złota siekiera",
 	ro = "Topor de aur",
 	es = "Hacha de oro",
 	tr = "Altın balta",
@@ -2998,7 +2998,7 @@ Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	en = "An axe designed after combining gold and other alloys to make it stronger and more durable.\nI'm not sure if any regular lumberjack uses such an expensive tool though.",
 	br = "Criado pela combinação de ouro e outros materiais para o tornar mais durável.\nMas não tenho a certeza se algum artesão comum vai utilizar uma ferramenta tão cara.",
 	pt = "Criado pela combinação de ouro e outros materiais para o tornar mais durável.\nMas não tenho a certeza se algum artesão comum vai utilizar uma ferramenta tão cara.",
-	pl = "Topór zaprojektowany po połączeniu złota i innych stopów, aby uczynić go mocniejszym i bardziej wytrzymałym.\nNie jestem pewien, czy jakikolwiek kowal używa tak drogiego narzędzia.",
+	pl = "Siekiera zaprojektowana po połączeniu złota i innych stopów, aby uczynić ją mocniejszą i bardziej wytrzymałą.\nNie jestem pewien, czy jakikolwiek kowal używa tak drogiego narzędzia.",
 	ro = "Un topor creat prin combinarea aurului cu numeroase alte aliaje pentru a-l face mai trainic.\nÎnsă nu sunt sigur dacă vreun meșteșugar ordinar folosește o unealtă atât de scumpă.",
 	es = "Una hacha hecha de oro y otras aleaciones para hacerla más resistente y duradera.\nNo estoy seguro de si algún leñador usa una herramienta tan cara como esta.",
 	tr = "Altın ve diğer alaşımların bir araya getirilmesiyle daha sağlam ve dayanıklı olması için tasarlanmış bir balta.\nSıradan oduncuların bu kadar pahalı bir alet kullanıp kullanmadığı konusunda emin değilim doğrusu.",
@@ -4674,7 +4674,7 @@ eventLoop = function(tc, tr)
 		local players = Player.players
 		for name in next, tfm.get.room.playerList do
 			tfm.exec.freezePlayer(name)
-			players[name]:savePlayerData()
+			if players[name] then players[name]:savePlayerData() end
 		end
 	else
 		Timer.process()
@@ -4832,7 +4832,7 @@ eventPlayerDataLoaded = function(name, data)
 
 	mapPlaying = "mine"
 	if totalProcessedPlayers == totalPlayers then
-		if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.6 then
+	--[[	if (mineQuestCompletedPlayers / tfm.get.room.uniquePlayers) <= 0.2 then
 			mapPlaying = "mine"
 		elseif math.random(1, 10) <= 4 then
 			mapPlaying = "mine"
@@ -4843,10 +4843,19 @@ eventPlayerDataLoaded = function(name, data)
 		--tfm.exec.newGame(maps[mapPlaying])
 		--tfm.exec.setGameTime(180)
 		--mapLoaded = true
+	]]
+		if mineQuestCompletedPlayers > 0 then
+			if math.random(1, 10) <= 6 then
+				mapPlaying = "mine"
+			else
+				mapPlaying = "castle"
+			end
+		end
 	end
 
+
 	Timer.new("startMap", function(mapPlaying)
-		tfm.exec.newGame(maps[mapPlaying])
+		tfm.exec.newGame(maps[mapPlaying], false)
 		tfm.exec.setGameTime(180)
 		mapLoaded = true
 		questProgressButton:show()

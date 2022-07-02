@@ -86,7 +86,7 @@ do
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
 			local imgId = tfm.exec.addImage(assets.stone, "+" .. (12000 + id), -5, -5)
 			projectiles[id] = { 1, false }
-			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 3000, false, 1200 + id)
 		end
 	}
 
@@ -230,7 +230,7 @@ do
 			tfm.exec.movePhysicObject(12000 + id, 0, 0, false, vx, -vy)
 			local imgId = tfm.exec.addImage(assets.spit, "+" .. (12000 + id), -15, -5)
 			projectiles[id] = { 0, true, 1000, { assets.goo, "$" .. target.name, -15, -10 } }
-			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 5000, false, 1200 + id)
+			Timer.new("projectile_" .. id, tfm.exec.removePhysicObject, 1500, false, 1200 + id)
 	end
 	monsters.snail.attacks = {
 		primary = snailAttack,
