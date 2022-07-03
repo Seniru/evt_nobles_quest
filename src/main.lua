@@ -87,6 +87,7 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 					tfm.exec.chatMessage(translate("FULL_INVENTORY", player.language), name)
 				end
 				player:displayInventory()
+				player:changeInventorySlot(player.inventorySelection)
 				displayRecipeInfo(name, event, true)
 				player:savePlayerData()
 			end)
@@ -145,7 +146,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 		local minusY = #replies > 2 and -10 or 0
 		for i, reply in next, replies do
 			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1) + minusY, 130, 25, nil, nil, 0, true)
-				:setActionListener(function(id, name, event)
+				:setActionListener(function(id, name2, event)
 					reply[2](table.unpack(reply[3]))
 				end),
 				name)
@@ -155,9 +156,9 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "~1", x + w - 25, y + h - 30), name)
 		dialoguePanel:addPanelTemp(
 			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w - 25, y + h - 30, 30, 30, nil, nil, 0, true)
-			:setActionListener(replies or function(id, name, event)
-				dialoguePanel:hide(name)
-				Player.players[name]:displayInventory()
+			:setActionListener(replies or function(id, name2, event)
+				dialoguePanel:hide(name2)
+				Player.players[name2]:displayInventory()
 			end)
 			, name)
 	end
@@ -357,15 +358,10 @@ teleports = {
 	shrines = {
 		canEnter = function() return true end,
 		onEnter = function(player, terminalId)
-			if not player.questProgress.spiritOrbs then
+			if (not player.questProgress.spiritOrbs) or player.questProgress.spiritOrbs.stage == 1 then
 				player:addNewQuest("spiritOrbs")
 				player:updateQuestProgress("spiritOrbs", 1)
 				print("came here and should update smh")
-				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
-					dialoguePanel:hide(player.name)
-					player:displayInventory()
-				end)
-			elseif player.questProgress.stage == 1 then
 				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
 					dialoguePanel:hide(player.name)
 					player:displayInventory()

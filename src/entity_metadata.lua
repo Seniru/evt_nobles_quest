@@ -644,14 +644,16 @@ do
 					{ text = translate("SARUMAN_DIALOGUES", player.language, 12), icon = saruman.happy },
 				}, "Saruman", function(id, name, event)
 					-- handle delayed packets/multiple text area callbacks at once
-					if qProgress.spiritOrbs.stage == 2 then player:updateQuestProgress("spiritOrbs", 1) end
-					local orbs = 0
-					for i = 1, 5 do
-						if bit.band(player.spiritOrbs, bit.lshift(1, i)) > 0 then
-							orbs = orbs + 1
+					if qProgress.spiritOrbs.stage == 2 then
+						player:updateQuestProgress("spiritOrbs", 1)
+						local orbs = 0
+						for i = 1, 5 do
+							if bit.band(player.spiritOrbs, bit.lshift(1, i)) > 0 then
+								orbs = orbs + 1
+							end
 						end
+						player:updateQuestProgress("spiritOrbs", orbs)
 					end
-					player:updateQuestProgress("spiritOrbs", orbs)
 					dialoguePanel:hide(name)
 					player:displayInventory()
 				end)

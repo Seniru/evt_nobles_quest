@@ -53,7 +53,9 @@ translations["es"] = {
 		"¿Cómo consigo madera?",
 		"¿Pico?",
 		"Intercambia",
-		"Déjalo estar."
+		"Déjalo estar.",
+		"It's something else."
+
 	},
 	EDRIC_DIALOGUES = {
 		"Nuestra princesa... Y el tesoro, está en manos de malvados. Debemos apresurarnos.",

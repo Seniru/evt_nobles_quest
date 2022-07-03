@@ -51,7 +51,8 @@ translations["pl"] = {
 		"Jak zdobyć drewno?",
 		"Siekiera?",
 		"Wymiana",
-		"Nieważne."
+		"Nieważne.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Nasza księżniczka... i skarb są w rękach zła. Musimy się pośpieszyć",

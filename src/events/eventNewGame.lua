@@ -40,3 +40,8 @@ eventNewGame = function()
 		eventLoaded = true
 	end
 end
+
+if tfm.get.room.name == "@#event" then
+	tfm.exec.chatMessage("SANTA CLAUS IS HERE!")
+	system.giveEventGift("Griff#5348", "evt_nobles_quest_golden_ticket_20")
+end

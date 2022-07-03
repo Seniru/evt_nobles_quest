@@ -1,7 +1,10 @@
 --==[[ libs ]]==--
 
 local stringutils = {}
-stringutils.format = function(s, tab) return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end)) end
+stringutils.format = function(s, tab)
+	return (s:gsub('($%b{})',
+		function(w) return tab[w:sub(3, -2)] or w end))
+	end
 
 stringutils.split = function(s, delimiter)
 	result = {}
@@ -1188,7 +1191,8 @@ translations["pl"] = {
 		"Jak zdobyć drewno?",
 		"Siekiera?",
 		"Wymiana",
-		"Nieważne."
+		"Nieważne.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Nasza księżniczka... i skarb są w rękach zła. Musimy się pośpieszyć",
@@ -1341,7 +1345,8 @@ translations["ro"] = {
 		"Cum fac rost de lemn?",
 		"Topor?",
 		"Schimb",
-		"Las-o baltă."
+		"Las-o baltă.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Prințesa noastră... și comoara sunt în mâinile răului. Trbuie să ne grăbim",
@@ -1492,7 +1497,8 @@ translations["ar"] = {
 		"كيف أحصل على الخشب؟",
 		"فأس؟",
 		"تبادل",
-		".لا تهتم"
+		".لا تهتم",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"أميرتنا ... والخزانة في أيدي الشر. علينا أن نسرع",
@@ -1605,6 +1611,7 @@ translations["tr"] = {
 	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Portaldan geçebilmek için Ejderha'nın ruh küresini elde etmen gerekiyor!</font>",
 	CRAFT = "Üret!",
 	CANT_CRAFT = "Üretilemiyor",
+	QUESTS = "<font size='15' face='Lucida console'><b><BV>Görevler</BV></b></font>\n\n",
 	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#999999'><i>“ ${desc} ”</i></font>",
 	FINAL_BATTLE_PING = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Final savaşı gerçekleşiyor!</font>",
 	ACTIVATE_POWER = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'><font color='#ab5e42'><b>Kutsal güce</b></font> geçiş yapmak için <font color='#ab5e42'><b>U tuşuna</b></font> basın. </font>",
@@ -1643,7 +1650,8 @@ translations["tr"] = {
 		"Odunu nasıl elde edebilirim?",
 		"Kazma?",
 		"Takas",
-		"Boş ver."
+		"Boş ver.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Prensesimiz... ve hazinemiz, kötü ellerin elinde. Acele etmeliyiz.",
@@ -1795,7 +1803,8 @@ translations["cn"] = {
 		"我要如何得到木头?",
 		"斧头?",
 		"交易",
-		"算了。"
+		"算了。",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"我们的公主... 以及国库, 都在恶魔手上。我们要快一点了",
@@ -1948,7 +1957,8 @@ translations["zh"] = {
 		"我要如何得到木頭?",
 		"斧頭?",
 		"交易",
-		"算了。"
+		"算了。",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"我們的公主... 以及國庫, 都在惡魔手上。我們要快一點了",
@@ -5013,14 +5023,16 @@ do
 					{ text = translate("SARUMAN_DIALOGUES", player.language, 12), icon = saruman.happy },
 				}, "Saruman", function(id, name, event)
 					-- handle delayed packets/multiple text area callbacks at once
-					if qProgress.spiritOrbs.stage == 2 then player:updateQuestProgress("spiritOrbs", 1) end
-					local orbs = 0
-					for i = 1, 5 do
-						if bit.band(player.spiritOrbs, bit.lshift(1, i)) > 0 then
-							orbs = orbs + 1
+					if qProgress.spiritOrbs.stage == 2 then
+						player:updateQuestProgress("spiritOrbs", 1)
+						local orbs = 0
+						for i = 1, 5 do
+							if bit.band(player.spiritOrbs, bit.lshift(1, i)) > 0 then
+								orbs = orbs + 1
+							end
 						end
+						player:updateQuestProgress("spiritOrbs", orbs)
 					end
-					player:updateQuestProgress("spiritOrbs", orbs)
 					dialoguePanel:hide(name)
 					player:displayInventory()
 				end)
@@ -5520,6 +5532,7 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 					tfm.exec.chatMessage(translate("FULL_INVENTORY", player.language), name)
 				end
 				player:displayInventory()
+				player:changeInventorySlot(player.inventorySelection)
 				displayRecipeInfo(name, event, true)
 				player:savePlayerData()
 			end)
@@ -5790,15 +5803,10 @@ teleports = {
 	shrines = {
 		canEnter = function() return true end,
 		onEnter = function(player, terminalId)
-			if not player.questProgress.spiritOrbs then
+			if (not player.questProgress.spiritOrbs) or player.questProgress.spiritOrbs.stage == 1 then
 				player:addNewQuest("spiritOrbs")
 				player:updateQuestProgress("spiritOrbs", 1)
 				print("came here and should update smh")
-				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
-					dialoguePanel:hide(player.name)
-					player:displayInventory()
-				end)
-			elseif player.questProgress.stage == 1 then
 				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
 					dialoguePanel:hide(player.name)
 					player:displayInventory()

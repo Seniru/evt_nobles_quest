@@ -54,7 +54,8 @@ translations["zh"] = {
 		"我要如何得到木頭?",
 		"斧頭?",
 		"交易",
-		"算了。"
+		"算了。",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"我們的公主... 以及國庫, 都在惡魔手上。我們要快一點了",

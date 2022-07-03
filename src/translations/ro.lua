@@ -52,7 +52,8 @@ translations["ro"] = {
 		"Cum fac rost de lemn?",
 		"Topor?",
 		"Schimb",
-		"Las-o baltă."
+		"Las-o baltă.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Prințesa noastră... și comoara sunt în mâinile răului. Trbuie să ne grăbim",

@@ -288,7 +288,7 @@ end
 
 
 
-t = { }
+t = [[BwoBAAgBAAMF]]
 encodeQuestProgress = function(pQuests)
 	local res = ""
 	local questIds = quests._all
@@ -325,9 +325,7 @@ decodeQuestProgress = function(data)
 	return res
 end
 
+t = [[BwoBAAgBAAMF]]
 p(decodeQuestProgress(t))
-  
 
-[[v2evt_nq={16387,"BAIAAw==","BRQJFAAAAAAAAAAA",0},merchant={2.752294E7,1,215,8,0,80,6,"admin",{1,2,3,4,7},{{3},{4}},{2,3,4,6,5,8,7}},pew={32,16,6,50,1,1,0,"v2.4.0.0"}]]
 
-system.savePlayerData("King_seniru#5890", [[v2evt_nq={16387,"BAIAAw==","BRQJFAAAAAAAAAAA",0},merchant={99999997072,1,1165,21,4,29,4,"admin",{1,2,3},{{1,5}},{2,3,8,7,4,6,5}},evt_nq_test={60859,"Bw0LCQMF","SBhIGQ==",62},pew={861,398,192,403,63,1,0,"v2.6.0.0"]])

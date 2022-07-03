@@ -15,6 +15,7 @@ translations["tr"] = {
 	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Portaldan geçebilmek için Ejderha'nın ruh küresini elde etmen gerekiyor!</font>",
 	CRAFT = "Üret!",
 	CANT_CRAFT = "Üretilemiyor",
+	QUESTS = "<font size='15' face='Lucida console'><b><BV>Görevler</BV></b></font>\n\n",
 	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#999999'><i>“ ${desc} ”</i></font>",
 	FINAL_BATTLE_PING = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Final savaşı gerçekleşiyor!</font>",
 	ACTIVATE_POWER = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'><font color='#ab5e42'><b>Kutsal güce</b></font> geçiş yapmak için <font color='#ab5e42'><b>U tuşuna</b></font> basın. </font>",
@@ -53,7 +54,8 @@ translations["tr"] = {
 		"Odunu nasıl elde edebilirim?",
 		"Kazma?",
 		"Takas",
-		"Boş ver."
+		"Boş ver.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Prensesimiz... ve hazinemiz, kötü ellerin elinde. Acele etmeliyiz.",
