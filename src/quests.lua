@@ -15,6 +15,8 @@ local quests = {
 			ro = "Un nou vizitator în oraș",
 			tr = "Şehirdeki yeni kişi",
 			es = "Alguien nuevo en el poblado",
+			cn = "城市中的新脸孔",
+			zh = "城市中的新臉孔",
 		},
 		{
 			description_locales = {
@@ -24,6 +26,8 @@ local quests = {
 				ro = "Călătorește înapoi în timp într-un orășel din evul mediu",
 				tr = "Ortaçağ döneminde bulunan bir şehire zamanda geri git",
 				es = "Viaja atrás en el tiempo hacia un poblado en la época medieval",
+				cn = "时光倒流回到中世纪的城市",
+				zh = "時光倒流回到中世紀的城市",
 			},
 
 			tasks = 1
@@ -39,6 +43,8 @@ local quests = {
 			ro = "Servitorul regal",
 			tr = "Sadık hizmetçi",
 			es = "El sirviente leal",
+			cn = "忠心的仆人",
+			zh = "忠心的僕人",
 		},
 		{
 			description_locales = {
@@ -48,6 +54,8 @@ local quests = {
 			ro = "Întâlnește-l pe Nosferatu lângă mină",
 			tr = "Madende Nosferatu ile buluş",
 			es = "Ve con Nosferatu a la mina",
+			cn = "在洞穴中跟 Nosferatu 见面",
+			zh = "在洞穴中跟 Nosferatu 見面",
 			},
 			tasks = 1
 		},
@@ -59,6 +67,8 @@ local quests = {
 				ro = "Adună 15 lemne",
 				tr = "15 odun topla",
 				es = "Recolecta 15 de madera",
+				cn = "收集 15 个木头",
+				zh = "收集 15 個木頭",
 			},
 			tasks = 1
 		},
@@ -70,6 +80,8 @@ local quests = {
 				ro = "Adună 15 minereuri de fier",
 				tr = "15 demir cevheri topla",
 				es = "Recolecta 15 lingotes de hierro",
+				cn = "收集 15 个铁矿石",
+				zh = "收集 15 個鐵礦石",
 			},
 			tasks = 1
 		}
@@ -84,6 +96,8 @@ local quests = {
 			ro = "Testul forței",
 			tr = "Sağlamlık testi",
 			es = "Test de fuerza",
+			cn = "力量测试",
+			zh = "力量測試",
 		},
 		{
 			description_locales = {
@@ -93,6 +107,8 @@ local quests = {
 				ro = "Adună rețete pentru a vorbi cu Locotenentul Edric",
 				tr = "Tarifleri elde et ve Lieutenant Edric ile konuş",
 				es = "Recolecta recetas y habla con el Teniente Edric",
+				cn = "收集物品制作方法然后跟 Lieutenant Edric 说话",
+				zh = "收集物品製作方法然後跟 Lieutenant Edric 說話",
 			},
 			tasks = 1
 		},
@@ -104,6 +120,8 @@ local quests = {
 				ro = "Înfrânge 25 monștri",
 				tr = "25 canavar yen",
 				es = "Derrota 25 monstruos",
+				cn = "打败 25 个怪物",
+				zh = "打敗 25 個怪物",
 			},
 			tasks = 25
 		},
@@ -115,6 +133,8 @@ local quests = {
 				ro = "Întâlnește Locotenentul Edric din nou",
 				tr = "Tekrar Lieutenant Edric ile buluş",
 				es = "Ve con el Teniente Edric de vuelta",
+				cn = "回去跟 Lieutenant Edric 见面",
+				zh = "回去跟 Lieutenant Edric 見面",
 			},
 			tasks = 1
 		}
@@ -129,6 +149,8 @@ local quests = {
 			ro = "Calea spirituală",
 			tr = "Ruhani yol",
 			es = "El camino espiritual",
+			cn = "灵性旅途",
+			zh = "靈性旅途",
 		},
 		{
 			description_locales = {
@@ -138,6 +160,8 @@ local quests = {
 				ro = "Intră în pădurea mohorâtă",
 				tr = "Kasvetli ormana git",
 				es = "Ve al bosque sombrío",
+				cn = "前往阴沉森林",
+				zh = "前往陰沉森林",
 			},
 			tasks = 1
 		},
@@ -149,6 +173,8 @@ local quests = {
 				ro = "Găsește vocea misterioasă",
 				tr = "Gizemli sesi bul",
 				es = "Encuentra la voz misteriosa",
+				cn = "找出谜之声音",
+				zh = "找出謎之聲音",
 			},
 			tasks = 1
 		},
@@ -160,6 +186,8 @@ local quests = {
 				ro = "Adună toate 5 globuri",
 				tr = "Tüm 5 ruh küresini topla",
 				es = "Recolecta las 5 orbes espirituales",
+				cn = "收集全部 5 个灵体球",
+				zh = "收集全部 5 個靈體球",
 			},
 			tasks = 5
 		}
@@ -174,6 +202,8 @@ local quests = {
 			ro = "Rezistând focului",
 			tr = "Ateşe direnmek",
 			es = "Resistiendo al fuego",
+			cn = "抵抗火炎",
+			zh = "抵抗火炎",
 		},
 		{
 			description_locales = {
@@ -183,6 +213,8 @@ local quests = {
 				ro = "Distruge Dragonul de foc și pune mâna pe globul său de spirit",
 				tr = "Alevli ejderhayı yok et ve ruh küresini elde et",
 				es = "Destruye al dragón de fuego y recolecta su orbe espiritual",
+				cn = "打败喷火龙然后收集它的灵体球",
+				zh = "打敗噴火龍然後收集它的靈體球",
 			},
 			tasks = 1
 		}
@@ -197,6 +229,8 @@ local quests = {
 			ro = "Erou medieval",
 			tr = "Ortaçağın kahramanı",
 			es = "Héroe medieval",
+			cn = "中世纪英雄",
+			zh = "中世紀英雄",
 		},
 		{
 			description_locales = {
@@ -206,6 +240,8 @@ local quests = {
 				ro = "Distruge spiritul răului",
 				tr = "Kötü ruhu yok et",
 				es = "Destruye el espíritu malvado",
+				cn = "毁灭邪恶力量",
+				zh = "毀滅邪惡力量",
 			},
 			tasks = 1
 		}

@@ -617,6 +617,8 @@ local quests = {
 			ro = "Un nou vizitator în oraș",
 			tr = "Şehirdeki yeni kişi",
 			es = "Alguien nuevo en el poblado",
+			cn = "城市中的新脸孔",
+			zh = "城市中的新臉孔",
 		},
 		{
 			description_locales = {
@@ -626,6 +628,8 @@ local quests = {
 				ro = "Călătorește înapoi în timp într-un orășel din evul mediu",
 				tr = "Ortaçağ döneminde bulunan bir şehire zamanda geri git",
 				es = "Viaja atrás en el tiempo hacia un poblado en la época medieval",
+				cn = "时光倒流回到中世纪的城市",
+				zh = "時光倒流回到中世紀的城市",
 			},
 
 			tasks = 1
@@ -641,6 +645,8 @@ local quests = {
 			ro = "Servitorul regal",
 			tr = "Sadık hizmetçi",
 			es = "El sirviente leal",
+			cn = "忠心的仆人",
+			zh = "忠心的僕人",
 		},
 		{
 			description_locales = {
@@ -650,6 +656,8 @@ local quests = {
 			ro = "Întâlnește-l pe Nosferatu lângă mină",
 			tr = "Madende Nosferatu ile buluş",
 			es = "Ve con Nosferatu a la mina",
+			cn = "在洞穴中跟 Nosferatu 见面",
+			zh = "在洞穴中跟 Nosferatu 見面",
 			},
 			tasks = 1
 		},
@@ -661,6 +669,8 @@ local quests = {
 				ro = "Adună 15 lemne",
 				tr = "15 odun topla",
 				es = "Recolecta 15 de madera",
+				cn = "收集 15 个木头",
+				zh = "收集 15 個木頭",
 			},
 			tasks = 1
 		},
@@ -672,6 +682,8 @@ local quests = {
 				ro = "Adună 15 minereuri de fier",
 				tr = "15 demir cevheri topla",
 				es = "Recolecta 15 lingotes de hierro",
+				cn = "收集 15 个铁矿石",
+				zh = "收集 15 個鐵礦石",
 			},
 			tasks = 1
 		}
@@ -686,6 +698,8 @@ local quests = {
 			ro = "Testul forței",
 			tr = "Sağlamlık testi",
 			es = "Test de fuerza",
+			cn = "力量测试",
+			zh = "力量測試",
 		},
 		{
 			description_locales = {
@@ -695,6 +709,8 @@ local quests = {
 				ro = "Adună rețete pentru a vorbi cu Locotenentul Edric",
 				tr = "Tarifleri elde et ve Lieutenant Edric ile konuş",
 				es = "Recolecta recetas y habla con el Teniente Edric",
+				cn = "收集物品制作方法然后跟 Lieutenant Edric 说话",
+				zh = "收集物品製作方法然後跟 Lieutenant Edric 說話",
 			},
 			tasks = 1
 		},
@@ -706,6 +722,8 @@ local quests = {
 				ro = "Înfrânge 25 monștri",
 				tr = "25 canavar yen",
 				es = "Derrota 25 monstruos",
+				cn = "打败 25 个怪物",
+				zh = "打敗 25 個怪物",
 			},
 			tasks = 25
 		},
@@ -717,6 +735,8 @@ local quests = {
 				ro = "Întâlnește Locotenentul Edric din nou",
 				tr = "Tekrar Lieutenant Edric ile buluş",
 				es = "Ve con el Teniente Edric de vuelta",
+				cn = "回去跟 Lieutenant Edric 见面",
+				zh = "回去跟 Lieutenant Edric 見面",
 			},
 			tasks = 1
 		}
@@ -731,6 +751,8 @@ local quests = {
 			ro = "Calea spirituală",
 			tr = "Ruhani yol",
 			es = "El camino espiritual",
+			cn = "灵性旅途",
+			zh = "靈性旅途",
 		},
 		{
 			description_locales = {
@@ -740,6 +762,8 @@ local quests = {
 				ro = "Intră în pădurea mohorâtă",
 				tr = "Kasvetli ormana git",
 				es = "Ve al bosque sombrío",
+				cn = "前往阴沉森林",
+				zh = "前往陰沉森林",
 			},
 			tasks = 1
 		},
@@ -751,6 +775,8 @@ local quests = {
 				ro = "Găsește vocea misterioasă",
 				tr = "Gizemli sesi bul",
 				es = "Encuentra la voz misteriosa",
+				cn = "找出谜之声音",
+				zh = "找出謎之聲音",
 			},
 			tasks = 1
 		},
@@ -762,6 +788,8 @@ local quests = {
 				ro = "Adună toate 5 globuri",
 				tr = "Tüm 5 ruh küresini topla",
 				es = "Recolecta las 5 orbes espirituales",
+				cn = "收集全部 5 个灵体球",
+				zh = "收集全部 5 個靈體球",
 			},
 			tasks = 5
 		}
@@ -776,6 +804,8 @@ local quests = {
 			ro = "Rezistând focului",
 			tr = "Ateşe direnmek",
 			es = "Resistiendo al fuego",
+			cn = "抵抗火炎",
+			zh = "抵抗火炎",
 		},
 		{
 			description_locales = {
@@ -785,6 +815,8 @@ local quests = {
 				ro = "Distruge Dragonul de foc și pune mâna pe globul său de spirit",
 				tr = "Alevli ejderhayı yok et ve ruh küresini elde et",
 				es = "Destruye al dragón de fuego y recolecta su orbe espiritual",
+				cn = "打败喷火龙然后收集它的灵体球",
+				zh = "打敗噴火龍然後收集它的靈體球",
 			},
 			tasks = 1
 		}
@@ -799,6 +831,8 @@ local quests = {
 			ro = "Erou medieval",
 			tr = "Ortaçağın kahramanı",
 			es = "Héroe medieval",
+			cn = "中世纪英雄",
+			zh = "中世紀英雄",
 		},
 		{
 			description_locales = {
@@ -808,6 +842,8 @@ local quests = {
 				ro = "Distruge spiritul răului",
 				tr = "Kötü ruhu yok et",
 				es = "Destruye el espíritu malvado",
+				cn = "毁灭邪恶力量",
+				zh = "毀滅邪惡力量",
 			},
 			tasks = 1
 		}
@@ -1703,6 +1739,312 @@ translations["tr"] = {
 	}
 }
 
+translations["cn"] = {
+	OUT_OF_RESOURCES = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>没有资源了!</font>",
+	NEW_RECIPE = "<font color='#506d3d' size='8'><b>[新制作方法]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${itemName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${itemDesc})</font>",
+	NEW_QUEST = "<font color='#506d3d' size='8'><b>[新任务]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
+	NEW_STAGE = "<font color='#506d3d' size='8'><b>[更新]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${desc})</font>",
+	STAGE_PROGRESS = "<font color='#506d3d' size='8'><b>[更新]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font> <font color='#bd9d60' size='11' face='Lucida Console'>( ${progress} / ${needed} )</font>",
+	QUEST_OVER = "<font color='#506d3d' size='8'><b>[已完成]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
+	SPIRIT_ORB = "<b><font color='#ab5e42' face='Lucida Console'>你得到一个 <font color='#bd9d60' face='Lucida Console'>灵体球!</font></font></b>",
+	PASSCODE = "请输入通行码。",
+	WRONG_GUESS = "<R>通行码错误。</R>",
+	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] 键丢弃</b></N2></font></p></font>",
+	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>你的物品栏已满!</font>",
+	PORTAL_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>现在不能使用传送门。</font>",
+	CRAFT = "制作!",
+	CANT_CRAFT = "不能制作",
+	QUESTS = "<font size='15' face='Lucida console'><b><BV>任务</BV></b></font>\n\n",
+	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#999999'><i>“ ${desc} ”</i></font>",
+	FINAL_BATTLE_PING = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Final battle is happening!</font>",
+	ACTIVATE_POWER = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>按 <font color='#ab5e42'><b>U 键</b></font> 使用 <font color='#ab5e42'><b>神圣力量!</b></font></font>",
+	ENDING_MESSAGE = "<font color='#cccccc'><font color='#bd9d60'><b>恭喜</b></font> 完成了活动!<br><br>感谢 <font color='#bd9d60'>King_seniru</font><font size='8' color='#ab5e42'>#5890</font>, <font color='#bd9d60'>Hattington</font><font size='8' color='#ab5e42'>#2583</font>, <font color='#bd9d60'>Vividia</font><font size='8' color='#ab5e42'>#0095</font>, <font color='#bd9d60'>Chibi</font><font size='8' color='#ab5e42'>#0095</font>, <font color='#bd9d60'>Karasu</font><font size='8' color='#ab5e42'>#0010</font>, <font color='#bd9d60'>Zetdey</font><font size='8' color='#ab5e42'>#3845</font>, <font color='#bd9d60'>Eremia</font><font size='8' color='#ab5e42'>#0020</font>, <font color='#bd9d60'>活动团队</font> 以及 <font color='#bd9d60'>你</font> 使活动成真!\n\n</font><i><font color='#548336'>别停下来... 前面有更多东西等着被发掘! 祝你发掘开心!!!</font></i>",
+	PLAYER_DATA_FAIL_SAFEBACK = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>看来的的进度没有好好加载。所以我们取消了替你储存本次资料。如果问题持续, 试试换房间或重登然后联络 King_seniru#5890</font>",
+	ANNOUNCER_DIALOGUES = {
+		"各位注意! 注意!!!",
+		"这则讯息是从管治我们这片土地尊贵的, 辉煌无比的国王颁布下来...",
+		"我们这片土地正受到攻击, 是那些曾被我们打败的无情的怪物。",
+		"接着也有不幸的事要宣布。<b><VP>我们的公主被绑架了。</VP></b>",
+		"这些无情的怪物也几乎把我们的所有宝物财富都抢走。",
+		"国王现在正找寻勇敢的士兵T来协助军队打败这些怪物, 然后救回公主\n以及宝物",
+		"国王希望怀着义勇之心的鼠存在并到来...\n"
+	},
+	NOSFERATU_DIALOGUES = {
+		"啊你看来是新来的... 算了你好像也很可靠",
+		"所以你是说, 你从别的时空过来, 然后也不知道你在哪或是不知道要干嘛\n<i>*呃也许他对我很有用</i>",
+		"好的年轻人, 我猜你需要一份工作来过活。是是别担心, 我会给你一份工作的。",
+		"但... 在那之前, 我们需要你有没有好的身体状态。\n在森林中为我收集 <VP><b>15 个木头</b></VP>。\n先拿着这 <VP><b>20 个石头</b></VP> 吧。祝你好运!",
+		"挺不错的嘛。但是 <i>在以前的时候</i> 我们做的更快...\n不像现在了。就如我所答应的, 你得到 <VP><b>工作</b></VP> 了。",
+		"这代表, 你现在可以进去 <b><VP>矿洞</VP></b> 了\n前往这里右边的那扇 <b><VP>门</VP></b> 然后按 <b><VP>↓</VP></b> 来通过它!",
+		"作为第一份工作, 我需要你收集 <b><VP> 15 个铁矿石</VP></b>。再次祝你好运!",
+		"哇! 看来你我低估了你, 真是出色的工作!",
+		"我听说 <b><VP>城堡</VP></b> 需要一些像你的年轻人来在坏蛋手上保护国库及公主...",
+		"你可以好好胜任的!",
+		"我会给你 <b><VP>Nosferatu 的推荐信</VP></b>, 把这个交给 <b><VP>Lieutenant</VP></b> 然后希望他会把你招揽到军中。\n<i>而且那也可以得到好一些金钱</i>",
+		"噢也别忘了你的奖励 <b><VP>30 个石头</VP></b> 是你的辛劳成果!",
+		"你需要什么吗?",
+		"那是挺普通的知识... 你需要 <b><VP>使用斧头来砍树</VP></b>",
+		"所以你需要一个 <b><VP>斧头</VP></b>? 那里 <b><VP>森林中</VP></b> 应该有一个。\n按<b><VP>↓</VP></b> 来研究制作方法然后在 <b><VP>工作桌</VP></b> 制造出来。\n工作桌就在这洞穴上方。",
+		"我售卖 <b><VP>10 个石头</VP></b> 价格是 <b><VP>35 根树枝</VP></b>",
+		"呃好吧再见",
+		"你的物品栏好像满了。你要不先把它清空再来领取你的奖励。",
+            "跟你一起工作是荣幸!",
+		"看来你没有足够的物品来交易啊小孩。"
+	},
+	NOSFERATU_QUESTIONS = {
+		"我要如何得到木头?",
+		"斧头?",
+		"交易",
+		"算了。"
+	},
+	EDRIC_DIALOGUES = {
+		"我们的公主... 以及国库, 都在恶魔手上。我们要快一点了",
+		"暂着。所以你说 <b><VP>Nosferatu</VP></b> 把你带来这里然后你可以帮助我们的士兵完成任务???",
+		"那太好了。但是替军方打工不是你想像的那么简单。\n你需要进行一些 <b><VP>密集式训练</VP></b> 想像你的身体不再像正常的形状那样。\n前往 <b><VP>我左边的训练场</VP></b> 来开始你的训练吧。",
+		"但是在那之前, 先确定你预备好了。那里有几个 <b><VP>物品制作方法</VP></b> 在 <b><VP>武器架上</VP></b> 散落着而 <b><VP>阴沉森林在山下</VP></b>\n希望你可以好好运用它们!",
+		"当你觉得准备好了就再次来跟我说话!",
+		"你准备好接受挑战了吗?",
+		"好极了! 去训练区开始你的训练吧。你需要 <b><VP>打败 25 只怪物</VP></b> 来通过挑战。",
+		"你想用上多少时间都可以\n祝你好运!!!",
+		"你证明了你是值得的! 好耶!!! 加入其他士兵来打败怪物吧!"
+	},
+	EDRIC_QUESTIONS = {
+		"我需要更多时间...",
+		"我预备好了!"
+	},
+	GARRY_DIALOGUES = {
+		"这是我去过最坏的地方。 <b><VP>Nosferatu</VP></b> 没有支付足够。 <i>*哭...*</i>"
+	},
+	THOMPSON_DIALOGUES = {
+		"嗨喽! 你想要得到什么吗?",
+		"如果你在找寻 <b><VP>铲子</VP></b>, <b><VP>矿洞中最右侧</VP></b> 应该有一个。\n祝你好运!",
+		"祝你有好的一天!"
+	},
+	THOMPSON_QUESTIONS = {
+		"任何制作方法?",
+		"只是打个招呼。"
+	},
+	COLE_DIALOGUES = {
+		"外面有很多 <b><VP>怪物</VP></b>。请小心!",
+		"我们所有的军队都在对抗怪物。我们需要更多帮助。",
+		"喂喂喂! 我不可以让像你一样弱小的人走到那边。回到上面吧!"
+	},
+	MARC_DIALOGUES = {
+		"坏欸你! 不要碰我的工作桌!"
+	},
+	SARUMAN_DIALOGUES = {
+		"欸!!!! 欸!!!!\n有人吗???",
+		"喂!! 帮忙把我弄出来!\n太感谢上天让我出来了!!!",
+		"喔对了我是 <b><VP>Saruman</VP></b>。我在这里被困了好像...\n15 年?",
+		"我的朋友 <b><VP>Hootie</VP></b> 是使我活着的原因。\n要不是他我早就死于饥饿了",
+            "所以你想知道为什么我被困在这?",
+		"长话短说, 在我还 <b>年轻</b> 而且好像你这么强壮的时候,\n我听说有宝物叫 <b><VP>灵体球</VP></b>",
+		"我以前是一个教授所以我对这方面很有兴趣。\n我收集了不少关于它们的资讯",
+		"这些球是连接着某人的灵魂。一旦它们跟所有 <b><VP>5 个球</VP></b> 连接就会得到 <b><VP>神圣力量</VP></b>",
+		"我不太确定会从中得到什么样的力量或是它们会怎么对我...\n但是我挺确定 <b><VP>僧侣们</VP></b> 会知道怎么使用它们!",
+		"但是没人知道他们到底在哪里所以我才一直自己找到来这里。",
+		"我觉得我已经做得不错找到了一个 <VP><b>神社球</b></VP>。\n但是... 我走错路然后就一直被困在此。",
+		"我很高兴你帮我脱困! 可以随便问我关于这些球的资讯。\n知识是用来分享的, 更何况你救了我!",
+		"好的朋友! 你想知道什么?",
+            "就像我说的那里一共有 <b><VP>5 个灵体球</VP></b>\n<b><VP>3</VP></b> 个可以在阴沉森林中的 <b><VP>神社</VP></b> 里找到。\n而我不怎么清楚剩下的 2 个...",
+		"从我收集到的资讯, 你需要面对几个挑战才可以进到神社。",
+		"我觉得你已经找到一个不然你怎么有神奇的力量可以来到这里",
+		"通住第二个神社的路上有很多 <b><VP>怪物</VP></b> 防护着。\n所以要装备好才探索那里!",
+		"而关于最后一个神社我从书本中发现了这个 <b><VP>提示</VP></b>",
+		"<b><VP>\"拼图, 以及谜语, 还有古老的传统\n数学符号, 但不是加号",
+		"那就是全部了! 希望你可以好好运用这些资讯",
+		"谢谢你来找我问问看!",
+		"噢看来你已经收集完了全部的灵体球!!!\n我们现在各没拖欠了... 稍后再谢我!\n但是你一定要找 <b><VP>僧侣</VP></b> 问个清楚",
+		"<b><VP>\"丰硕富足的资源\n始自与传说结缘\"</VP></b>",
+		"<b><VP>\"接下职责来向人展示\n呈现出你的凶凶气势\"</VP></b>"
+	},
+	SARUMAN_QUESTIONS = {
+		"球在哪里?",
+		"正在找寻!"
+	},
+	MONK_DIALOGUES = {
+		"我已经压制着这般邪恶力量很久了...\n很高兴你来帮我们",
+		"所以你说已经集好全部 <b><VP>5 个灵体球</VP></b>",
+		"确实做的不错。现在可以更容易地永远打倒邪恶力量",
+		"这些灵体球其实是连接着某人的灵魂\n只有具有勇气的人才可以使用全部 5 个",
+		"这些灵体球可以帮你使用 <b><VP>神圣力量</VP></b> 而这也是唯一的方法来打败邪魔\n据我所知道",
+		"当你启用了神圣力量来对抗邪魔...\n你就会需要在思维中经历长长旅途以达至 <b><VP>神圣状态</VP></b>",
+		"灵体球会协助你找到正确的路以达至那状态。\n你只需要在正确时机跟着它带领的路走!",
+		"我挺肯定你不会达到最强大的神圣力量境界。\n但即使是更接近一点点...",
+		"它会创造出巨大的神圣力量而召唤出 <b><VP>神</VP></b>",
+		"古书籍说猛兽太强大了但我认为\n<b><VP>神的祝福</VP></b> 会削弱它",
+		"那就是我们的时机, 永远地打败邪恶力量!!!",
+		"神... 衪就在这里\n正在发生了!!!"
+	},
+	NIELS_DIALOGUES = {
+		"所有人各就各位!",
+		"在河的对岸那尾 <b><VP>龙</VP></b> 太危险了。\n它会用它的 <b><VP>火炎攻击</VP></b> 而且会向你 <b><VP>丢石头</VP></b>",
+		"请小心...",
+		"但是我们不能直接攻击那尾龙, 因为桥看起来要断裂了",
+		"那尾龙曾经在尝试过桥时用火炎破坏它。",
+		"所以... 我们需要先维修它以靠近龙。快点!!!"
+	},
+	PROPS = {
+		attack = "攻击",
+		defense = "防御",
+		durability = "耐用性",
+		chopping = "斩击",
+		mining = "挖矿"
+	}
+}
+translations["zh"] = {
+	OUT_OF_RESOURCES = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>沒有資源了!</font>",
+	NEW_RECIPE = "<font color='#506d3d' size='8'><b>[新製作方法]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${itemName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${itemDesc})</font>",
+	NEW_QUEST = "<font color='#506d3d' size='8'><b>[新任務]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
+	NEW_STAGE = "<font color='#506d3d' size='8'><b>[更新]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>\n<font color='#bd9d60' size='11' face='Lucida Console'>(${desc})</font>",
+	STAGE_PROGRESS = "<font color='#506d3d' size='8'><b>[更新]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font> <font color='#bd9d60' size='11' face='Lucida Console'>( ${progress} / ${needed} )</font>",
+	QUEST_OVER = "<font color='#506d3d' size='8'><b>[已完成]</b></font> <font color='#ab5e42' face='Lucida Console'><b>${questName}</b></font>",
+	SPIRIT_ORB = "<b><font color='#ab5e42' face='Lucida Console'>你得到一個 <font color='#bd9d60' face='Lucida Console'>靈體球!</font></font></b>",
+	PASSCODE = "請輸入通行碼。",
+	WRONG_GUESS = "<R>通行碼錯誤。</R>",
+	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Weight: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] 鍵丟棄</b></N2></font></p></font>",
+	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>你的物品欄已滿!</font>",
+	PORTAL_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>現在不能使用傳送門。</font>",
+	CRAFT = "製作!",
+	CANT_CRAFT = "不能製作",
+	QUESTS = "<font size='15' face='Lucida console'><b><BV>任務</BV></b></font>\n\n",
+	RECIPE_DESC = "\n\n<font face='Lucida console' size='12' color='#999999'><i>“ ${desc} ”</i></font>",
+	FINAL_BATTLE_PING = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Final battle is happening!</font>",
+	ACTIVATE_POWER = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>按 <font color='#ab5e42'><b>U 鍵</b></font> 使用 <font color='#ab5e42'><b>神聖力量!</b></font></font>",
+	ENDING_MESSAGE = "<font color='#cccccc'><font color='#bd9d60'><b>恭喜</b></font> 完成了活動!<br><br>感謝 <font color='#bd9d60'>King_seniru</font><font size='8' color='#ab5e42'>#5890</font>, <font color='#bd9d60'>Hattington</font><font size='8' color='#ab5e42'>#2583</font>, <font color='#bd9d60'>Vividia</font><font size='8' color='#ab5e42'>#0095</font>, <font color='#bd9d60'>Chibi</font><font size='8' color='#ab5e42'>#0095</font>, <font color='#bd9d60'>Karasu</font><font size='8' color='#ab5e42'>#0010</font>, <font color='#bd9d60'>Zetdey</font><font size='8' color='#ab5e42'>#3845</font>, <font color='#bd9d60'>Eremia</font><font size='8' color='#ab5e42'>#0020</font>, <font color='#bd9d60'>活動團隊</font> 以及 <font color='#bd9d60'>你</font> 使活動成真!\n\n</font><i><font color='#548336'>別停下來... 前面有更多東西等著被發掘! 祝你發掘開心!!!</font></i>",
+	PLAYER_DATA_FAIL_SAFEBACK = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>看來的的進度沒有好好加載。所以我們取消了替你儲存本次資料。如果問題持續, 試試換房間或重登然後聯絡 King_seniru#5890</font>",
+	ANNOUNCER_DIALOGUES = {
+		"各位注意! 注意!!!",
+		"這則訊息是從管治我們這片土地尊貴的, 輝煌無比的國王頒布下來...",
+		"我們這片土地正受到攻擊, 是那些曾被我們打敗的無情的怪物。",
+		"接著也有不幸的事要宣佈。<b><VP>我們的公主被綁架了。</VP></b>",
+		"這些無情的怪物也幾乎把我們的所有寶物財富都搶走。",
+		"國王現在正找尋勇敢的士兵T來協助軍隊打敗這些怪物, 然後救回公主\n以及寶物",
+		"國王希望懷著義勇之心的鼠存在並到來...\n"
+	},
+	NOSFERATU_DIALOGUES = {
+		"啊你看來是新來的... 算了你好像也很可靠",
+		"所以你是說, 你從別的時空過來, 然後也不知道你在哪或是不知道要幹嘛\n<i>*呃也許他對我很有用</i>",
+		"好的年輕人, 我猜你需要一份工作來過活。是是別擔心, 我會給你一份工作的。",
+		"但... 在那之前, 我們需要你有沒有好的身體狀態。\n在森林中為我收集 <VP><b>15 個木頭</b></VP>。\n先拿著這 <VP><b>20 個石頭</b></VP> 吧。祝你好運!",
+		"挺不錯的嘛。但是 <i>在以前的時候</i> 我們做的更快...\n不像現在了。就如我所答應的, 你得到 <VP><b>工作</b></VP> 了。",
+		"這代表, 你現在可以進去 <b><VP>礦洞</VP></b> 了\n前往這裡右邊的那扇 <b><VP>門</VP></b> 然後按 <b><VP>↓</VP></b> 來通過它!",
+		"作為第一份工作, 我需要你收集 <b><VP> 15 個鐵礦石</VP></b>。再次祝你好運!",
+		"哇! 看來你我低估了你, 真是出色的工作!",
+		"我聽說 <b><VP>城堡</VP></b> 需要一些像你的年輕人來在壞蛋手上保護國庫及公主...",
+		"你可以好好勝任的!",
+		"我會給你 <b><VP>Nosferatu 的推薦信</VP></b>, 把這個交給 <b><VP>Lieutenant</VP></b> 然後希望他會把你招攬到軍中。\n<i>而且那也可以得到好一些金錢</i>",
+		"噢也別忘了你的獎勵 <b><VP>30 個石頭</VP></b> 是你的辛勞成果!",
+		"你需要什麼嗎?",
+		"那是挺普通的知識... 你需要 <b><VP>使用斧頭來砍樹</VP></b>",
+		"所以你需要一個 <b><VP>斧頭</VP></b>? 那裡 <b><VP>森林中</VP></b> 應該有一個。\n按<b><VP>↓</VP></b> 來研究製作方法然後在 <b><VP>工作桌</VP></b> 製造出來。\n工作桌就在這洞穴上方。",
+		"我售賣 <b><VP>10 個石頭</VP></b> 價格是 <b><VP>35 根樹枝</VP></b>",
+		"呃好吧再見",
+		"你的物品欄好像滿了。你要不先把它清空再來領你的獎勵。",
+		"跟你一起工作是榮幸!",
+		"看來你沒有足夠的物品來交易啊小孩。"
+	},
+	NOSFERATU_QUESTIONS = {
+		"我要如何得到木頭?",
+		"斧頭?",
+		"交易",
+		"算了。"
+	},
+	EDRIC_DIALOGUES = {
+		"我們的公主... 以及國庫, 都在惡魔手上。我們要快一點了",
+		"暫著。所以你說 <b><VP>Nosferatu</VP></b> 把你帶來這裡然後你可以幫助我們的士兵完成任務???",
+		"那太好了。但是替軍方打工不是你想像的那麼簡單。\n你需要進行一些 <b><VP>密集式訓練</VP></b> 想像你的身體不再像正常的形狀那樣。\n前往 <b><VP>我左邊的訓練場</VP></b> 來開始你的訓練吧。",
+		"但是在那之前, 先確定你預備好了。那裡有幾個 <b><VP>物品製作方法</VP></b> 在 <b><VP>武器架上</VP></b> 散落著而 <b><VP>陰沉森林在山下</VP></b>\n希望你可以好好運用它們!",
+		"當你覺得準備好了就再次來跟我說話!",
+		"你準備好接受挑戰了嗎?",
+		"好極了! 去訓練區開始你的訓練吧。你需要 <b><VP>打敗 25 隻怪物</VP></b> 來通過挑戰。",
+		"你想用上多少時間都可以\n祝你好運!!!",
+		"你證明了你是值得的! 好耶!!! 加入其他士兵來打敗怪物吧!"
+	},
+	EDRIC_QUESTIONS = {
+		"我需要更多時間...",
+		"我預備好了!"
+	},
+	GARRY_DIALOGUES = {
+		"這是我去過最壞的地方。 <b><VP>Nosferatu</VP></b> 沒有支付足夠。 <i>*哭...*</i>"
+	},
+	THOMPSON_DIALOGUES = {
+		"嗨嘍! 你想要得到什麼嗎?",
+		"如果你在找尋 <b><VP>鏟子</VP></b>, <b><VP>礦洞中最右側</VP></b> 應該有一個。\n祝你好運!",
+		"祝你有好的一天!"
+	},
+	THOMPSON_QUESTIONS = {
+		"任何製作方法?",
+		"只是打個招呼。"
+	},
+	COLE_DIALOGUES = {
+		"外面有很多 <b><VP>怪物</VP></b>。請小心!",
+		"我們所有的軍隊都在對抗怪物。我們需要更多幫助。",
+		"喂喂喂! 我不可以讓像你一樣弱小的人走到那邊。回到上面吧!"
+	},
+	MARC_DIALOGUES = {
+		"壞欸你! 不要碰我的工作桌!"
+	},
+	SARUMAN_DIALOGUES = {
+		"欸!!!! 欸!!!!\n有人嗎???",
+		"喂!! 幫忙把我弄出來!\n太感謝上天讓我出來了!!!",
+		"喔對了我是 <b><VP>Saruman</VP></b>。我在這裡被困了好像...\n15 年?",
+		"我的朋友 <b><VP>Hootie</VP></b> 是使我活著的原因。\n要不是他我早就死於饑餓了",
+            "所以你想知道為什麼我被困在這?",
+		"長話短說, 在我還 <b>年輕</b> 而且好像你這麼強壯的時候,\n我聽說有寶物叫 <b><VP>靈體球</VP></b>",
+		"我以前是一個教授所以我對這方面很有興趣。\n我收集了不少關於它們的資訊",
+		"這些球是連接著某人的靈魂。一旦它們跟所有 <b><VP>5 個球</VP></b> 連接就會得到 <b><VP>神聖力量</VP></b>",
+		"我不太確定會從中得到什麼樣的力量或是它們會怎麼對我...\n但是我挺確定 <b><VP>僧侶們</VP></b> 會知道怎麼使用它們!",
+		"但是沒人知道他們到底在哪裡所以我才一直自己找到來這裡。",
+		"我覺得我已經做得不錯找到了一個 <VP><b>神社球</b></VP>。\n但是... 我走錯路然後就一直被困在此。",
+		"我很高興你幫我脫困! 可以隨便問我關於這些球的資訊。\n知識是用來分享的, 更何況你救了我!",
+		"好的朋友! 你想知道什麼?",
+		"就像我說的那裡一共有 <b><VP>5 個靈體球</VP></b>\n<b><VP>3</VP></b> 個可以在陰沉森林中的 <b><VP>神社</VP></b> 裡找到。\n而我不怎麼清楚剩下的 2 個...",
+		"從我收集到的資訊, 你需要面對幾個挑戰才可以進到神社。",
+		"我覺得你已經找到一個不然你怎麼有神奇的力量可以來到這裡",
+		"通住第二個神社的路上有很多 <b><VP>怪物</VP></b> 防護著。\n所以要裝備好才探索那裡!",
+		"而關於最後一個神社我從書本中發現了這個 <b><VP>提示</VP></b>",
+		"<b><VP>\"拼圖, 以及謎語, 還有古老的傳統\n數學符號, 但不是加號",
+		"那就是全部了! 希望你可以好好運用這些資訊",
+		"謝謝你來找我問問看!",
+		"噢看來你已經收集完了全部的靈體球!!!\n我們現在各沒拖欠了... 稍後再謝我!\n但是你一定要找 <b><VP>僧侶</VP></b> 問個清楚",
+		"<b><VP>\"豐碩富足的資源\n始自與傳說結緣\"</VP></b>",
+		"<b><VP>\"接下職責來向人展示\n呈現出你的兇兇氣勢\"</VP></b>"
+	},
+	SARUMAN_QUESTIONS = {
+		"球在哪裡?",
+		"正在找尋!"
+	},
+	MONK_DIALOGUES = {
+		"我已經壓制著這般邪惡力量很久了...\n很高興你來幫我們",
+		"所以你說已經集好全部 <b><VP>5 個靈體球</VP></b>",
+		"確實做的不錯。現在可以更容易地永遠打倒邪惡力量",
+		"這些靈體球其實是連接著某人的靈魂\n只有具有勇氣的人才可以使用全部 5 個",
+		"這些靈體球可以幫你使用 <b><VP>神聖力量</VP></b> 而這也是唯一的方法來打敗邪魔\n據我所知道",
+		"當你啟用了神聖力量來對抗邪魔...\n你就會需要在思維中經歷長長旅途以達至 <b><VP>神聖狀態</VP></b>",
+		"靈體球會協助你找到正確的路以達至那狀態。\n你只需要在正確時機跟著它帶領的路走!",
+		"我挺肯定你不會達到最強大的神聖力量境界。\n但即使是更接近一點點...",
+		"它會創造出巨大的神聖力量而召喚出 <b><VP>神</VP></b>",
+		"古書籍說猛獸太強大了但我認為\n<b><VP>神的祝福</VP></b> 會削弱它",
+		"那就是我們的時機, 永遠地打敗邪惡力量!!!",
+		"神... 衪就在這裡\n正在發生了!!!"
+	},
+	NIELS_DIALOGUES = {
+		"所有人各就各位!",
+		"在河的對岸那尾 <b><VP>龍</VP></b> 太危險了。\n它會用它的 <b><VP>火炎攻擊</VP></b> 而且會向你 <b><VP>丟石頭</VP></b>",
+		"請小心...",
+		"但是我們不能直接攻擊那尾龍, 因為橋看起來要斷裂了",
+		"那尾龍曾經在嘗試過橋時用火炎破壞它。",
+		"所以... 我們需要先維修它以靠近龍。快點!!!"
+	},
+	PROPS = {
+		attack = "攻擊",
+		defense = "防禦",
+		durability = "耐用性",
+		chopping = "斬擊",
+		mining = "挖礦"
+	}
+}
 translate = function(term, lang, page, kwargs)
 	local translation
 	if translations[lang] then
@@ -2806,6 +3148,8 @@ Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	ro = "Băț",
 	es = "Palo",
 	tr = "Çubuk",
+	cn = "树枝",
+	zh = "樹枝",
 })
 
 Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
@@ -2817,6 +3161,8 @@ Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
 	ro = "Piatră",
 	es = "Piedra",
 	tr = "Taş",
+	cn = "石头",
+	zh = "石頭",
 }, {
 	ar = ""
 })
@@ -2830,6 +3176,8 @@ Item("clay", Item.types.RESOURCE, true, "180db604121.png", 0.05, {
 	ro = "Lut",
 	es = "Arcilla",
 	tr = "Kil",
+	cn = "黏土",
+	zh = "黏土",
 })
 
 Item("iron_ore", Item.types.RESOURCE, true, "181aaa2468d.png", 0.08, {
@@ -2841,6 +3189,8 @@ Item("iron_ore", Item.types.RESOURCE, true, "181aaa2468d.png", 0.08, {
 	ro = "Minereu de fier",
 	es = "Lingote de hierro",
 	tr = "Demir cevheri",
+	cn = "铁矿石",
+	zh = "鐵礦石",
 })
 
 Item("copper_ore", Item.types.RESOURCE, true, "181aa9f511c.png", 0.09, {
@@ -2852,6 +3202,8 @@ Item("copper_ore", Item.types.RESOURCE, true, "181aa9f511c.png", 0.09, {
 	ro = "Minereu de cupru",
 	es = "Lingote de cobre",
 	tr = "Bakır cevheri",
+	cn = "铜矿石",
+	zh = "銅礦石",
 })
 
 Item("gold_ore", Item.types.RESOURCE, true, "181aaa10ab5.png", 0.3, {
@@ -2863,6 +3215,8 @@ Item("gold_ore", Item.types.RESOURCE, true, "181aaa10ab5.png", 0.3, {
 	ro = "Minereu de aur",
 	es = "Lingote de oro",
 	tr = "Altın cevheri",
+	cn = "金矿石",
+	zh = "金礦石",
 })
 
 Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 0.35, {
@@ -2874,6 +3228,8 @@ Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 0.35, {
 	ro = "Lemn",
 	es = "Madera",
 	tr = "Odun",
+	cn = "木头",
+	zh = "木頭",
 })
 
 -- Special items
@@ -2886,6 +3242,8 @@ Item("log_stakes", Item.types.SPECIAL, false, "181aaa3a784.png", 3.5, {
 	ro = "Bușteni",
 	es = "Lote de estacas",
 	tr = "Odun destesi",
+	cn = "一捆木",
+	zh = "一綑木",
 }, {
 	ar = "!من أهم اللبنات في البناء\n.يمكن استخدامه أيضًا كزخرفة أو للنار فقط إذا لم يكن لديك أي استخدام له",
 	en = "One of the most important building blocks in constructions!\nIt can also use as a decoration or just for fire if you have no use of it.",
@@ -2895,6 +3253,8 @@ Item("log_stakes", Item.types.SPECIAL, false, "181aaa3a784.png", 3.5, {
 	ro = "Unul dintre cele mai importante materiale de construcție!\nPoate fi folosit drept decorațiune sau pentru foc dacă nu ai unde să-l utilizezi.",
 	es = "Uno de los bloques de construcción más importantes!\nTambién puede usarse como decoración o simplemente para hacer fuego",
 	tr = "Yapılarda kullanılan en önemli inşaat bloklarından biri!\nAynı zamanda başka kullanım amacınız yoksa dekorasyon için ya da sadece ateş yakmak için kullanabilirsiniz.",
+	cn = "在建筑中其中一个最重要的建筑原料!\n如果没其他用途也可以用作装饰或是生火用",
+	zh = "在建築中其中一個最重要的建築原料!\n如果沒其他用途也可以用作裝飾或是生火用。",
 })
 
 Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
@@ -2906,6 +3266,8 @@ Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
 	ro = "Pod",
 	es = "Puente",
 	tr = "Köprü",
+	cn = "桥",
+	zh = "橋",
 }, {
 	ar = "الجسور! الاستخدام الأساسي هو الوصول إلى الأرض على الجانب الآخر من النهر ، ولكنه أيضًا عنصر رائع في هندسة المدن\nلكن ... كيف ستضع الجسر داخل جيبك ؟؟؟",
 	en = "Bridges! Most basic use is accessing the land on the other side of a river, but also is also a great component in city architecuring.\nBut... how are you going to fit a bridge inside your pocket???",
@@ -2915,6 +3277,8 @@ Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
 	ro = "Poduri! Cea mai simplă întrebuințare e pentru a traversa un râu, dar totodată este un component formidabil în arhitectura urbană.\nDar... cum vei face loc pentru un pod în buzunar???",
 	es = "¡Puentes! El uso más basico es para acceder a las tierras al otro lado de un río, pero también es un gran componente en la arquitectura de ciudades.\nPero... Cómo vas a guardar un puente en tu bolsillo???",
 	tr = "Köprüler! En temel kullanım amacı bir nehrin karşısında bulunan diğer topraklara erişmek, ayrıca şehir mimarisi için en muazzam elemanlardan biri\nAma... bir köprüyü nasıl cebine sığdırabilrsin ki???",
+	cn = "桥! 最基本的用法是用来到达河的对岸, 但也是城市建筑最好的组成部分。\n但是... 你要如何把桥收进你的袋子里???",
+	zh = "橋! 最基本的用法是用來到達河的對岸, 但也是城市建築最好的組成部分。\n但是... 你要如何把橋收進你的袋子裡???",
 })
 
 Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
@@ -2926,6 +3290,8 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	ro = "Topor simplu",
 	es = "Hacha básica",
 	tr = "Normal balta",
+	cn = "基本斧头",
+	zh = "基本斧頭",
 }, {
 	ar = "مجرد فأس أساسي",
 	en = "Just a basic axe",
@@ -2935,6 +3301,8 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	ro = "Doar un topor obișnuit",
 	es = "Simplemente una hacha básica",
 	tr = "Sadece basit bir balta",
+	cn = "只是一把基本斧头",
+	zh = "只是一把基本斧頭",
 }, {
    durability = 10,
    chopping = 1
@@ -2949,6 +3317,8 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	ro = "Topor de fier",
 	es = "Hacha de hierro",
 	tr = "Demir balta",
+	cn = "铁斧头",
+	zh = "鐵斧頭",
 }, {
 	ar = "!التدعيم المضاف بالحديد يجعله يدوم مرتين أكثر من الفأس الأساسي",
 	en = "The reinforcement added with iron makes it last twice more than a basic axe!",
@@ -2958,6 +3328,8 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	ro = "Întărit cu fier pentru a rezista de două ori mai mult timp decât un topor simplu!",
 	es = "Reforzada con hierro para hacerla durar el doble de lo que dura una hacha básica!",
 	tr = "Normal bir baltadan iki kat uzun süre dayanması için demir ile güçlendirilmiş!",
+	cn = "用铁来强化使它比基本斧头两倍耐用!",
+	zh = "用鐵來強化使它比基本斧頭兩倍耐用!",
 }, {
    durability = 20,
    chopping = 1
@@ -2972,6 +3344,8 @@ Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	ro = "Topor de cupru",
 	es = "Hacha de cobre",
 	tr = "Bakır balta",
+	cn = "铜斧头",
+	zh = "銅斧頭",
 }, {
 	ar = "!صممه حدادون بارزون. تصميم الحافة يجعله أسهل في الاستخدام وأكثر حدة",
 	en = "Designed by notable blacksmiths. The edge design makes it much easier to use and sharper!",
@@ -2981,6 +3355,8 @@ Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	ro = "Meșteșugărit de fierari cu renume. Stilul lamei îl face mult mai ascuțit și ușor de folosit!",
 	es = "Diseñada por herreros notables. ¡El diseño del filo la hace más fácil de utilizar y más afilada!",
 	tr = "Şöhretli bir demirci tarafından tasarlandı. Kenarlarının tasarımı kullanımını kolaylaştırıyor ve daha keskin olmasını sağlıyor!",
+	cn = "由知名铁匠设计。边缘的设计使它更容易使用及更锋利!",
+	zh = "由知名鐵匠設計。邊緣的設計使它更容易使用及更鋒利!",
 }, {
    durability = 20,
    chopping = 2
@@ -2995,6 +3371,8 @@ Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	ro = "Topor de aur",
 	es = "Hacha de oro",
 	tr = "Altın balta",
+	cn = "金斧头",
+	zh = "金斧頭",
 }, {
 	ar = ".فأس مصمم بعد الجمع بين الذهب والسبائك الأخرى لجعله أقوى وأكثر متانة\nلست متأكدًا مما إذا كان أي حطاب عادي يستخدم مثل هذه الأداة باهظة الثمن",
 	en = "An axe designed after combining gold and other alloys to make it stronger and more durable.\nI'm not sure if any regular lumberjack uses such an expensive tool though.",
@@ -3004,6 +3382,8 @@ Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	ro = "Un topor creat prin combinarea aurului cu numeroase alte aliaje pentru a-l face mai trainic.\nÎnsă nu sunt sigur dacă vreun meșteșugar ordinar folosește o unealtă atât de scumpă.",
 	es = "Una hacha hecha de oro y otras aleaciones para hacerla más resistente y duradera.\nNo estoy seguro de si algún leñador usa una herramienta tan cara como esta.",
 	tr = "Altın ve diğer alaşımların bir araya getirilmesiyle daha sağlam ve dayanıklı olması için tasarlanmış bir balta.\nSıradan oduncuların bu kadar pahalı bir alet kullanıp kullanmadığı konusunda emin değilim doğrusu.",
+	cn = "一把以金及其他合金造成的斧头使它更强更耐用。\n我不确定正常的伐木工会使用这么昂贵的工具就是了。",
+	zh = "一把以金及其他合金造成的斧頭使它更強更耐用。\n我不確定正常的伐木工會使用這麼昂貴的工具就是了。",
 }, {
    durability = 30,
    chopping = 3
@@ -3019,6 +3399,8 @@ Item("basic_shovel", Item.types.SHOVEL, false, "181968e3a21.png", 1, {
 	ro = "Lopată simplă",
 	es = "Pala básica",
 	tr = "Normal kürek",
+	cn = "基本铲子",
+	zh = "基本鏟子",
 }, {
 	ar = "احفر احفر احفر",
 	en = "Dig dig dig",
@@ -3028,6 +3410,8 @@ Item("basic_shovel", Item.types.SHOVEL, false, "181968e3a21.png", 1, {
 	ro = "Sapă sapă sapă",
 	es = "Excava, excava, excava",
 	tr = "Kaz kaz kaz",
+	cn = "挖挖挖",
+	zh = "挖挖挖",
 }, {
    durability = 10,
    mining = 2
@@ -3042,6 +3426,8 @@ Item("iron_shovel", Item.types.SHOVEL, false, "181968e1951.png", 1.4, {
 	ro = "Lopată de fier",
 	es = "Pala de hierro",
 	tr = "Demir kürek",
+	cn = "铁铲子",
+	zh = "鐵鏟子",
 }, {
 	ar = "هنا بدأ التطور",
 	en = "Evolution started here",
@@ -3051,6 +3437,8 @@ Item("iron_shovel", Item.types.SHOVEL, false, "181968e1951.png", 1.4, {
 	ro = "Evoluția începe aici",
 	es = "La evolución empezó aquí",
 	tr = "Gelişim buradan başladı",
+	cn = "革命始于这里",
+	zh = "革命始於這裡",
 }, {
    durability = 15,
    mining = 3
@@ -3065,6 +3453,8 @@ Item("copper_shovel", Item.types.SHOVEL, false, "181968d1682.png", 1, {
 	ro = "Lopată de cupru",
 	es = "Pala de cobre",
 	tr = "Bakır kürek",
+	cn = "铜铲子",
+	zh = "銅鏟子",
 }, {
 	ar = "!مع تصميمه القوي يمكنه حفر معظم المواد",
 	en = "The material and strong design make it possible to dig the most of it !",
@@ -3074,6 +3464,8 @@ Item("copper_shovel", Item.types.SHOVEL, false, "181968d1682.png", 1, {
 	ro = "Stilul și materialul trainic te ajută s-o folosești la maxim!",
 	es = "El material y el diseño de esta pala hace posible que puedas excavar casi todo",
 	tr = "Dayanıklı malzeme tasarımı çoğu şeyi kazmasını mümkün kılıyor!",
+	cn = "物质以及强大的设计使它可以挖出最多东西!",
+	zh = "物質以及強大的設計使它可以挖出最多東西!",
 }, {
    durability = 10,
    mining = 3
@@ -3088,6 +3480,8 @@ Item("gold_shovel", Item.types.SHOVEL, false, "181968d4e85.png", 1, {
 	ro = "Lopată de aur",
 	es = "Pala de oro",
 	tr = "Altın kürek",
+	cn = "金铲子",
+	zh = "金鏟子",
 }, {
 	ar = "!ندرة المواد المستخدمة في التصميم تجعل من السهل جدًا حفر المزيد من المعادن النادرة",
 	en = "The rarirty of the material used to design makes it much easier to dig more rare metals!",
@@ -3097,6 +3491,8 @@ Item("gold_shovel", Item.types.SHOVEL, false, "181968d4e85.png", 1, {
 	ro = "Raritatea metalului folosit pentru a o crea te ajută să găsești mai ușor resure rare!",
 	es = "¡La rareza del material usado para diseñarla, la hace mejor para excavar mejores metales!",
 	tr = "Tasarımındaki malzemelerin nadirliği, daha ender bulunan metalleri kazmasını kolaylaştırıyor!",
+	cn = "设计用上这种稀有物质使它更容易挖出更稀有的金属!",
+	zh = "設計用上這種稀有物質使它更容易挖出更稀有的金屬!",
 }, {
    durability = 20,
    mining = 4
@@ -3111,6 +3507,8 @@ Item("iron_sword", Item.types.SWORD, false, "1819f06ecfc.png", 1.4, {
 	ro = "Sabie de fier",
 	es = "Espada de hierro",
 	tr = "Demir kılıç",
+	cn = "铁剑",
+	zh = "鐵劍",
 }, {
 	ar = "!!!إنه سريع وحاد",
 	en = "It's fast and sharp!!!",
@@ -3120,6 +3518,8 @@ Item("iron_sword", Item.types.SWORD, false, "1819f06ecfc.png", 1.4, {
 	ro = "E iute și ascuțită!!!",
 	es = "Es rápida y afilada!",
 	tr = "Hızlı ve keskin!!!",
+	cn = "快又锋利!!!",
+	zh = "快又鋒利!!!",
 }, {
    attack = 5,
    durability = 25
@@ -3135,6 +3535,8 @@ Item("copper_sword", Item.types.SWORD, false, "1819f0717ee.png", 1.4, {
 	ro = "Sabie de cupru",
 	es = "Espada de cobre",
 	tr = "Bakır kılıç",
+	cn = "铜剑",
+	zh = "銅劍",
 }, {
 	ar = "!يبدو أقوى بكثير من السيف الحديدي",
 	en = "Looking a lot more sturdy than the iron sword!",
@@ -3144,6 +3546,8 @@ Item("copper_sword", Item.types.SWORD, false, "1819f0717ee.png", 1.4, {
 	ro = "Un instrument neostenit",
 	es = "Es rápida y afilada!",
 	tr = "Buna lütfen bir tabir bulun.",
+	cn = "看来比铁剑更结实!",
+	zh = "看來比鐵劍更結實!",
 }, {
 	   attack = 7,
 	   durability = 30
@@ -3159,6 +3563,8 @@ Item("gold_sword", Item.types.SWORD, false, "1819f077e01.png", 1.4, {
 	ro = "Sabie de aur",
 	es = "Espada de oro",
 	tr = "Altın kılıç",
+	cn = "金剑",
+	zh = "金劍",
 }, {
 	ar = "بعد الكثير من الأبحاث ، أقوى سيف مصنوع من السبائك التي تجعله يدوم لفترة أطول من أي شيء آخر",
 	en = "After lots of researches, the sharpest sword made with alloys that make it last longer than anything",
@@ -3168,6 +3574,8 @@ Item("gold_sword", Item.types.SWORD, false, "1819f077e01.png", 1.4, {
 	ro = "După multe cercetări, iată sabia cea mai trainică făcută din cele mai scumpe aliaje",
 	es = "Despues de mucha búsqueda, esta es la espada más afilada hecha con aleaciones que la hace durar más que ninguna otra",
 	tr = "Yoğun araştırmalar sonucu, her şeyden daha uzun süre dayanması için alaşımlarla yapılan en keskin kılıç.",
+	cn = "在不少研究之后, 使用合金造出这最锋利的剑比任何东西都耐久",
+	zh = "在不少研究之後, 使用合金造出這最鋒利的劍比任何東西都耐久",
 }, {
 	   attack = 10,
 	   durability = 38
@@ -3184,6 +3592,8 @@ Item("iron_shield", Item.types.SPECIAL, false, "180fa02a686.png", 1, {
 	ro = "Scut de fier",
 	es = "Escudo de hierro",
 	tr = "Demir kalkan",
+	cn = "铁盾牌",
+	zh = "鐵盾牌",
 }, {
 	ar = "!احم نفسك من الأعداء",
 	en = "Protect yourself from enemies!",
@@ -3193,6 +3603,8 @@ Item("iron_shield", Item.types.SPECIAL, false, "180fa02a686.png", 1, {
 	ro = "Apără-te de dușmani",
 	es = "¡Protégete de los enemigos!",
 	tr = "Kendinizi düşmanlardan koruyun!",
+	cn = "在敌人面前保护自己!",
+	zh = "在敵人面前保護自己!",
 }, {
 	   defense = 10,
 	   durability = 20,
@@ -3208,6 +3620,8 @@ Item("copper_shield", Item.types.SPECIAL, false, "18105db53fe.png", 1.4, {
 	ro = "Scut de cupru",
 	es = "Escudo de cobre",
 	tr = "Bakır kalkan",
+	cn = "铜盾牌",
+	zh = "銅盾牌",
 }, {
 	ar = "درع قوي قادر على عكس العديد من الهجمات",
 	en = "A sturdy shield capable of reflecting many attacks",
@@ -3217,6 +3631,8 @@ Item("copper_shield", Item.types.SPECIAL, false, "18105db53fe.png", 1.4, {
 	ro = "Un scut voinic capabil să reziste o mulțime de atacuri",
 	es = "Un escudo que puede reflejar varios ataques",
 	tr = "Birçok saldırıyı geriye yansıtabilecek kapasiteye sahip dayanıklı bir kalkan",
+	cn = "经过研究之后的盾牌能够反弹不少攻击",
+	zh = "經過研究之後的盾牌能夠反彈不少攻擊",
 }, {
 	   defense = 15,
 	   durability = 28
@@ -3232,6 +3648,8 @@ Item("gold_shield", Item.types.SPECIAL, false, "18105dac98a.png", 2, {
 	ro = "Scut de aur",
 	es = "Escudo dorado",
 	tr = "Altın kalkan",
+	cn = "金盾牌",
+	zh = "金盾牌",
 }, {
 	ar = "!أفضل درع يمكن شراؤه بالمال",
 	en = "The best shield money... er... gold can buy!",
@@ -3241,6 +3659,8 @@ Item("gold_shield", Item.types.SPECIAL, false, "18105dac98a.png", 2, {
 	ro = "Cea mai bună apărare pe care o poți cumpăra cu bani... ăă... aur",
 	es = "El mejor escudo que el dinero... eh... oro puede comprar!",
 	tr = "Paranın... ehmm... altının satın alabileceği en iyi kalkan!",
+	cn = "最好的盾牌用钱... 呃... 黄金可以买到!",
+	zh = "最好的盾牌用錢... 呃... 黃金可以買到!",
 }, {
    defense = 20,
    durability = 35
