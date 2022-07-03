@@ -56,7 +56,8 @@ translations["en"] = {
 		"How do I get wood?",
 		"Pickaxe?",
 		"Exchange",
-		"Nevermind."
+		"Nevermind.",
+		"It's something else."
 	},
 	EDRIC_DIALOGUES = {
 		"Our princess... and the treasury, is in the hands of evil. We gotta hurry",

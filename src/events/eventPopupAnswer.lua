@@ -7,7 +7,7 @@ function eventPopupAnswer(id, name, answer)
 			tfm.exec.movePlayer(name, x, y)
 			Timer.new("tp_anim", tfm.exec.displayParticle, 10, false, 37, x, y)
 		else
-			tfm.exec.chatMessage(translate("WRONG_GUESS", player.language))
+			tfm.exec.chatMessage(translate("WRONG_GUESS", player.language), name)
 		end
 	end
 end

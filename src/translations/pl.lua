@@ -107,10 +107,12 @@ translations["pl"] = {
 		"Myślę, że jedno już znasz, chyba że miałeś jakąś magiczną moc, aby się tu teleportować",
 		"Druga świątynie jest strzeżona przez wiele <b><VP>potworów</VP></b> po drodze.\nWięc lepiej wyposaż się dobrze przed zwiedzaniem!",
 		"A dla ostatniej świątyni znalazłem tą <b><VP>wskazówkę</VP></b> ze starożytnych ksiąg",
-		"<b><VP>\"Zagadki, zagadki, i stara tradycja\nWynik matematyczny, ale nie dodawanie\nA resource that so fruitfully bore\nComes to term with ones true lore\nTake the rank shown to all\nTo the world you must call\"</VP></b>",
+		"b><VP>\"Puzzles, and riddles, and old tradition\nMathematical score, but not addition",
 		"To już wszystko! Mam nadzieję, że dobrze wykorzystasz te informacje",
 		"Dzięki, że zainteresowałeś się co u mnie, kolego!",
-		"OCH WYGLĄDA NA TO, ŻE ZEBRAŁEŚ WSZYSTKIE DUCHOWE KULE!!!\nJesteśmy teraz... podziękujesz mi później!\nAle upewnij się, że znajdziesz więcej informacji na temat tych kul od <b><VP>mnicha</VP></b>"
+		"OCH WYGLĄDA NA TO, ŻE ZEBRAŁEŚ WSZYSTKIE DUCHOWE KULE!!!\nJesteśmy teraz... podziękujesz mi później!\nAle upewnij się, że znajdziesz więcej informacji na temat tych kul od <b><VP>mnicha</VP></b>",
+		"<b><VP>\"A resource that so fruitfully bore\nComes to term with ones true lore\"</VP></b>",
+		"<b><VP>\"Take the rank shown to all\nTo the world you must call\"</VP></b>"
 	},
 	SARUMAN_QUESTIONS = {
 		"Gdzię są kule?",

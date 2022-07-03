@@ -131,6 +131,7 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	dialoguePanel:hide(name)
 	inventoryPanel:hide(name)
 	dialoguePanel:show(name)
+	print(name)
 	local isReplyBox = type(replies) == "table"
 	dialoguePanel:addPanelTemp(Panel(id * 1000, text, x + (isReplyBox and 25 or 20), y, w, h, 0, 0, 0, true)
 		:addImageTemp(Image(assets.ui[isReplyBox and "dialogue_replies" or "dialogue_proceed"], "~1", 20, 280), name),
@@ -355,11 +356,13 @@ teleports = {
 	shrines = {
 		canEnter = function() return true end,
 		onEnter = function(player, terminalId)
+			if not player.questProgress.spiritOrbs then
+				player:addNewQuest("spiritOrbs")
+				player:updateQuestProgress("spiritOrbs", 1)
+			end
 			tfm.exec.setPlayerNightMode(terminalId == 2, player.name)
 			if terminalId == 2 and (not player.questProgress["spiritOrbs"] or player.questProgress.stage == 1) then
 				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
-					player:addNewQuest("spiritOrbs")
-					player:updateQuestProgress("spiritOrbs", 1)
 					dialoguePanel:hide(player.name)
 					player:displayInventory()
 				end)
