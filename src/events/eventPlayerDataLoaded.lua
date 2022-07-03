@@ -116,7 +116,7 @@ eventPlayerDataLoaded = function(name, data)
 			end
 		end
 	end
-
+	--mapPlaying = "castle"
 
 	Timer.new("startMap", function(mapPlaying)
 		tfm.exec.newGame(maps[mapPlaying], false)

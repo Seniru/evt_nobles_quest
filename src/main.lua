@@ -142,13 +142,14 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
 	--dialoguePanel:update(text, name)
 	if isReplyBox then
+		local minusY = #replies > 2 and -10 or 0
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1), 130, 25, nil, nil, 0, true)
+			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1) + minusY, 130, 25, nil, nil, 0, true)
 				:setActionListener(function(id, name, event)
 					reply[2](table.unpack(reply[3]))
 				end),
 				name)
-			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w - 10, y - 10 + 26 * (i - 1), 1.1, 0.9), name)
+			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w - 10, y - 10 + 26 * (i - 1) + minusY, 1.1, 0.9), name)
 		end
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "~1", x + w - 25, y + h - 30), name)
@@ -359,14 +360,18 @@ teleports = {
 			if not player.questProgress.spiritOrbs then
 				player:addNewQuest("spiritOrbs")
 				player:updateQuestProgress("spiritOrbs", 1)
-			end
-			tfm.exec.setPlayerNightMode(terminalId == 2, player.name)
-			if terminalId == 2 and (not player.questProgress["spiritOrbs"] or player.questProgress.stage == 1) then
+				print("came here and should update smh")
+				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
+					dialoguePanel:hide(player.name)
+					player:displayInventory()
+				end)
+			elseif player.questProgress.stage == 1 then
 				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 1), player.name, "???", "180dbd361b5.png", function()
 					dialoguePanel:hide(player.name)
 					player:displayInventory()
 				end)
 			end
+			tfm.exec.setPlayerNightMode(terminalId == 2, player.name)
 		end
 	},
 	final_boss = {

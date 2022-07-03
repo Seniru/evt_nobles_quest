@@ -26,6 +26,27 @@ local getOreFromTier = function(item, rockType)
 	end
 end
 
+local nosferatuTrade = function(player, name, nosferatu)
+	addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 16), name, "Nosferatu", nosferatu.normal, {
+		{ translate("NOSFERATU_QUESTIONS", player.language, 3), function(player)
+			local idx, stickAmount = player:getInventoryItem("stick")
+			if (not stickAmount) or stickAmount < 35 then
+				addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 20), name, "Nosferatu", nosferatu.normal)
+			else
+				xpcall(player.addInventoryItem, function(err, success)
+					if success then
+						player:addInventoryItem(Item.items.stick, -35)
+						addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 19), name, "Nosferatu", nosferatu.happy)
+					elseif err:match("Full inventory") then
+						addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 18), name, "Nosferatu", nosferatu.thinking)
+					end
+				end, player, Item.items.stone, 10)
+			end
+		end, { player } },
+		{ translate("NOSFERATU_QUESTIONS", player.language, 4), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 17), name, "Nosferatu", nosferatu.normal }}
+	})
+end
+
 Entity.entities = {
 
 	-- resources
@@ -452,7 +473,7 @@ do
 					addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 13), name, "Nosferatu", nosferatu.question, {
 						{ translate("NOSFERATU_QUESTIONS", player.language, 1), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 14), name, "Nosferatu", nosferatu.normal } },
 						{ translate("NOSFERATU_QUESTIONS", player.language, 2), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 15), name, "Nosferatu", nosferatu.normal }},
-						--{ translate("NOSFERATU_QUESTIONS", player.language, 2), addDialogueBox, { 2, translate("NOSFERATU_DIALOGUES", player.language, 15), name, "Nosferatu", nosferatu.normal }}
+						{ translate("NOSFERATU_QUESTIONS", player.language, 5), nosferatuTrade, { player, name, nosferatu }}
 
 					})
 				end
@@ -460,7 +481,7 @@ do
 				addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 16), name, "Nosferatu", nosferatu.normal, {
 					{ translate("NOSFERATU_QUESTIONS", player.language, 3), function(player)
 						local idx, stickAmount = player:getInventoryItem("stick")
-						if stickAmount < 35 then
+						if (not stickAmount) or stickAmount < 35 then
 							addDialogueBox(2, translate("NOSFERATU_DIALOGUES", player.language, 20), name, "Nosferatu", nosferatu.normal)
 						else
 							xpcall(player.addInventoryItem, function(err, success)
