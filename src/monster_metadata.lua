@@ -290,16 +290,17 @@ do
 
 	dragonLocationCheck = function(self)
 		self.wait = self.wait - 1
-		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
-		self.realX = dragX
-		if dragX < 700 then
-			return self:destroy()
-		end
+		local dragX = self.realX
 		if self.wait < 0 then
+			dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
+			self.realX = dragX
+			if dragX < 700 then
+				return self:destroy()
+			end
 			tfm.exec.removeObject(self.objId)
 			self.objId = tfm.exec.addShamanObject(62, self.realX + self.w + 120, self.y, 180, -50, 0, false)
 			tfm.exec.addImage("no.png", "#" .. self.objId, 0, 0)
-			self.wait = 5
+			self.wait = 8
 		end
 		local entityBridge
 		for i, e in next, self.area.entities do
@@ -310,7 +311,7 @@ do
 		end
 		local toRemove = {}
 		for i, bridge in next, (entityBridge.bridges or {}) do
-			if math.abs(bridge[2] - (560 / 8) - dragX) - 80 < 70 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
+			if math.abs(bridge[2] - (560 / 8) - dragX) - 80 < 80 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
 				tfm.exec.removePhysicObject(bridge[1])
 				toRemove[#toRemove + 1] = i
 				--entityBridge.bridges[i] = nil
@@ -416,7 +417,10 @@ do
 	monsters.fiery_dragon.death = function(self, killedBy)
 		local imageData = self.species.sprites.dead_left
 		local image = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
-		Timer.new("clear_body_drag", tfm.exec.removeImage, 2000, false, image, true)
+		Timer.new("clear_body_drag", function(image, ground)
+			tfm.exec.removeImage(image, true)
+			tfm.exec.removePhysicObject(ground)
+		end, 2000, false, image, self.bodyId)
 	end
 
 	monsters.final_boss.sprites = {

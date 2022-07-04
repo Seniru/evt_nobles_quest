@@ -136,7 +136,7 @@ openCraftingTable = function(player, page, inCraftingTable)
 
 			if not player.learnedRecipes[name] then recipePanel:addImageTemp(Image(assets.ui.lock, "&1", 380 + col * 120, 80 + row * 120), target) end
 			craftingPanel:addPanelTemp(recipePanel, target)
-			p:update(("<p align='center'><a href='event:%s'>%s</a></p>"):format(name, item.locales[player.language], target))
+			p:update(("<p align='center'><a href='event:%s'>%s</a></p>"):format(name, item.locales[player.language], target), target)
 				--p:show(name)
 
 
