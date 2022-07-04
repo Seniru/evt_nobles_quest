@@ -143,23 +143,26 @@ addDialogueBox = function(id, text, name, speakerName, speakerIcon, replies)
 	Panel.panels[201]:addImageTemp(Image(speakerIcon, "&1", x + w - 100, y - 55), name)
 	--dialoguePanel:update(text, name)
 	if isReplyBox then
-		local minusY = #replies > 2 and -10 or 0
+		local minusY = -10
 		for i, reply in next, replies do
-			dialoguePanel:addPanelTemp(Panel(id * 1000 + 10 + i, ("<a href='event:reply'>%s</a>"):format(reply[1]), x + w - 6, y - 6 + 24 * (i - 1) + minusY, 130, 25, nil, nil, 0, true)
-				:setActionListener(function(id, name, event)
-					reply[2](table.unpack(reply[3]))
-				end),
-				name)
-			dialoguePanel:addImageTemp(Image(assets.ui.reply, ":1", x + w - 10, y - 10 + 26 * (i - 1) + minusY, 1.1, 0.9), name)
+			dialoguePanel:addImageTemp(Image(assets.ui.reply, "~1", x + w - 10, y - 10 + 26 * (i - 1) + minusY, 1.1, 0.9), name)
+			local p = Panel.panels[id * 1000 + 10 + i] or Panel(id * 1000 + 10 + i, "", x + w - 6, y - 6 + 24 * (i - 1) + minusY, 130, 25, nil, nil, 0, true)
+			dialoguePanel:addPanelTemp(p
+			:setActionListenerTemp(function(id, name, event)
+				reply[2](table.unpack(reply[3]))
+			end, name),
+			name)
+			p:update(("<a href='event:reply'>%s</a>"):format(reply[1]), name)
 		end
 	else
 		dialoguePanel:addImageTemp(Image(assets.ui.btnNext, "~1", x + w - 25, y + h - 30), name)
-		dialoguePanel:addPanelTemp(
-			Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w - 25, y + h - 30, 30, 30, nil, nil, 0, true)
-			:setActionListener(replies or function(id, name, event)
+		local p = Panel.panels[id * 1000 + 10] or Panel(id * 1000 + 10, "<a href='event:2'>\n\n\n</a>", x + w - 25, y + h - 30, 30, 30, nil, nil, 0, true)
+
+		dialoguePanel:addPanelTemp(p
+			:setActionListenerTemp(replies or function(id, name, event)
 				dialoguePanel:hide(name)
 				Player.players[name]:displayInventory()
-			end)
+			end, name)
 			, name)
 	end
 end

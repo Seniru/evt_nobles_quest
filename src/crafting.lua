@@ -98,9 +98,8 @@ openCraftingTable = function(player, page, inCraftingTable)
 	if page < 1 or page > totalPages then return end
 
 	local target = player.name
-	local name = target
 	local items = Item.items
-	craftingPanel:hide(name):show(name)
+	craftingPanel:hide(target):show(target)
 	Panel.panels[410]:hide()
 
 	Panel.panels[351]:update(("<a href='event:%s'><p align='center'><b>%s〈%s</b></p></a>")
@@ -127,17 +126,19 @@ openCraftingTable = function(player, page, inCraftingTable)
 		if true then--player.learnedRecipes[name] then
 			local item = Item.items[name]
 			local recipePanel = Panel(460 + count, "", 380 + col * 120, 100 + row * 120, 100, 100, 0x1A3846, 0x1A3846, 1, true)
-				:addImageTemp(Image(item.image, "&1", 410 + col * 120, 110 + row * 120), target)
-				:addPanel(
-					Panel(460 + count + 1, ("<p align='center'><a href='event:%s'>%s</a></p>"):format(name, item.locales[player.language]), 385 + col * 120, 170 + row * 120, 90, 20, nil, 0x324650, 1, true)
-					:setActionListener(function(id, name, event)
+			local p = Panel.panels[460 + count + 1] or Panel(460 + count + 1, "", 385 + col * 120, 170 + row * 120, 90, 20, nil, 0x324650, 1, true)
+			recipePanel:addImageTemp(Image(item.image, "&1", 410 + col * 120, 110 + row * 120), target)
+				:addPanel(p
+					:setActionListenerTemp(function(id, name, event)
 						displayRecipeInfo(name, event, inCraftingTable)
-					end)
+					end, target)
 				)
 
-				if not player.learnedRecipes[name] then recipePanel:addImageTemp(Image(assets.ui.lock, "&1", 380 + col * 120, 80 + row * 120), target) end
-
+			if not player.learnedRecipes[name] then recipePanel:addImageTemp(Image(assets.ui.lock, "&1", 380 + col * 120, 80 + row * 120), target) end
 			craftingPanel:addPanelTemp(recipePanel, target)
+			p:update(("<p align='center'><a href='event:%s'>%s</a></p>"):format(name, item.locales[player.language], target))
+				--p:show(name)
+
 
 			col = col + 1
 			count = count + 2
@@ -151,12 +152,12 @@ openCraftingTable = function(player, page, inCraftingTable)
 end
 
 displayRecipeInfo = function(name, recipeName, inCraftingTable)
+	print("came here")
 	local player = Player.players[name]
 	local recipe = recipes[recipeName]
 	local item = Item.items[recipeName]
 	if not recipe then return end
 	local target = name
-
 	Panel.panels[410]:hide(target):show(target)
 
 	Panel.panels[420]:addImageTemp(Image(item.image, "&1", 80, 80), name)

@@ -127,7 +127,8 @@ do
 			onhide = nil,
 			onclick = nil,
 			children = {},
-			temporary = {}
+			temporary = {},
+			temporaryListeners = {}
 		}, Panel)
 
 		Panel.panels[id] = self
@@ -146,6 +147,7 @@ do
 			if panel.onhide then panel.onhide(panelId, name, event) end
 		else
 			if panel.onclick then panel.onclick(panelId, name, event) end
+			if panel.temporaryListeners[name] then panel.temporaryListeners[name](panelId, name, event) end
 		end
 	end
 
@@ -184,6 +186,7 @@ do
 				end
 				self.temporary[name] = {}
 			end
+			--self.temporaryListeners[name] = nil
 
 		end
 
@@ -220,6 +223,11 @@ do
 
 	function Panel:setActionListener(fn)
 		self.onclick = fn
+		return self
+	end
+
+	function Panel:setActionListenerTemp(fn, target)
+		self.temporaryListeners[target] = fn
 		return self
 	end
 

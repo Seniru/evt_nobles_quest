@@ -115,7 +115,7 @@ Trigger.triggers = {
 						end
 					end, 8000, false)
 				end, 1000 * 80, false)
-			end, 1000 * 50 -_tc, false) -- change thi sto 40
+			end, 1000 * 55 -_tc, false) -- change thi sto 40
 		end,
 		ontick = function(self)
 			if not bossBattleTriggered then return end
