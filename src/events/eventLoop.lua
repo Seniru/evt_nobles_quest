@@ -9,5 +9,6 @@ eventLoop = function(tc, tr)
 		end
 	else
 		Timer.process()
+		if dragon then dragonLocationCheck(dragon) end
 	end
 end

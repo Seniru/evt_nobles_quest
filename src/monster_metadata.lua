@@ -288,7 +288,7 @@ do
 		}
 	}
 
-	local dragonLocationCheck = function(self)
+	dragonLocationCheck = function(self)
 		self.wait = self.wait - 1
 		local dragX = math.min(self.realX, tfm.get.room.objectList[self.objId] and (tfm.get.room.objectList[self.objId].x - self.w) - 30 or self.realX)
 		self.realX = dragX
@@ -299,7 +299,7 @@ do
 			tfm.exec.removeObject(self.objId)
 			self.objId = tfm.exec.addShamanObject(62, self.realX + self.w + 120, self.y, 180, -50, 0, false)
 			tfm.exec.addImage("no.png", "#" .. self.objId, 0, 0)
-			self.wait = 1
+			self.wait = 5
 		end
 		local entityBridge
 		for i, e in next, self.area.entities do
@@ -347,6 +347,7 @@ do
 		local imageData = self.species.sprites.idle_left
 		tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
 		self.imageId = imageData
+		dragon = self
 	end
 	monsters.fiery_dragon.move = function(self)
 		dragonLocationCheck(self)

@@ -325,7 +325,8 @@ decodeQuestProgress = function(data)
 	return res
 end
 
-t = [[BwoBAAgBAAMF]]
-p(decodeQuestProgress(t))
+t = { final_boss = { completed = true }, fiery_dragon = { completed = true }, wc = { completed = true }, strength_test = { completed = true }, nosferatu = { completed = true },     
+spiritOrbs = { completed = false, stage = 3, stageProgress = 4 } }
+p(encodeQuestProgress(t))
 
 

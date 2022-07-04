@@ -11,7 +11,7 @@ translations["tr"] = {
 	PASSCODE = "Lütfen erişmek için şifreyi girin.",
 	WRONG_GUESS = "<R>Yanlış erişim şifresi.</R>",
 	INVENTORY_INFO = "<font face='Lucida Console'><p align='center'><font color='#${color}' size='9'>Ağırlık: ${weight}</font>\n\n\n\n<font size='9'><N2><b>[X] At</b></N2></font></p></font>",
-	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Your inventory is full!</font>",
+	FULL_INVENTORY = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Envanterin dolu!</font>",
 	FINAL_BOSS_ENTER_FAIL = "<font color='#ab5e42'>[</font> <font color='#c6b392'>•</font> <font color='#ab5e42'>]</font> <font color='#c6b392' face='Lucida Console'>Portaldan geçebilmek için Ejderha'nın ruh küresini elde etmen gerekiyor!</font>",
 	CRAFT = "Üret!",
 	CANT_CRAFT = "Üretilemiyor",
@@ -52,7 +52,7 @@ translations["tr"] = {
 	},
 	NOSFERATU_QUESTIONS = {
 		"Odunu nasıl elde edebilirim?",
-		"Kazma?",
+		"Balta?",
 		"Takas",
 		"Boş ver.",
 		"It's something else."
@@ -86,7 +86,7 @@ translations["tr"] = {
 	},
 	COLE_DIALOGUES = {
 		"Bu taraflarda çok fazla <b><VP>canavar</VP></b> var. Lütfen dikkatli ol!",
-		"All of our army is fighting against the monsters. We need a lot of help.",
+		"Tüm ordumuz canavarlarla savaşıyor. Yardıma çok ihtiyacımız var.",
 		"HEY HEY HEY! SENİN GİBİ ÇELİMSİZ BİRİNİN GİTMESİNE İZİN VEREMEM. BURAYA GERİ GEL!"
 	},
 	MARC_DIALOGUES = {
@@ -143,10 +143,10 @@ translations["tr"] = {
 		"Bu yüzden... Ona ulaşana kadar biz de onu tamir etmek zorunda olacağız. Acele edin!!!"
 	},
 	PROPS = {
-		attack = "Saldır",
-		defense = "Savun",
+		attack = "Saldırı",
+		defense = "Savunma",
 		durability = "Dayanıklılık",
-		chopping = "Doğrama",
+		chopping = "Kesme",
 		mining = "Kazma"
 	}
 }
