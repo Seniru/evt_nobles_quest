@@ -519,8 +519,8 @@ do
 		Timer.new("clear_body_final", tfm.exec.removeImage, 2000, false, image, true)
 		for name in next, self.area.players do
 			local player = Player.players[name]
+			if not player.questProgress.final_boss.completed then system.giveEventGift(name, "evt_nobles_quest_golden_ticket_50") end
 			player:updateQuestProgress("final_boss", 1)
-			system.giveEventGift(name, "evt_nobles_quest_golden_ticket_50")
 			system.giveEventGift(name, "evt_nobles_quest_badge")
 			tfm.exec.chatMessage(translate("ENDING_MESSAGE", player.language), name)
 		end

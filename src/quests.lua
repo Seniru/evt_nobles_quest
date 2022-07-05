@@ -17,6 +17,7 @@ local quests = {
 			es = "Alguien nuevo en el poblado",
 			cn = "城市中的新脸孔",
 			zh = "城市中的新臉孔",
+			ru = "Новый человек в городе",
 		},
 		{
 			description_locales = {
@@ -28,6 +29,7 @@ local quests = {
 				es = "Viaja atrás en el tiempo hacia un poblado en la época medieval",
 				cn = "时光倒流回到中世纪的城市",
 				zh = "時光倒流回到中世紀的城市",
+				ru = "Путешествуй во времени в средневековье",
 			},
 
 			tasks = 1
@@ -45,6 +47,7 @@ local quests = {
 			es = "El sirviente leal",
 			cn = "忠心的仆人",
 			zh = "忠心的僕人",
+			ru = "Верный слуга",
 		},
 		{
 			description_locales = {
@@ -56,6 +59,7 @@ local quests = {
 			es = "Ve con Nosferatu a la mina",
 			cn = "在洞穴中跟 Nosferatu 见面",
 			zh = "在洞穴中跟 Nosferatu 見面",
+			ru = "Встреться с Носферату у шахты",
 			},
 			tasks = 1
 		},
@@ -69,6 +73,7 @@ local quests = {
 				es = "Recolecta 15 de madera",
 				cn = "收集 15 个木头",
 				zh = "收集 15 個木頭",
+				ru = "Раздобудь 15 дерева",
 			},
 			tasks = 1
 		},
@@ -82,6 +87,7 @@ local quests = {
 				es = "Recolecta 15 lingotes de hierro",
 				cn = "收集 15 个铁矿石",
 				zh = "收集 15 個鐵礦石",
+				ru = "Раздобудь 15 железа",
 			},
 			tasks = 1
 		}
@@ -98,6 +104,7 @@ local quests = {
 			es = "Test de fuerza",
 			cn = "力量测试",
 			zh = "力量測試",
+			ru = "Испытание силы",
 		},
 		{
 			description_locales = {
@@ -109,6 +116,7 @@ local quests = {
 				es = "Recolecta recetas y habla con el Teniente Edric",
 				cn = "收集物品制作方法然后跟 Lieutenant Edric 说话",
 				zh = "收集物品製作方法然後跟 Lieutenant Edric 說話",
+				ru = "Найди рецепты и поговори с Лейтенантом Эдриком",
 			},
 			tasks = 1
 		},
@@ -122,6 +130,7 @@ local quests = {
 				es = "Derrota 25 monstruos",
 				cn = "打败 25 个怪物",
 				zh = "打敗 25 個怪物",
+				ru = "Одолей 25 монстров",
 			},
 			tasks = 25
 		},
@@ -135,6 +144,7 @@ local quests = {
 				es = "Ve con el Teniente Edric de vuelta",
 				cn = "回去跟 Lieutenant Edric 见面",
 				zh = "回去跟 Lieutenant Edric 見面",
+				ru = "Встреться с Лейтенантом Эдриком снова",
 			},
 			tasks = 1
 		}
@@ -151,6 +161,7 @@ local quests = {
 			es = "El camino espiritual",
 			cn = "灵性旅途",
 			zh = "靈性旅途",
+			ru = "Духовный путь",
 		},
 		{
 			description_locales = {
@@ -162,6 +173,7 @@ local quests = {
 				es = "Ve al bosque sombrío",
 				cn = "前往阴沉森林",
 				zh = "前往陰沉森林",
+				ru = "Иди в мрачный лес",
 			},
 			tasks = 1
 		},
@@ -175,6 +187,7 @@ local quests = {
 				es = "Encuentra la voz misteriosa",
 				cn = "找出谜之声音",
 				zh = "找出謎之聲音",
+				ru = "Найди загадочный голос",
 			},
 			tasks = 1
 		},
@@ -188,6 +201,7 @@ local quests = {
 				es = "Recolecta las 5 orbes espirituales",
 				cn = "收集全部 5 个灵体球",
 				zh = "收集全部 5 個靈體球",
+				ru = "Найди все 5 шара душ",
 			},
 			tasks = 5
 		}
@@ -204,6 +218,7 @@ local quests = {
 			es = "Resistiendo al fuego",
 			cn = "抵抗火炎",
 			zh = "抵抗火炎",
+			ru = "Устаивая огню",
 		},
 		{
 			description_locales = {
@@ -215,6 +230,7 @@ local quests = {
 				es = "Destruye al dragón de fuego y recolecta su orbe espiritual",
 				cn = "打败喷火龙然后收集它的灵体球",
 				zh = "打敗噴火龍然後收集它的靈體球",
+				ru = "Уничтожь дракона и добудь его шар души",
 			},
 			tasks = 1
 		}
@@ -231,6 +247,7 @@ local quests = {
 			es = "Héroe medieval",
 			cn = "中世纪英雄",
 			zh = "中世紀英雄",
+			ru = "Герой средневековья",
 		},
 		{
 			description_locales = {
@@ -242,6 +259,7 @@ local quests = {
 				es = "Destruye el espíritu malvado",
 				cn = "毁灭邪恶力量",
 				zh = "毀滅邪惡力量",
+				ru = "Уничтожь злой дух",
 			},
 			tasks = 1
 		}
