@@ -631,6 +631,8 @@ local quests = {
 			cn = "城市中的新脸孔",
 			zh = "城市中的新臉孔",
 			ru = "Новый человек в городе",
+			br = "Nova pessoa na cidade",
+			pt = "Nova pessoa na cidade",
 		},
 		{
 			description_locales = {
@@ -643,6 +645,8 @@ local quests = {
 				cn = "时光倒流回到中世纪的城市",
 				zh = "時光倒流回到中世紀的城市",
 				ru = "Путешествуй во времени в средневековье",
+				br = "Viaje de volta no tempo para uma pequena cidade medieval",
+				pt = "Viaje de volta no tempo para uma pequena cidade medieval",
 			},
 
 			tasks = 1
@@ -661,6 +665,8 @@ local quests = {
 			cn = "忠心的仆人",
 			zh = "忠心的僕人",
 			ru = "Верный слуга",
+			br = "O servo leal",
+			pt = "O servo leal",
 		},
 		{
 			description_locales = {
@@ -673,6 +679,8 @@ local quests = {
 			cn = "在洞穴中跟 Nosferatu 见面",
 			zh = "在洞穴中跟 Nosferatu 見面",
 			ru = "Встреться с Носферату у шахты",
+			br = "Conheça Nosferatu na mina",
+			pt = "Conheça Nosferatu na mina",
 			},
 			tasks = 1
 		},
@@ -687,6 +695,8 @@ local quests = {
 				cn = "收集 15 个木头",
 				zh = "收集 15 個木頭",
 				ru = "Раздобудь 15 дерева",
+				br = "Recolha 15 madeiras",
+				pt = "Recolha 15 madeiras",
 			},
 			tasks = 1
 		},
@@ -701,6 +711,8 @@ local quests = {
 				cn = "收集 15 个铁矿石",
 				zh = "收集 15 個鐵礦石",
 				ru = "Раздобудь 15 железа",
+				br = "Recolha 15 minério de ferro",
+				pt = "Recolha 15 minério de ferro",
 			},
 			tasks = 1
 		}
@@ -718,6 +730,8 @@ local quests = {
 			cn = "力量测试",
 			zh = "力量測試",
 			ru = "Испытание силы",
+			br = "Teste de resistência",
+			pt = "Teste de resistência",
 		},
 		{
 			description_locales = {
@@ -730,6 +744,8 @@ local quests = {
 				cn = "收集物品制作方法然后跟 Lieutenant Edric 说话",
 				zh = "收集物品製作方法然後跟 Lieutenant Edric 說話",
 				ru = "Найди рецепты и поговори с Лейтенантом Эдриком",
+				br = "Junte as receitas e fale com o Tenente Edric",
+				pt = "Junte as receitas e fale com o Tenente Edric",
 			},
 			tasks = 1
 		},
@@ -744,6 +760,8 @@ local quests = {
 				cn = "打败 25 个怪物",
 				zh = "打敗 25 個怪物",
 				ru = "Одолей 25 монстров",
+				br = "Destrua 25 monstros",
+				pt = "Destrua 25 monstros",
 			},
 			tasks = 25
 		},
@@ -758,6 +776,8 @@ local quests = {
 				cn = "回去跟 Lieutenant Edric 见面",
 				zh = "回去跟 Lieutenant Edric 見面",
 				ru = "Встреться с Лейтенантом Эдриком снова",
+				br = "Conheça o Tenente Edric.",
+				pt = "Conheça o Tenente Edric.",
 			},
 			tasks = 1
 		}
@@ -775,6 +795,8 @@ local quests = {
 			cn = "灵性旅途",
 			zh = "靈性旅途",
 			ru = "Духовный путь",
+			br = "O caminho espiritual",
+			pt = "O caminho espiritual",
 		},
 		{
 			description_locales = {
@@ -787,6 +809,8 @@ local quests = {
 				cn = "前往阴沉森林",
 				zh = "前往陰沉森林",
 				ru = "Иди в мрачный лес",
+				br = "Dirigira-se à floresta sombria",
+				pt = "Dirigira-se à floresta sombria",
 			},
 			tasks = 1
 		},
@@ -801,6 +825,8 @@ local quests = {
 				cn = "找出谜之声音",
 				zh = "找出謎之聲音",
 				ru = "Найди загадочный голос",
+				br = "Encontre a voz misteriosa",
+				pt = "Encontre a voz misteriosa",
 			},
 			tasks = 1
 		},
@@ -815,6 +841,8 @@ local quests = {
 				cn = "收集全部 5 个灵体球",
 				zh = "收集全部 5 個靈體球",
 				ru = "Найди все 5 шара душ",
+				br = "Junte as 5 orbes espirituosas",
+				pt = "Junte as 5 orbes espirituosas",
 			},
 			tasks = 5
 		}
@@ -832,6 +860,8 @@ local quests = {
 			cn = "抵抗火炎",
 			zh = "抵抗火炎",
 			ru = "Устаивая огню",
+			br = "Resista ao fogo",
+			pt = "Resista ao fogo",
 		},
 		{
 			description_locales = {
@@ -844,6 +874,8 @@ local quests = {
 				cn = "打败喷火龙然后收集它的灵体球",
 				zh = "打敗噴火龍然後收集它的靈體球",
 				ru = "Уничтожь дракона и добудь его шар души",
+				br = "Destrua o dragão de fogo e recolha a sua orbe espiritual",
+				pt = "Destrua o dragão de fogo e recolha a sua orbe espiritual",
 			},
 			tasks = 1
 		}
@@ -861,6 +893,8 @@ local quests = {
 			cn = "中世纪英雄",
 			zh = "中世紀英雄",
 			ru = "Герой средневековья",
+			br = "Herói medieval",
+			pt = "Herói medieval",
 		},
 		{
 			description_locales = {
@@ -873,6 +907,8 @@ local quests = {
 				cn = "毁灭邪恶力量",
 				zh = "毀滅邪惡力量",
 				ru = "Уничтожь злой дух",
+				br = "Destrua o espírito maligno",
+				pt = "Destrua o espírito maligno",
 			},
 			tasks = 1
 		}
