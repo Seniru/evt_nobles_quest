@@ -51,7 +51,7 @@ giveReward = function(name, level)
 	tfm.exec.giveConsumables(name, reward)
 end
 
-craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop window
+craftingPanel = createPrettyUI(3, 360, 40, 380, 340, true, true)-- main shop window
 	:addPanel(
 		Panel(351, "〈", 620, 350, 40, 20, nil, 0x324650, 1, true)
 		:setActionListener(function(id, name, event)
@@ -64,10 +64,10 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 		end)
 	)
 	:addPanel(-- preview window
-		createPrettyUI(4, 70, 50, 260, 330, true, false)
+		createPrettyUI(4, 70, 40, 260, 340, true, false)
 		:addPanel(Panel(451, "", 160, 60, 150, 90, nil, nil, 0, true)) -- recipe descriptions
 		:addPanel(Panel(452, "", 80, 160, 100, 100, nil, nil, 0, true)) -- recipe info
-		:addPanel(Panel(450, "", 80, 350, 240, 20, nil, 0x324650, 1, true)
+		:addPanel(Panel(450, "", 80, 355, 240, 20, nil, 0x324650, 1, true)
 			:setActionListener(function(id, name, event)
 				if not recipes[event] then return end
 				local player = Player.players[name]
@@ -92,7 +92,11 @@ craftingPanel = createPrettyUI(3, 360, 50, 380, 330, true, true)-- main shop win
 				player:savePlayerData()
 			end)
 		)
-	)
+	):setCloseButton(330, function(name)
+		local player = Player.players[name]
+		if not player then return end
+		player:displayInventory()
+	end)
 
 divineChargePanel = Panel(400, "", 30, 110, 600, 50, nil, nil, 0, true)
 	:addImage(Image(assets.ui.marker, "&1", 158, 15))

@@ -152,7 +152,6 @@ openCraftingTable = function(player, page, inCraftingTable)
 end
 
 displayRecipeInfo = function(name, recipeName, inCraftingTable)
-	print("came here")
 	local player = Player.players[name]
 	local recipe = recipes[recipeName]
 	local item = Item.items[recipeName]
@@ -183,8 +182,8 @@ displayRecipeInfo = function(name, recipeName, inCraftingTable)
 		Panel.panels[452]
 			:addPanelTemp(Panel(452 + i,
 				(" x %s <i>( %s )</i>"):format(items[2], reqItemObj.locales[player.language]),
-			100, 190 + i * 30, 180, 30, nil, nil, 0, true), name)
-			:addImageTemp(Image(reqItemObj.image, "&1", 80, 190 + i * 30, 0.6, 0.6), name)
+			100, 190 + i * 25, 180, 25, nil, nil, 0, true), name)
+			:addImageTemp(Image(reqItemObj.image, "&1", 80, 190 + i * 25, 0.6, 0.6), name)
 	end
 
 	local col, row = 0, 0
