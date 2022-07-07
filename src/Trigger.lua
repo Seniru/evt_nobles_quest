@@ -24,7 +24,12 @@ Trigger.triggers = {
 			for _, monster in next, self.monsters do
 				if monster then monster:action() end
 			end
-			if (math.random(1, 1000) > (self.monsterCount < 1 and 500 or 900 + self.monsterCount * 30 )) then
+			local lowerLimit = 500
+			if self.monsterCount > 1 then
+				lowerLimit = 1100 - self.area.playerCount * 50
+			end
+			lowerLimit = math.max(lowerLimit + self.monsterCount * 60, 500)
+			if math.random(1, 1000) > lowerLimit then
 				Monster.new({ health = math.random(15, 25), species = Monster.all[({"mutant_rat", "snail", "the_rock"})[spawnRarities[math.random(#spawnRarities)]]] }, self)
 			end
 		end,

@@ -1026,6 +1026,11 @@ local dHandler = DataHandler.new("evt_nq", {
 		index = 4,
 		type = "number",
 		default = 0
+	},
+	missingRewardsGiven = {
+		index = 5,
+		type = "boolean",
+		default = false
 	}
 })
 
@@ -2928,7 +2933,7 @@ function Monster:destroy(destroyedBy)
 
 	Timer.new("clear_body_" .. self.id, function(image, objId)
 		tfm.exec.removeImage(image, true)
-		Timer.new("removeObject", tfm.exec.removeObject, 500, false, objId)
+		Timer.new("removeObject" .. objId, tfm.exec.removeObject, 500, false, objId)
 	end, 2000, false, self.imageId, self.objId)
 
 	Monster.monsters[self.id] = nil
@@ -3586,7 +3591,12 @@ Trigger.triggers = {
 			for _, monster in next, self.monsters do
 				if monster then monster:action() end
 			end
-			if (math.random(1, 1000) > (self.monsterCount < 1 and 500 or 900 + self.monsterCount * 30 )) then
+			local lowerLimit = 500
+			if self.monsterCount > 1 then
+				lowerLimit = 1100 - self.area.playerCount * 50
+			end
+			lowerLimit = math.max(lowerLimit + self.monsterCount * 60, 500)
+			if math.random(1, 1000) > lowerLimit then
 				Monster.new({ health = math.random(15, 25), species = Monster.all[({"mutant_rat", "snail", "the_rock"})[spawnRarities[math.random(#spawnRarities)]]] }, self)
 			end
 		end,
@@ -6025,16 +6035,21 @@ eventPlayerDataLoaded = function(name, data)
 		end)
 	end
 
-	--player:addInventoryItem(Item.items.basic_sword, 1)
-	--[[player:addInventoryItem(Item.items.basic_shovel, 1)
-	player:addInventoryItem(Item.items.iron_shovel, 1)
-	player:addInventoryItem(Item.items.copper_shovel, 1)
-	player:addInventoryItem(Item.items.gold_shovel, 1)]]
-	--[[player:addInventoryItem(Item.items.gold_sword, 1)
-	player:addInventoryItem(Item.items.gold_sword, 1)
-	player:addInventoryItem(Item.items.gold_sword, 1)]]
-	--player:addInventoryItem(Item.items.gold_sword, 1)
-	--player:addInventoryItem(Item.items.gold_sword, 1)
+
+	if true and not dHandler:get(name, "missingRewardsGiven") then
+		print("[INFO] Giving missing rewards")
+		local missing = 0
+		for i, quest in next, ({ "nosferatu", "strength_test", "fiery_dragon" }) do
+			if player.questProgress[quest] and player.questProgress[quest].completed then
+				missing = missing + 1
+			end
+		end
+		for i = 1, missing - 1 do
+			system.giveEventGift(name, "evt_nobles_quest_golden_ticket_20")
+			--dHandler:set(name, "missingRewardsGiven", true)
+		end
+		player:savePlayerData()
+	end
 
 	if player.questProgress.nosferatu and player.questProgress.nosferatu.completed then
 		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
@@ -6059,7 +6074,7 @@ eventPlayerDataLoaded = function(name, data)
 		--mapLoaded = true
 	]]
 		if mineQuestCompletedPlayers > 0 then
-			if math.random(1, 10) <= 6 then
+			if math.random(1, 10) <= 5 then
 				mapPlaying = "mine"
 			else
 				mapPlaying = "castle"

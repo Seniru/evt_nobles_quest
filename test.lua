@@ -329,4 +329,11 @@ t = { final_boss = { completed = true }, fiery_dragon = { completed = true }, wc
 spiritOrbs = { completed = false, stage = 3, stageProgress = 4 } }
 p(encodeQuestProgress(t))
 
+self = {
+	monsterCount = 4,
+	area = {
+		playerCount = 10
+	}
+}
 
+print(lowerLimit)

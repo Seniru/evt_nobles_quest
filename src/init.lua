@@ -104,6 +104,11 @@ local dHandler = DataHandler.new("evt_nq", {
 		index = 4,
 		type = "number",
 		default = 0
+	},
+	missingRewardsGiven = {
+		index = 5,
+		type = "boolean",
+		default = false
 	}
 })
 

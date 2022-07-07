@@ -185,7 +185,7 @@ function Monster:destroy(destroyedBy)
 
 	Timer.new("clear_body_" .. self.id, function(image, objId)
 		tfm.exec.removeImage(image, true)
-		Timer.new("removeObject", tfm.exec.removeObject, 500, false, objId)
+		Timer.new("removeObject" .. objId, tfm.exec.removeObject, 500, false, objId)
 	end, 2000, false, self.imageId, self.objId)
 
 	Monster.monsters[self.id] = nil

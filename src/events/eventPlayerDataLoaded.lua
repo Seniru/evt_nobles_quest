@@ -75,16 +75,21 @@ eventPlayerDataLoaded = function(name, data)
 		end)
 	end
 
-	--player:addInventoryItem(Item.items.basic_sword, 1)
-	--[[player:addInventoryItem(Item.items.basic_shovel, 1)
-	player:addInventoryItem(Item.items.iron_shovel, 1)
-	player:addInventoryItem(Item.items.copper_shovel, 1)
-	player:addInventoryItem(Item.items.gold_shovel, 1)]]
-	--[[player:addInventoryItem(Item.items.gold_sword, 1)
-	player:addInventoryItem(Item.items.gold_sword, 1)
-	player:addInventoryItem(Item.items.gold_sword, 1)]]
-	--player:addInventoryItem(Item.items.gold_sword, 1)
-	--player:addInventoryItem(Item.items.gold_sword, 1)
+
+	if true and not dHandler:get(name, "missingRewardsGiven") then
+		print("[INFO] Giving missing rewards")
+		local missing = 0
+		for i, quest in next, ({ "nosferatu", "strength_test", "fiery_dragon" }) do
+			if player.questProgress[quest] and player.questProgress[quest].completed then
+				missing = missing + 1
+			end
+		end
+		for i = 1, missing - 1 do
+			system.giveEventGift(name, "evt_nobles_quest_golden_ticket_20")
+			--dHandler:set(name, "missingRewardsGiven", true)
+		end
+		player:savePlayerData()
+	end
 
 	if player.questProgress.nosferatu and player.questProgress.nosferatu.completed then
 		mineQuestCompletedPlayers = mineQuestCompletedPlayers + 1
@@ -109,7 +114,7 @@ eventPlayerDataLoaded = function(name, data)
 		--mapLoaded = true
 	]]
 		if mineQuestCompletedPlayers > 0 then
-			if math.random(1, 10) <= 6 then
+			if math.random(1, 10) <= 5 then
 				mapPlaying = "mine"
 			else
 				mapPlaying = "castle"
