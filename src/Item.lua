@@ -230,7 +230,7 @@ Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
 	cn = "桥! 最基本的用法是用来到达河的对岸, 但也是城市建筑最好的组成部分。\n但是... 你要如何把桥收进你的袋子里???",
 	zh = "橋! 最基本的用法是用來到達河的對岸, 但也是城市建築最好的組成部分。\n但是... 你要如何把橋收進你的袋子裡???",
 	fr = "Des ponts ! La plus basique des utilisations consiste à accéder à la terre de l'autre côté de la rivière, mais c'est aussi un super élément dans les architectures en ville.\nMais... comment allez-vous faire rentrer un pont dans votre poche ???",
-	ru = "Мосты! Самое простое применение, это переход со стороны реки на другую, но это ещё важный элемент городской архитектуры.\nНо... как ты поместишь мост у себя в кормане???",
+	ru = "Мосты! Самое простое применение, это переход со стороны реки на другую, но это ещё важный элемент городской архитектуры.\nНо... как ты поместишь мост у себя в кармане???",
 })
 
 Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {

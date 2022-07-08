@@ -26,7 +26,7 @@ Trigger.triggers = {
 			end
 			local lowerLimit = 500
 			if self.monsterCount > 1 then
-				lowerLimit = 1100 - self.area.playerCount * 50
+				lowerLimit = 1100 - self.area.playerCount * 45
 			end
 			lowerLimit = math.max(lowerLimit + self.monsterCount * 60, 500)
 			if math.random(1, 1000) > lowerLimit then

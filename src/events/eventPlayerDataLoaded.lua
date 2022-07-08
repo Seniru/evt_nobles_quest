@@ -86,7 +86,7 @@ eventPlayerDataLoaded = function(name, data)
 		end
 		for i = 1, missing - 1 do
 			system.giveEventGift(name, "evt_nobles_quest_golden_ticket_20")
-			--dHandler:set(name, "missingRewardsGiven", true)
+			dHandler:set(name, "missingRewardsGiven", true)
 		end
 		player:savePlayerData()
 	end
