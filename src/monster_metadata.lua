@@ -419,7 +419,8 @@ do
 		local image = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
 		Timer.new("clear_body_drag", function(image, ground)
 			tfm.exec.removeImage(image, true)
-			tfm.exec.removePhysicObject(ground)
+			--tfm.exec.removePhysicObject(ground)
+			tfm.exec.movePhysicObject(ground, 1460, 4996)
 		end, 2000, false, image, self.bodyId)
 	end
 

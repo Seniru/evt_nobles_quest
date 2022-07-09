@@ -3366,7 +3366,8 @@ do
 		local image = tfm.exec.addImage(imageData.id, "+" .. self.bodyId, imageData.xAdj, imageData.yAdj, nil)
 		Timer.new("clear_body_drag", function(image, ground)
 			tfm.exec.removeImage(image, true)
-			tfm.exec.removePhysicObject(ground)
+			--tfm.exec.removePhysicObject(ground)
+			tfm.exec.movePhysicObject(ground, 1460, 4996)
 		end, 2000, false, image, self.bodyId)
 	end
 
@@ -4684,6 +4685,7 @@ function Player:updateQuestProgress(quest, newProgress)
 end
 
 function Player:learnRecipe(recipe)
+	-- for bugged players
 	local hasAllRecipes = true
 	for k, v in next, recipesBitList.featureKeys do
 		if not self.learnedRecipes[k] then
@@ -4691,10 +4693,20 @@ function Player:learnRecipe(recipe)
 			break
 		end
 	end
+	if hasAllRecipes then
+		system.giveEventGift(self.name, "evt_nobles_quest_title_543")
+	end
 	if self.learnedRecipes[recipe] then return end
 	self.learnedRecipes[recipe] = true
 	local item = Item.items[recipe]
 	tfm.exec.chatMessage(translate("NEW_RECIPE", self.language, nil, { itemName = item.locales[self.language], itemDesc = item.description_locales[self.language] }), self.name)
+	local hasAllRecipes = true
+	for k, v in next, recipesBitList.featureKeys do
+		if not self.learnedRecipes[k] then
+			hasAllRecipes = false
+			break
+		end
+	end
 	if hasAllRecipes then
 		system.giveEventGift(self.name, "evt_nobles_quest_title_543")
 	end
