@@ -44,7 +44,7 @@ giveReward = function(name, level)
 	if level == 0 then
 		rewards = { 1, 11, 24, 23, 23, 23, 23, 2514, 4, 4, 4, 4, 4, 21, -1, -1, -1, -1, -1, -1 , 2240, 2240, 2240,}
 	else
-		rewards = { 2257, 2497, 2497, 2497, 2497, 2497 }
+		rewards = { 2257, 2497, 2257, 2497, 2257, 2497 }
 	end
 	local reward = rewards[math.random(#rewards)]
 	if reward == -1 then return end
