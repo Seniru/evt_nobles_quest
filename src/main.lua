@@ -55,12 +55,14 @@ craftingPanel = createPrettyUI(3, 360, 40, 380, 340, true, true)-- main shop win
 	:addPanel(
 		Panel(351, "〈", 620, 350, 40, 20, nil, 0x324650, 1, true)
 		:setActionListener(function(id, name, event)
-			openCraftingTable(Player.players[name], tonumber(event), true)
+			local args = stringutils.split(event, ":")
+			openCraftingTable(Player.players[name], tonumber(args[1]), args[2] == "1")
 		end)
 	):addPanel(
 		Panel(352, "〉", 680, 350, 40, 20, nil, 0x324650, 1, true)
 		:setActionListener(function(id, name, event)
-			openCraftingTable(Player.players[name], tonumber(event), true)
+			local args = stringutils.split(event, ":")
+			openCraftingTable(Player.players[name], tonumber(args[1]), args[2] == "1")
 		end)
 	)
 	:addPanel(-- preview window

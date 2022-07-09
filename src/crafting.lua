@@ -100,18 +100,20 @@ openCraftingTable = function(player, page, inCraftingTable)
 	local target = player.name
 	local items = Item.items
 	craftingPanel:hide(target):show(target)
-	Panel.panels[410]:hide()
+	Panel.panels[410]:hide(target)
 
-	Panel.panels[351]:update(("<a href='event:%s'><p align='center'><b>%s〈%s</b></p></a>")
+	Panel.panels[351]:update(("<a href='event:%s:%s'><p align='center'><b>%s〈%s</b></p></a>")
 		:format(
 			page - 1,
+			inCraftingTable and 1 or 0,
 			page - 1 < 1 and "<N2>" or "",
 			page - 1 < 1 and "</N2>" or ""
 		)
 	, target)
-	Panel.panels[352]:update(("<a href='event:%s'><p align='center'><b>%s〉%s</b></p></a>")
+	Panel.panels[352]:update(("<a href='event:%s:%s'><p align='center'><b>%s〉%s</b></p></a>")
 		:format(
 			page + 1,
+			inCraftingTable and 1 or 0,
 			page + 1 > totalPages and "<N2>" or "</N2>",
 			page + 1 > totalPages and "</N2>" or "</N2>"
 		)

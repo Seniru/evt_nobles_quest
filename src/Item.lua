@@ -128,7 +128,7 @@ Item("iron_ore", Item.types.RESOURCE, true, "181aaa2468d.png", 0.08, {
 	cn = "铁矿石",
 	zh = "鐵礦石",
 	fr = "Minerai de fer",
-	ru = "Железо",
+	ru = "Железная руда",
 })
 
 Item("copper_ore", Item.types.RESOURCE, true, "181aa9f511c.png", 0.09, {
@@ -143,7 +143,7 @@ Item("copper_ore", Item.types.RESOURCE, true, "181aa9f511c.png", 0.09, {
 	cn = "铜矿石",
 	zh = "銅礦石",
 	fr = "Minerai de cuivre",
-	ru = "Медь",
+	ru = "Медная руда",
 })
 
 Item("gold_ore", Item.types.RESOURCE, true, "181aaa10ab5.png", 0.3, {
@@ -158,7 +158,7 @@ Item("gold_ore", Item.types.RESOURCE, true, "181aaa10ab5.png", 0.3, {
 	cn = "金矿石",
 	zh = "金礦石",
 	fr = "Minerai d'or",
-	ru = "Золото",
+	ru = "Золотая руда",
 })
 
 Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 0.35, {
@@ -202,7 +202,7 @@ Item("log_stakes", Item.types.SPECIAL, false, "181aaa3a784.png", 3.5, {
 	cn = "在建筑中其中一个最重要的建筑原料!\n如果没其他用途也可以用作装饰或是生火用",
 	zh = "在建築中其中一個最重要的建築原料!\n如果沒其他用途也可以用作裝飾或是生火用。",
 	fr = "Un des plus importants blocs de construction !\nIl peut aussi être utilisé comme décoration ou juste pour faire du feu si vous n'en avez pas d'autres utilités.",
-	ru = "Один из главных материалов в строительствах!\nОни ещё могут послужить декорацией или топливом если не находится применение.",
+	ru = "Один из главных материалов в строительствe!\nОни ещё могут послужить декорацией или топливом, если не находится применение.",
 })
 
 Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
@@ -230,7 +230,7 @@ Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
 	cn = "桥! 最基本的用法是用来到达河的对岸, 但也是城市建筑最好的组成部分。\n但是... 你要如何把桥收进你的袋子里???",
 	zh = "橋! 最基本的用法是用來到達河的對岸, 但也是城市建築最好的組成部分。\n但是... 你要如何把橋收進你的袋子裡???",
 	fr = "Des ponts ! La plus basique des utilisations consiste à accéder à la terre de l'autre côté de la rivière, mais c'est aussi un super élément dans les architectures en ville.\nMais... comment allez-vous faire rentrer un pont dans votre poche ???",
-	ru = "Мосты! Самое простое применение, это переход со стороны реки на другую, но это ещё важный элемент городской архитектуры.\nНо... как ты поместишь мост у себя в кармане???",
+	ru = "Мосты! Самое простое применение - это переход с одной стороны реки на другую, а ещё это важный элемент городской архитектуры.\nНо... как ты поместишь мост у себя в кармане???",
 })
 
 Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
@@ -289,7 +289,7 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	cn = "用铁来强化使它比基本斧头两倍耐用!",
 	zh = "用鐵來強化使它比基本斧頭兩倍耐用!",
 	fr = "Renforcée avec le fer pour la faire durer deux fois plus longtemps qu'une hache commune !",
-	ru = "Укреплённый железой чтобы рубил в двое дольше чем обычный топор!",
+	ru = "Укреплён железом, чтобы рубил вдвое дольше, чем обычный топор!",
 }, {
    durability = 20,
    chopping = 1
@@ -571,7 +571,7 @@ Item("gold_sword", Item.types.SWORD, false, "1819f077e01.png", 1.4, {
 	cn = "在不少研究之后, 使用合金造出这最锋利的剑比任何东西都耐久",
 	zh = "在不少研究之後, 使用合金造出這最鋒利的劍比任何東西都耐久",
 	fr = "De nombreuses recherches ont mené à la plus tranchante des épées, forgées avec des alliages qui durent plus que jamais dans le temps",
-	ru = "После долгого изучения - меч сделанный из самых прочных металлов, чтобы служил дольше всех",
+	ru = "После долгого изучения - меч, сделанный из самых прочных металлов, чтобы служил дольше всех",
 }, {
 	   attack = 10,
 	   durability = 38
@@ -636,7 +636,7 @@ Item("copper_shield", Item.types.SPECIAL, false, "18105db53fe.png", 1.4, {
 	cn = "经过研究之后的盾牌能够反弹不少攻击",
 	zh = "經過研究之後的盾牌能夠反彈不少攻擊",
 	fr = "Un bouclier plus résistant qui saura encaisser les coups durs",
-	ru = "Прочный щит который отразит много атак",
+	ru = "Прочный щит, который отразит много атак",
 }, {
 	   defense = 15,
 	   durability = 28
@@ -668,7 +668,7 @@ Item("gold_shield", Item.types.SPECIAL, false, "18105dac98a.png", 2, {
 	cn = "最好的盾牌用钱... 呃... 黄金可以买到!",
 	zh = "最好的盾牌用錢... 呃... 黃金可以買到!",
 	fr = "De par ses matériaux, cela en fait un bouclier d'une extrême résistance en plus de réfléchir la lumière",
-	ru = "Лучший щит который только можно купить за день... ээ... золото!",
+	ru = "Лучший щит, который только можно купить за день... ээ... золото!",
 }, {
    defense = 20,
    durability = 35
