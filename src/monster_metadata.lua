@@ -311,16 +311,20 @@ do
 		end
 		local toRemove = {}
 		for i, bridge in next, (entityBridge.bridges or {}) do
-			if math.abs(bridge[2] - (560 / 8) - dragX) - 80 < 80 and not (entityBridge.bridges[i + 1] and #entityBridge.bridges[i + 1] > 0) then
-				tfm.exec.removePhysicObject(bridge[1])
-				toRemove[#toRemove + 1] = i
+			if math.abs(bridge[2] - (560 / 8) - dragX) - 80 < 85 and i > 2 then
+				--tfm.exec.removePhysicObject(bridge[1])
+				for _ = i, 4 do
+					toRemove[#toRemove + 1] = i
+				end
 				--entityBridge.bridges[i] = nil
 			end
 		end
 		for i, j in next, toRemove do
-			tfm.exec.removePhysicObject(entityBridge.bridges[j][1])
-			tfm.exec.removeImage(entityBridge.bridges[j][4])
-			entityBridge.bridges[j] = nil
+			if entityBridge.bridges[j] then
+				tfm.exec.removePhysicObject(entityBridge.bridges[j][1])
+				tfm.exec.removeImage(entityBridge.bridges[j][4])
+				entityBridge.bridges[j] = nil
+			end
 		end
 	end
 

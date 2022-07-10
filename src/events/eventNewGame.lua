@@ -16,7 +16,7 @@ eventNewGame = function()
 
 		for z, ground in ipairs(path(dom, "Z", "S", "S")) do
 			local areaId = tonumber(ground.attribute.lua)
-			if areaId then
+			if areaId and ground.attribute.ignore ~= "true" then
 				Area.new(ground.attribute.X, ground.attribute.Y, ground.attribute.L, ground.attribute.H)
 			end
 		end
