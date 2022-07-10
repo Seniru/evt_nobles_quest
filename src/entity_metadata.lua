@@ -659,7 +659,7 @@ do
 				end)
 			else
 				if player.spiritOrbs == 62 then
-					return addDialogueBox(7, translat3e("SARUMAN_DIALOGUES", player.language, 22), player.name, "Saruman", saruman.exclamation)
+					return addDialogueBox(7, translatee("SARUMAN_DIALOGUES", player.language, 22), player.name, "Saruman", saruman.exclamation)
 				end
 				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 13), player.name, "Saruman", saruman.question, {
 					{ translate("SARUMAN_QUESTIONS", player.language, 1), addDialogueSeries, { player.name, 7, {

@@ -3661,8 +3661,8 @@ Trigger.triggers = {
 					local player = Player.players[name]
 					tfm.exec.movePlayer(name, 63, 4793)
 					if player.divinePower then
-						inventoryPanel:hide()
-						dialoguePanel:hide()
+						inventoryPanel:hide(name)
+						dialoguePanel:hide(name)
 						divineChargePanel:show(name)
 						divineChargePanel:addPanelTemp(Panel(401, "", 290, 380, (1 / FINAL_BOSS_ATK_MAX_CHARGE) * 270, 20, 0x91cfde, 0x91cfde, 1, true), name)
 					end
@@ -3704,7 +3704,7 @@ Trigger.triggers = {
 			end
 
 			directionSequence.lastPassed = nil
-			
+
 			if #directionSequence > 0 and directionSequence[#directionSequence][3] > os.time() then return end
 			--if #directionSequence > 0 then directionSequence[#directionSequence][3] = os.time() print("set") end
 			local id = tfm.exec.addShamanObject(1, 816, 4395, 0, -2, 0)
@@ -5820,7 +5820,7 @@ do
 				end)
 			else
 				if player.spiritOrbs == 62 then
-					return addDialogueBox(7, translat3e("SARUMAN_DIALOGUES", player.language, 22), player.name, "Saruman", saruman.exclamation)
+					return addDialogueBox(7, translatee("SARUMAN_DIALOGUES", player.language, 22), player.name, "Saruman", saruman.exclamation)
 				end
 				addDialogueBox(7, translate("SARUMAN_DIALOGUES", player.language, 13), player.name, "Saruman", saruman.question, {
 					{ translate("SARUMAN_QUESTIONS", player.language, 1), addDialogueSeries, { player.name, 7, {
