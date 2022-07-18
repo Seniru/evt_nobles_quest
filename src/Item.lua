@@ -82,6 +82,7 @@ Item("stick", Item.types.RESOURCE, true, "17ff9c560ce.png", 0.005, {
 	zh = "樹枝",
 	fr = "Bout de bois",
 	ru = "Ветка",
+	hu = "Bot",
 })
 
 Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
@@ -97,6 +98,7 @@ Item("stone", Item.types.RESOURCE, true, "180a896fdf8.png", 0.05, {
 	zh = "石頭",
 	fr = "Pierre",
 	ru = "Камень",
+	hu = "Kő",
 }, {
 	ar = ""
 })
@@ -114,6 +116,7 @@ Item("clay", Item.types.RESOURCE, true, "180db604121.png", 0.05, {
 	zh = "黏土",
 	fr = "Argile",
 	ru = "Глина",
+	hu = "Agyag",
 })
 
 Item("iron_ore", Item.types.RESOURCE, true, "181aaa2468d.png", 0.08, {
@@ -129,6 +132,7 @@ Item("iron_ore", Item.types.RESOURCE, true, "181aaa2468d.png", 0.08, {
 	zh = "鐵礦石",
 	fr = "Minerai de fer",
 	ru = "Железная руда",
+	hu = "Vasérc",
 })
 
 Item("copper_ore", Item.types.RESOURCE, true, "181aa9f511c.png", 0.09, {
@@ -144,6 +148,7 @@ Item("copper_ore", Item.types.RESOURCE, true, "181aa9f511c.png", 0.09, {
 	zh = "銅礦石",
 	fr = "Minerai de cuivre",
 	ru = "Медная руда",
+	hu = "Rézérc",
 })
 
 Item("gold_ore", Item.types.RESOURCE, true, "181aaa10ab5.png", 0.3, {
@@ -159,6 +164,7 @@ Item("gold_ore", Item.types.RESOURCE, true, "181aaa10ab5.png", 0.3, {
 	zh = "金礦石",
 	fr = "Minerai d'or",
 	ru = "Золотая руда",
+	hu = "Aranyérc",
 })
 
 Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 0.35, {
@@ -174,6 +180,7 @@ Item("wood", Item.types.RESOURCE, true, "18099c310cd.png", 0.35, {
 	zh = "木頭",
 	fr = "Bois",
 	ru = "Древесина",
+	hu = "Fa",
 })
 
 -- Special items
@@ -190,6 +197,7 @@ Item("log_stakes", Item.types.SPECIAL, false, "181aaa3a784.png", 3.5, {
 	zh = "一綑木",
 	fr = "Poteau en bois",
 	ru = "Связка брёвен",
+	hu = "Fakerítés",
 }, {
 	ar = "!من أهم اللبنات في البناء\n.يمكن استخدامه أيضًا كزخرفة أو للنار فقط إذا لم يكن لديك أي استخدام له",
 	en = "One of the most important building blocks in constructions!\nIt can also use as a decoration or just for fire if you have no use of it.",
@@ -203,6 +211,7 @@ Item("log_stakes", Item.types.SPECIAL, false, "181aaa3a784.png", 3.5, {
 	zh = "在建築中其中一個最重要的建築原料!\n如果沒其他用途也可以用作裝飾或是生火用。",
 	fr = "Un des plus importants blocs de construction !\nIl peut aussi être utilisé comme décoration ou juste pour faire du feu si vous n'en avez pas d'autres utilités.",
 	ru = "Один из главных материалов в строительствe!\nОни ещё могут послужить декорацией или топливом, если не находится применение.",
+	hu = "Az építkezések egyik legfontosabb összetevője!\nDe dekorációként, vagy tüzifaként is használhatod, ha nem tudod már másra.",
 })
 
 Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
@@ -218,6 +227,7 @@ Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
 	zh = "橋",
 	fr = "Pont",
 	ru = "Мост",
+	hu = "Híd",
 }, {
 	ar = "الجسور! الاستخدام الأساسي هو الوصول إلى الأرض على الجانب الآخر من النهر ، ولكنه أيضًا عنصر رائع في هندسة المدن\nلكن ... كيف ستضع الجسر داخل جيبك ؟؟؟",
 	en = "Bridges! Most basic use is accessing the land on the other side of a river, but also is also a great component in city architecuring.\nBut... how are you going to fit a bridge inside your pocket???",
@@ -231,6 +241,7 @@ Item("bridge", Item.types.SPECIAL, false, "181aa89d9ca.png", 18, {
 	zh = "橋! 最基本的用法是用來到達河的對岸, 但也是城市建築最好的組成部分。\n但是... 你要如何把橋收進你的袋子裡???",
 	fr = "Des ponts ! La plus basique des utilisations consiste à accéder à la terre de l'autre côté de la rivière, mais c'est aussi un super élément dans les architectures en ville.\nMais... comment allez-vous faire rentrer un pont dans votre poche ???",
 	ru = "Мосты! Самое простое применение - это переход с одной стороны реки на другую, а ещё это важный элемент городской архитектуры.\nНо... как ты поместишь мост у себя в кармане???",
+	hu = "Hidak! A legegyszerűbb használata az, hogy az egyik földről a másik földre átmehessünk egy tó felett, de a városépítésben is nagyon hasznos tud lenni.\nDe... hogy fogsz egy hidat a zsebedben tárolni???",
 })
 
 Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
@@ -246,6 +257,7 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	zh = "基本斧頭",
 	fr = "Hache commune",
 	ru = "Обычный топор",
+	hu = "Alap balta",
 }, {
 	ar = "مجرد فأس أساسي",
 	en = "Just a basic axe",
@@ -259,6 +271,7 @@ Item("basic_axe", Item.types.AXE, false, "180dfe8e723.png", 1, {
 	zh = "只是一把基本斧頭",
 	fr = "Juste une hache commune",
 	ru = "Железный топор",
+	hu = "Csak egy sima balta",
 }, {
    durability = 10,
    chopping = 1
@@ -277,6 +290,7 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	zh = "鐵斧頭",
 	fr = "Hache renforcée",
 	ru = "Железный топор",
+	hu = "Vasbalta",
 }, {
 	ar = "!التدعيم المضاف بالحديد يجعله يدوم مرتين أكثر من الفأس الأساسي",
 	en = "The reinforcement added with iron makes it last twice more than a basic axe!",
@@ -290,6 +304,7 @@ Item("iron_axe", Item.types.AXE, false, "1801248fac2.png", 1.3, {
 	zh = "用鐵來強化使它比基本斧頭兩倍耐用!",
 	fr = "Renforcée avec le fer pour la faire durer deux fois plus longtemps qu'une hache commune !",
 	ru = "Укреплён железом, чтобы рубил вдвое дольше, чем обычный топор!",
+	hu = "Vassal átalakítva, hogy kétszer tovább tartson, mint egy sima balta!",
 }, {
    durability = 20,
    chopping = 1
@@ -308,6 +323,7 @@ Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	zh = "銅斧頭",
 	fr = "Hache en cuivre",
 	ru = "Медный топор",
+	hu = "Rézbalta",
 }, {
 	ar = "!صممه حدادون بارزون. تصميم الحافة يجعله أسهل في الاستخدام وأكثر حدة",
 	en = "Designed by notable blacksmiths. The edge design makes it much easier to use and sharper!",
@@ -321,6 +337,7 @@ Item("copper_axe", Item.types.AXE, false, "180dfe88be8.png", 1.4, {
 	zh = "由知名鐵匠設計。邊緣的設計使它更容易使用及更鋒利!",
 	fr = "Forgée par de grands forgerons. Le trachant de la lame la rend plus facile à utiliser et coupant !",
 	ru = "Сделан опытными кузнецами. Дизайн лезвия делает его более острым и лёгким в использовании!",
+	hu = "Neves kovácsok készítették először. A kialakítása miatt egyszerűbb használni, és tovább tart!",
 }, {
    durability = 20,
    chopping = 2
@@ -339,6 +356,7 @@ Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	zh = "金斧頭",
 	fr = "Hache en or",
 	ru = "Золотой топор",
+	hu = "Aranybalta",
 }, {
 	ar = ".فأس مصمم بعد الجمع بين الذهب والسبائك الأخرى لجعله أقوى وأكثر متانة\nلست متأكدًا مما إذا كان أي حطاب عادي يستخدم مثل هذه الأداة باهظة الثمن",
 	en = "An axe designed after combining gold and other alloys to make it stronger and more durable.\nI'm not sure if any regular lumberjack uses such an expensive tool though.",
@@ -352,6 +370,7 @@ Item("gold_axe", Item.types.AXE, false, "180dfe8aab9.png", 1.5, {
 	zh = "一把以金及其他合金造成的斧頭使它更強更耐用。\n我不確定正常的伐木工會使用這麼昂貴的工具就是了。",
 	fr = "Une hache conçue par combinaison d'or et d'autres alliages pour la rendre plus dure et plus durable.\nJe ne suis pas certain que les petits forgerons puisse créer un tel outil.",
 	ru = "Топор сделанный путём перемешивания золота с другими металлами.\nНе уверен, если обычные кузнецы владеют таким инструментом.",
+	hu = "Egy balta, ami arany és egyéb nyersanyagokból lett összerakva, így erősebb és tartósabb.\nNem hinném, hogy egy igazi favágó használna ilyen értékes eszközt.",
 }, {
    durability = 30,
    chopping = 3
@@ -371,6 +390,7 @@ Item("basic_shovel", Item.types.SHOVEL, false, "181968e3a21.png", 1, {
 	zh = "基本鏟子",
 	fr = "Pelle commune",
 	ru = "Обычная лопата",
+	hu = "Alap ásó",
 }, {
 	ar = "احفر احفر احفر",
 	en = "Dig dig dig",
@@ -384,6 +404,7 @@ Item("basic_shovel", Item.types.SHOVEL, false, "181968e3a21.png", 1, {
 	zh = "挖挖挖",
 	fr = "Creuse creuse creuse",
 	ru = "Коп, коп, коп",
+	hu = "Áss, áss, áss!",
 }, {
    durability = 10,
    mining = 2
@@ -402,6 +423,7 @@ Item("iron_shovel", Item.types.SHOVEL, false, "181968e1951.png", 1.4, {
 	zh = "鐵鏟子",
 	fr = "Pelle en fer",
 	ru = "Железная лопата",
+	hu = "Vasásó",
 }, {
 	ar = "هنا بدأ التطور",
 	en = "Evolution started here",
@@ -415,6 +437,7 @@ Item("iron_shovel", Item.types.SHOVEL, false, "181968e1951.png", 1.4, {
 	zh = "革命始於這裡",
 	fr = "La civilisation est partie de là",
 	ru = "Эволюция началась здесь",
+	hu = "Az evolúció itt kezdődött",
 }, {
    durability = 15,
    mining = 3
@@ -433,6 +456,7 @@ Item("copper_shovel", Item.types.SHOVEL, false, "181968d1682.png", 1, {
 	zh = "銅鏟子",
 	fr = "Pelle en cuivre",
 	ru = "Медная лопата",
+	hu = "Rézásó",
 }, {
 	ar = "!مع تصميمه القوي يمكنه حفر معظم المواد",
 	en = "The material and strong design make it possible to dig the most of it !",
@@ -446,6 +470,7 @@ Item("copper_shovel", Item.types.SHOVEL, false, "181968d1682.png", 1, {
 	zh = "物質以及強大的設計使它可以挖出最多東西!",
 	fr = "Ses matériaux et sa conception en font une très bon outil pour mieux creuser !",
 	ru = "Материал и устойчивый дизайн позволят использовать её по максимуму!",
+	hu = "Az anyag és a kivitelezés lehetővé teszi, hogy még többet áss!",
 }, {
    durability = 10,
    mining = 3
@@ -464,6 +489,7 @@ Item("gold_shovel", Item.types.SHOVEL, false, "181968d4e85.png", 1, {
 	zh = "金鏟子",
 	fr = "Pelle en or",
 	ru = "Золотая лопата",
+	hu = "Aranyásó",
 }, {
 	ar = "!ندرة المواد المستخدمة في التصميم تجعل من السهل جدًا حفر المزيد من المعادن النادرة",
 	en = "The rarirty of the material used to design makes it much easier to dig more rare metals!",
@@ -477,6 +503,7 @@ Item("gold_shovel", Item.types.SHOVEL, false, "181968d4e85.png", 1, {
 	zh = "設計用上這種稀有物質使它更容易挖出更稀有的金屬!",
 	fr = "La rareté des matériaux utilisés lui permettent de creuser plus et de trouver des métaux plus rares !",
 	ru = "Редкость материала помогает раскапывать более редкие металлы!",
+	hu = "Az anyagok ritkasága miatt még több ritka fémeket lehet bányászni!",
 }, {
    durability = 20,
    mining = 4
@@ -495,6 +522,7 @@ Item("iron_sword", Item.types.SWORD, false, "1819f06ecfc.png", 1.4, {
 	zh = "鐵劍",
 	fr = "Épée en fer",
 	ru = "Железный меч",
+	hu = "Vaskard",
 }, {
 	ar = "!!!إنه سريع وحاد",
 	en = "It's fast and sharp!!!",
@@ -508,6 +536,7 @@ Item("iron_sword", Item.types.SWORD, false, "1819f06ecfc.png", 1.4, {
 	zh = "快又鋒利!!!",
 	fr = "Elle est très rapide et aiguisée !!!",
 	ru = "Быстрый и острый!!!",
+	hu = "Gyors és éles!!!",
 }, {
    attack = 5,
    durability = 25
@@ -527,6 +556,7 @@ Item("copper_sword", Item.types.SWORD, false, "1819f0717ee.png", 1.4, {
 	zh = "銅劍",
 	fr = "Épée en cuivre",
 	ru = "Медный меч",
+	hu = "Rézkard",
 }, {
 	ar = "!يبدو أقوى بكثير من السيف الحديدي",
 	en = "Looking a lot more sturdy than the iron sword!",
@@ -540,6 +570,7 @@ Item("copper_sword", Item.types.SWORD, false, "1819f0717ee.png", 1.4, {
 	zh = "看來比鐵劍更結實!",
 	fr = "Une arme assez lourde mais qui saura tenir tête aux plus coriaces.",
 	ru = "Выглядит намного солиднее чем железный меч",
+	hu = "Sokkal erősebb, mint a vaskard!",
 }, {
 	   attack = 7,
 	   durability = 30
@@ -559,6 +590,7 @@ Item("gold_sword", Item.types.SWORD, false, "1819f077e01.png", 1.4, {
 	zh = "金劍",
 	fr = "Épée en or",
 	ru = "Золотой меч",
+	hu = "Aranykard",
 }, {
 	ar = "بعد الكثير من الأبحاث ، أقوى سيف مصنوع من السبائك التي تجعله يدوم لفترة أطول من أي شيء آخر",
 	en = "After lots of researches, the sharpest sword made with alloys that make it last longer than anything",
@@ -572,6 +604,7 @@ Item("gold_sword", Item.types.SWORD, false, "1819f077e01.png", 1.4, {
 	zh = "在不少研究之後, 使用合金造出這最鋒利的劍比任何東西都耐久",
 	fr = "De nombreuses recherches ont mené à la plus tranchante des épées, forgées avec des alliages qui durent plus que jamais dans le temps",
 	ru = "После долгого изучения - меч, сделанный из самых прочных металлов, чтобы служил дольше всех",
+	hu = "Sok kutatás után, a legerősebb kardot úgy ötvözték, hogy tovább tartson, mint bármi más.",
 }, {
 	   attack = 10,
 	   durability = 38
@@ -592,6 +625,7 @@ Item("iron_shield", Item.types.SPECIAL, false, "180fa02a686.png", 1, {
 	zh = "鐵盾牌",
 	fr = "Bouclier en fer",
 	ru = "Железный щит",
+	hu = "Vaspajzs",
 }, {
 	ar = "!احم نفسك من الأعداء",
 	en = "Protect yourself from enemies!",
@@ -605,6 +639,7 @@ Item("iron_shield", Item.types.SPECIAL, false, "180fa02a686.png", 1, {
 	zh = "在敵人面前保護自己!",
 	fr = "Une protection des plus basiques mais tout aussi essentielle",
 	ru = "Защищайся им от врагов",
+	hu = "Védd meg magad az ellenségektől!",
 }, {
 	   defense = 10,
 	   durability = 20,
@@ -624,6 +659,7 @@ Item("copper_shield", Item.types.SPECIAL, false, "18105db53fe.png", 1.4, {
 	zh = "銅盾牌",
 	fr = "Bouclier en cuivre",
 	ru = "Медный щит",
+	hu = "Rézpajzs",
 }, {
 	ar = "درع قوي قادر على عكس العديد من الهجمات",
 	en = "A sturdy shield capable of reflecting many attacks",
@@ -637,6 +673,7 @@ Item("copper_shield", Item.types.SPECIAL, false, "18105db53fe.png", 1.4, {
 	zh = "經過研究之後的盾牌能夠反彈不少攻擊",
 	fr = "Un bouclier plus résistant qui saura encaisser les coups durs",
 	ru = "Прочный щит, который отразит много атак",
+	hu = "Egy erős pajzs, ami több ellenség ütését kivédi.",
 }, {
 	   defense = 15,
 	   durability = 28
@@ -656,6 +693,7 @@ Item("gold_shield", Item.types.SPECIAL, false, "18105dac98a.png", 2, {
 	zh = "金盾牌",
 	fr = "Bouclier en or",
 	ru = "Золотой щит",
+	hu = "Aranypajzs",
 }, {
 	ar = "!أفضل درع يمكن شراؤه بالمال",
 	en = "The best shield money... er... gold can buy!",
@@ -669,6 +707,7 @@ Item("gold_shield", Item.types.SPECIAL, false, "18105dac98a.png", 2, {
 	zh = "最好的盾牌用錢... 呃... 黃金可以買到!",
 	fr = "De par ses matériaux, cela en fait un bouclier d'une extrême résistance en plus de réfléchir la lumière",
 	ru = "Лучший щит, который только можно купить за день... ээ... золото!",
+	hu = "A legjobb pajzs, amit a pénz... azaz... arany megvehet!",
 }, {
    defense = 20,
    durability = 35

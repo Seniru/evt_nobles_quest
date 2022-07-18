@@ -20,6 +20,7 @@ local quests = {
 			ru = "Новый человек в городе",
 			br = "Nova pessoa na cidade",
 			pt = "Nova pessoa na cidade",
+			hu = "Új egér a városban",
 		},
 		{
 			description_locales = {
@@ -34,6 +35,7 @@ local quests = {
 				ru = "Путешествуй во времени в средневековье",
 				br = "Viaje de volta no tempo para uma pequena cidade medieval",
 				pt = "Viaje de volta no tempo para uma pequena cidade medieval",
+				hu = "Utazz vissza az időben egy középkori városba",
 			},
 
 			tasks = 1
@@ -54,6 +56,7 @@ local quests = {
 			ru = "Верный слуга",
 			br = "O servo leal",
 			pt = "O servo leal",
+			hu = "A hűséges szolga",
 		},
 		{
 			description_locales = {
@@ -68,6 +71,7 @@ local quests = {
 			ru = "Встреться с Носферату у шахты",
 			br = "Conheça Nosferatu na mina",
 			pt = "Conheça Nosferatu na mina",
+			hu = "Találkozz Nosferatu-val a bányában",
 			},
 			tasks = 1
 		},
@@ -84,6 +88,7 @@ local quests = {
 				ru = "Раздобудь 15 древесины",
 				br = "Recolha 15 madeiras",
 				pt = "Recolha 15 madeiras",
+				hu = "Gyűjts 15 fát",
 			},
 			tasks = 1
 		},
@@ -100,6 +105,7 @@ local quests = {
 				ru = "Раздобудь 15 железа",
 				br = "Recolha 15 minério de ferro",
 				pt = "Recolha 15 minério de ferro",
+				hu = "Gyűjts 15 vasércet",
 			},
 			tasks = 1
 		}
@@ -119,6 +125,7 @@ local quests = {
 			ru = "Испытание силы",
 			br = "Teste de resistência",
 			pt = "Teste de resistência",
+			hu = "Az erőmérő próba",
 		},
 		{
 			description_locales = {
@@ -133,6 +140,7 @@ local quests = {
 				ru = "Найди рецепты и поговори с Лейтенантом Эдриком",
 				br = "Junte as receitas e fale com o Tenente Edric",
 				pt = "Junte as receitas e fale com o Tenente Edric",
+				hu = "Gyűjts recepteket, és beszélj Edric Hadnaggyal",
 			},
 			tasks = 1
 		},
@@ -149,6 +157,7 @@ local quests = {
 				ru = "Одолей 25 монстров",
 				br = "Destrua 25 monstros",
 				pt = "Destrua 25 monstros",
+				hu = "Ölj meg 25 szörnyet",
 			},
 			tasks = 25
 		},
@@ -165,6 +174,7 @@ local quests = {
 				ru = "Встреться с Лейтенантом Эдриком снова",
 				br = "Conheça o Tenente Edric.",
 				pt = "Conheça o Tenente Edric.",
+				hu = "Találkozz Edric Hadnaggyal",
 			},
 			tasks = 1
 		}
@@ -184,6 +194,7 @@ local quests = {
 			ru = "Духовный путь",
 			br = "O caminho espiritual",
 			pt = "O caminho espiritual",
+			hu = "A szellemi út",
 		},
 		{
 			description_locales = {
@@ -198,6 +209,7 @@ local quests = {
 				ru = "Иди в мрачный лес",
 				br = "Dirigira-se à floresta sombria",
 				pt = "Dirigira-se à floresta sombria",
+				hu = "Menj a sötét erdőbe",
 			},
 			tasks = 1
 		},
@@ -214,6 +226,7 @@ local quests = {
 				ru = "Найди загадочный голос",
 				br = "Encontre a voz misteriosa",
 				pt = "Encontre a voz misteriosa",
+				hu = "Találd meg a rejtélyes hangot",
 			},
 			tasks = 1
 		},
@@ -230,6 +243,7 @@ local quests = {
 				ru = "Найди все 5 сфер душ",
 				br = "Junte as 5 orbes espirituosas",
 				pt = "Junte as 5 orbes espirituosas",
+				hu = "Gyűjts össze mind az 5 lélekgömböt",
 			},
 			tasks = 5
 		}
@@ -249,6 +263,7 @@ local quests = {
 			ru = "Устаивая огню",
 			br = "Resista ao fogo",
 			pt = "Resista ao fogo",
+			hu = "A tűz ellenállása",
 		},
 		{
 			description_locales = {
@@ -263,6 +278,7 @@ local quests = {
 				ru = "Уничтожь дракона и добудь его сферу души",
 				br = "Destrua o dragão de fogo e recolha a sua orbe espiritual",
 				pt = "Destrua o dragão de fogo e recolha a sua orbe espiritual",
+				hu = "Küzdj meg a tüzes sárkánnyal, és gyűjtsd be a lélekgömbjét",
 			},
 			tasks = 1
 		}
@@ -282,6 +298,7 @@ local quests = {
 			ru = "Герой средневековья",
 			br = "Herói medieval",
 			pt = "Herói medieval",
+			hu = "Középkori hős",
 		},
 		{
 			description_locales = {
@@ -296,6 +313,7 @@ local quests = {
 				ru = "Уничтожь злой дух",
 				br = "Destrua o espírito maligno",
 				pt = "Destrua o espírito maligno",
+				hu = "Győzdd le a gonosz szellemet",
 			},
 			tasks = 1
 		}

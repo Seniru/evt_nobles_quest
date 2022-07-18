@@ -31,6 +31,7 @@ combine({
 			"src/translations/br.lua",
 			"src/translations/pt.lua",
 			"src/translations/ru.lua",
+			"src/translations/hu.lua",
       		"src/translations/translator.lua",
     	],
   	},
